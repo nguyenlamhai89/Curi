@@ -34,13 +34,13 @@ enum CuriFont {
             return .custom(sfProMedium, size: self.fontSize)
             
         case .bkBold16:
-            return .custom(bookerlyBold, size: 16)
+            return .custom(bookerlyBold, size: self.fontSize)
         case .bkRegular16:
-            return .custom(bookerlyRegular, size: 16)
+            return .custom(bookerlyRegular, size: self.fontSize)
         case .bkRegular14:
-            return .custom(bookerlyRegular, size: 14)
+            return .custom(bookerlyRegular, size: self.fontSize)
         case .bkRegular12:
-            return .custom(bookerlyRegular, size: 12)
+            return .custom(bookerlyRegular, size: self.fontSize)
         }
     }
     
@@ -55,7 +55,8 @@ enum CuriFont {
     var fontSize: CGFloat {
         switch self {
         case .sfMedium32, .sfRegular32: return 32
-        case .sfMedium16, .sfRegular16, .sfMedium14, .bkBold16, .bkRegular16, .bkRegular14: return 16
+        case .sfMedium16, .sfRegular16, .bkBold16, .bkRegular16: return 16
+        case .sfMedium14, .bkRegular14: return 14
         case .sfMedium12, .bkRegular12: return 12
         }
     }
@@ -71,7 +72,7 @@ extension View {
 struct Typography: View {
     var body: some View {
         Text("Hello")
-            .curiTypography(.sfMedium32)
+            .curiTypography(.sfMedium14)
     }
 }
 
