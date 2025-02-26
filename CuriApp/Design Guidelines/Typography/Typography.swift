@@ -14,7 +14,7 @@ let bookerlyBold = "Bookerly Bold"
 let bookerlyRegular = "Bookerly"
 
 /// Font
-enum CuriFont {
+enum CuriTypography {
     case sfMedium32, sfRegular32, sfMedium16, sfRegular16, sfMedium14, sfMedium12
     case bkRegular32, bkBold16, bkRegular16, bkRegular14, bkRegular12
     
@@ -65,7 +65,7 @@ enum CuriFont {
 }
 
 extension View {
-    func curiTypography(_ style: CuriFont) -> some View {
+    func curiTypo(_ style: CuriTypography) -> some View {
         self.font(style.font).lineSpacing((style.lineHeight - style.fontSize)/2)
     }
 }
@@ -74,7 +74,7 @@ extension View {
 struct Typography: View {
     var body: some View {
         Text("Hello")
-            .curiTypography(.bkRegular32)
+            .curiTypo(.bkRegular32)
     }
 }
 
