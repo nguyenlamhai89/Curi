@@ -8,16 +8,16 @@
 import SwiftUI
 
 enum CuriSpacing {
-    case xxl, xl, l, m, s, xs, xxs
+    case sp32, sp20, sp16, sp12, sp8, sp4, sp2
     var spacing: CGFloat {
         switch self {
-        case .xxl: return 32
-        case .xl: return 20
-        case .l: return 16
-        case .m: return 12
-        case .s: return 8
-        case .xs: return 4
-        case .xxs: return 2
+        case .sp32: return 32
+        case .sp20: return 20
+        case .sp16: return 16
+        case .sp12: return 12
+        case .sp8: return 8
+        case .sp4: return 4
+        case .sp2: return 2
         }
     }
 }
@@ -36,10 +36,10 @@ struct Spacing: View {
             Text("Space")
                 .curiTypo(.bkRegular16)
                 .foregroundStyle(curiPalette(.paper500))
-                .padding(curiSpacing(.xl))
+                .padding(curiSpacing(.sp20))
                 .frame(maxWidth: .infinity)
                 .background(curiPalette(.ink500))
-                .cornerRadius(curiRadius(.s))
+                .cornerRadius(curiRadius(.rd4))
         }
 
     }
