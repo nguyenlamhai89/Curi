@@ -16,7 +16,7 @@ let bookerlyRegular = "Bookerly"
 /// Font
 enum CuriFont {
     case sfMedium32, sfRegular32, sfMedium16, sfRegular16, sfMedium14, sfMedium12
-    case bkBold16, bkRegular16, bkRegular14, bkRegular12
+    case bkRegular32, bkBold16, bkRegular16, bkRegular14, bkRegular12
     
     var font: Font {
         switch self {
@@ -32,7 +32,9 @@ enum CuriFont {
             return .custom(sfProMedium, size: self.fontSize)
         case .sfMedium12:
             return .custom(sfProMedium, size: self.fontSize)
-            
+          
+        case .bkRegular32:
+            return .custom(bookerlyRegular, size: self.fontSize)
         case .bkBold16:
             return .custom(bookerlyBold, size: self.fontSize)
         case .bkRegular16:
@@ -46,7 +48,7 @@ enum CuriFont {
     
     var lineHeight: CGFloat {
         switch self {
-        case .sfMedium32, .sfRegular32: return 48
+        case .sfMedium32, .sfRegular32, .bkRegular32: return 48
         case .sfMedium16, .sfRegular16, .sfMedium14, .bkBold16, .bkRegular16, .bkRegular14: return 24
         case .sfMedium12, .bkRegular12: return 16
         }
@@ -54,7 +56,7 @@ enum CuriFont {
     
     var fontSize: CGFloat {
         switch self {
-        case .sfMedium32, .sfRegular32: return 32
+        case .sfMedium32, .sfRegular32, .bkRegular32: return 32
         case .sfMedium16, .sfRegular16, .bkBold16, .bkRegular16: return 16
         case .sfMedium14, .bkRegular14: return 14
         case .sfMedium12, .bkRegular12: return 12
@@ -72,7 +74,7 @@ extension View {
 struct Typography: View {
     var body: some View {
         Text("Hello")
-            .curiTypography(.sfMedium14)
+            .curiTypography(.bkRegular32)
     }
 }
 
