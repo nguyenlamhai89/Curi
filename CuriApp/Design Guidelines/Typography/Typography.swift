@@ -73,8 +73,9 @@ extension View {
 
 struct Typography: View {
     var body: some View {
-        Text("Hello")
+        Text("Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.")
             .curiTypo(.bkRegular32)
+            .background(Color.yellow)
     }
 }
 
