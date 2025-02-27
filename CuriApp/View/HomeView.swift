@@ -10,7 +10,6 @@ import SwiftUI
 struct HomeView: View {
     var body: some View {
         VStack {
-            
             ZStack {
                 Rectangle()
                     .fill(curiPalette(.paper500))
@@ -89,25 +88,97 @@ struct HomeView: View {
                     /// Fake Spacing
                     Rectangle()
                         .fill(curiPalette(.paper500))
-                        .frame(height: 134)
+                        .frame(height: 80)
                     
                     /// Main Content
-                    VStack (spacing: 24) {
-                        ForEach(0..<20) { index in
-                            VStack {
-                                Text("Text \(index)")
-                                    .curiTypo(.bkRegular32)
-                                Rectangle()
-                                    .fill(curiPalette(.blue500))
-                                    .frame(height: 80)
+                    VStack (spacing: curiSpacing(.sp20)) {
+                        
+                        /// Banner
+                        HStack (alignment: .bottom) {
+                            VStack (alignment: .leading) {
+                                Text("Sonnet")
+                                    .curiTypo(.sfMedium32)
+                                    .lineLimit(1)
+                                Text("William Shakespeare")
+                                    .curiTypo(.sfMedium16)
+                                    .lineLimit(1)
+                            }
+                            .foregroundStyle(curiPalette(.paper500))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+//                                .background(Color.green) // Check section
+                            Button {
+                                print("Read Now")
+                            } label: {
+                                Text("Read Now")
+                                    .curiTypo(.sfMedium14)
+                                    .foregroundStyle(curiPalette(.ink500))
+                                    .padding(.vertical, curiSpacing(.sp4))
+                                    .padding(.horizontal, curiSpacing(.sp8))
+//                                    .background(Color.red) // Check section
+                                    .background(curiPalette(.paper500))
+                                    .cornerRadius(curiRadius(.rdMax))
+                                
                             }
                         }
+                        .frame(height: 200, alignment: .bottomLeading)
+                        .frame(maxWidth: .infinity)
+                        .padding(curiSpacing(.sp16))
+//                        .background(Color.yellow) // Check section
+                        .background(
+                            Image("curiBannerSample")
+                                .resizable()
+                                .scaledToFill()
+                        )
+                        .cornerRadius(curiRadius(.rd4))
+                        
+                        /// Library
+                        VStack (alignment: .leading, spacing: curiSpacing(.sp8)) {
+                            Text("For You")
+                                .curiTypo(.sfMedium14)
+                                .foregroundStyle(curiPalette(.ink300))
+//                                .background(Color.yellow) // Check section
+                            VStack (spacing: curiSpacing(.sp12)) {
+                                ForEach(0..<10) { bookNum in
+                                    NavigationLink {
+                                        Text("Book \(bookNum)")
+                                    } label: {
+                                        VStack {
+                                            VStack (alignment: .leading) {
+                                                Text("Book \(bookNum)")
+                                                    .curiTypo(.sfMedium32)
+                                                    .foregroundStyle(curiPalette(.ink500))
+                                                //                                    .background(Color.blue) // Check section
+                                                    .lineLimit(2)
+                                                Text("Author")
+                                                    .curiTypo(.sfRegular16)
+                                                    .foregroundStyle(curiPalette(.ink300))
+                                                //                                    .background(Color.green) // Check section
+                                                    .lineLimit(1)
+                                            }
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+//                                            .background(curiPalette(.blue300)) // Check section
+                                            Divider()
+                                                .background(curiPalette(.ink100))
+                                        }
+                                        
+                                        
+                                    }
+
+                                    //                            .background(Color.cyan) // Check section
+                                }
+                            }
+                            
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+//                        .background(Color.red) // Check section
+
                     }
                     .padding(.horizontal, curiSpacing(.sp16))
                 }
                 .scrollIndicators(.hidden)
             }
         }
+        .toolbar(.hidden)
     }
 }
 
