@@ -44,7 +44,7 @@ struct HomeView: View {
                 .padding(.horizontal, curiSpacing(.sp16))
                 .frame(height: 60)
                 .frame(maxWidth: .infinity, alignment: .center)
-                .background(curiPalette(.paper50088))
+                .background(curiPalette(.paper50088).blur(radius: 4))
                 Divider()
                     .background(curiPalette(.paper300))
                 Spacer()
@@ -68,16 +68,9 @@ struct HomeView: View {
                         .foregroundStyle(curiPalette(.paper500))
                         .frame(maxWidth: .infinity, alignment: .leading)
                         Button {
-                            print("Read Now")
+                            print("Go to book")
                         } label: {
-                            Text("Read Now")
-                                .curiTypo(.sfMedium14)
-                                .foregroundStyle(curiPalette(.ink500))
-                                .padding(.vertical, curiSpacing(.sp4))
-                                .padding(.horizontal, curiSpacing(.sp8))
-                                .background(curiPalette(.paper500))
-                                .cornerRadius(curiRadius(.rdMax))
-                            
+                            TextButtonFilled(content: "Read Now")
                         }
                     }
                     .frame(height: 200, alignment: .bottomLeading)
@@ -95,30 +88,14 @@ struct HomeView: View {
                         Text("For You")
                             .curiTypo(.sfMedium14)
                             .foregroundStyle(curiPalette(.ink300))
-                        VStack (spacing: curiSpacing(.sp12)) {
+                        
+                        VStack {
                             ForEach(0..<10) { bookNum in
                                 NavigationLink {
                                     Text("Book \(bookNum)")
                                 } label: {
-                                    VStack {
-                                        VStack (alignment: .leading) {
-                                            Text("Book \(bookNum)")
-                                                .curiTypo(.sfMedium32)
-                                                .foregroundStyle(curiPalette(.ink500))
-                                                .lineLimit(2)
-                                            Text("Author")
-                                                .curiTypo(.sfRegular16)
-                                                .foregroundStyle(curiPalette(.ink300))
-                                                .lineLimit(1)
-                                        }
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        Divider()
-                                            .background(curiPalette(.ink100))
-                                    }
-                                    
-                                    
+                                    BookAuthorCard(bookName: "\(bookNum)", authorName: "\(bookNum)")
                                 }
-
                             }
                         }
                         
