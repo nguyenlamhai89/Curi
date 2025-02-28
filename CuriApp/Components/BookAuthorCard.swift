@@ -12,7 +12,7 @@ struct BookAuthorCard: View {
     var authorName: String
     var body: some View {
         VStack (spacing: curiSpacing(.sp12)) {
-            VStack (alignment: .leading) {
+            VStack (alignment: .leading, spacing: 0) {
                 Text("Book \(bookName)")
                     .curiTypo(.sfMedium32)
                     .foregroundStyle(curiPalette(.ink500))

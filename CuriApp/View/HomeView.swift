@@ -9,42 +9,55 @@ import SwiftUI
 
 struct HomeView: View {
     @State var userSettingsIsOn: Bool = false
+    @State var buttonClicked: Bool = false
     var body: some View {
         ZStack {
             /// Top Navigation Bar
             VStack (spacing: 0) {
-                HStack {
-                    /// Icon Button - User
-                    Button {
-                        userSettingsIsOn.toggle()
-                        print("Sheet On: \(userSettingsIsOn)")
-                    } label: {
-                        IconButtonDefault(iconName: "curiUser")
+                ZStack {
+                    VStack {
+                        VisualEffectView(effect: UIBlurEffect.init(style: .light))
+                            .ignoresSafeArea()
                     }
-                    
-                    Spacer()
-                    
-                    /// Segmented Control
-                    SegmentedControl(content1: "Library", content2: "Quote") {
-                        print("Button 1 Pressed")
-                    } action2: {
-                        print("Button 2 Pressed")
+                   
+                        
+                    HStack {
+                        /// Icon Button - User
+                        Button {
+                            userSettingsIsOn.toggle()
+                            print("Sheet On: \(userSettingsIsOn)")
+                        } label: {
+                            IconButtonDefault(iconName: "curiUser")
+                        }
+                        
+                        Spacer()
+                        
+                        /// Segmented Control
+                        SegmentedControl(content1: "Library", content2: "Quote") {
+                            print("Button 1 Pressed")
+                        } action2: {
+                            print("Button 2 Pressed")
+                        }
+                        
+                        Spacer()
+                        
+                        /// Icon Button - Search
+                        Button {
+                            print("Searching...")
+                            buttonClicked = true
+                        } label: {
+                            IconButtonDefault(iconName: "curiSearch")
+                        }
+                        
                     }
-                    
-                    Spacer()
-                    
-                    /// Icon Button - Search
-                    Button {
-                        print("Searching...")
-                    } label: {
-                        IconButtonDefault(iconName: "curiSearch")
-                    }
+                    .padding(.horizontal, curiSpacing(.sp16))
                     
                 }
-                .padding(.horizontal, curiSpacing(.sp16))
                 .frame(height: 60)
                 .frame(maxWidth: .infinity, alignment: .center)
-                .background(curiPalette(.paper50088).blur(radius: 4))
+                .background(curiPalette(.paper50088))
+                
+                
                 Divider()
                     .background(curiPalette(.paper300))
                 Spacer()
@@ -57,7 +70,7 @@ struct HomeView: View {
                     
                     /// Banner
                     HStack (alignment: .bottom) {
-                        VStack (alignment: .leading) {
+                        VStack (alignment: .leading, spacing: 0) {
                             Text("Sonnet")
                                 .curiTypo(.sfMedium32)
                                 .lineLimit(1)

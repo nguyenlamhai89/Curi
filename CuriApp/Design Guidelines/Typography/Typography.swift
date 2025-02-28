@@ -66,15 +66,21 @@ enum CuriTypography {
 
 extension View {
     func curiTypo(_ style: CuriTypography) -> some View {
-        self.font(style.font).lineSpacing((style.lineHeight - style.fontSize)/2)
+        self.font(style.font)
+            .lineSpacing((style.lineHeight - style.fontSize)/2)
+            .padding(.vertical, (style.lineHeight - style.fontSize)/2)
     }
 }
 
 
 struct Typography: View {
     var body: some View {
-        Text("Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.")
-            .curiTypo(.bkRegular32)
+        Text("Contrary to popular belief")
+            .curiTypo(.sfMedium32)
+            .background(Color.yellow)
+        
+        Text("Contrary to popular belief")
+            .curiTypo(.sfRegular32)
             .background(Color.yellow)
     }
 }

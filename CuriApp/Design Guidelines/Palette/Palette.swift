@@ -73,6 +73,17 @@ struct Palette: View {
     }
 }
 
+struct VisualEffectView: UIViewRepresentable {
+    var effect: UIVisualEffect?
+    func makeUIView(context: UIViewRepresentableContext<Self>) -> UIVisualEffectView {
+//        let blurEffectView = UIVisualEffectView()
+//        blurEffectView.alpha = 0.8
+//        return blurEffectView
+        UIVisualEffectView()
+    }
+    func updateUIView(_ uiView: UIVisualEffectView, context: UIViewRepresentableContext<Self>) { uiView.effect = effect }
+}
+
 #Preview {
     Palette()
 }

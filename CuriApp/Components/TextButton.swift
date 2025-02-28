@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TextButtonFilled: View {
     var content: String
+    
     var body: some View {
         Text(content)
             .curiTypo(.sfMedium14)
