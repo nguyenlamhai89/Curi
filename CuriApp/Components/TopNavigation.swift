@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct TopNavigationCanvas: View {
-    @State var settingsTopNavigation: Bool = false
-    @State var searchTopNavigation: Bool = false
+    @Binding var settingsTopNavigation: Bool
+    @Binding var searchTopNavigation: Bool
     
     var body: some View {
         VStack (spacing: 0) {
@@ -63,5 +63,7 @@ struct TopNavigationCanvas: View {
 }
 
 #Preview {
-    TopNavigationCanvas()
+    @Previewable @State var settingsTopNavigation: Bool = false
+    @Previewable @State var searchTopNavigation: Bool = false
+    TopNavigationCanvas(settingsTopNavigation: $settingsTopNavigation, searchTopNavigation: $searchTopNavigation)
 }

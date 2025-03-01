@@ -11,35 +11,9 @@ struct LibraryView: View {
     var body: some View {
         ScrollView {
             VStack (spacing: curiSpacing(.sp20)) {
-                /// Banner
-                HStack (alignment: .bottom) {
-                    VStack (alignment: .leading, spacing: 0) {
-                        Text("Sonnet")
-                            .curiTypo(.sfMedium32)
-                            .lineLimit(1)
-                        Text("William Shakespeare")
-                            .curiTypo(.sfMedium16)
-                            .lineLimit(1)
-                    }
-                    .foregroundStyle(curiPalette(.paper500))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    Button {
-                        print("Go to book")
-                    } label: {
-                        TextButtonFilled(content: "Read Now")
-                    }
-                }
-                .frame(height: 200, alignment: .bottomLeading)
-                .frame(maxWidth: .infinity)
-                .padding(curiSpacing(.sp16))
-                .background(
-                    Image("curiBannerSample")
-                        .resizable()
-                        .scaledToFill()
-                )
-                .cornerRadius(curiRadius(.rd4))
+                Banner()
                 
-                /// Library
+                /// Book List
                 VStack (alignment: .leading, spacing: curiSpacing(.sp8)) {
                     Text("For You")
                         .curiTypo(.sfMedium14)
@@ -54,7 +28,6 @@ struct LibraryView: View {
                             }
                         }
                     }
-                    
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
 

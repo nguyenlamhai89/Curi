@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SettingsSheetView: View {
     @Environment(\.presentationMode) var presentationMode
+    
     var body: some View {
         VStack (spacing: 0) {
             HStack {
@@ -16,6 +17,12 @@ struct SettingsSheetView: View {
                 Text("Hai Lam Nguyen")
                     .curiTypo(.bkBold16)
                     .frame(maxWidth: .infinity, alignment: .leading)
+                Spacer()
+                Button {
+                    presentationMode.wrappedValue.dismiss()
+                } label: {
+                    IconButtonDefault(iconName: "curiDelete")
+                }
             }
             .frame(maxWidth: .infinity)
             .padding(.horizontal, curiSpacing(.sp16))

@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct HomeView: View {
-    @Binding var settingsTopNavigation: Bool
-    @Binding var searchTopNavigation: Bool
+    @State var settingsTopNavigation: Bool = false
+    @State var searchTopNavigation: Bool = false
     
     var body: some View {
         ZStack {
             /// Top Navigation Bar
-            TopNavigationCanvas(settingsTopNavigation: settingsTopNavigation)
+            TopNavigationCanvas(settingsTopNavigation: $settingsTopNavigation, searchTopNavigation: $searchTopNavigation)
                 .zIndex(1)
             
             /// Library View
@@ -36,7 +36,5 @@ struct HomeView: View {
 }
 
 #Preview {
-    @Previewable @State var settingsTopNavigation: Bool = false
-    @Previewable @State var searchTopNavigation: Bool = true
-    HomeView(settingsTopNavigation: $settingsTopNavigation, searchTopNavigation: $searchTopNavigation)
+    HomeView()
 }
