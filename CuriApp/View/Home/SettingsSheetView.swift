@@ -12,8 +12,8 @@ struct SettingsSheetView: View {
     
     var body: some View {
         VStack (spacing: 0) {
+            /// Top Navigation
             HStack {
-                /// iCloud Username
                 Text("Hai Lam Nguyen")
                     .curiTypo(.bkBold16)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -30,6 +30,7 @@ struct SettingsSheetView: View {
             
             Spacer()
             
+            /// About Curi
             VStack (spacing: curiSpacing(.sp16)) {
                 Image("curiLogo")
                     .resizable()
@@ -47,8 +48,8 @@ struct SettingsSheetView: View {
             .padding(.vertical, curiSpacing(.sp16))
             
             /// Button Section
-            Button {
-                print("Signed Out")
+            NavigationLink {
+                LogInView()
             } label: {
                 CTAButtonSecondary(content: "Sign Out")
             }
@@ -57,6 +58,7 @@ struct SettingsSheetView: View {
             .padding(.horizontal, curiSpacing(.sp16))
         }
         .background(curiPalette(.paper500))
+        
     }
 }
 

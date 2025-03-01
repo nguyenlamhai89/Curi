@@ -8,13 +8,15 @@
 import SwiftUI
 
 enum CuriRadius {
-    case rd1, rd4, rdMax
+    case rd1, rd4, rd8, rdMax
     var radius: CGFloat {
         switch self {
         case .rd1:
             return 1
         case .rd4:
             return 4
+        case .rd8:
+            return 8
         case .rdMax:
             return 100
         }

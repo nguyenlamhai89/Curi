@@ -27,9 +27,8 @@ struct LogInView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                 
                 /// Button Section
-                Button {
-//                    HomeView()
-                    isLoggedIn.toggle()
+                NavigationLink {
+                    HomeViewTemplate()
                 } label: {
                     CTAButtonPrimary(content: "Sign In with Apple")
                 }

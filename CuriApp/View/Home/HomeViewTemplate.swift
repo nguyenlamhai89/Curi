@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-struct HomeView: View {
+struct HomeViewTemplate: View {
     @State var settingsTopNavigation: Bool = false
     @State var searchTopNavigation: Bool = false
+    
     
     var body: some View {
         ZStack {
@@ -36,5 +37,5 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView()
+    HomeViewTemplate()
 }

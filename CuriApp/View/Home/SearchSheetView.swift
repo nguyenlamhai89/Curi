@@ -13,7 +13,22 @@ struct SearchSheetView: View {
     
     var body: some View {
         NavigationView {
-            Text("Hello")
+            ZStack {
+                curiPalette(.paper500)
+                    .ignoresSafeArea()
+                ScrollView {
+                    VStack (spacing: curiSpacing(.sp16)) {
+                        ForEach(0..<10) { book in
+                            QuoteCardNavigation(bookName: "Book \(book)",
+                                      authorName: "Author of book \(book)",
+                                      quoteContent: "\(book) - Can you not understand that liberty is worth more than just ribbons?",
+                                      highlightTagName: "Discuss Later")
+                        }
+                    }
+                }
+                .highPriorityGesture(DragGesture())
+                .padding(.horizontal, curiSpacing(.sp16))
+                .scrollIndicators(.hidden)
                 .navigationTitle("All Quotes")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
@@ -25,13 +40,12 @@ struct SearchSheetView: View {
                                 .fontWeight(.semibold)
                                 .foregroundStyle(curiPalette(.ink500))
                         }
-
                     }
                 }
                 .searchable(text: $searchText, prompt: "Search Your Quote")
-                .tint(curiPalette(.ink500))
+            }
+            
         }
-        .background(curiPalette(.paper500))
     }
 }
 
