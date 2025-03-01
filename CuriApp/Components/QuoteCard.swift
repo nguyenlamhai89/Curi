@@ -29,10 +29,11 @@ struct QuoteCardNavigation: View {
                     .curiTypo(.sfMedium12)
                     .lineLimit(1)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    
-                    IconButtonApp(iconName: "curiRight") {
-                        print("Test Button")
-                    }
+
+                    Image("curiRight")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 24)
                 }
                 
                 /// Quote

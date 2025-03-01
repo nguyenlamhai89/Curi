@@ -20,12 +20,9 @@ struct LibraryErrorView: View {
             }
             .multilineTextAlignment(.center)
             .lineLimit(2)
-            
-            Button {
-                print("Try Again")
-            } label: {
-                TextButtonStroke(content: "Try Again")
-            }
+            TextButtonStroke(content: "Try Again", action: {
+                print("Try again")
+            })
 
         }
         .frame(width: 240)

@@ -55,8 +55,6 @@ struct IconButtonApp: View {
     
     var body: some View {
         Button {
-            let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-            impactFeedback.impactOccurred()
             action()
         } label: {
             Image(iconName)

@@ -17,6 +17,8 @@ struct SegmentedControl: View {
     var body: some View {
         HStack (spacing: curiSpacing(.sp4)) {
             Button {
+                let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+                impactFeedback.impactOccurred()
                 action1()
             } label: {
                 Text(content1)
@@ -28,6 +30,8 @@ struct SegmentedControl: View {
                     .cornerRadius(curiRadius(.rdMax))
             }
             Button {
+                let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+                impactFeedback.impactOccurred()
                 action2()
             } label: {
                 Text(content2)

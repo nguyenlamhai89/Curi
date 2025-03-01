@@ -20,11 +20,9 @@ struct Banner: View {
             }
             .foregroundStyle(curiPalette(.paper500))
             .frame(maxWidth: .infinity, alignment: .leading)
-            Button {
+            TextButtonFilled(content: "Read Now", action: {
                 print("Go to book")
-            } label: {
-                TextButtonFilled(content: "Read Now")
-            }
+            })
         }
         .frame(height: 200, alignment: .bottomLeading)
         .frame(maxWidth: .infinity)
