@@ -30,7 +30,9 @@ struct QuoteCardNavigation: View {
                     .lineLimit(1)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     
-                    IconButtonApp(iconName: "curiRight")
+                    IconButtonApp(iconName: "curiRight") {
+                        print("Test Button")
+                    }
                 }
                 
                 /// Quote

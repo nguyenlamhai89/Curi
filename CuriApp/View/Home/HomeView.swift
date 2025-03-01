@@ -25,7 +25,7 @@ struct HomeViewTemplate: View {
         .background(curiPalette(.paper500))
         .sheet(isPresented: $settingsTopNavigation) {
             SettingsSheetView()
-                .presentationDetents([.fraction(0.5)])
+                .presentationDetents([.medium])
                 .presentationDragIndicator(.visible)
         }
         .sheet(isPresented: $searchTopNavigation) {

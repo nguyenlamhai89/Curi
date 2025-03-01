@@ -26,7 +26,7 @@ struct SearchSheetView: View {
                         }
                     }
                 }
-                .highPriorityGesture(DragGesture())
+//                .highPriorityGesture(DragGesture())
                 .padding(.horizontal, curiSpacing(.sp16))
                 .scrollIndicators(.hidden)
                 .navigationTitle("All Quotes")

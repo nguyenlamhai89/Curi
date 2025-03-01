@@ -9,9 +9,10 @@ import SwiftUI
 
 struct LogInView: View {
     @State var isLoggedIn: Bool = false
+    @State var isNavigating: Bool = false
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack (spacing: 0) {
                 /// Logo and Motto Section
                 VStack (spacing: curiSpacing(.sp16)) {
@@ -27,14 +28,15 @@ struct LogInView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                 
                 /// Button Section
-                NavigationLink {
-                    HomeViewTemplate()
-                } label: {
-                    CTAButtonPrimary(content: "Sign In with Apple")
-                }
+                CTAButtonPrimary(content: "Sign In with Apple", action: {
+                    isNavigating = true
+                })
                 .frame(height: 80)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .padding(.horizontal, curiSpacing(.sp16))
+                .navigationDestination(isPresented: $isNavigating, destination: {
+                    HomeViewTemplate()
+                })
             }
             .background(curiPalette(.paper500))
         }

@@ -18,10 +18,9 @@ struct SettingsSheetView: View {
                     .curiTypo(.bkBold16)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Spacer()
-                Button {
+                
+                IconButtonDefault(iconName: "curiDelete") {
                     presentationMode.wrappedValue.dismiss()
-                } label: {
-                    IconButtonDefault(iconName: "curiDelete")
                 }
             }
             .frame(maxWidth: .infinity)
@@ -48,11 +47,10 @@ struct SettingsSheetView: View {
             .padding(.vertical, curiSpacing(.sp16))
             
             /// Button Section
-            NavigationLink {
-                LogInView()
-            } label: {
-                CTAButtonSecondary(content: "Sign Out")
-            }
+            CTAButtonSecondary(content: "Sign Out", action: {
+                presentationMode.wrappedValue.dismiss()
+                print("Signed Out")
+            })
             .frame(height: 80)
             .frame(maxWidth: .infinity, alignment: .center)
             .padding(.horizontal, curiSpacing(.sp16))

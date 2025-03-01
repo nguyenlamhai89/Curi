@@ -21,11 +21,10 @@ struct TopNavigationCanvas: View {
                
                 HStack {
                     /// Icon Button - User
-                    Button {
+                    
+                    IconButtonDefault(iconName: "curiUser") {
                         settingsTopNavigation.toggle()
-                        print("Sheet On: \(settingsTopNavigation)")
-                    } label: {
-                        IconButtonDefault(iconName: "curiUser")
+                        print("Settings On: \(settingsTopNavigation)")
                     }
                     
                     Spacer()
@@ -40,11 +39,9 @@ struct TopNavigationCanvas: View {
                     Spacer()
                     
                     /// Icon Button - Search
-                    Button {
+                    IconButtonDefault(iconName: "curiSearch") {
                         searchTopNavigation.toggle()
                         print("Search On: \(searchTopNavigation)")
-                    } label: {
-                        IconButtonDefault(iconName: "curiSearch")
                     }
                     
                 }
