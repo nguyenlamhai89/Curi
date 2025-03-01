@@ -21,6 +21,24 @@ struct TextButtonFilled: View {
     }
 }
 
+struct TextButtonStroke: View {
+    var content: String
+    
+    var body: some View {
+        Text(content)
+            .curiTypo(.sfMedium14)
+            .foregroundStyle(curiPalette(.ink500))
+            .padding(.vertical, curiSpacing(.sp4))
+            .padding(.horizontal, curiSpacing(.sp8))
+            .background(
+                RoundedRectangle(cornerRadius: curiRadius(.rdMax))
+                    .stroke(curiPalette(.ink100), lineWidth: 1)
+            )
+            .cornerRadius(curiRadius(.rdMax))
+    }
+}
+
 #Preview {
     TextButtonFilled(content: "Filled")
+    TextButtonStroke(content: "Stroke")
 }

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct UserSettingsSheetView: View {
+struct SettingsSheetView: View {
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
         VStack (spacing: 0) {
@@ -54,5 +54,5 @@ struct UserSettingsSheetView: View {
 }
 
 #Preview {
-    UserSettingsSheetView()
+    SettingsSheetView()
 }
