@@ -15,7 +15,7 @@ struct QuoteCardNavigation: View {
     
     var body: some View {
         NavigationLink {
-            Text("Quote and Note of \(bookName)")
+            QuoteNoteView()
         } label: {
             VStack (spacing: curiSpacing(.sp8)) {
                 /// Book Info and Navigation
@@ -45,14 +45,7 @@ struct QuoteCardNavigation: View {
                     .lineLimit(3)
                 
                 /// Highlight Tag
-                Text(highlightTagName)
-                    .curiTypo(.sfMedium14)
-                    .foregroundStyle(curiPalette(.paper500))
-                    .padding(.vertical, curiSpacing(.sp2))
-                    .padding(.horizontal, curiSpacing(.sp8))
-                    .background(curiPalette(.blue300))
-                    .cornerRadius(curiRadius(.rd4))
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                HighlightTag(content: highlightTagName)
             }
             .padding(curiSpacing(.sp16))
             .background(curiPalette(.paper300))
