@@ -9,7 +9,6 @@ import SwiftUI
 
 struct LogInView: View {
     @State var isLoggedIn: Bool = false
-    @State var isNavigating: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -29,13 +28,13 @@ struct LogInView: View {
                 
                 /// Button Section
                 CTAButtonPrimary(content: "Sign In with Apple", action: {
-                    isNavigating = true
+                    isLoggedIn = true
                 })
                 .frame(height: 80)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .padding(.horizontal, curiSpacing(.sp16))
             }
-            .navigationDestination(isPresented: $isNavigating, destination: {
+            .navigationDestination(isPresented: $isLoggedIn, destination: {
                 HomeViewTemplate()
             })
             .background(curiPalette(.paper500))

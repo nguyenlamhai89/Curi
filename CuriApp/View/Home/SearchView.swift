@@ -12,24 +12,26 @@ struct SearchView: View {
     @State var quoteCardisPresented: Bool = false
     
     var body: some View {
-        ScrollView {
-            VStack (spacing: curiSpacing(.sp16)) {
-                ForEach(0..<10) { book in
-                    QuoteCardNavigation(bookName: "Book \(book)", authorName: "Author of book \(book)", quoteContent: "\(book) - Can you not understand that liberty is worth more than just ribbons?", highlightTagName: "Discuss Later", action: {
-                        quoteCardisPresented.toggle()
-                    })
+        NavigationStack {
+            ScrollView {
+                VStack (spacing: curiSpacing(.sp16)) {
+                    ForEach(0..<10) { book in
+                        QuoteCardNavigation(bookName: "Book \(book)", authorName: "Author of book \(book)", quoteContent: "\(book) - Can you not understand that liberty is worth more than just ribbons?", highlightTagName: "Discuss Later", action: {
+                            quoteCardisPresented.toggle()
+                        })
+                    }
                 }
             }
+            .navigationTitle("All Quotes")
+            .navigationBarTitleDisplayMode(.inline)
+            .padding(.horizontal, curiSpacing(.sp16))
+            .scrollIndicators(.hidden)
+            .searchable(text: $searchText, placement:.navigationBarDrawer(displayMode: .always), prompt: "Search Your Quote")
+            .sheet(isPresented: $quoteCardisPresented) {
+                QuoteNoteSheetView()
+            }
+            .background(curiPalette(.paper500))
         }
-        .padding(.horizontal, curiSpacing(.sp16))
-        .scrollIndicators(.hidden)
-        .searchable(text: $searchText, prompt: "Search Your Quote")
-        .sheet(isPresented: $quoteCardisPresented) {
-            QuoteNoteSheetView()
-        }
-        .navigationTitle("All Quotes")
-        .navigationBarTitleDisplayMode(.inline)
-        .background(curiPalette(.paper500))
     }
 }
 
