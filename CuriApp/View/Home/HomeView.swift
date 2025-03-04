@@ -24,13 +24,9 @@ struct HomeViewTemplate: View {
         .background(curiPalette(.paper500))
         .sheet(isPresented: $settingsTopNavigation) {
             SettingsSheetView()
-                .presentationDetents([.medium])
-                .presentationDragIndicator(.visible)
         }
-        .sheet(isPresented: $searchTopNavigation) {
-            SearchSheetView()
-                .presentationDetents([.large])
-                .presentationDragIndicator(.visible)
+        .navigationDestination(isPresented: $searchTopNavigation) {
+            SearchView()
         }
     }
 }

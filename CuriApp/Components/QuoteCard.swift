@@ -12,10 +12,11 @@ struct QuoteCardNavigation: View {
     var authorName: String
     var quoteContent: String
     var highlightTagName: String
+    var action: () -> Void
     
     var body: some View {
-        NavigationLink {
-            QuoteNoteView()
+        Button {
+            action()
         } label: {
             VStack (spacing: curiSpacing(.sp8)) {
                 /// Book Info and Navigation
@@ -56,5 +57,7 @@ struct QuoteCardNavigation: View {
 }
 
 #Preview {
-    QuoteCardNavigation(bookName: "Animal Farm", authorName: "George Orwell", quoteContent: "All that year the animals worked like slaves. But they were happy in their work; they grudged no effort or sacrifice, well aware that everything they did was for the benefit of themselves and those of their kind who would come after them, and not for a pack of idle, thieving human beings.", highlightTagName: "Discuss Later")
+    QuoteCardNavigation(bookName: "Animal Farm", authorName: "George Orwell", quoteContent: "All that year the animals worked like slaves. But they were happy in their work; they grudged no effort or sacrifice, well aware that everything they did was for the benefit of themselves and those of their kind who would come after them, and not for a pack of idle, thieving human beings.", highlightTagName: "Discuss Later", action: {
+        print("Hello Card")
+    })
 }

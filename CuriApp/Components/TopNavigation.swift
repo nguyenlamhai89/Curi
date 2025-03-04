@@ -24,7 +24,7 @@ struct TopNavigationCanvas: View {
                     
                     IconButtonDefault(iconName: "curiUser") {
                         settingsTopNavigation.toggle()
-                        print("Settings On: \(settingsTopNavigation)")
+                        print("Settings Sheet Opened: \(settingsTopNavigation)")
                     }
                     
                     Spacer()
@@ -41,7 +41,7 @@ struct TopNavigationCanvas: View {
                     /// Icon Button - Search
                     IconButtonDefault(iconName: "curiSearch") {
                         searchTopNavigation.toggle()
-                        print("Search On: \(searchTopNavigation)")
+                        print("Search Navigated: \(searchTopNavigation)")
                     }
                     
                 }

@@ -34,10 +34,10 @@ struct LogInView: View {
                 .frame(height: 80)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .padding(.horizontal, curiSpacing(.sp16))
-                .navigationDestination(isPresented: $isNavigating, destination: {
-                    HomeViewTemplate()
-                })
             }
+            .navigationDestination(isPresented: $isNavigating, destination: {
+                HomeViewTemplate()
+            })
             .background(curiPalette(.paper500))
         }
     }
