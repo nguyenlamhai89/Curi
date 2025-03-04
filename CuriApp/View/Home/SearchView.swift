@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SearchView: View {
-    @State var searchText: String = ""
+    @State var searchAvailableQuote: String = ""
     @State var quoteCardisPresented: Bool = false
     
     var body: some View {
@@ -26,7 +26,7 @@ struct SearchView: View {
             .navigationBarTitleDisplayMode(.inline)
             .padding(.horizontal, curiSpacing(.sp16))
             .scrollIndicators(.hidden)
-            .searchable(text: $searchText, placement:.navigationBarDrawer(displayMode: .always), prompt: "Search Your Quote")
+            .searchable(text: $searchAvailableQuote, placement:.navigationBarDrawer(displayMode: .always), prompt: "Search Your Quote")
             .sheet(isPresented: $quoteCardisPresented) {
                 QuoteNoteSheetView()
             }

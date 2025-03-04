@@ -10,9 +10,10 @@ import SwiftUI
 struct QuoteNoteSheetView: View {
     @Environment(\.presentationMode) var presentationMode
     @State var shareThoughts: String = ""
+    @State var connectQuoteNavigate: Bool = false
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 VStack (spacing: curiSpacing(.sp20)){
                     VStack (spacing: curiSpacing(.sp8)) {
@@ -27,9 +28,19 @@ struct QuoteNoteSheetView: View {
                             TextButtonFilledIcon(content: "Go to Book", icon: "curiBook", action: {
                                 print("Go to Book")
                             })
+                            
                             TextButtonFilledIcon(content: "Connect", icon: "curiConnect", action: {
-                                print("Connect")
+                                connectQuoteNavigate.toggle()
+                                if connectQuoteNavigate {
+                                    print("Connect")
+                                } else {
+                                    print("Error")
+                                }
                             })
+                            .navigationDestination(isPresented: $connectQuoteNavigate) {
+                                QuoteConnectView()
+                            }
+                            
                         }
                     }
                     
