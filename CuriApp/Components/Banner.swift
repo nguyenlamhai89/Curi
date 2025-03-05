@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct Banner: View {
+    @State var bookNavigate: Bool = false
     var body: some View {
         HStack (alignment: .bottom) {
             VStack (alignment: .leading, spacing: 0) {
@@ -20,9 +21,14 @@ struct Banner: View {
             }
             .foregroundStyle(curiPalette(.paper500))
             .frame(maxWidth: .infinity, alignment: .leading)
+            
             TextButtonFilled(content: "Read Now", action: {
+                bookNavigate.toggle()
                 print("Go to book")
             })
+            .navigationDestination(isPresented: $bookNavigate) {
+                BookView()
+            }
         }
         .frame(height: 200, alignment: .bottomLeading)
         .frame(maxWidth: .infinity)

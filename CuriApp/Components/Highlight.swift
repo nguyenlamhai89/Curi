@@ -7,13 +7,25 @@
 
 import SwiftUI
 
-struct HighlighDial: View {
+struct HighlightDial: View {
+    var quoteIsSelected: Bool
+    @Binding var thoughtSheetIsPresented: Bool
+    @Binding var deleteAlertIsPresented: Bool
+    
     var body: some View {
         VStack (spacing: curiSpacing(.sp8)) {
             HStack (spacing: curiSpacing(.sp8)) {
-                IconButtonDefault(iconName: "curiThought", action: {
-                    print("Thought Pressed")
-                })
+                if quoteIsSelected {
+                    IconButtonDefault(iconName: "curiThought", action: {
+                        thoughtSheetIsPresented.toggle()
+                        print("Thought Sheet On: \(thoughtSheetIsPresented)")
+                    })
+                } else {
+                    Rectangle()
+                        .fill(curiPalette(.paper500))
+                        .frame(width: 32, height: 32)
+                }
+                
                 
                 // Highlight Dial
                 Rectangle()
@@ -52,10 +64,17 @@ struct HighlighDial: View {
                 }
                 .clipped()
                 
+                if quoteIsSelected {
+                    IconButtonDefault(iconName: "curiDelete", action: {
+                        deleteAlertIsPresented.toggle()
+                        print("Delete Pressed")
+                    })
+                } else {
+                    Rectangle()
+                        .fill(curiPalette(.paper500))
+                        .frame(width: 32, height: 32)
+                }
                 
-                IconButtonDefault(iconName: "curiDelete", action: {
-                    print("Delete Pressed")
-                })
             }
             Text("Swipe to change Highlight. Tap to rename.")
                 .curiTypo(.sfMedium12)
@@ -100,7 +119,10 @@ struct HighlightTag: View {
 }
 
 #Preview {
-    HighlighDial()
+    @Previewable @State var thoughtSheetIsPresented: Bool = false
+    @Previewable @State var deleteAlertIsPresented: Bool = false
+//    HighlightDial(quoteIsSelected: false)
+    HighlightDial(quoteIsSelected: false, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented)
     HighlightButton(content: "Discuss Later", action: {
         print("Highlight Button Pressed")
     })

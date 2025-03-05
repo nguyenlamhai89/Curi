@@ -60,28 +60,44 @@ struct TopNavigationCanvas: View {
 }
 
 struct TopNavigationBook: View {
+    @Environment(\.dismiss) var dismiss
+    var quoteIsSelected: Bool
     var body: some View {
         VStack {
             HStack {
                 /// Icon Button - User
                 
-                IconButtonApp(iconName: "curiLeft", action: {
-                    print("Back")
-                })
+                if quoteIsSelected {
+                    IconButtonApp(iconName: "curiLeft", action: {
+                        dismiss()
+                        print("Back")
+                    })
+                } else {
+                    Rectangle()
+                        .fill(curiPalette(.paper500))
+                        .frame(width: 32, height: 32)
+                }
+                
                 
                 Spacer()
                 
                 /// Segmented Control
-                Text("Sonnet")
-                    .curiTypo(.sfMedium14)
-                    .foregroundStyle(curiPalette(.ink500))
+                if quoteIsSelected {
+                    Text("Sonnet")
+                        .curiTypo(.sfMedium14)
+                        .foregroundStyle(curiPalette(.ink500))
+                } else {
+                    Rectangle()
+                        .fill(curiPalette(.paper500))
+                        .frame(maxWidth: .infinity)
+                }
                 
                 Spacer()
                 
                 /// Icon Button - Search
                 Rectangle()
                     .fill(curiPalette(.paper500))
-                    .frame(width: 24, height: 24)
+                    .frame(width: 32, height: 32)
                 
             }
             .padding(.horizontal, curiSpacing(.sp16))
@@ -97,5 +113,5 @@ struct TopNavigationBook: View {
     @Previewable @State var settingsTopNavigation: Bool = false
     @Previewable @State var searchTopNavigation: Bool = false
     TopNavigationCanvas(settingsTopNavigation: $settingsTopNavigation, searchTopNavigation: $searchTopNavigation)
-    TopNavigationBook()
+    TopNavigationBook(quoteIsSelected: true)
 }
