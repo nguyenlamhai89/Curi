@@ -21,9 +21,7 @@ struct BookView: View {
             .frame(maxHeight: .infinity)
             
             // Highlight
-            CTAButtonPrimary(content: "Sign In with Apple", action: {
-//                isLoggedIn = true
-            })
+            HighlighDial()
             .frame(height: 80)
             .frame(maxWidth: .infinity, alignment: .center)
             .padding(.horizontal, curiSpacing(.sp16))

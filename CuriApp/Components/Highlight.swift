@@ -9,33 +9,38 @@ import SwiftUI
 
 struct HighlighDial: View {
     var body: some View {
-        HStack (spacing: curiSpacing(.sp8)) {
-            IconButtonDefault(iconName: "curiThought", action: {
-                print("Thought Pressed")
-            })
-            
-            // Highlight Dial
-            HStack {
-                ZStack {
+        VStack (spacing: curiSpacing(.sp8)) {
+            HStack (spacing: curiSpacing(.sp8)) {
+                IconButtonDefault(iconName: "curiThought", action: {
+                    print("Thought Pressed")
+                })
+                
+                // Highlight Dial
+                Rectangle()
+                    .fill(curiPalette(.paper500))
+                .frame(maxWidth: .infinity, maxHeight: 40, alignment: .center)
+                .overlay {
                     //Dial Line
-                    HStack (spacing: curiSpacing(.sp20)) {
+                    HStack (spacing: curiSpacing(.sp16)) {
                         ForEach(0..<20) { _ in
                             Rectangle()
                                 .fill(curiPalette(.ink100))
                                 .frame(width: 1.6, height: 16)
                         }
                     }
-                    
+                }
+                .overlay {
                     // Highlight Buttons
                     HStack (spacing: curiSpacing(.sp8)) {
                         HighlightButton(content: "Discuss Later", action: {
                             print("Blue Pressed")
                         })
-                        HighlightButton(content: "Good Point", action: {
-                            print("Pink Pressed")
-                        })
+//                        HighlightButton(content: "Good Point", action: {
+//                            print("Pink Pressed")
+//                        })
                     }
-                    
+                }
+                .overlay {
                     // Gradient Block
                     HStack {
                         LinearGradient(colors: [curiPalette(.paper500), curiPalette(.paper500).opacity(0)], startPoint: .leading, endPoint: .trailing)
@@ -45,17 +50,18 @@ struct HighlighDial: View {
                             .frame(width: 32)
                     }
                 }
+                .clipped()
+                
+                
+                IconButtonDefault(iconName: "curiDelete", action: {
+                    print("Delete Pressed")
+                })
             }
-            .frame(maxWidth: .infinity, maxHeight: 40, alignment: .center)
-            .background(Color.yellow)
-            .clipped()
-            
-            
-            
-            IconButtonDefault(iconName: "curiDelete", action: {
-                print("Delete Pressed")
-            })
+            Text("Swipe to change Highlight. Tap to rename.")
+                .curiTypo(.sfMedium12)
+                .foregroundStyle(curiPalette(.ink100))
         }
+        
     }
 }
 
