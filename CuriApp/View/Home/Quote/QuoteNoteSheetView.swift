@@ -11,6 +11,7 @@ struct QuoteNoteSheetView: View {
     @Environment(\.presentationMode) var presentationMode
     @State var shareThoughts: String = ""
     @State var connectQuoteNavigate: Bool = false
+    @State var deleteAlertIsPresented: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -61,6 +62,7 @@ struct QuoteNoteSheetView: View {
                 }
                 
                 TextButtonPlain(content: "Delete Quote and Note", action: {
+                    deleteAlertIsPresented.toggle()
                     print("Delete")
                 })
                 .frame(height: 80)
@@ -73,6 +75,14 @@ struct QuoteNoteSheetView: View {
         }
         .presentationDragIndicator(.hidden)
         .interactiveDismissDisabled(true)
+        .alert(isPresented: $deleteAlertIsPresented) {
+            Alert(title: Text("Delete Quote and Note?"),
+                  message: Text("Are you sure you want to delete the quote and the note?"),
+                  primaryButton: .cancel(),
+                  secondaryButton: .destructive(Text("Delete"), action: {
+                print("Deleted!")
+            }))
+        }
     }
 }
 
