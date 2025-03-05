@@ -10,6 +10,7 @@ import SwiftUI
 struct BookAuthorCard: View {
     var bookName: String
     var authorName: String
+    
     var body: some View {
         VStack (spacing: curiSpacing(.sp12)) {
             VStack (alignment: .leading, spacing: 0) {

@@ -11,6 +11,7 @@ struct HighlightDial: View {
     var quoteIsSelected: Bool
     @Binding var thoughtSheetIsPresented: Bool
     @Binding var deleteAlertIsPresented: Bool
+    @Binding var renameHighlightViewIsPresented: Bool
     
     var body: some View {
         VStack (spacing: curiSpacing(.sp8)) {
@@ -45,7 +46,10 @@ struct HighlightDial: View {
                     // Highlight Buttons
                     HStack (spacing: curiSpacing(.sp8)) {
                         HighlightButton(content: "Discuss Later", action: {
-                            print("Blue Pressed")
+                            withAnimation {
+                                renameHighlightViewIsPresented.toggle()
+                                print("Blue Pressed")
+                            }
                         })
 //                        HighlightButton(content: "Good Point", action: {
 //                            print("Pink Pressed")
@@ -90,6 +94,8 @@ struct HighlightButton: View {
     
     var body: some View {
         Button {
+            let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+            impactFeedback.impactOccurred()
             action()
         } label: {
             Text("\(content)")
@@ -121,8 +127,9 @@ struct HighlightTag: View {
 #Preview {
     @Previewable @State var thoughtSheetIsPresented: Bool = false
     @Previewable @State var deleteAlertIsPresented: Bool = false
-//    HighlightDial(quoteIsSelected: false)
-    HighlightDial(quoteIsSelected: false, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented)
+    @Previewable @State var renameHighlightViewIsPresented: Bool = false
+
+    HighlightDial(quoteIsSelected: true, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameHighlightViewIsPresented: $renameHighlightViewIsPresented)
     HighlightButton(content: "Discuss Later", action: {
         print("Highlight Button Pressed")
     })
