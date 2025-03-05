@@ -22,7 +22,7 @@ struct LibraryView: View {
                     VStack {
                         ForEach(0..<10) { bookNum in
                             NavigationLink {
-                                Text("Book \(bookNum)")
+                                BookView()
                             } label: {
                                 BookAuthorCard(bookName: "\(bookNum)", authorName: "\(bookNum)")
                             }
