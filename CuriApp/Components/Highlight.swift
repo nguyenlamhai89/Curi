@@ -13,6 +13,8 @@ struct HighlightDial: View {
     @Binding var deleteAlertIsPresented: Bool
     @Binding var renameHighlightViewIsPresented: Bool
     
+    var tagName: String
+    
     var body: some View {
         VStack (spacing: curiSpacing(.sp8)) {
             HStack (spacing: curiSpacing(.sp8)) {
@@ -45,7 +47,7 @@ struct HighlightDial: View {
                 .overlay {
                     // Highlight Buttons
                     HStack (spacing: curiSpacing(.sp8)) {
-                        HighlightButton(content: "Discuss Later", action: {
+                        HighlightButton(content: tagName, action: {
                             withAnimation {
                                 renameHighlightViewIsPresented.toggle()
                                 print("Blue Pressed")
@@ -103,7 +105,8 @@ struct HighlightButton: View {
                 .foregroundStyle(curiPalette(.paper500))
                 .padding(.vertical, curiSpacing(.sp2))
                 .padding(.horizontal, curiSpacing(.sp8))
-                .background(content=="Discuss Later" ? curiPalette(.blue300) : curiPalette(.pink300))
+//                .background(content=="Discuss Later" ? curiPalette(.blue300) : curiPalette(.pink300))
+                .background(curiPalette(.blue300))
                 .cornerRadius(curiRadius(.rd4))
         }
     }
@@ -128,10 +131,13 @@ struct HighlightTag: View {
     @Previewable @State var thoughtSheetIsPresented: Bool = false
     @Previewable @State var deleteAlertIsPresented: Bool = false
     @Previewable @State var renameHighlightViewIsPresented: Bool = false
+    @Previewable @State var tagNameDemo: String = "Discuss"
 
-    HighlightDial(quoteIsSelected: true, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameHighlightViewIsPresented: $renameHighlightViewIsPresented)
-    HighlightButton(content: "Discuss Later", action: {
+    HighlightDial(quoteIsSelected: true, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameHighlightViewIsPresented: $renameHighlightViewIsPresented, tagName: tagNameDemo)
+    
+    HighlightButton(content: tagNameDemo, action: {
         print("Highlight Button Pressed")
     })
-    HighlightTag(content: "Discuss Later")
+    
+    HighlightTag(content: tagNameDemo)
 }

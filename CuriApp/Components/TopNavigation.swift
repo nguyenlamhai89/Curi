@@ -62,6 +62,8 @@ struct TopNavigationCanvas: View {
 struct TopNavigationBook: View {
     @Environment(\.dismiss) var dismiss
     var quoteIsSelected: Bool
+    var bookName: String
+    
     var body: some View {
         VStack {
             HStack {
@@ -78,12 +80,11 @@ struct TopNavigationBook: View {
                         .frame(width: 32, height: 32)
                 }
                 
-                
                 Spacer()
                 
                 /// Segmented Control
                 if quoteIsSelected {
-                    Text("Sonnet")
+                    Text("\(bookName)")
                         .curiTypo(.sfMedium14)
                         .foregroundStyle(curiPalette(.ink500))
                 } else {
@@ -113,5 +114,5 @@ struct TopNavigationBook: View {
     @Previewable @State var settingsTopNavigation: Bool = false
     @Previewable @State var searchTopNavigation: Bool = false
     TopNavigationCanvas(settingsTopNavigation: $settingsTopNavigation, searchTopNavigation: $searchTopNavigation)
-    TopNavigationBook(quoteIsSelected: true)
+    TopNavigationBook(quoteIsSelected: true, bookName: "Sonnet")
 }

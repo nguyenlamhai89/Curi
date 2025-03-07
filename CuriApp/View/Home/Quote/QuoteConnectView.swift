@@ -9,18 +9,19 @@ import SwiftUI
 
 struct QuoteConnectView: View {
     @State var searchLinkQuote: String = ""
+    @State var connectedQuote: Int = 0
     
     var body: some View {
         ScrollView {
             VStack (spacing: curiSpacing(.sp16)) {
                 ForEach(0..<10) { book in
                     QuoteCardCheckbox(bookName: "Book \(book)", authorName: "Author of book \(book)", quoteContent: "\(book) - Can you not understand that liberty is worth more than just ribbons?", highlightTagName: "Discuss Later", action: {
-                        print("Checked!")
-                    })
+//                        print("Checked!")
+                    }, connectedQuote: $connectedQuote)
                 }
             }
         }
-        .navigationTitle("Connected (0)")
+        .navigationTitle("Connected (\(connectedQuote))")
         .navigationBarTitleDisplayMode(.inline)
         .padding(.horizontal, curiSpacing(.sp16))
         .scrollIndicators(.hidden)
@@ -30,5 +31,13 @@ struct QuoteConnectView: View {
 }
 
 #Preview {
-    QuoteConnectView()
+    @Previewable @State var isPresented: Bool = true
+    VStack {
+        Text("Test")
+    }
+    .sheet(isPresented: $isPresented) {
+        NavigationView {
+            QuoteConnectView()
+        }
+    }
 }

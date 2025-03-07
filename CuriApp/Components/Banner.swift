@@ -27,7 +27,7 @@ struct Banner: View {
                 print("Go to book")
             })
             .navigationDestination(isPresented: $bookNavigate) {
-                BookView()
+                BookView(bookName: "Sonnet")
             }
         }
         .frame(height: 200, alignment: .bottomLeading)

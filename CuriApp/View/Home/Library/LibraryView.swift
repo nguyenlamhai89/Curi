@@ -7,7 +7,12 @@
 
 import SwiftUI
 
+
+
 struct LibraryView: View {
+    @State var books = ["Hi", "Bar", "Mot"]
+    @State var authors = ["Ben", "Will", "Coulson"]
+    
     var body: some View {
         ScrollView {
             VStack (spacing: curiSpacing(.sp20)) {
@@ -20,11 +25,11 @@ struct LibraryView: View {
                         .foregroundStyle(curiPalette(.ink300))
                     
                     VStack {
-                        ForEach(0..<10) { bookNum in
+                        ForEach(Array(zip(books, authors)), id: \.0) { book, author in
                             NavigationLink {
-                                BookView()
+                                BookView(bookName: "\(book)")
                             } label: {
-                                BookAuthorCard(bookName: "\(bookNum)", authorName: "\(bookNum)")
+                                BookAuthorCard(bookName: "\(book)", authorName: "\(author)")
                             }
                         }
                     }

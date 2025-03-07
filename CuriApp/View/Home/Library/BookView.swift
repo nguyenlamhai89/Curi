@@ -14,12 +14,14 @@ struct BookView: View {
     @State var tagNameDemo: String = "Discuss Later"
     @State var renameHighlightViewIsPresented: Bool = false
     
+    var bookName: String
+    
     @FocusState private var autoFocusRename: Bool
     
     var body: some View {
         VStack {
             // Navigation
-            TopNavigationBook(quoteIsSelected: quoteSelected)
+            TopNavigationBook(quoteIsSelected: quoteSelected, bookName: bookName)
             
             // Book conent
             VStack (spacing: curiSpacing(.sp20)) {
@@ -34,11 +36,13 @@ struct BookView: View {
             .padding(.horizontal, 32)
             .background(curiPalette(.paper500))
             .onTapGesture {
-                quoteSelected.toggle()
+                withAnimation {
+                    quoteSelected.toggle()
+                }
             }
             
             // Highlight
-            HighlightDial(quoteIsSelected: quoteSelected, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameHighlightViewIsPresented: $renameHighlightViewIsPresented)
+            HighlightDial(quoteIsSelected: quoteSelected, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameHighlightViewIsPresented: $renameHighlightViewIsPresented, tagName: tagNameDemo)
             .frame(height: 80)
             .frame(maxWidth: .infinity, alignment: .center)
             .padding(.horizontal, curiSpacing(.sp16))
@@ -70,7 +74,10 @@ struct BookView: View {
                                         print("Rename View On: \(renameHighlightViewIsPresented)")
                                     }
                                 }
-                            Text("0")
+                                .onChange(of: tagNameDemo) { oldValue, newValue in
+                                    tagNameDemo = newValue.prefix(20).description
+                                }
+                            Text("\(tagNameDemo.count)")
                                 .curiTypo(.sfMedium12)
                                 .foregroundStyle(curiPalette(.paper500))
                                 .frame(maxWidth: .infinity)
@@ -96,5 +103,5 @@ struct BookView: View {
 }
 
 #Preview {
-    BookView()
+    BookView(bookName: "Test")
 }

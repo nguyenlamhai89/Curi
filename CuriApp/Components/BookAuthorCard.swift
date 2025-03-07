@@ -14,11 +14,11 @@ struct BookAuthorCard: View {
     var body: some View {
         VStack (spacing: curiSpacing(.sp12)) {
             VStack (alignment: .leading, spacing: 0) {
-                Text("Book \(bookName)")
+                Text("\(bookName)")
                     .curiTypo(.sfMedium32)
                     .foregroundStyle(curiPalette(.ink500))
                     .lineLimit(2)
-                Text("Author \(authorName)")
+                Text("\(authorName)")
                     .curiTypo(.sfRegular16)
                     .foregroundStyle(curiPalette(.ink300))
                     .lineLimit(1)
