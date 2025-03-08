@@ -26,6 +26,13 @@ extension View {
     func curiSpacing(_ curiSpacing: CuriSpacing) -> CGFloat {
         return curiSpacing.spacing
     }
+    
+    var bottomNavigationSpacing: some View {
+        self
+            .frame(height: 80)
+            .frame(maxWidth: .infinity, alignment: .center)
+            .padding(.horizontal, curiSpacing(.sp16))
+    }
 }
 
 struct Spacing: View {

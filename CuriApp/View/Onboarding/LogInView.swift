@@ -30,9 +30,7 @@ struct LogInView: View {
                 CTAButtonPrimary(content: "Sign In with Apple", action: {
                     isLoggedIn = true
                 })
-                .frame(height: 80)
-                .frame(maxWidth: .infinity, alignment: .center)
-                .padding(.horizontal, curiSpacing(.sp16))
+                .bottomNavigationSpacing
             }
             .navigationDestination(isPresented: $isLoggedIn, destination: {
                 HomeViewTemplate()

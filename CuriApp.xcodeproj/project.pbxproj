@@ -6,8 +6,41 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		D8E011892D7BF130005ABDEF /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E011882D7BF130005ABDEF /* WidgetKit.framework */; };
+		D8E0118B2D7BF130005ABDEF /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E0118A2D7BF130005ABDEF /* SwiftUI.framework */; };
+		D8E0119C2D7BF131005ABDEF /* CuriWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D8E011862D7BF130005ABDEF /* CuriWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D8E0119A2D7BF131005ABDEF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D894C98D2D6747EA00CE95C0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D8E011852D7BF130005ABDEF;
+			remoteInfo = CuriWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D8E0119D2D7BF131005ABDEF /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				D8E0119C2D7BF131005ABDEF /* CuriWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		D894C9952D6747EA00CE95C0 /* Curi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Curi.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8E011862D7BF130005ABDEF /* CuriWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CuriWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8E011882D7BF130005ABDEF /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		D8E0118A2D7BF130005ABDEF /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -17,6 +50,13 @@
 				Info.plist,
 			);
 			target = D894C9942D6747EA00CE95C0 /* CuriApp */;
+		};
+		D8E011A12D7BF131005ABDEF /* Exceptions for "CuriWidget" folder in "CuriWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = D8E011852D7BF130005ABDEF /* CuriWidgetExtension */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -29,6 +69,14 @@
 			path = CuriApp;
 			sourceTree = "<group>";
 		};
+		D8E0118C2D7BF130005ABDEF /* CuriWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				D8E011A12D7BF131005ABDEF /* Exceptions for "CuriWidget" folder in "CuriWidgetExtension" target */,
+			);
+			path = CuriWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +87,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D8E011832D7BF130005ABDEF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8E0118B2D7BF130005ABDEF /* SwiftUI.framework in Frameworks */,
+				D8E011892D7BF130005ABDEF /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -46,6 +103,8 @@
 			isa = PBXGroup;
 			children = (
 				D894C9B92D6747F900CE95C0 /* CuriApp */,
+				D8E0118C2D7BF130005ABDEF /* CuriWidget */,
+				D8E011872D7BF130005ABDEF /* Frameworks */,
 				D894C9962D6747EA00CE95C0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,8 +113,18 @@
 			isa = PBXGroup;
 			children = (
 				D894C9952D6747EA00CE95C0 /* Curi.app */,
+				D8E011862D7BF130005ABDEF /* CuriWidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		D8E011872D7BF130005ABDEF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D8E011882D7BF130005ABDEF /* WidgetKit.framework */,
+				D8E0118A2D7BF130005ABDEF /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -68,10 +137,12 @@
 				D894C9912D6747EA00CE95C0 /* Sources */,
 				D894C9922D6747EA00CE95C0 /* Frameworks */,
 				D894C9932D6747EA00CE95C0 /* Resources */,
+				D8E0119D2D7BF131005ABDEF /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				D8E0119B2D7BF131005ABDEF /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				D894C9B92D6747F900CE95C0 /* CuriApp */,
@@ -82,6 +153,28 @@
 			productName = CuriApp;
 			productReference = D894C9952D6747EA00CE95C0 /* Curi.app */;
 			productType = "com.apple.product-type.application";
+		};
+		D8E011852D7BF130005ABDEF /* CuriWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D8E011A02D7BF131005ABDEF /* Build configuration list for PBXNativeTarget "CuriWidgetExtension" */;
+			buildPhases = (
+				D8E011822D7BF130005ABDEF /* Sources */,
+				D8E011832D7BF130005ABDEF /* Frameworks */,
+				D8E011842D7BF130005ABDEF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				D8E0118C2D7BF130005ABDEF /* CuriWidget */,
+			);
+			name = CuriWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = CuriWidgetExtension;
+			productReference = D8E011862D7BF130005ABDEF /* CuriWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -94,6 +187,9 @@
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					D894C9942D6747EA00CE95C0 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					D8E011852D7BF130005ABDEF = {
 						CreatedOnToolsVersion = 16.2;
 					};
 				};
@@ -113,12 +209,20 @@
 			projectRoot = "";
 			targets = (
 				D894C9942D6747EA00CE95C0 /* CuriApp */,
+				D8E011852D7BF130005ABDEF /* CuriWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		D894C9932D6747EA00CE95C0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8E011842D7BF130005ABDEF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -135,7 +239,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D8E011822D7BF130005ABDEF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D8E0119B2D7BF131005ABDEF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D8E011852D7BF130005ABDEF /* CuriWidgetExtension */;
+			targetProxy = D8E0119A2D7BF131005ABDEF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		D894C9A22D6747EB00CE95C0 /* Debug */ = {
@@ -332,6 +451,65 @@
 			};
 			name = Release;
 		};
+		D8E0119E2D7BF131005ABDEF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 35KB5PK2KC;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CuriWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CuriWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = madebynham.CuriApp.CuriWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D8E0119F2D7BF131005ABDEF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 35KB5PK2KC;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CuriWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CuriWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = madebynham.CuriApp.CuriWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -349,6 +527,15 @@
 			buildConfigurations = (
 				D894C9A52D6747EB00CE95C0 /* Debug */,
 				D894C9A62D6747EB00CE95C0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D8E011A02D7BF131005ABDEF /* Build configuration list for PBXNativeTarget "CuriWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D8E0119E2D7BF131005ABDEF /* Debug */,
+				D8E0119F2D7BF131005ABDEF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

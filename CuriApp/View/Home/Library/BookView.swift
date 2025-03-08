@@ -43,9 +43,7 @@ struct BookView: View {
             
             // Highlight
             HighlightDial(quoteIsSelected: quoteSelected, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameHighlightViewIsPresented: $renameHighlightViewIsPresented, tagName: tagNameDemo)
-            .frame(height: 80)
-            .frame(maxWidth: .infinity, alignment: .center)
-            .padding(.horizontal, curiSpacing(.sp16))
+                .bottomNavigationSpacing
         }
         .background(curiPalette(.paper500))
         .navigationBarHidden(true)

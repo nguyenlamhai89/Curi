@@ -51,9 +51,7 @@ struct SettingsSheetView: View {
                 presentationMode.wrappedValue.dismiss()
                 print("Signed Out")
             })
-            .frame(height: 80)
-            .frame(maxWidth: .infinity, alignment: .center)
-            .padding(.horizontal, curiSpacing(.sp16))
+            .bottomNavigationSpacing
         }
         .background(curiPalette(.paper500))
         .presentationDetents([.medium])

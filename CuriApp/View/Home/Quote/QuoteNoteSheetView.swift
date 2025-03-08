@@ -65,8 +65,7 @@ struct QuoteNoteSheetView: View {
                     deleteAlertIsPresented.toggle()
                     print("Delete")
                 })
-                .frame(height: 80)
-                .frame(maxWidth: .infinity, alignment: .center)
+                .bottomNavigationSpacing
             }
             .padding(.horizontal, curiSpacing(.sp16))
             .background(curiPalette(.paper500))
