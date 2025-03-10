@@ -28,3 +28,11 @@ extension View {
         return radiusNumber.radius
     }
 }
+
+#Preview {
+    Text("Hello World!")
+        .padding()
+        .frame(maxWidth: .infinity)
+        .background(Color.cyan)
+        .foregroundStyle(Color.white)
+}

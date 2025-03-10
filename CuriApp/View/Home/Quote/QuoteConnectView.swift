@@ -11,11 +11,13 @@ struct QuoteConnectView: View {
     @State var searchLinkQuote: String = ""
     @State var connectedQuote: Int = 0
     
+    @AppStorage("sampleQuote", store: UserDefaults(suiteName: "group.madebynham.curi")) var sampleQuote: String = "Can you not understand that liberty is worth more than just ribbons?"
+    
     var body: some View {
         ScrollView {
             VStack (spacing: curiSpacing(.sp16)) {
                 ForEach(0..<10) { book in
-                    QuoteCardCheckbox(bookName: "Book \(book)", authorName: "Author of book \(book)", quoteContent: "\(book) - Can you not understand that liberty is worth more than just ribbons?", highlightTagName: "Discuss Later", action: {
+                    QuoteCardCheckbox(bookName: "Book \(book)", authorName: "Author of book \(book)", quoteContent: "\(book) - \(sampleQuote)", highlightTagName: "Discuss Later", action: {
 //                        print("Checked!")
                     }, connectedQuote: $connectedQuote)
                 }

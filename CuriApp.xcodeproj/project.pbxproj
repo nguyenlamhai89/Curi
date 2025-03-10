@@ -37,6 +37,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D80A96552D7EFE9F00AAC62F /* CuriWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CuriWidgetExtension.entitlements; sourceTree = "<group>"; };
 		D894C9952D6747EA00CE95C0 /* Curi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Curi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8E011862D7BF130005ABDEF /* CuriWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CuriWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8E011882D7BF130005ABDEF /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -44,6 +45,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D808AEFB2D7F36E20072DDF6 /* Exceptions for "CuriWidget" folder in "CuriApp" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				DataService.swift,
+			);
+			target = D894C9942D6747EA00CE95C0 /* CuriApp */;
+		};
 		D894C9CC2D67484E00CE95C0 /* Exceptions for "CuriApp" folder in "CuriApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -72,6 +80,7 @@
 		D8E0118C2D7BF130005ABDEF /* CuriWidget */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+				D808AEFB2D7F36E20072DDF6 /* Exceptions for "CuriWidget" folder in "CuriApp" target */,
 				D8E011A12D7BF131005ABDEF /* Exceptions for "CuriWidget" folder in "CuriWidgetExtension" target */,
 			);
 			path = CuriWidget;
@@ -102,6 +111,7 @@
 		D894C98C2D6747EA00CE95C0 = {
 			isa = PBXGroup;
 			children = (
+				D80A96552D7EFE9F00AAC62F /* CuriWidgetExtension.entitlements */,
 				D894C9B92D6747F900CE95C0 /* CuriApp */,
 				D8E0118C2D7BF130005ABDEF /* CuriWidget */,
 				D8E011872D7BF130005ABDEF /* Frameworks */,
@@ -456,6 +466,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = CuriWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 35KB5PK2KC;
@@ -485,6 +496,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = CuriWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 35KB5PK2KC;

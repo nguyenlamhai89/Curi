@@ -9,12 +9,14 @@ import WidgetKit
 import SwiftUI
 
 struct Provider: AppIntentTimelineProvider {
+    let quoteOfTheDay = DataService()
+    
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationAppIntent())
+        SimpleEntry(date: Date(), quote: quoteOfTheDay.fetchSampleQuote())
     }
 
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: configuration)
+        SimpleEntry(date: Date(), quote: quoteOfTheDay.fetchSampleQuote())
     }
     
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
@@ -24,7 +26,7 @@ struct Provider: AppIntentTimelineProvider {
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, configuration: configuration)
+            let entry = SimpleEntry(date: entryDate, quote: quoteOfTheDay.fetchSampleQuote())
             entries.append(entry)
         }
 
@@ -38,12 +40,14 @@ struct Provider: AppIntentTimelineProvider {
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let configuration: ConfigurationAppIntent
+    let quote: String
 }
 
 struct CuriWidgetEntryView : View {
     @Environment(\.widgetFamily) var widgetFamily
     var entry: Provider.Entry
+    
+    let quoteOfTheDay = DataService()
 
     var body: some View {
         VStack (spacing: 16) {
@@ -54,20 +58,26 @@ struct CuriWidgetEntryView : View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .lineLimit(1)
+                
                 Text("Discuss Later")
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 2)
+                    .background(Color.blue)
+                    .cornerRadius(4)
+                    .foregroundStyle(Color.white)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .font(.system(size: 12))
             
-            Text("“the way to prevent further crisis is better technology, more laws, and bigger bureaucracy.”")
-                .frame(maxHeight: .infinity, alignment: .topLeading)
+            Text("“\(quoteOfTheDay.fetchSampleQuote())”")
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 .font(.system(size: 16, weight: .medium))
         }
     }
 }
 
 struct CuriWidget: Widget {
-    let kind: String = "Curi"
+    let kind: String = "curiWidget"
 
     var body: some WidgetConfiguration {
         AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
@@ -97,6 +107,6 @@ extension ConfigurationAppIntent {
 #Preview(as: .systemMedium) {
     CuriWidget()
 } timeline: {
-    SimpleEntry(date: .now, configuration: .smiley)
-    SimpleEntry(date: .now, configuration: .starEyes)
+    SimpleEntry(date: .now, quote: "Hihi")
+    SimpleEntry(date: .now, quote: "Alo tôi đâyyy test tí nào")
 }
