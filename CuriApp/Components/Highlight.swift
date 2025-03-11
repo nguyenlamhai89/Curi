@@ -11,9 +11,11 @@ struct HighlightDial: View {
     var quoteIsSelected: Bool
     @Binding var thoughtSheetIsPresented: Bool
     @Binding var deleteAlertIsPresented: Bool
-    @Binding var renameHighlightViewIsPresented: Bool
+    @Binding var renameHighlightViewIsPresented1: Bool
+    @Binding var renameHighlightViewIsPresented2: Bool
     
-    var tagName: String
+    var highlightName1: String
+    var highlightName2: String
     
     var body: some View {
         VStack (spacing: curiSpacing(.sp8)) {
@@ -46,17 +48,39 @@ struct HighlightDial: View {
                 }
                 .overlay {
                     // Highlight Buttons
-                    HStack (spacing: curiSpacing(.sp8)) {
-                        HighlightButton(content: tagName, action: {
-                            withAnimation {
-                                renameHighlightViewIsPresented.toggle()
-                                print("Blue Pressed")
-                            }
-                        })
-//                        HighlightButton(content: "Good Point", action: {
-//                            print("Pink Pressed")
-//                        })
+                    ScrollView(.horizontal) {
+                        HStack (spacing: curiSpacing(.sp8)) {
+                            HighlightButton(content: highlightName1, color: curiPalette(.blue300), action: {
+                                withAnimation {
+                                    renameHighlightViewIsPresented1.toggle()
+                                    print("Blue Pressed")
+                                }
+                            })
+                            HighlightButton(content: highlightName2, color: curiPalette(.pink300), action: {
+                                withAnimation {
+                                    renameHighlightViewIsPresented2.toggle()
+                                    print("Pink Pressed")
+                                }
+                            })
+                            
+                            ////Samples
+//                            HighlightButton(content: highlightName1, color: curiPalette(.blue500), action: {
+//                                withAnimation {
+//                                    renameHighlightViewIsPresented1.toggle()
+//                                    print("Blue Pressed")
+//                                }
+//                            })
+//                            HighlightButton(content: highlightName2, color: curiPalette(.pink500), action: {
+//                                withAnimation {
+//                                    renameHighlightViewIsPresented2.toggle()
+//                                    print("Pink Pressed")
+//                                }
+//                            })
+                        }
+                        .scrollTargetLayout()
                     }
+                    .scrollTargetBehavior(.viewAligned)
+                    .scrollIndicators(.hidden)
                 }
                 .overlay {
                     // Gradient Block
@@ -82,9 +106,16 @@ struct HighlightDial: View {
                 }
                 
             }
-            Text("Swipe to change Highlight. Tap to rename.")
-                .curiTypo(.sfMedium12)
-                .foregroundStyle(curiPalette(.ink100))
+            if quoteIsSelected {
+                Text("Swipe to change Highlight. Tap to rename.")
+                    .curiTypo(.sfMedium12)
+                    .foregroundStyle(curiPalette(.ink100))
+            } else {
+                Rectangle()
+                    .fill(curiPalette(.paper500))
+                    .frame(maxWidth: .infinity, maxHeight: 16)
+            }
+            
         }
         
     }
@@ -92,6 +123,7 @@ struct HighlightDial: View {
 
 struct HighlightButton: View {
     var content: String
+    var color: Color
     var action: () -> Void
     
     var body: some View {
@@ -105,8 +137,7 @@ struct HighlightButton: View {
                 .foregroundStyle(curiPalette(.paper500))
                 .padding(.vertical, curiSpacing(.sp2))
                 .padding(.horizontal, curiSpacing(.sp8))
-//                .background(content=="Discuss Later" ? curiPalette(.blue300) : curiPalette(.pink300))
-                .background(curiPalette(.blue300))
+                .background(color)
                 .cornerRadius(curiRadius(.rd4))
         }
     }
@@ -130,14 +161,16 @@ struct HighlightTag: View {
 #Preview {
     @Previewable @State var thoughtSheetIsPresented: Bool = false
     @Previewable @State var deleteAlertIsPresented: Bool = false
-    @Previewable @State var renameHighlightViewIsPresented: Bool = false
-    @Previewable @State var tagNameDemo: String = "Discuss"
+    @Previewable @State var renameHighlightViewIsPresented1: Bool = false
+    @Previewable @State var renameHighlightViewIsPresented2: Bool = false
+    @Previewable @State var tagNameDemoBlue: String = "Discuss Later"
+    @Previewable @State var tagNameDemoPink: String = "Good"
 
-    HighlightDial(quoteIsSelected: true, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameHighlightViewIsPresented: $renameHighlightViewIsPresented, tagName: tagNameDemo)
+    HighlightDial(quoteIsSelected: true, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameHighlightViewIsPresented1: $renameHighlightViewIsPresented1, renameHighlightViewIsPresented2: $renameHighlightViewIsPresented2, highlightName1: tagNameDemoBlue, highlightName2: tagNameDemoPink)
     
-    HighlightButton(content: tagNameDemo, action: {
+    HighlightButton(content: tagNameDemoBlue, color: Color.blue, action: {
         print("Highlight Button Pressed")
     })
     
-    HighlightTag(content: tagNameDemo)
+    HighlightTag(content: tagNameDemoPink)
 }
