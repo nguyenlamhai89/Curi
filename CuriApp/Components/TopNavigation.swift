@@ -11,6 +11,9 @@ struct TopNavigationCanvas: View {
     @Binding var settingsTopNavigation: Bool
     @Binding var searchTopNavigation: Bool
     
+    @Binding var pageOneIsSelected: Bool
+    @Binding var pageTwoIsSelected: Bool
+    
     var body: some View {
         VStack (spacing: 0) {
             ZStack {
@@ -21,7 +24,6 @@ struct TopNavigationCanvas: View {
                
                 HStack {
                     /// Icon Button - User
-                    
                     IconButtonDefault(iconName: "curiUser") {
                         settingsTopNavigation.toggle()
                         print("Settings Sheet Opened: \(settingsTopNavigation)")
@@ -30,11 +32,7 @@ struct TopNavigationCanvas: View {
                     Spacer()
                     
                     /// Segmented Control
-                    SegmentedControl(content1: "Library", content2: "Quote") {
-                        print("Button 1 Pressed")
-                    } action2: {
-                        print("Button 2 Pressed")
-                    }
+                    SegmentedControl(pageOneIsSelected: $pageOneIsSelected, pageTwoIsSelected: $pageTwoIsSelected)
                     
                     Spacer()
                     
@@ -113,6 +111,9 @@ struct TopNavigationBook: View {
 #Preview {
     @Previewable @State var settingsTopNavigation: Bool = false
     @Previewable @State var searchTopNavigation: Bool = false
-    TopNavigationCanvas(settingsTopNavigation: $settingsTopNavigation, searchTopNavigation: $searchTopNavigation)
+    @Previewable @State var pageOneIsSelected: Bool = true
+    @Previewable @State var pageTwoIsSelected: Bool = false
+    
+    TopNavigationCanvas(settingsTopNavigation: $settingsTopNavigation, searchTopNavigation: $searchTopNavigation, pageOneIsSelected: $pageOneIsSelected, pageTwoIsSelected: $pageTwoIsSelected)
     TopNavigationBook(quoteIsSelected: true, bookName: "Sonnet")
 }

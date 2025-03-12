@@ -10,8 +10,8 @@ import SwiftUI
 struct RenameHighlightView: View {
     var backgroundColor: Color
     var placeholderHighlightName: String
-    @Binding var highlightName: String // Binding
-    @Binding var viewIsPresented: Bool // Binding
+    @Binding var highlightName: String
+    @Binding var viewIsPresented: Bool
     
     @FocusState var autoFocus: Bool
     

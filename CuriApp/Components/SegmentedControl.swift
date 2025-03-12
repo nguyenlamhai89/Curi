@@ -7,52 +7,67 @@
 
 import SwiftUI
 
-struct SegmentedControl: View {
-    var content1: String
-    var content2: String
+struct SegmentedButton: View {
+    var isSelected: Bool
+    var content: String
+    var action: () -> Void
     
-    var action1: () -> Void
-    var action2: () -> Void
+    var body: some View {
+        Button {
+            let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+            impactFeedback.impactOccurred()
+            action()
+        } label: {
+            Text(content)
+                .curiTypo(.sfMedium14)
+                .foregroundStyle(isSelected ? curiPalette(.ink500) : curiPalette(.paper500))
+                .padding(.vertical, curiSpacing(.sp2))
+                .padding(.horizontal, curiSpacing(.sp8))
+                .background(isSelected ? curiPalette(.paper500) : curiPalette(.ink100))
+                .cornerRadius(curiRadius(.rdMax))
+        }
+    }
+}
+
+struct SegmentedControl: View {
+    @Binding var pageOneIsSelected: Bool
+    @Binding var pageTwoIsSelected: Bool
     
     var body: some View {
         HStack (spacing: curiSpacing(.sp4)) {
-            Button {
-                let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-                impactFeedback.impactOccurred()
-                action1()
-            } label: {
-                Text(content1)
-                    .curiTypo(.sfMedium14)
-                    .foregroundStyle(curiPalette(.ink500))
-                    .padding(.vertical, curiSpacing(.sp2))
-                    .padding(.horizontal, curiSpacing(.sp8))
-                    .background(curiPalette(.paper500))
-                    .cornerRadius(curiRadius(.rdMax))
+            SegmentedButton(isSelected: pageOneIsSelected, content: "Library") {
+                if !pageOneIsSelected && pageTwoIsSelected {
+                    switchState()
+                    print("Page One Active: \(pageOneIsSelected)")
+                    print("Page Two Active: \(pageTwoIsSelected)")
+                } else {
+                    return
+                }
             }
-            Button {
-                let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-                impactFeedback.impactOccurred()
-                action2()
-            } label: {
-                Text(content2)
-                    .curiTypo(.sfMedium14)
-                    .foregroundStyle(curiPalette(.paper500))
-                    .padding(.vertical, curiSpacing(.sp2))
-                    .padding(.horizontal, curiSpacing(.sp8))
-                    .background(curiPalette(.ink100))
-                    .cornerRadius(curiRadius(.rdMax))
+            SegmentedButton(isSelected: pageTwoIsSelected, content: "Quote") {
+                if pageOneIsSelected && !pageTwoIsSelected {
+                    switchState()
+                    print("Page One Active: \(pageOneIsSelected)")
+                    print("Page Two Active: \(pageTwoIsSelected)")
+                } else {
+                    return
+                }
             }
         }
         .padding(curiSpacing(.sp4))
         .background(curiPalette(.ink100))
         .cornerRadius(curiRadius(.rdMax))
     }
+    
+    func switchState() {
+        pageOneIsSelected.toggle()
+        pageTwoIsSelected.toggle()
+    }
 }
 
 #Preview {
-    SegmentedControl(content1: "Library", content2: "Quote") {
-        print("Button 1 Pressed")
-    } action2: {
-        print("Button 2 Pressed")
-    }
+    @Previewable @State var pageOneIsSelected: Bool = true
+    @Previewable @State var pageTwoIsSelected: Bool = false
+    
+    SegmentedControl(pageOneIsSelected: $pageOneIsSelected, pageTwoIsSelected: $pageTwoIsSelected)
 }

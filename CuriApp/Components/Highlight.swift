@@ -48,39 +48,28 @@ struct HighlightDial: View {
                 }
                 .overlay {
                     // Highlight Buttons
-                    ScrollView(.horizontal) {
-                        HStack (spacing: curiSpacing(.sp8)) {
-                            HighlightButton(content: highlightName1, color: curiPalette(.blue300), action: {
-                                withAnimation {
-                                    renameHighlightViewIsPresented1.toggle()
-                                    print("Blue Pressed")
-                                }
-                            })
-                            HighlightButton(content: highlightName2, color: curiPalette(.pink300), action: {
-                                withAnimation {
-                                    renameHighlightViewIsPresented2.toggle()
-                                    print("Pink Pressed")
-                                }
-                            })
-                            
-                            ////Samples
-//                            HighlightButton(content: highlightName1, color: curiPalette(.blue500), action: {
-//                                withAnimation {
-//                                    renameHighlightViewIsPresented1.toggle()
-//                                    print("Blue Pressed")
-//                                }
-//                            })
-//                            HighlightButton(content: highlightName2, color: curiPalette(.pink500), action: {
-//                                withAnimation {
-//                                    renameHighlightViewIsPresented2.toggle()
-//                                    print("Pink Pressed")
-//                                }
-//                            })
+                    GeometryReader { geometry in
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack (spacing: curiSpacing(.sp8)) {
+                                HighlightButton(content: highlightName1, color: curiPalette(.blue300), action: {
+                                    withAnimation {
+                                        renameHighlightViewIsPresented1.toggle()
+                                        print("Blue Pressed")
+                                    }
+                                })
+                                
+                                HighlightButton(content: highlightName2, color: curiPalette(.pink300), action: {
+                                    withAnimation {
+                                        renameHighlightViewIsPresented2.toggle()
+                                        print("Pink Pressed")
+                                    }
+                                })
+                            }
+                            .padding(.horizontal, geometry.size.width * 0.4)
+                            .scrollTargetLayout()
                         }
-                        .scrollTargetLayout()
                     }
                     .scrollTargetBehavior(.viewAligned)
-                    .scrollIndicators(.hidden)
                 }
                 .overlay {
                     // Gradient Block
