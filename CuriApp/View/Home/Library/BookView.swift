@@ -8,15 +8,11 @@
 import SwiftUI
 
 struct BookView: View {
+    // Local
     @State var quoteSelected: Bool = true
     @State var thoughtSheetIsPresented: Bool = false
     @State var deleteAlertIsPresented: Bool = false
-    @State var highlightName1: String = "Discuss Later"
-    @State var highlightName2: String = "Good Point"
-    @State var renameHighlightView1: Bool = false
-    @State var renameHighlightView2: Bool = false
-    
-    var bookName: String
+    @FocusState private var autoFocusRename: Bool
     
     var sampleBookChapter: String = "Sonnet 19: Devouring Time, blunt thou the lion's paws"
     var sampleBookContent: [String] = [
@@ -36,7 +32,13 @@ struct BookView: View {
 //        "My love shall in my verse ever live young."
     ]
     
-    @FocusState private var autoFocusRename: Bool
+    // Binding from HomeView
+    @Binding var nameHighlightPrimary: String
+    @Binding var nameHighlightSecondary: String
+    var placeholderHighlightName: String
+    @Binding var renameHighlightPrimaryView: Bool
+    @Binding var renameHighlightSecondaryView: Bool
+    var bookName: String
     
     var body: some View {
         VStack {
@@ -70,7 +72,7 @@ struct BookView: View {
             }
             
             // Highlight
-            HighlightDial(quoteIsSelected: quoteSelected, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameHighlightViewIsPresented1: $renameHighlightView1, renameHighlightViewIsPresented2: $renameHighlightView2, highlightName1: highlightName1, highlightName2: highlightName2)
+            HighlightDial(quoteIsSelected: quoteSelected, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameHighlightViewIsPresented1: $renameHighlightPrimaryView, renameHighlightViewIsPresented2: $renameHighlightSecondaryView, highlightName1: nameHighlightPrimary, highlightName2: nameHighlightSecondary)
                 .bottomNavigationSpacing
         }
         .background(curiPalette(.paper500))
@@ -81,12 +83,12 @@ struct BookView: View {
         
         /// Change Name View
         .overlay(content: {
-            if renameHighlightView1 {
-                RenameHighlightView(backgroundColor: curiPalette(.blue500), placeholderHighlightName: "Blue", highlightName: $highlightName1, viewIsPresented: $renameHighlightView1, autoFocus: _autoFocusRename)
+            if renameHighlightPrimaryView {
+                RenameHighlightView(backgroundColor: curiPalette(.blue500), placeholderHighlightName: placeholderHighlightName, highlightName: $nameHighlightPrimary, viewIsPresented: $renameHighlightPrimaryView, autoFocus: _autoFocusRename)
             }
             
-            if renameHighlightView2 {
-                RenameHighlightView(backgroundColor: curiPalette(.pink500), placeholderHighlightName: "Pink", highlightName: $highlightName2, viewIsPresented: $renameHighlightView2, autoFocus: _autoFocusRename)
+            if renameHighlightSecondaryView {
+                RenameHighlightView(backgroundColor: curiPalette(.pink500), placeholderHighlightName: placeholderHighlightName, highlightName: $nameHighlightSecondary, viewIsPresented: $renameHighlightSecondaryView, autoFocus: _autoFocusRename)
             }
         })
         .alert(isPresented: $deleteAlertIsPresented) {
@@ -102,5 +104,5 @@ struct BookView: View {
 }
 
 #Preview {
-    BookView(bookName: "Test")
+    BookView(nameHighlightPrimary: .constant("Discuss Later"), nameHighlightSecondary: .constant("Good Point"), placeholderHighlightName: "Your highlight name", renameHighlightPrimaryView: .constant(false), renameHighlightSecondaryView: .constant(false), bookName: "Harry Potter")
 }

@@ -7,12 +7,32 @@
 
 import SwiftUI
 
-struct HomeViewTemplate: View {
+struct HomeViewManager: View {
+    // Navigation Value
     @State var settingsTopNavigation: Bool = false
     @State var searchTopNavigation: Bool = false
     
+    // Switch Page Value
     @State var pageOneIsSelected: Bool = true
     @State var pageTwoIsSelected: Bool = false
+    
+    // Banner Value
+    var bookNameInBanner: String = "Sonnet"
+    var authorNameInBanner: String = "William Shakespeare"
+    
+    // Library Value
+    @State var books: [String] = ["Hi", "Bar", "Mot"]
+    @State var authors: [String] = ["Ben", "Will", "Coulson"]
+    
+    // Quote - Book Value
+    @State var nameHighlightPrimary: String = "Discuss Later"
+    @State var nameHighlightSecondary: String = "Good Point"
+    
+    var placeholderHighlightName: String = "Highlight Name"
+    
+    @State var renameHighlightPrimaryView: Bool = false
+    @State var renameHighlightSecondaryView: Bool = false
+    
     
     var body: some View {
         ZStack {
@@ -20,12 +40,11 @@ struct HomeViewTemplate: View {
             TopNavigationCanvas(settingsTopNavigation: $settingsTopNavigation, searchTopNavigation: $searchTopNavigation, pageOneIsSelected: $pageOneIsSelected, pageTwoIsSelected: $pageTwoIsSelected)
                 .zIndex(1)
             
-            /// Library View
-            
+            /// Main View
             if pageOneIsSelected {
-                LibraryView()
+                LibraryView(books: books, authors: authors, bookNameInBanner: bookNameInBanner, authorNameInBanner: authorNameInBanner, nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView, bookName: bookNameInBanner)
             } else {
-                QuoteView()
+                QuoteView(nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView)
             }
             
         }
@@ -41,5 +60,5 @@ struct HomeViewTemplate: View {
 }
 
 #Preview {
-    HomeViewTemplate()
+    HomeViewManager()
 }

@@ -33,7 +33,7 @@ struct LogInView: View {
                 .bottomNavigationSpacing
             }
             .navigationDestination(isPresented: $isLoggedIn, destination: {
-                HomeViewTemplate()
+                HomeViewManager()
             })
             .background(curiPalette(.paper500))
         }

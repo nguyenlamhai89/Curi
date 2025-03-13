@@ -9,13 +9,24 @@ import SwiftUI
 
 struct Banner: View {
     @State var bookNavigate: Bool = false
+    
+    // Binding from Homeview
+    var bookNameInBanner: String
+    var authorNameInBanner: String
+    @Binding var nameHighlightPrimary: String
+    @Binding var nameHighlightSecondary: String
+    var placeholderHighlightName: String
+    @Binding var renameHighlightPrimaryView: Bool
+    @Binding var renameHighlightSecondaryView: Bool
+    var bookName: String
+    
     var body: some View {
         HStack (alignment: .bottom) {
             VStack (alignment: .leading, spacing: 0) {
-                Text("Sonnet")
+                Text(bookNameInBanner)
                     .curiTypo(.sfMedium32)
                     .lineLimit(1)
-                Text("William Shakespeare")
+                Text(authorNameInBanner)
                     .curiTypo(.sfMedium16)
                     .lineLimit(1)
             }
@@ -27,7 +38,7 @@ struct Banner: View {
                 print("Go to book")
             })
             .navigationDestination(isPresented: $bookNavigate) {
-                BookView(bookName: "Sonnet")
+                BookView(nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView, bookName: bookName)
             }
         }
         .frame(height: 200, alignment: .bottomLeading)
@@ -43,6 +54,6 @@ struct Banner: View {
 }
 
 #Preview {
-    Banner()
+    Banner(bookNameInBanner: "Harry Potter", authorNameInBanner: "J. K. Rowling", nameHighlightPrimary: .constant("Discuss Later"), nameHighlightSecondary: .constant("Good Points"), placeholderHighlightName: "Your highlight", renameHighlightPrimaryView: .constant(false), renameHighlightSecondaryView: .constant(false), bookName: "Harry Potter")
         .padding(16)
 }
