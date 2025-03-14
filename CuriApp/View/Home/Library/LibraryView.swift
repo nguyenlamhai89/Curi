@@ -68,7 +68,7 @@ struct LibraryView: View {
                         ForEach(bookViewModel.books) { book in
                             NavigationLink {
 //                                Text("\(book.lines)")
-                                BookView(sampleBookChapter: book.title, sampleBookContent: book.lines , nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView, bookNameAtNavigationForEach: bookNameAtNavigationForEach)
+                                BookView(sampleBookChapter: book.title, sampleBookContent: book.lines, nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView, bookNameAtNavigationForEach: bookNameAtNavigationForEach)
                             } label: {
                                 BookAuthorCard(bookName: "\(book.title)", authorName: "\(book.author[0])")
                             }
