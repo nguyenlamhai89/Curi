@@ -51,7 +51,7 @@ struct HomeViewManager: View {
                             placeholderHighlightName: placeholderHighlightName,
                             renameHighlightPrimaryView: $renameHighlightPrimaryView,
                             renameHighlightSecondaryView: $renameHighlightSecondaryView,
-                            bookNameAtNavigation: bookNameInBanner)
+                            bookNameAtNavigationForEach: bookNameInBanner)
             } else {
                 QuoteView(nameHighlightPrimary: $nameHighlightPrimary,
                           nameHighlightSecondary: $nameHighlightSecondary,

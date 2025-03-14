@@ -18,10 +18,13 @@ struct BookAuthorCard: View {
                     .curiTypo(.sfMedium32)
                     .foregroundStyle(curiPalette(.ink500))
                     .lineLimit(2)
+                    .padding(.horizontal, 0)
+                    .multilineTextAlignment(.leading)
                 Text("\(authorName)")
                     .curiTypo(.sfRegular16)
                     .foregroundStyle(curiPalette(.ink300))
                     .lineLimit(1)
+                    .padding(.horizontal, 0)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             Divider()
@@ -31,9 +34,9 @@ struct BookAuthorCard: View {
 }
 
 #Preview {
-    ForEach(0..<4) { _ in
-        BookAuthorCard(bookName: "Not at Home to Callers", authorName: "Emily Dickinson")
-            
+    VStack {
+        BookAuthorCard(bookName: "Sonnet 3: Look in thy glass and tell the face thou viewest", authorName: "Emily Dickinson")
+        BookAuthorCard(bookName: "Sonnet 7: Lo! in the orient when the gracious light", authorName: "Emily Dickinson")
     }
     .padding(.horizontal, 16)
 }

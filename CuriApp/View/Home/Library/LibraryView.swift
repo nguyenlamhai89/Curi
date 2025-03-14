@@ -22,11 +22,12 @@ struct LibraryView: View {
     var placeholderHighlightName: String
     @Binding var renameHighlightPrimaryView: Bool
     @Binding var renameHighlightSecondaryView: Bool
-    var bookNameAtNavigation: String
+    var bookNameAtNavigationForEach: String
     
     var body: some View {
         ScrollView {
             VStack (spacing: curiSpacing(.sp20)) {
+                /// MARK - Banner
                 HStack (alignment: .bottom) {
                     VStack (alignment: .leading, spacing: 0) {
                         Text(bookNameInBanner)
@@ -44,7 +45,7 @@ struct LibraryView: View {
                         print("Go to book")
                     })
                     .navigationDestination(isPresented: $bookNavigate) {
-                        BookView(nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView, bookNameAtNavigation: bookNameInBanner)
+                        BookView(sampleBookChapter: "Feature Book Name", sampleBookContent: ["Sample", "Book", "Lines"], nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView, bookNameAtNavigationForEach: bookNameInBanner)
                     }
                 }
                 .frame(height: 200, alignment: .bottomLeading)
@@ -57,26 +58,25 @@ struct LibraryView: View {
                 )
                 .cornerRadius(curiRadius(.rd4))
                 
-                /// Book List
+                /// MARK - Book List
                 VStack (alignment: .leading, spacing: curiSpacing(.sp8)) {
                     Text("For You")
                         .curiTypo(.sfMedium14)
                         .foregroundStyle(curiPalette(.ink300))
 
                     VStack {
-//                        ForEach(Array(zip(books, authors)), id: \.0) { book, author in
-//                            NavigationLink {
-//                                BookView(autoFocusRename: false, nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView, bookName: bookName)
-//                            } label: {
-//                                BookAuthorCard(bookName: "\(book)", authorName: "\(author)")
-//                            }
-//                        }
                         ForEach(bookViewModel.books) { book in
-                            Text("\(book.title)")
+                            NavigationLink {
+//                                Text("\(book.lines)")
+                                BookView(sampleBookChapter: book.title, sampleBookContent: book.lines , nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView, bookNameAtNavigationForEach: bookNameAtNavigationForEach)
+                            } label: {
+                                BookAuthorCard(bookName: "\(book.title)", authorName: "\(book.author[0])")
+                            }
                         }
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
+                
 
             }
             .padding(.top, 80)
@@ -87,5 +87,5 @@ struct LibraryView: View {
 }
 
 //#Preview {
-//    LibraryView(bookViewModel: BookViewModel, bookNameInBanner: <#T##String#>, authorNameInBanner: <#T##String#>, nameHighlightPrimary: <#T##String#>, nameHighlightSecondary: <#T##String#>, placeholderHighlightName: <#T##String#>, renameHighlightPrimaryView: <#T##Bool#>, renameHighlightSecondaryView: <#T##Bool#>, bookName: <#T##String#>)
+//    LibraryView(bookNameInBanner: "Harry Potter", authorNameInBanner: "J. K. Rowling", nameHighlightPrimary: .constant("Discuss Later"), nameHighlightSecondary: .constant("Good Point"), placeholderHighlightName: "Your highlight name", renameHighlightPrimaryView: .constant(false), renameHighlightSecondaryView: .constant(false), bookNameAtNavigationForEach: "Harry Potter")
 //}

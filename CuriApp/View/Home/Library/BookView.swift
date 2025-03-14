@@ -14,23 +14,27 @@ struct BookView: View {
     @State var deleteAlertIsPresented: Bool = false
     @FocusState private var autoFocusRename: Bool
     
-    var sampleBookChapter: String = "Sonnet 19: Devouring Time, blunt thou the lion's paws"
-    var sampleBookContent: [String] = [
-        "Devouring Time, blunt thou the lion's paws,",
-        "And make the earth devour her own sweet brood;",
-        "Pluck the keen teeth from the fierce tiger's jaws,",
-        "And burn the long-liv'd phoenix, in her blood;",
-        "Make glad and sorry seasons as thou fleets,",
-        "And do whate'er thou wilt, swift-footed Time,",
-        "To the wide world and all her fading sweets;",
-        "But I forbid thee one most heinous crime:",
-        "O! carve not with thy hours my love's fair brow,",
+    @EnvironmentObject var bookViewModel: BookViewModel
+    
+    var sampleBookChapter: String
+    var sampleBookContent: [String]
+//    var sampleBookChapter: String = "Sonnet 19: Devouring Time, blunt thou the lion's paws"
+//    var sampleBookContent: [String] = [
+//        "Devouring Time, blunt thou the lion's paws,",
+//        "And make the earth devour her own sweet brood;",
+//        "Pluck the keen teeth from the fierce tiger's jaws,",
+//        "And burn the long-liv'd phoenix, in her blood;",
+//        "Make glad and sorry seasons as thou fleets,",
+//        "And do whate'er thou wilt, swift-footed Time,",
+//        "To the wide world and all her fading sweets;",
+//        "But I forbid thee one most heinous crime:",
+//        "O! carve not with thy hours my love's fair brow,",
 //        "Nor draw no lines there with thine antique pen;",
 //        "Him in thy course untainted do allow",
 //        "For beauty's pattern to succeeding men.",
 //        "Yet, do thy worst old Time: despite thy wrong,",
 //        "My love shall in my verse ever live young."
-    ]
+//    ]
     
     // Binding from HomeView
     @Binding var nameHighlightPrimary: String
@@ -38,12 +42,12 @@ struct BookView: View {
     var placeholderHighlightName: String
     @Binding var renameHighlightPrimaryView: Bool
     @Binding var renameHighlightSecondaryView: Bool
-    var bookNameAtNavigation: String
+    var bookNameAtNavigationForEach: String
     
     var body: some View {
         VStack {
             // Navigation
-            TopNavigationBook(quoteIsSelected: quoteSelected, bookName: bookNameAtNavigation)
+            TopNavigationBook(quoteIsSelected: quoteSelected, bookName: bookNameAtNavigationForEach)
             
             // Book conent
             VStack (spacing: curiSpacing(.sp20)) {
@@ -104,5 +108,6 @@ struct BookView: View {
 }
 
 #Preview {
-    BookView(nameHighlightPrimary: .constant("Discuss Later"), nameHighlightSecondary: .constant("Good Point"), placeholderHighlightName: "Your highlight name", renameHighlightPrimaryView: .constant(false), renameHighlightSecondaryView: .constant(false), bookNameAtNavigation: "Harry Potter")
+//    BookView(nameHighlightPrimary: .constant("Discuss Later"), nameHighlightSecondary: .constant("Good Point"), placeholderHighlightName: "Your highlight name", renameHighlightPrimaryView: .constant(false), renameHighlightSecondaryView: .constant(false), bookNameAtNavigationForEach: "Harry Potter")
+    BookView(sampleBookChapter: "Harry Pọt tơ", sampleBookContent: ["Alo", "Bê đê"], nameHighlightPrimary: .constant("Discuss Later"), nameHighlightSecondary: .constant("Good Point"), placeholderHighlightName: "Your highlight name", renameHighlightPrimaryView: .constant(false), renameHighlightSecondaryView: .constant(false), bookNameAtNavigationForEach: "Harry Potter")
 }
