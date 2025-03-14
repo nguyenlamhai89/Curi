@@ -38,12 +38,12 @@ struct BookView: View {
     var placeholderHighlightName: String
     @Binding var renameHighlightPrimaryView: Bool
     @Binding var renameHighlightSecondaryView: Bool
-    var bookName: String
+    var bookNameAtNavigation: String
     
     var body: some View {
         VStack {
             // Navigation
-            TopNavigationBook(quoteIsSelected: quoteSelected, bookName: bookName)
+            TopNavigationBook(quoteIsSelected: quoteSelected, bookName: bookNameAtNavigation)
             
             // Book conent
             VStack (spacing: curiSpacing(.sp20)) {
@@ -104,5 +104,5 @@ struct BookView: View {
 }
 
 #Preview {
-    BookView(nameHighlightPrimary: .constant("Discuss Later"), nameHighlightSecondary: .constant("Good Point"), placeholderHighlightName: "Your highlight name", renameHighlightPrimaryView: .constant(false), renameHighlightSecondaryView: .constant(false), bookName: "Harry Potter")
+    BookView(nameHighlightPrimary: .constant("Discuss Later"), nameHighlightSecondary: .constant("Good Point"), placeholderHighlightName: "Your highlight name", renameHighlightPrimaryView: .constant(false), renameHighlightSecondaryView: .constant(false), bookNameAtNavigation: "Harry Potter")
 }

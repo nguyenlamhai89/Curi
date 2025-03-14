@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct HomeViewManager: View {
+    @StateObject var bookViewModel = BookViewModel()
+    
     // Navigation Value
     @State var settingsTopNavigation: Bool = false
     @State var searchTopNavigation: Bool = false
@@ -21,8 +23,8 @@ struct HomeViewManager: View {
     var authorNameInBanner: String = "William Shakespeare"
     
     // Library Value
-    @State var books: [String] = ["Hi", "Bar", "Mot"]
-    @State var authors: [String] = ["Ben", "Will", "Coulson"]
+//    @State var books: [String] = ["Hi", "Bar", "Mot"]
+//    @State var authors: [String] = ["Ben", "Will", "Coulson"]
     
     // Quote - Book Value
     @State var nameHighlightPrimary: String = "Discuss Later"
@@ -42,11 +44,21 @@ struct HomeViewManager: View {
             
             /// Main View
             if pageOneIsSelected {
-                LibraryView(books: books, authors: authors, bookNameInBanner: bookNameInBanner, authorNameInBanner: authorNameInBanner, nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView, bookName: bookNameInBanner)
+                LibraryView(bookNameInBanner: bookNameInBanner,
+                            authorNameInBanner: authorNameInBanner,
+                            nameHighlightPrimary: $nameHighlightPrimary,
+                            nameHighlightSecondary: $nameHighlightSecondary,
+                            placeholderHighlightName: placeholderHighlightName,
+                            renameHighlightPrimaryView: $renameHighlightPrimaryView,
+                            renameHighlightSecondaryView: $renameHighlightSecondaryView,
+                            bookNameAtNavigation: bookNameInBanner)
             } else {
-                QuoteView(nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView)
+                QuoteView(nameHighlightPrimary: $nameHighlightPrimary,
+                          nameHighlightSecondary: $nameHighlightSecondary,
+                          placeholderHighlightName: placeholderHighlightName,
+                          renameHighlightPrimaryView: $renameHighlightPrimaryView,
+                          renameHighlightSecondaryView: $renameHighlightSecondaryView)
             }
-            
         }
         .toolbar(.hidden)
         .background(curiPalette(.paper500))
@@ -56,6 +68,15 @@ struct HomeViewManager: View {
         .navigationDestination(isPresented: $searchTopNavigation) {
             SearchView()
         }
+        .overlay {
+            if renameHighlightPrimaryView {
+                RenameHighlightView(backgroundColor: curiPalette(.blue500),
+                                    placeholderHighlightName: placeholderHighlightName,
+                                    highlightName: $nameHighlightPrimary,
+                                    viewIsPresented: $renameHighlightPrimaryView)
+            }
+        }
+        .environmentObject(bookViewModel)
     }
 }
 

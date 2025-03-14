@@ -53,17 +53,11 @@ struct QuoteView: View {
     var body: some View {
         VStack (spacing: curiSpacing(.sp16)) {
             QuoteNode(quoteTitle: "“the way to prevent further crisis is better technology, more laws, and bigger bureaucracy.”")
-            HighlightNode(highlightName: "Discuss Later", highlightColor: curiPalette(.blue300)) {
+            HighlightNode(highlightName: nameHighlightPrimary, highlightColor: curiPalette(.blue300)) {
                 renameHighlightPrimaryView.toggle()
             }
             QuoteNode(quoteTitle: "“It is only with the heart that one can see rightly; what is essential is invisible to the eye.”")
         }
-        .overlay {
-            if renameHighlightPrimaryView {
-                RenameHighlightView(backgroundColor: curiPalette(.blue500), placeholderHighlightName: placeholderHighlightName, highlightName: $nameHighlightPrimary, viewIsPresented: $renameHighlightPrimaryView)
-            }
-        }
-        
     }
 }
 
