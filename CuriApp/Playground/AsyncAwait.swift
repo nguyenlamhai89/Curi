@@ -24,8 +24,9 @@ class AsyncAwaitViewModel: ObservableObject {
         
         try? await Task.sleep(nanoseconds: 3_000_000_000)
         
-        let newNumber2 = "Number2: \(Thread.current)"
+//        let newNumber2 = "Number2: \(Thread.current)"
         await MainActor.run {
+            let newNumber2 = "Number2: \(Thread.current)"
             self.dataArray.append(newNumber2)
             
             let newNumber3 = "Number3: \(Thread.current)"
