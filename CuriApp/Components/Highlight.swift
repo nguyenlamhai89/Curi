@@ -117,8 +117,8 @@ struct HighlightButton: View {
     
     var body: some View {
         Button {
-            let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-            impactFeedback.impactOccurred()
+            SoundManager.access.play(sound: .button)
+            HapticsManager.access.play(haptics: .light)
             action()
         } label: {
             Text("\(content)")

@@ -13,8 +13,7 @@ struct CTAButtonPrimary: View {
     
     var body: some View {
         Button {
-            let impactFeedback = UIImpactFeedbackGenerator(style: .heavy)
-            impactFeedback.impactOccurred()
+            HapticsManager.access.play(haptics: .heavy)
             action()
         } label: {
             Text(content)
@@ -35,8 +34,7 @@ struct CTAButtonSecondary: View {
     
     var body: some View {
         Button {
-            let impactFeedback = UIImpactFeedbackGenerator(style: .heavy)
-            impactFeedback.impactOccurred()
+            HapticsManager.access.play(haptics: .heavy)
             action()
         } label: {
             Text(content)

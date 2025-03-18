@@ -13,8 +13,7 @@ struct TextButtonPlain: View {
     
     var body: some View {
         Button {
-            let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-            impactFeedback.impactOccurred()
+            HapticsManager.access.play(haptics: .light)
             action()
         } label: {
             Text(content)
@@ -32,8 +31,7 @@ struct TextButtonFilled: View {
     
     var body: some View {
         Button {
-            let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-            impactFeedback.impactOccurred()
+            HapticsManager.access.play(haptics: .light)
             action()
         } label: {
             Text(content)
@@ -54,8 +52,7 @@ struct TextButtonFilledIcon: View {
     
     var body: some View {
         Button {
-            let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-            impactFeedback.impactOccurred()
+            HapticsManager.access.play(haptics: .light)
             action()
         } label: {
             HStack (spacing: curiSpacing(.sp4)) {
@@ -84,8 +81,7 @@ struct TextButtonStroke: View {
     
     var body: some View {
         Button {
-            let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-            impactFeedback.impactOccurred()
+            HapticsManager.access.play(haptics: .light)
             action()
         } label: {
             Text(content)

@@ -16,8 +16,7 @@ struct QuoteCard: View {
     
     var body: some View {
         Button {
-            let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
-            impactFeedback.impactOccurred()
+            HapticsManager.access.play(haptics: .light)
             action()
         } label: {
             VStack (spacing: curiSpacing(.sp8)) {
@@ -64,8 +63,7 @@ struct QuoteCardWithCheckbox: View {
     
     var body: some View {
         Button {
-            let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
-            impactFeedback.impactOccurred()
+            HapticsManager.access.play(haptics: .light)
             isChecked.toggle()
             if isChecked {
                 connectedQuote += 1

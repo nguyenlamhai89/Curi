@@ -13,8 +13,7 @@ struct IconButtonDefault: View {
     
     var body: some View {
         Button {
-            let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-            impactFeedback.impactOccurred()
+            HapticsManager.access.play(haptics: .light)
             action()
         } label: {
             Image(iconName)
@@ -34,8 +33,7 @@ struct IconButtonActive: View {
     
     var body: some View {
         Button {
-            let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-            impactFeedback.impactOccurred()
+            HapticsManager.access.play(haptics: .light)
             action()
         } label: {
             Image(iconName)
