@@ -20,12 +20,14 @@ class AsyncViewModel: ObservableObject {
     
     func fetchBookData() async throws {
         let url = URL(string: "https://poetrydb.org/author,title/Shakespeare;Sonnet")!
-        try await Task.sleep(nanoseconds: 2_000_000_000)
+//        try await Task.sleep(nanoseconds: 2_000_000_000)
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
             let bookData = try JSONDecoder().decode([BookModel].self, from: data)
-            self.books = bookData
-            books.sort { $0.title < $1.title }
+            DispatchQueue.main.async {
+                self.books = bookData
+                self.books.sort { $0.title < $1.title }
+            }
         } catch {
             throw error
         }
@@ -76,6 +78,7 @@ struct AsyncTestAPI: View {
             .navigationTitle("Async Book")
             .task {
                 try? await viewModel.fetchBookData()
+                print("📚 \(viewModel.books.count) books fetched")
             }
         }
     }

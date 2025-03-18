@@ -16,7 +16,7 @@ struct SearchView: View {
             ScrollView {
                 VStack (spacing: curiSpacing(.sp16)) {
                     ForEach(0..<10) { book in
-                        QuoteCardNavigation(bookName: "Book \(book)", authorName: "Author of book \(book)", quoteContent: "\(book) - Can you not understand that liberty is worth more than just ribbons?", highlightTagName: "Discuss Later", action: {
+                        QuoteCard(bookName: "Book \(book)", authorName: "Author of book \(book)", quoteContent: "\(book) - Can you not understand that liberty is worth more than just ribbons?", highlightTagName: "Discuss Later", action: {
                             quoteCardisPresented.toggle()
                         })
                     }

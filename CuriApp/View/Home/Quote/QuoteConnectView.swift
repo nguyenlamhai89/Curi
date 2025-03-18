@@ -17,7 +17,7 @@ struct QuoteConnectView: View {
         ScrollView {
             VStack (spacing: curiSpacing(.sp16)) {
                 ForEach(0..<10) { book in
-                    QuoteCardCheckbox(bookName: "Book \(book)", authorName: "Author of book \(book)", quoteContent: "\(book) - \(sampleQuote)", highlightTagName: "Discuss Later", action: {
+                    QuoteCardWithCheckbox(bookName: "Book \(book)", authorName: "Author of book \(book)", quoteContent: "\(book) - \(sampleQuote)", highlightTagName: "Discuss Later", action: {
 //                        print("Checked!")
                     }, connectedQuote: $connectedQuote)
                 }

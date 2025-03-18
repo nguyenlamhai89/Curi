@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct QuoteCardNavigation: View {
+struct QuoteCard: View {
     var bookName: String
     var authorName: String
     var quoteContent: String
@@ -16,26 +16,21 @@ struct QuoteCardNavigation: View {
     
     var body: some View {
         Button {
+            let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
+            impactFeedback.impactOccurred()
             action()
         } label: {
             VStack (spacing: curiSpacing(.sp8)) {
                 /// Book Info and Navigation
-                HStack (spacing: curiSpacing(.sp4)) {
-                    VStack (alignment: .leading) {
-                        Text(bookName)
-                            .foregroundStyle(curiPalette(.ink500))
-                        Text(authorName)
-                            .foregroundStyle(curiPalette(.ink300))
-                    }
-                    .curiTypo(.sfMedium12)
-                    .lineLimit(1)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-
-                    Image("curiRight")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 24)
+                VStack (alignment: .leading) {
+                    Text(bookName)
+                        .foregroundStyle(curiPalette(.ink500))
+                    Text(authorName)
+                        .foregroundStyle(curiPalette(.ink300))
                 }
+                .curiTypo(.sfMedium12)
+                .lineLimit(1)
+                .frame(maxWidth: .infinity, alignment: .leading)
                 
                 /// Quote
                 Text("\(quoteContent)")
@@ -56,7 +51,7 @@ struct QuoteCardNavigation: View {
     }
 }
 
-struct QuoteCardCheckbox: View {
+struct QuoteCardWithCheckbox: View {
     var bookName: String
     var authorName: String
     var quoteContent: String
@@ -69,6 +64,8 @@ struct QuoteCardCheckbox: View {
     
     var body: some View {
         Button {
+            let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
+            impactFeedback.impactOccurred()
             isChecked.toggle()
             if isChecked {
                 connectedQuote += 1
@@ -126,11 +123,11 @@ struct QuoteCardCheckbox: View {
 #Preview {
     @Previewable @State var connectedQuote: Int = 0
     VStack {
-        QuoteCardNavigation(bookName: "Animal Farm", authorName: "George Orwell", quoteContent: "All that year the animals worked like slaves. But they were happy in their work; they grudged no effort or sacrifice, well aware that everything they did was for the benefit of themselves and those of their kind who would come after them, and not for a pack of idle, thieving human beings.", highlightTagName: "Discuss Later", action: {
+        QuoteCard(bookName: "Animal Farm", authorName: "George Orwell", quoteContent: "All that year the animals worked like slaves. But they were happy in their work; they grudged no effort or sacrifice, well aware that everything they did was for the benefit of themselves and those of their kind who would come after them, and not for a pack of idle, thieving human beings.", highlightTagName: "Discuss Later", action: {
             print("Navigation Card")
         })
         
-        QuoteCardCheckbox(bookName: "Animal Farm", authorName: "George Orwell", quoteContent: "All that year the animals worked like slaves. But they were happy in their work; they grudged no effort or sacrifice, well aware that everything they did was for the benefit of themselves and those of their kind who would come after them, and not for a pack of idle, thieving human beings.", highlightTagName: "Discuss Later", action: {
+        QuoteCardWithCheckbox(bookName: "Animal Farm", authorName: "George Orwell", quoteContent: "All that year the animals worked like slaves. But they were happy in their work; they grudged no effort or sacrifice, well aware that everything they did was for the benefit of themselves and those of their kind who would come after them, and not for a pack of idle, thieving human beings.", highlightTagName: "Discuss Later", action: {
             print("Checkbox Card")
         }, connectedQuote: $connectedQuote)
     }
