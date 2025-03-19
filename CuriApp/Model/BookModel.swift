@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct Book: Identifiable, Codable {
-    let id: UUID
+    let id: UUID = UUID()
     let title: String
-    let author: [String]
+    let author: String
     let lines: [String]
 }
+

@@ -22,10 +22,6 @@ struct HomeViewManager: View {
     var bookNameInBanner: String = "Sonnet"
     var authorNameInBanner: String = "William Shakespeare"
     
-    // Library Value
-//    @State var books: [String] = ["Hi", "Bar", "Mot"]
-//    @State var authors: [String] = ["Ben", "Will", "Coulson"]
-    
     // Quote - Book Value
     @State var nameHighlightPrimary: String = "Discuss Later"
     @State var nameHighlightSecondary: String = "Good Point"
@@ -50,8 +46,7 @@ struct HomeViewManager: View {
                             nameHighlightSecondary: $nameHighlightSecondary,
                             placeholderHighlightName: placeholderHighlightName,
                             renameHighlightPrimaryView: $renameHighlightPrimaryView,
-                            renameHighlightSecondaryView: $renameHighlightSecondaryView,
-                            bookNameAtNavigationForEach: bookNameInBanner)
+                            renameHighlightSecondaryView: $renameHighlightSecondaryView)
             } else {
                 QuoteView(nameHighlightPrimary: $nameHighlightPrimary,
                           nameHighlightSecondary: $nameHighlightSecondary,

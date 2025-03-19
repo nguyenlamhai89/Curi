@@ -32,6 +32,8 @@ extension View {
             .frame(height: 80)
             .frame(maxWidth: .infinity, alignment: .center)
             .padding(.horizontal, curiSpacing(.sp16))
+            .background(curiPalette(.paper500))
+//            .background(Color.blue) // Check section
     }
 }
 

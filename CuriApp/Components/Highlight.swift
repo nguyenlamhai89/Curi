@@ -22,7 +22,9 @@ struct HighlightDial: View {
             HStack (spacing: curiSpacing(.sp8)) {
                 if quoteIsSelected {
                     IconButtonDefault(iconName: "curiThought", action: {
-                        thoughtSheetIsPresented.toggle()
+                        withAnimation {
+                            thoughtSheetIsPresented.toggle()
+                        }
                         print("Thought Sheet On: \(thoughtSheetIsPresented)")
                     })
                 } else {
@@ -30,7 +32,6 @@ struct HighlightDial: View {
                         .fill(curiPalette(.paper500))
                         .frame(width: 32, height: 32)
                 }
-                
                 
                 // Highlight Dial
                 Rectangle()
@@ -85,7 +86,9 @@ struct HighlightDial: View {
                 
                 if quoteIsSelected {
                     IconButtonDefault(iconName: "curiDelete", action: {
-                        deleteAlertIsPresented.toggle()
+                        withAnimation {
+                            deleteAlertIsPresented.toggle()
+                        }
                         print("Delete Pressed")
                     })
                 } else {
@@ -95,18 +98,12 @@ struct HighlightDial: View {
                 }
                 
             }
-            if quoteIsSelected {
-                Text("Swipe to change Highlight. Tap to rename.")
-                    .curiTypo(.sfMedium12)
-                    .foregroundStyle(curiPalette(.ink100))
-            } else {
-                Rectangle()
-                    .fill(curiPalette(.paper500))
-                    .frame(maxWidth: .infinity, maxHeight: 16)
-            }
+            
+            Text("Swipe to change Highlight. Tap to rename.")
+                .curiTypo(.sfMedium12)
+                .foregroundStyle(curiPalette(.ink100))
             
         }
-        
     }
 }
 
@@ -117,7 +114,7 @@ struct HighlightButton: View {
     
     var body: some View {
         Button {
-            SoundManager.access.play(sound: .button)
+            SoundManager.access.play(sound: .highlightClicked)
             HapticsManager.access.play(haptics: .light)
             action()
         } label: {
@@ -154,8 +151,10 @@ struct HighlightTag: View {
     @Previewable @State var renameHighlightViewIsPresented2: Bool = false
     @Previewable @State var tagNameDemoBlue: String = "Discuss Later"
     @Previewable @State var tagNameDemoPink: String = "Good"
-
+    
     HighlightDial(quoteIsSelected: true, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameHighlightViewIsPresented1: $renameHighlightViewIsPresented1, renameHighlightViewIsPresented2: $renameHighlightViewIsPresented2, highlightName1: tagNameDemoBlue, highlightName2: tagNameDemoPink)
+
+    HighlightDial(quoteIsSelected: false, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameHighlightViewIsPresented1: $renameHighlightViewIsPresented1, renameHighlightViewIsPresented2: $renameHighlightViewIsPresented2, highlightName1: tagNameDemoBlue, highlightName2: tagNameDemoPink)
     
     HighlightButton(content: tagNameDemoBlue, color: Color.blue, action: {
         print("Highlight Button Pressed")

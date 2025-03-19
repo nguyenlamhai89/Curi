@@ -13,8 +13,6 @@ struct LibraryView: View {
     @State var bookNavigate: Bool = false
     
     // Binding from HomeView
-//    var books: [String]
-//    var authors: [String]
     var bookNameInBanner: String
     var authorNameInBanner: String
     @Binding var nameHighlightPrimary: String
@@ -22,7 +20,7 @@ struct LibraryView: View {
     var placeholderHighlightName: String
     @Binding var renameHighlightPrimaryView: Bool
     @Binding var renameHighlightSecondaryView: Bool
-    var bookNameAtNavigationForEach: String
+//    var bookNameAtNavigationForEach: String
     
     var body: some View {
         ScrollView {
@@ -45,7 +43,7 @@ struct LibraryView: View {
                         print("Go to book")
                     })
                     .navigationDestination(isPresented: $bookNavigate) {
-                        BookView(sampleBookChapter: "Feature Book Name", sampleBookContent: ["Sample", "Book", "Lines"], nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView, bookNameAtNavigationForEach: bookNameInBanner)
+                        BookView(bookTitle: "Feature Book Name", bookLines: ["Sample", "Book", "Lines"], nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView)
                     }
                 }
                 .frame(height: 200, alignment: .bottomLeading)
@@ -64,20 +62,20 @@ struct LibraryView: View {
                         .curiTypo(.sfMedium14)
                         .foregroundStyle(curiPalette(.ink300))
 
-                    VStack {
+                    LazyVStack {
                         ForEach(bookViewModel.books) { book in
                             NavigationLink {
-//                                Text("\(book.lines)")
-                                BookView(sampleBookChapter: book.title, sampleBookContent: book.lines, nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView, bookNameAtNavigationForEach: bookNameAtNavigationForEach)
+                                BookView(bookTitle: book.title, bookLines: book.lines, nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView)
                             } label: {
-                                BookAuthorCard(bookName: "\(book.title)", authorName: "\(book.author[0])")
+                                BookAuthorCard(bookName: "\(book.title)", authorName: "\(book.author)")
                             }
                         }
                     }
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                
-
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                .task {
+                    try? await bookViewModel.fetchBooks()
+                }
             }
             .padding(.top, 80)
             .padding(.horizontal, curiSpacing(.sp16))
@@ -86,6 +84,9 @@ struct LibraryView: View {
     }
 }
 
+
+
 //#Preview {
+//    @Previewable @EnvironmentObject var bookViewModel: BookViewModel
 //    LibraryView(bookNameInBanner: "Harry Potter", authorNameInBanner: "J. K. Rowling", nameHighlightPrimary: .constant("Discuss Later"), nameHighlightSecondary: .constant("Good Point"), placeholderHighlightName: "Your highlight name", renameHighlightPrimaryView: .constant(false), renameHighlightSecondaryView: .constant(false), bookNameAtNavigationForEach: "Harry Potter")
 //}

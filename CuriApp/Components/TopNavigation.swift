@@ -60,51 +60,55 @@ struct TopNavigationCanvas: View {
 struct TopNavigationBook: View {
     @Environment(\.dismiss) var dismiss
     var quoteIsSelected: Bool
-    var bookName: String
+//    var bookName: String
     
     var body: some View {
-        VStack {
-            HStack {
-                /// Icon Button - User
-                
-                if quoteIsSelected {
-                    IconButtonApp(iconName: "curiLeft", action: {
-                        dismiss()
-                        print("Back")
-                    })
-                } else {
-                    Rectangle()
-                        .fill(curiPalette(.paper500))
-                        .frame(width: 32, height: 32)
+//        VStack {
+        LinearGradient(colors: [curiPalette(.paper500), curiPalette(.paper500).opacity(0)], startPoint: .top, endPoint: .bottom)
+            .ignoresSafeArea()
+            .overlay {
+                HStack {
+                    /// Icon Button - User
+                    if quoteIsSelected {
+                        IconButtonApp(iconName: "curiLeft", action: {
+                            dismiss()
+                            print("Back")
+                        })
+                    } else {
+                        EmptyView()
+                    }
+                    
+//                    Spacer()
+//                    
+//                    /// Segmented Control
+//                    if quoteIsSelected {
+//                        Text("\(bookName)")
+//                            .curiTypo(.sfMedium14)
+//                            .foregroundStyle(curiPalette(.ink500))
+//                    } else {
+//                        Rectangle()
+//                            .fill(curiPalette(.paper500))
+//                            .frame(maxWidth: .infinity)
+//                    }
+                    
+                    Spacer()
+                    
+                    /// Icon Button - Search
+                    EmptyView()
+//                    Rectangle()
+//                        .fill(curiPalette(.paper500))
+//                        .frame(width: 32, height: 32)
+                    
                 }
-                
-                Spacer()
-                
-                /// Segmented Control
-                if quoteIsSelected {
-                    Text("\(bookName)")
-                        .curiTypo(.sfMedium14)
-                        .foregroundStyle(curiPalette(.ink500))
-                } else {
-                    Rectangle()
-                        .fill(curiPalette(.paper500))
-                        .frame(maxWidth: .infinity)
-                }
-                
-                Spacer()
-                
-                /// Icon Button - Search
-                Rectangle()
-                    .fill(curiPalette(.paper500))
-                    .frame(width: 32, height: 32)
-                
+                .padding(.horizontal, curiSpacing(.sp16))
+                .frame(maxWidth: .infinity, alignment: .center)
+//                .background(curiPalette(.paper50088))
             }
-            .padding(.horizontal, curiSpacing(.sp16))
-            
-        }
-        .frame(height: 60)
-        .frame(maxWidth: .infinity, alignment: .center)
-        .background(curiPalette(.paper50088))
+            .frame(height: 60)
+//        }
+//        .frame(height: 60)
+//        .frame(maxWidth: .infinity, alignment: .center)
+//        .background(curiPalette(.paper50088))
     }
 }
 
@@ -115,5 +119,5 @@ struct TopNavigationBook: View {
     @Previewable @State var pageTwoIsSelected: Bool = false
     
     TopNavigationCanvas(settingsTopNavigation: $settingsTopNavigation, searchTopNavigation: $searchTopNavigation, pageOneIsSelected: $pageOneIsSelected, pageTwoIsSelected: $pageTwoIsSelected)
-    TopNavigationBook(quoteIsSelected: true, bookName: "Sonnet")
+    TopNavigationBook(quoteIsSelected: true)
 }

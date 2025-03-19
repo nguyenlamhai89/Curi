@@ -16,25 +16,8 @@ struct BookView: View {
     
     @EnvironmentObject var bookViewModel: BookViewModel
     
-    var sampleBookChapter: String
-    var sampleBookContent: [String]
-//    var sampleBookChapter: String = "Sonnet 19: Devouring Time, blunt thou the lion's paws"
-//    var sampleBookContent: [String] = [
-//        "Devouring Time, blunt thou the lion's paws,",
-//        "And make the earth devour her own sweet brood;",
-//        "Pluck the keen teeth from the fierce tiger's jaws,",
-//        "And burn the long-liv'd phoenix, in her blood;",
-//        "Make glad and sorry seasons as thou fleets,",
-//        "And do whate'er thou wilt, swift-footed Time,",
-//        "To the wide world and all her fading sweets;",
-//        "But I forbid thee one most heinous crime:",
-//        "O! carve not with thy hours my love's fair brow,",
-//        "Nor draw no lines there with thine antique pen;",
-//        "Him in thy course untainted do allow",
-//        "For beauty's pattern to succeeding men.",
-//        "Yet, do thy worst old Time: despite thy wrong,",
-//        "My love shall in my verse ever live young."
-//    ]
+    var bookTitle: String
+    var bookLines: [String]
     
     // Binding from HomeView
     @Binding var nameHighlightPrimary: String
@@ -42,49 +25,65 @@ struct BookView: View {
     var placeholderHighlightName: String
     @Binding var renameHighlightPrimaryView: Bool
     @Binding var renameHighlightSecondaryView: Bool
-    var bookNameAtNavigationForEach: String
+//    var bookNameAtNavigationForEach: String
     
     var body: some View {
-        VStack {
-            // Navigation
-            TopNavigationBook(quoteIsSelected: quoteSelected, bookName: bookNameAtNavigationForEach)
-            
-            // Book conent
+        ZStack {
+            // Book content
             VStack (spacing: curiSpacing(.sp20)) {
-                Text(sampleBookChapter)
-                    .curiTypo(.bkBold16)
-                    .multilineTextAlignment(.center)
-                VStack (spacing: curiSpacing(.sp8)) {
-                    ForEach(sampleBookContent, id: \.self) { content in
-                        Text(content)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-//                            .background(Color.red) // Check section
+                ScrollView(content: {
+                    VStack (spacing: 20) {
+                        Text(bookTitle)
+                            .curiTypo(.bkBold16)
+                            .multilineTextAlignment(.center)
+                        VStack (spacing: 8) {
+                            ForEach(bookLines, id: \.self) { content in
+                                Text(content)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .onTapGesture {
+                                        SoundManager.access.play(sound: .highlightDone)
+                                        print("Highlighted: \(content)")
+                                    }
+//                                                            .background(Color.red) // Check section
+                            }
+                        }
                     }
-                }
+                    .padding(.top, 120)
+                    .padding(.bottom, 160)
+                })
                 .curiTypo(.bkRegular16)
+                .padding(.horizontal, 32)
+                .scrollIndicators(.hidden)
 //                .background(Color.green) // Check section
                 
             }
             .frame(maxHeight: .infinity, alignment: .topLeading)
-            .padding(.vertical, 16)
-            .padding(.horizontal, 32)
-            .background(curiPalette(.paper500))
+            .ignoresSafeArea()
             .onTapGesture {
                 withAnimation {
                     quoteSelected.toggle()
                 }
             }
             
-            // Highlight
-            HighlightDial(quoteIsSelected: quoteSelected, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameHighlightViewIsPresented1: $renameHighlightPrimaryView, renameHighlightViewIsPresented2: $renameHighlightSecondaryView, highlightName1: nameHighlightPrimary, highlightName2: nameHighlightSecondary)
-                .bottomNavigationSpacing
+            VStack {
+                // Navigation
+                TopNavigationBook(quoteIsSelected: quoteSelected)
+//                    .background(Color.blue)
+                
+                Spacer()
+                
+                // Highlight
+                HighlightDial(quoteIsSelected: quoteSelected, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameHighlightViewIsPresented1: $renameHighlightPrimaryView, renameHighlightViewIsPresented2: $renameHighlightSecondaryView, highlightName1: nameHighlightPrimary, highlightName2: nameHighlightSecondary)
+                    .bottomNavigationSpacing
+            }
+            
         }
         .background(curiPalette(.paper500))
+//        .background(Color.cyan) // Check section
         .navigationBarHidden(true)
         .sheet(isPresented: $thoughtSheetIsPresented) {
             QuoteNoteSheetView()
         }
-        
         /// Change Name View
         .overlay(content: {
             if renameHighlightPrimaryView {
@@ -108,6 +107,61 @@ struct BookView: View {
 }
 
 #Preview {
-//    BookView(nameHighlightPrimary: .constant("Discuss Later"), nameHighlightSecondary: .constant("Good Point"), placeholderHighlightName: "Your highlight name", renameHighlightPrimaryView: .constant(false), renameHighlightSecondaryView: .constant(false), bookNameAtNavigationForEach: "Harry Potter")
-    BookView(sampleBookChapter: "Harry Pọt tơ", sampleBookContent: ["Alo", "Bê đê"], nameHighlightPrimary: .constant("Discuss Later"), nameHighlightSecondary: .constant("Good Point"), placeholderHighlightName: "Your highlight name", renameHighlightPrimaryView: .constant(false), renameHighlightSecondaryView: .constant(false), bookNameAtNavigationForEach: "Harry Potter")
+    BookView(bookTitle: "Harry Pọt tơ", bookLines: [
+        "FROM off a hill whose concave womb reworded",
+              "A plaintful story from a sistering vale,",
+              "My spirits to attend this double voice accorded,",
+              "And down I laid to list the sad-tuned tale;",
+              "Ere long espied a fickle maid full pale,",
+              "Tearing of papers, breaking rings a-twain,",
+              "Storming her world with sorrow's wind and rain.",
+              "",
+              "Upon her head a platted hive of straw,",
+              "Which fortified her visage from the sun,",
+              "Whereon the thought might think sometime it saw",
+              "The carcass of beauty spent and done:",
+              "Time had not scythed all that youth begun,",
+              "Nor youth all quit; but, spite of heaven's fell rage,",
+              "Some beauty peep'd through lattice of sear'd age.",
+              "",
+              "Oft did she heave her napkin to her eyne,",
+              "Which on it had conceited characters,",
+              "Laundering the silken figures in the brine",
+              "That season'd woe had pelleted in tears,",
+              "And often reading what contents it bears;",
+              "As often shrieking undistinguish'd woe,",
+              "In clamours of all size, both high and low.",
+              "",
+              "Sometimes her levell'd eyes their carriage ride,",
+              "As they did battery to the spheres intend;",
+              "Sometime diverted their poor balls are tied",
+              "To the orbed earth; sometimes they do extend",
+              "Their view right on; anon their gazes lend",
+              "To every place at once, and, nowhere fix'd,",
+              "The mind and sight distractedly commix'd.",
+              "",
+              "Her hair, nor loose nor tied in formal plat,",
+              "Proclaim'd in her a careless hand of pride",
+              "For some, untuck'd, descended her sheaved hat,",
+              "Hanging her pale and pined cheek beside;",
+              "Some in her threaden fillet still did bide,",
+              "And true to bondage would not break from thence,",
+              "Though slackly braided in loose negligence.",
+              "",
+              "A thousand favours from a maund she drew",
+              "Of amber, crystal, and of beaded jet,",
+              "Which one by one she in a river threw,",
+              "Upon whose weeping margent she was set;",
+              "Like usury, applying wet to wet,",
+              "Or monarch's hands that let not bounty fall",
+              "Where want cries some, but where excess begs all.",
+              "",
+              "Of folded schedules had she many a one,",
+              "Which she perused, sigh'd, tore, and gave the flood;",
+              "Crack'd many a ring of posied gold and bone",
+              "Bidding them find their sepulchres in mud;",
+              "Found yet moe letters sadly penn'd in blood,",
+              "With sleided silk feat and affectedly",
+              "Enswathed, and seal'd to curious secrecy."
+    ], nameHighlightPrimary: .constant("Discuss Later"), nameHighlightSecondary: .constant("Good Point"), placeholderHighlightName: "Your highlight name", renameHighlightPrimaryView: .constant(false), renameHighlightSecondaryView: .constant(false))
 }
