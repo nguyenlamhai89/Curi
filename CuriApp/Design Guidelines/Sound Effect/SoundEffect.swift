@@ -18,7 +18,7 @@ class SoundManager {
         var fileName: String {
             switch self {
             case .button:
-                return "button-1"
+                return "button-2"
             case .highlight:
                 return "success"
             }
