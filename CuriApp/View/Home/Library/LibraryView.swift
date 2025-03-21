@@ -10,6 +10,7 @@ import SwiftUI
 struct LibraryView: View {
     @EnvironmentObject var bookViewModel: BookViewModel
     
+    @State var isLoadingBook: Bool = true
     @State var bookNavigate: Bool = false
     
     // Binding from HomeView
@@ -26,48 +27,65 @@ struct LibraryView: View {
         ScrollView {
             VStack (spacing: curiSpacing(.sp20)) {
                 /// MARK - Banner
-                HStack (alignment: .bottom) {
-                    VStack (alignment: .leading, spacing: 0) {
-                        Text(bookNameInBanner)
-                            .curiTypo(.sfMedium32)
-                            .lineLimit(1)
-                        Text(authorNameInBanner)
-                            .curiTypo(.sfMedium16)
-                            .lineLimit(1)
+                if isLoadingBook {
+                    SkeletonBlock(loadingState: isLoadingBook)
+                        .frame(height: 232)
+                } else {
+                    HStack (alignment: .bottom) {
+                        VStack (alignment: .leading, spacing: 0) {
+                            Text(bookNameInBanner)
+                                .curiTypo(.sfMedium32)
+                                .lineLimit(1)
+                            Text(authorNameInBanner)
+                                .curiTypo(.sfMedium16)
+                                .lineLimit(1)
+                        }
+                        .foregroundStyle(curiPalette(.paper500))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        
+                        TextButtonFilled(content: "Read Now", action: {
+                            bookNavigate.toggle()
+                            print("Go to book")
+                        })
+                        .navigationDestination(isPresented: $bookNavigate) {
+                            BookView(bookTitle: "Feature Book Name", bookLines: ["Sample", "Book", "Lines"], nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView)
+                        }
                     }
-                    .foregroundStyle(curiPalette(.paper500))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    
-                    TextButtonFilled(content: "Read Now", action: {
-                        bookNavigate.toggle()
-                        print("Go to book")
-                    })
-                    .navigationDestination(isPresented: $bookNavigate) {
-                        BookView(bookTitle: "Feature Book Name", bookLines: ["Sample", "Book", "Lines"], nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView)
-                    }
+                    .frame(height: 200, alignment: .bottomLeading)
+                    .frame(maxWidth: .infinity)
+                    .padding(curiSpacing(.sp16))
+                    .background(
+                        Image("curiBannerSample")
+                            .resizable()
+                            .scaledToFill()
+                    )
+                    .cornerRadius(curiRadius(.rd4))
                 }
-                .frame(height: 200, alignment: .bottomLeading)
-                .frame(maxWidth: .infinity)
-                .padding(curiSpacing(.sp16))
-                .background(
-                    Image("curiBannerSample")
-                        .resizable()
-                        .scaledToFill()
-                )
-                .cornerRadius(curiRadius(.rd4))
                 
                 /// MARK - Book List
                 VStack (alignment: .leading, spacing: curiSpacing(.sp8)) {
-                    Text("For You")
-                        .curiTypo(.sfMedium14)
-                        .foregroundStyle(curiPalette(.ink300))
+                    if isLoadingBook {
+                        SkeletonBlock(loadingState: isLoadingBook)
+                            .frame(width: 100, height: 24)
+                    } else {
+                        Text("For You")
+                            .curiTypo(.sfMedium14)
+                            .foregroundStyle(curiPalette(.ink300))
+                    }
 
                     LazyVStack {
-                        ForEach(bookViewModel.books) { book in
-                            NavigationLink {
-                                BookView(bookTitle: book.title, bookLines: book.lines, nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView)
-                            } label: {
-                                BookAuthorCard(bookName: "\(book.title)", authorName: "\(book.author)")
+                        if isLoadingBook {
+                            ForEach(0..<10) { _ in
+                                SkeletonBlock(loadingState: isLoadingBook)
+                                    .frame(height: 80)
+                            }
+                        } else {
+                            ForEach(bookViewModel.books) { book in
+                                NavigationLink {
+                                    BookView(bookTitle: book.title, bookLines: book.lines, nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView)
+                                } label: {
+                                    BookAuthorCard(bookName: "\(book.title)", authorName: "\(book.author)")
+                                }
                             }
                         }
                     }
@@ -75,6 +93,8 @@ struct LibraryView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                 .task {
                     try? await bookViewModel.fetchBooks()
+                    isLoadingBook = false
+                    print("📚 \(bookViewModel.books.count) is successfully loaded!")
                 }
             }
             .padding(.top, 80)
@@ -88,5 +108,5 @@ struct LibraryView: View {
 
 //#Preview {
 //    @Previewable @EnvironmentObject var bookViewModel: BookViewModel
-//    LibraryView(bookNameInBanner: "Harry Potter", authorNameInBanner: "J. K. Rowling", nameHighlightPrimary: .constant("Discuss Later"), nameHighlightSecondary: .constant("Good Point"), placeholderHighlightName: "Your highlight name", renameHighlightPrimaryView: .constant(false), renameHighlightSecondaryView: .constant(false), bookNameAtNavigationForEach: "Harry Potter")
+//    LibraryView(bookNameInBanner: "Sonnet", authorNameInBanner: "William Shakespeare", nameHighlightPrimary: .constant("Discuss Later"), nameHighlightSecondary: .constant("Good Point"), placeholderHighlightName: "Your highlight name", renameHighlightPrimaryView: .constant(false), renameHighlightSecondaryView: .constant(false))
 //}

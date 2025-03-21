@@ -10,11 +10,18 @@ import SwiftUI
 class BookViewModel: ObservableObject {
     
     @Published var books: [Book] = []
+    private var hasFetched = false
     
     func fetchBooks() async throws {
         guard let url = URL(string: "https://poetrydb.org/author/William%20Shakespeare") else { throw URLError(.badURL) }
         do {
+            // Check fetch status
+            guard !hasFetched else { return }
+            hasFetched = true
+            
             print("Getting Data...")
+            try? await Task.sleep(nanoseconds: 1_500_000_000)
+            
             let (data, _) = try await URLSession.shared.data(from: url)
             
             // Raw JSON Data
@@ -36,6 +43,7 @@ class BookViewModel: ObservableObject {
 
 struct ViewModelTestView: View {
     @StateObject private var viewModel = BookViewModel()
+    @State var isLoadingData: Bool = true
     
     var body: some View {
         NavigationView {
@@ -46,8 +54,13 @@ struct ViewModelTestView: View {
             }
             .navigationTitle("ViewModel Test")
             .task {
-                try? await viewModel.fetchBooks()
-                print("📚 \(viewModel.books.count) books fetched")
+                if viewModel.books.isEmpty {
+                    try? await viewModel.fetchBooks()
+                    print("📚 \(viewModel.books.count) books fetched")
+                } else {
+                    return
+                }
+                
             }
         }
         
