@@ -70,26 +70,13 @@ struct TopNavigationBook: View {
                 HStack {
                     /// Icon Button - User
                     if quoteIsSelected {
-                        IconButtonApp(iconName: "curiLeft", action: {
+                        IconButtonDefault(iconName: "curiLeft") {
                             dismiss()
-                            print("Back")
-                        })
+                            print("Backed")
+                        }
                     } else {
                         EmptyView()
                     }
-                    
-//                    Spacer()
-//                    
-//                    /// Segmented Control
-//                    if quoteIsSelected {
-//                        Text("\(bookName)")
-//                            .curiTypo(.sfMedium14)
-//                            .foregroundStyle(curiPalette(.ink500))
-//                    } else {
-//                        Rectangle()
-//                            .fill(curiPalette(.paper500))
-//                            .frame(maxWidth: .infinity)
-//                    }
                     
                     Spacer()
                     

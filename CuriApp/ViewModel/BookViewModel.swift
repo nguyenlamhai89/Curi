@@ -20,7 +20,7 @@ class BookViewModel: ObservableObject {
             hasFetched = true
             
             print("Getting Data...")
-            try? await Task.sleep(nanoseconds: 1_500_000_000)
+            try? await Task.sleep(nanoseconds: 1_600_000_000)
             
             let (data, _) = try await URLSession.shared.data(from: url)
             

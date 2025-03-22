@@ -14,6 +14,7 @@ struct IconButtonDefault: View {
     var body: some View {
         Button {
             HapticsManager.access.play(haptics: .light)
+            SoundManager.access.play(sound: .iconButton)
             action()
         } label: {
             Image(iconName)
@@ -34,6 +35,7 @@ struct IconButtonActive: View {
     var body: some View {
         Button {
             HapticsManager.access.play(haptics: .light)
+            SoundManager.access.play(sound: .iconButton)
             action()
         } label: {
             Image(iconName)
@@ -47,34 +49,13 @@ struct IconButtonActive: View {
     }
 }
 
-struct IconButtonApp: View {
-    var iconName: String
-    var action: () -> Void
-    
-    var body: some View {
-        Button {
-            action()
-        } label: {
-            Image(iconName)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 24)
-                .padding(curiSpacing(.sp4))
-                .cornerRadius(curiRadius(.rdMax))
-        }
-    }
-}
-
 #Preview {
     HStack {
         IconButtonDefault(iconName: "curiThought", action: {
             print("Thought 1")
         })
-        IconButtonActive(iconName: "curiThought", action: {
-            print("Thought 2")
-        })
-        IconButtonApp(iconName: "curiLeft", action: {
-            print("Back")
+        IconButtonActive(iconName: "curiConnect", action: {
+            print("Connect")
         })
     }
     

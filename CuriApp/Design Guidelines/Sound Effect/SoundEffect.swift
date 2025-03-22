@@ -14,13 +14,15 @@ class SoundManager {
     var player: AVAudioPlayer?
     
     enum SoundCase {
-        case highlightClicked, highlightDone
+        case iconButton, highlightButton, highlightFinished
         var fileName: String {
             switch self {
-            case .highlightClicked:
-                return "highlight-button"
-            case .highlightDone:
-                return "highlighted"
+            case .iconButton:
+                return "iconButton"
+            case .highlightButton:
+                return "highlightButton"
+            case .highlightFinished:
+                return "highlightFinished"
             }
         }
     }
@@ -39,14 +41,14 @@ class SoundManager {
 struct SoundEffect: View {
     var body: some View {
         Button {
-            SoundManager.access.play(sound: .highlightClicked)
+            SoundManager.access.play(sound: .highlightButton)
             HapticsManager.access.play(haptics: .light)
         } label: {
             Text("Button Sound")
         }
         
         Button {
-            SoundManager.access.play(sound: .highlightDone)
+            SoundManager.access.play(sound: .highlightFinished)
             HapticsManager.access.play(haptics: .heavy)
         } label: {
             Text("Highlight Sound")

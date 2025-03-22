@@ -41,7 +41,7 @@ struct BookView: View {
                                 Text(content)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .onTapGesture {
-                                        SoundManager.access.play(sound: .highlightDone)
+                                        SoundManager.access.play(sound: .highlightFinished)
                                         print("Highlighted: \(content)")
                                     }
 //                                                            .background(Color.red) // Check section
