@@ -80,9 +80,10 @@ struct LibraryView: View {
                                     .frame(height: 80)
                             }
                         } else {
-                            ForEach(bookViewModel.books) { book in
+                            ForEach(bookViewModel.booksDatabase) { book in
                                 NavigationLink {
                                     BookView(bookTitle: book.title, bookLines: book.lines, nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView)
+                                        .environmentObject(bookViewModel)
                                 } label: {
                                     BookAuthorCard(bookName: "\(book.title)", authorName: "\(book.author)")
                                 }
@@ -94,7 +95,7 @@ struct LibraryView: View {
                 .task {
                     try? await bookViewModel.fetchBooks()
                     isLoadingBook = false
-                    print("📚 \(bookViewModel.books.count) is successfully loaded!")
+                    print("📚 \(bookViewModel.booksDatabase.count) is successfully loaded!")
                 }
             }
             .padding(.top, 80)

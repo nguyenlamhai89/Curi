@@ -17,7 +17,7 @@ struct BookView: View {
     @EnvironmentObject var bookViewModel: BookViewModel
     
     var bookTitle: String
-    var bookLines: [String]
+    @State var bookLines: [AttributedString]
     
     // Binding from HomeView
     @Binding var nameHighlightPrimary: String
@@ -37,12 +37,24 @@ struct BookView: View {
                             .curiTypo(.bkBold16)
                             .multilineTextAlignment(.center)
                         VStack (spacing: 8) {
-                            ForEach(bookLines, id: \.self) { content in
-                                Text(content)
+                            ForEach(bookLines.indices, id: \.self) { index in
+                                Text(bookLines[index])
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                    .onTapGesture {
+                                    .onLongPressGesture (minimumDuration: 0.2) {
+                                        
+                                        // Check Highlight and Database
+                                        let highlightedText = bookViewModel.highlightChecker(for: bookLines[index], highlightColor: curiPalette(.blue100), textColor: curiPalette(.blue500))
+                                        withAnimation(.easeOut(duration: 0.2)) {
+                                            bookLines[index] = highlightedText
+                                        }
+                                        
+                                        // Haptics and Sound
+                                        HapticsManager.access.play(haptics: .light)
                                         SoundManager.access.play(sound: .highlightFinished)
-                                        print("Highlighted: \(content)")
+                                        
+                                        print("🙈 Line \([index]): \(highlightedText)")
+                                        print("⏲️ Database Details: \(bookViewModel.highlightDatabase)")
+                                        print("📚 Count: \(bookViewModel.highlightDatabase.count)")
                                     }
 //                                                            .background(Color.red) // Check section
                             }
@@ -111,57 +123,6 @@ struct BookView: View {
         "FROM off a hill whose concave womb reworded",
               "A plaintful story from a sistering vale,",
               "My spirits to attend this double voice accorded,",
-              "And down I laid to list the sad-tuned tale;",
-              "Ere long espied a fickle maid full pale,",
-              "Tearing of papers, breaking rings a-twain,",
-              "Storming her world with sorrow's wind and rain.",
-              "",
-              "Upon her head a platted hive of straw,",
-              "Which fortified her visage from the sun,",
-              "Whereon the thought might think sometime it saw",
-              "The carcass of beauty spent and done:",
-              "Time had not scythed all that youth begun,",
-              "Nor youth all quit; but, spite of heaven's fell rage,",
-              "Some beauty peep'd through lattice of sear'd age.",
-              "",
-              "Oft did she heave her napkin to her eyne,",
-              "Which on it had conceited characters,",
-              "Laundering the silken figures in the brine",
-              "That season'd woe had pelleted in tears,",
-              "And often reading what contents it bears;",
-              "As often shrieking undistinguish'd woe,",
-              "In clamours of all size, both high and low.",
-              "",
-              "Sometimes her levell'd eyes their carriage ride,",
-              "As they did battery to the spheres intend;",
-              "Sometime diverted their poor balls are tied",
-              "To the orbed earth; sometimes they do extend",
-              "Their view right on; anon their gazes lend",
-              "To every place at once, and, nowhere fix'd,",
-              "The mind and sight distractedly commix'd.",
-              "",
-              "Her hair, nor loose nor tied in formal plat,",
-              "Proclaim'd in her a careless hand of pride",
-              "For some, untuck'd, descended her sheaved hat,",
-              "Hanging her pale and pined cheek beside;",
-              "Some in her threaden fillet still did bide,",
-              "And true to bondage would not break from thence,",
-              "Though slackly braided in loose negligence.",
-              "",
-              "A thousand favours from a maund she drew",
-              "Of amber, crystal, and of beaded jet,",
-              "Which one by one she in a river threw,",
-              "Upon whose weeping margent she was set;",
-              "Like usury, applying wet to wet,",
-              "Or monarch's hands that let not bounty fall",
-              "Where want cries some, but where excess begs all.",
-              "",
-              "Of folded schedules had she many a one,",
-              "Which she perused, sigh'd, tore, and gave the flood;",
-              "Crack'd many a ring of posied gold and bone",
-              "Bidding them find their sepulchres in mud;",
-              "Found yet moe letters sadly penn'd in blood,",
-              "With sleided silk feat and affectedly",
-              "Enswathed, and seal'd to curious secrecy."
+              "And down I laid to list the sad-tuned tale;"
     ], nameHighlightPrimary: .constant("Discuss Later"), nameHighlightSecondary: .constant("Good Point"), placeholderHighlightName: "Your highlight name", renameHighlightPrimaryView: .constant(false), renameHighlightSecondaryView: .constant(false))
 }

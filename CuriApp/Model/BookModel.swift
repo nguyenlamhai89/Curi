@@ -11,6 +11,6 @@ struct Book: Identifiable, Codable {
     let id: UUID = UUID()
     let title: String
     let author: String
-    let lines: [String]
+    let lines: [AttributedString]
 }
 
