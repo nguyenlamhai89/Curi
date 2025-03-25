@@ -25,6 +25,9 @@ class BookViewModel: ObservableObject {
             
                 highlightDatabase.remove(at: index)
                 
+                HapticsManager.access.play(haptics: .light)
+                SoundManager.access.play(sound: .highlightRemoved)
+            
                 print("🗑 Highlight removed. Total: \(highlightDatabase.count)")
                 return initialText
             
@@ -36,6 +39,10 @@ class BookViewModel: ObservableObject {
                 newText[range].foregroundColor = textColor
                 
                 highlightDatabase.append(newText)
+                
+                HapticsManager.access.play(haptics: .light)
+                SoundManager.access.play(sound: .highlightAdded)
+                
                 print("✅ Highlight added. Total: \(highlightDatabase.count)")
                 
                 return newText

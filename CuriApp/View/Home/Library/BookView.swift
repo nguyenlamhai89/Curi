@@ -42,15 +42,11 @@ struct BookView: View {
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .onLongPressGesture (minimumDuration: 0.2) {
                                         
-                                        // Check Highlight and Database
+                                        // Check in Database and Highlight
                                         let highlightedText = bookViewModel.highlightChecker(for: bookLines[index], highlightColor: curiPalette(.blue100), textColor: curiPalette(.blue500))
-                                        withAnimation(.easeOut(duration: 0.2)) {
+                                        withAnimation(.easeOut(duration: 0.1)) {
                                             bookLines[index] = highlightedText
                                         }
-                                        
-                                        // Haptics and Sound
-                                        HapticsManager.access.play(haptics: .light)
-                                        SoundManager.access.play(sound: .highlightFinished)
                                         
                                         print("🙈 Line \([index]): \(highlightedText)")
                                         print("⏲️ Database Details: \(bookViewModel.highlightDatabase)")

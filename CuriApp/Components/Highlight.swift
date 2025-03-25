@@ -114,7 +114,7 @@ struct HighlightButton: View {
     
     var body: some View {
         Button {
-            SoundManager.access.play(sound: .highlightButton)
+            SoundManager.access.play(sound: .highlightRename)
             HapticsManager.access.play(haptics: .light)
             action()
         } label: {
