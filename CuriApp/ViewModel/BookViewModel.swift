@@ -8,10 +8,11 @@
 import SwiftUI
 import UIKit
 
-class BookViewModel: ObservableObject {
+@Observable
+class BookViewModel {
     
-    @Published var booksDatabase: [Book] = []
-    @Published var highlightDatabase: [AttributedString] = []
+    var booksDatabase: [Book] = []
+    var highlightDatabase: [AttributedString] = []
     
     var hasFetched = false
     
@@ -28,7 +29,9 @@ class BookViewModel: ObservableObject {
                 HapticsManager.access.play(haptics: .light)
                 SoundManager.access.play(sound: .highlightRemoved)
             
+                print("🗑 All highlights: \(highlightDatabase)")
                 print("🗑 Highlight removed. Total: \(highlightDatabase.count)")
+            
                 return initialText
             
             } else {
@@ -43,6 +46,7 @@ class BookViewModel: ObservableObject {
                 HapticsManager.access.play(haptics: .light)
                 SoundManager.access.play(sound: .highlightAdded)
                 
+                print("✅ All highlights: \(highlightDatabase)")
                 print("✅ Highlight added. Total: \(highlightDatabase.count)")
                 
                 return newText
@@ -80,7 +84,7 @@ class BookViewModel: ObservableObject {
 }
 
 struct HighlightDemo: View {
-    @StateObject var viewModel = BookViewModel()
+    @Bindable var viewModel = BookViewModel()
     @State var demoHighlighted: AttributedString = "Demo Highlighted Text"
     
     var body: some View {
@@ -94,7 +98,7 @@ struct HighlightDemo: View {
 }
 
 struct ViewModelTestView: View {
-    @StateObject private var viewModel = BookViewModel()
+    @Bindable private var viewModel = BookViewModel()
     @State var isLoadingData: Bool = true
     
     var body: some View {

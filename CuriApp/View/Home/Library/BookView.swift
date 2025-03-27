@@ -14,7 +14,7 @@ struct BookView: View {
     @State var deleteAlertIsPresented: Bool = false
     @FocusState private var autoFocusRename: Bool
     
-    @EnvironmentObject var bookViewModel: BookViewModel
+    @Bindable var bookViewModel: BookViewModel
     
     var bookTitle: String
     @State var bookLines: [AttributedString]
@@ -49,8 +49,6 @@ struct BookView: View {
                                         }
                                         
                                         print("🙈 Line \([index]): \(highlightedText)")
-                                        print("⏲️ Database Details: \(bookViewModel.highlightDatabase)")
-                                        print("📚 Count: \(bookViewModel.highlightDatabase.count)")
                                     }
 //                                                            .background(Color.red) // Check section
                             }
@@ -115,10 +113,11 @@ struct BookView: View {
 }
 
 #Preview {
-    BookView(bookTitle: "Harry Pọt tơ", bookLines: [
+    @Previewable @Bindable var bookViewModel = BookViewModel()
+    BookView(bookViewModel: bookViewModel, bookTitle: "Harry Pọt tơ", bookLines: [
         "FROM off a hill whose concave womb reworded",
-              "A plaintful story from a sistering vale,",
-              "My spirits to attend this double voice accorded,",
-              "And down I laid to list the sad-tuned tale;"
+        "A plaintful story from a sistering vale,",
+        "My spirits to attend this double voice accorded,",
+        "And down I laid to list the sad-tuned tale;"
     ], nameHighlightPrimary: .constant("Discuss Later"), nameHighlightSecondary: .constant("Good Point"), placeholderHighlightName: "Your highlight name", renameHighlightPrimaryView: .constant(false), renameHighlightSecondaryView: .constant(false))
 }

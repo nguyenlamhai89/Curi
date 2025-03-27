@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomeViewManager: View {
-    @StateObject var bookViewModel = BookViewModel()
+    @Bindable var bookViewModel = BookViewModel()
     
     // Navigation Value
     @State var settingsTopNavigation: Bool = false
@@ -40,7 +40,7 @@ struct HomeViewManager: View {
             
             /// Main View
             if pageOneIsSelected {
-                LibraryView(bookNameInBanner: bookNameInBanner,
+                LibraryView(bookViewModel: bookViewModel, bookNameInBanner: bookNameInBanner,
                             authorNameInBanner: authorNameInBanner,
                             nameHighlightPrimary: $nameHighlightPrimary,
                             nameHighlightSecondary: $nameHighlightSecondary,
@@ -71,7 +71,7 @@ struct HomeViewManager: View {
                                     viewIsPresented: $renameHighlightPrimaryView)
             }
         }
-        .environmentObject(bookViewModel)
+//        .environmentObject(bookViewModel)
     }
 }
 

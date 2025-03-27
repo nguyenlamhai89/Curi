@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LibraryView: View {
-    @EnvironmentObject var bookViewModel: BookViewModel
+    @Bindable var bookViewModel: BookViewModel
     
     @State var isLoadingBook: Bool = true
     @State var bookNavigate: Bool = false
@@ -48,7 +48,8 @@ struct LibraryView: View {
                             print("Go to book")
                         })
                         .navigationDestination(isPresented: $bookNavigate) {
-                            BookView(bookTitle: "Feature Book Name", bookLines: ["Sample", "Book", "Lines"], nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView)
+                            BookView(bookViewModel: bookViewModel, bookTitle: "Feature Book Name", bookLines: ["Sample", "Book", "Lines"], nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView)
+//                                .environmentObject(bookViewModel)
                         }
                     }
                     .frame(height: 200, alignment: .bottomLeading)
@@ -82,8 +83,8 @@ struct LibraryView: View {
                         } else {
                             ForEach(bookViewModel.booksDatabase) { book in
                                 NavigationLink {
-                                    BookView(bookTitle: book.title, bookLines: book.lines, nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView)
-                                        .environmentObject(bookViewModel)
+                                    BookView(bookViewModel: bookViewModel, bookTitle: book.title, bookLines: book.lines, nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView)
+//                                        .environmentObject(bookViewModel)
                                 } label: {
                                     BookAuthorCard(bookName: "\(book.title)", authorName: "\(book.author)")
                                 }
