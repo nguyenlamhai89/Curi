@@ -72,7 +72,7 @@ struct HomeViewManager: View {
             SettingsSheetView()
         }
         .navigationDestination(isPresented: $searchTopNavigation) {
-            SearchView()
+            SearchView(bookViewModel: bookViewModel)
         }
         .overlay {
             if renameHighlightPrimaryView {

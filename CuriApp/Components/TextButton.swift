@@ -88,7 +88,7 @@ struct TextButtonStroke: View {
                 .curiTypo(.sfMedium14)
                 .foregroundStyle(curiPalette(.ink500))
                 .padding(.vertical, curiSpacing(.sp4))
-                .padding(.horizontal, curiSpacing(.sp8))
+                .padding(.horizontal, curiSpacing(.sp16))
                 .background(
                     RoundedRectangle(cornerRadius: curiRadius(.rdMax))
                         .stroke(curiPalette(.ink100), lineWidth: 1)
