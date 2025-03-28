@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct LibraryErrorView: View {
+    @Bindable var bookViewModel: BookViewModel
+    
     var body: some View {
         VStack (spacing: curiSpacing(.sp16)) {
             VStack (spacing: curiSpacing(.sp8)) {
@@ -21,6 +23,9 @@ struct LibraryErrorView: View {
             .multilineTextAlignment(.center)
             .lineLimit(2)
             TextButtonStroke(content: "Try Again", action: {
+                Task {
+                    try? await bookViewModel.fetchBooks()
+                }
                 print("Try again")
             })
 
@@ -30,6 +35,6 @@ struct LibraryErrorView: View {
     }
 }
 
-#Preview {
-    LibraryErrorView()
-}
+//#Preview {
+//    LibraryErrorView()
+//}

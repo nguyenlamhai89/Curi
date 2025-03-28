@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BookView: View {
-    // Local
+//     Local
     @State var quoteSelected: Bool = true
     @State var thoughtSheetIsPresented: Bool = false
     @State var deleteAlertIsPresented: Bool = false

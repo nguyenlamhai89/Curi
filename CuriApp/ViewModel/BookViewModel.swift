@@ -14,8 +14,6 @@ class BookViewModel {
     var booksDatabase: [Book] = []
     var highlightDatabase: [AttributedString] = []
     
-    var hasFetched = false
-    
     func highlightChecker(for highlight: AttributedString, highlightColor: Color, textColor: Color) -> AttributedString {
         if let index = highlightDatabase.firstIndex(where: { $0.description == highlight.description }) {
                 var initialText = highlightDatabase[index]
@@ -53,18 +51,31 @@ class BookViewModel {
             }
     }
     
+    var isLoading = true
+    var isFetched = false
+    
     // Get Book
     func fetchBooks() async throws {
         guard let url = URL(string: "https://poetrydb.org/author/William%20Shakespeare") else { throw URLError(.badURL) }
         do {
+            isLoading = true
+            isFetched = false
+            
             // Check fetch status
-            guard !hasFetched else { return }
-            hasFetched = true
+//            guard !isFetched else { return }
             
-            print("Getting Data...")
-            try? await Task.sleep(nanoseconds: 1_600_000_000)
+            print("Loading: \(isLoading) - Fetch Done: \(isFetched)")
             
-            let (data, _) = try await URLSession.shared.data(from: url)
+            // Run parallelly
+            async let sleepTask: Void = Task.sleep(nanoseconds: 1_600_000_000)
+            async let dataTask: (Data, URLResponse) = URLSession.shared.data(from: url)
+            
+            _ = try await sleepTask
+            let (data, _) = try await dataTask
+            
+//            Run step-by-step
+//            try? await Task.sleep(nanoseconds: 400_000_000)
+//            let (data, _) = try await URLSession.shared.data(from: url)
             
             // Raw JSON Dataâ
             if let dataRaw = String(data: data, encoding: .utf8) {
@@ -74,10 +85,19 @@ class BookViewModel {
             // Decoded JSON Data
             let dataDecoded = try JSONDecoder().decode([Book].self, from: data)
             await MainActor.run {
+                isLoading = false
+                isFetched = true
                 self.booksDatabase = dataDecoded
             }
             
+            print("Loading: \(isLoading) - Fetch Done: \(isFetched)")
+            print("📚 \(booksDatabase.count) is successfully loaded!")
+            
         } catch {
+            isLoading = false
+            isFetched = false
+            
+            print("Loading: \(isLoading) - Fetch Done: \(isFetched)")
             throw error
         }
     }

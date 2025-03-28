@@ -40,13 +40,21 @@ struct HomeViewManager: View {
             
             /// Main View
             if pageOneIsSelected {
-                LibraryView(bookViewModel: bookViewModel, bookNameInBanner: bookNameInBanner,
-                            authorNameInBanner: authorNameInBanner,
-                            nameHighlightPrimary: $nameHighlightPrimary,
-                            nameHighlightSecondary: $nameHighlightSecondary,
-                            placeholderHighlightName: placeholderHighlightName,
-                            renameHighlightPrimaryView: $renameHighlightPrimaryView,
-                            renameHighlightSecondaryView: $renameHighlightSecondaryView)
+                if bookViewModel.isLoading {
+                    SkeletonView(bookViewModel: bookViewModel)
+                } else {
+                    if bookViewModel.isFetched {
+                        LibraryView(bookViewModel: bookViewModel, bookNameInBanner: bookNameInBanner,
+                                    authorNameInBanner: authorNameInBanner,
+                                    nameHighlightPrimary: $nameHighlightPrimary,
+                                    nameHighlightSecondary: $nameHighlightSecondary,
+                                    placeholderHighlightName: placeholderHighlightName,
+                                    renameHighlightPrimaryView: $renameHighlightPrimaryView,
+                                    renameHighlightSecondaryView: $renameHighlightSecondaryView)
+                    } else {
+                        LibraryErrorView(bookViewModel: bookViewModel)
+                    }
+                }
             } else {
                 QuoteView(nameHighlightPrimary: $nameHighlightPrimary,
                           nameHighlightSecondary: $nameHighlightSecondary,
@@ -57,6 +65,9 @@ struct HomeViewManager: View {
         }
         .toolbar(.hidden)
         .background(curiPalette(.paper500))
+        .task {
+            try? await bookViewModel.fetchBooks()
+        }
         .sheet(isPresented: $settingsTopNavigation) {
             SettingsSheetView()
         }
@@ -71,7 +82,6 @@ struct HomeViewManager: View {
                                     viewIsPresented: $renameHighlightPrimaryView)
             }
         }
-//        .environmentObject(bookViewModel)
     }
 }
 
