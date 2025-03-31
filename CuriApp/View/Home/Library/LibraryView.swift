@@ -46,8 +46,7 @@ struct LibraryView: View {
                         print("Go to book")
                     })
                     .navigationDestination(isPresented: $bookNavigate) {
-                        BookView(bookViewModel: bookViewModel, bookTitle: "Feature Book Name", bookLines: ["Sample", "Book", "Lines"], nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView)
-//                                .environmentObject(bookViewModel)
+                        BookView(bookViewModel: bookViewModel, bookTitle: "Feature Book Name", bookLinesOriginal: ["Sample", "Book", "Lines"], nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView)
                     }
                 }
                 .frame(height: 200, alignment: .bottomLeading)
@@ -67,9 +66,10 @@ struct LibraryView: View {
                         .foregroundStyle(curiPalette(.ink300))
 
                     LazyVStack {
-                        ForEach(bookViewModel.booksDatabase) { book in
+                        ForEach(bookViewModel.bookDatabase) { book in
                             NavigationLink {
-                                BookView(bookViewModel: bookViewModel, bookTitle: book.title, bookLines: book.lines, nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView)
+//                                BookView(bookViewModel: bookViewModel, bookTitle: book.title, bookLines: book.lines, nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView)
+                                BookView(bookViewModel: bookViewModel, bookTitle: book.title, bookLinesOriginal: book.lines, nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView)
                             } label: {
                                 BookAuthorCard(bookName: "\(book.title)", authorName: "\(book.author)")
                             }

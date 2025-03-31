@@ -11,45 +11,45 @@ import UIKit
 @Observable
 class BookViewModel {
     
-    var booksDatabase: [Book] = []
-    var highlightDatabase: [AttributedString] = []
+    var bookDatabase: [Book] = []
+//    var highlightDatabase: [Highlight] = []
     
-    func highlightChecker(for highlight: AttributedString, highlightColor: Color, textColor: Color) -> AttributedString {
-        if let index = highlightDatabase.firstIndex(where: { $0.description == highlight.description }) {
-                var initialText = highlightDatabase[index]
-            
-                let range = initialText.startIndex..<initialText.endIndex
-                initialText[range].backgroundColor = nil
-                initialText[range].foregroundColor = nil
-            
-                highlightDatabase.remove(at: index)
-                
-                HapticsManager.access.play(haptics: .light)
-                SoundManager.access.play(sound: .highlightRemoved)
-            
-                print("🗑 All highlights: \(highlightDatabase)")
-                print("🗑 Highlight removed. Total: \(highlightDatabase.count)")
-            
-                return initialText
-            
-            } else {
-                var newText = highlight
-                
-                let range = newText.startIndex..<newText.endIndex
-                newText[range].backgroundColor = highlightColor
-                newText[range].foregroundColor = textColor
-                
-                highlightDatabase.append(newText)
-                
-                HapticsManager.access.play(haptics: .light)
-                SoundManager.access.play(sound: .highlightAdded)
-                
-                print("✅ All highlights: \(highlightDatabase)")
-                print("✅ Highlight added. Total: \(highlightDatabase.count)")
-                
-                return newText
-            }
-    }
+//    func highlightChecker(for highlight: AttributedString, highlightColor: Color, textColor: Color) -> AttributedString {
+//        if let index = highlightDatabase.firstIndex(where: { $0.description == highlight.description }) {
+//                var initialText = highlightDatabase[index]
+//            
+//                let range = initialText.startIndex..<initialText.endIndex
+//                initialText[range].backgroundColor = nil
+//                initialText[range].foregroundColor = nil
+//            
+//                highlightDatabase.remove(at: index)
+//                
+//                HapticsManager.access.play(haptics: .light)
+//                SoundManager.access.play(sound: .highlightRemoved)
+//            
+//                print("🗑 All highlights: \(highlightDatabase)")
+//                print("🗑 Highlight removed. Total: \(highlightDatabase.count)")
+//            
+//                return initialText
+//            
+//            } else {
+//                var newText = highlight
+//                
+//                let range = newText.startIndex..<newText.endIndex
+//                newText[range].backgroundColor = highlightColor
+//                newText[range].foregroundColor = textColor
+//                
+//                highlightDatabase.append(newText)
+//                
+//                HapticsManager.access.play(haptics: .light)
+//                SoundManager.access.play(sound: .highlightAdded)
+//                
+//                print("✅ All highlights: \(highlightDatabase)")
+//                print("✅ Highlight added. Total: \(highlightDatabase.count)")
+//                
+//                return newText
+//            }
+//    }
     
     var isLoading = true
     var isFetched = false
@@ -87,11 +87,11 @@ class BookViewModel {
             await MainActor.run {
                 isLoading = false
                 isFetched = true
-                self.booksDatabase = dataDecoded
+                self.bookDatabase = dataDecoded
             }
             
             print("Loading: \(isLoading) - Fetch Done: \(isFetched)")
-            print("📚 \(booksDatabase.count) is successfully loaded!")
+            print("📚 \(bookDatabase.count) is successfully loaded!")
             
         } catch {
             isLoading = false
@@ -110,10 +110,6 @@ struct HighlightDemo: View {
     var body: some View {
         Text(demoHighlighted)
             .curiTypo(.bkRegular16)
-            .onTapGesture {
-                let highlightedText = viewModel.highlightChecker(for: demoHighlighted, highlightColor: curiPalette(.blue100), textColor: curiPalette(.blue500))
-                demoHighlighted = highlightedText
-            }
     }
 }
 
@@ -124,15 +120,15 @@ struct ViewModelTestView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(viewModel.booksDatabase) { book in
+                ForEach(viewModel.bookDatabase) { book in
                     Text("\(book.author)")
                 }
             }
             .navigationTitle("ViewModel Test")
             .task {
-                if viewModel.booksDatabase.isEmpty {
+                if viewModel.bookDatabase.isEmpty {
                     try? await viewModel.fetchBooks()
-                    print("📚 \(viewModel.booksDatabase.count) books fetched")
+                    print("📚 \(viewModel.bookDatabase.count) books fetched")
                 } else {
                     return
                 }

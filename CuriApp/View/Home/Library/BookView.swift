@@ -6,8 +6,12 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct BookView: View {
+    @Environment(\.modelContext) private var modelContext
+    @Query var highlightDatabase: [Highlight]
+    
 //     Local
     @State var quoteSelected: Bool = true
     @State var thoughtSheetIsPresented: Bool = false
@@ -17,7 +21,9 @@ struct BookView: View {
     @Bindable var bookViewModel: BookViewModel
     
     var bookTitle: String
-    @State var bookLines: [AttributedString]
+//    @State var bookLines: [AttributedString] = []
+    @State var bookLinesOriginal: [String]
+//    @State var bookLinesHighlighted: [String] = []
     
     // Binding from HomeView
     @Binding var nameHighlightPrimary: String
@@ -37,25 +43,35 @@ struct BookView: View {
                             .curiTypo(.bkBold16)
                             .multilineTextAlignment(.center)
                         VStack (spacing: 8) {
-                            ForEach(bookLines.indices, id: \.self) { index in
-                                Text(bookLines[index])
+//                            ForEach(bookLines.indices, id: \.self) { index in
+//                                Text(bookLines[index])
+//                                    .frame(maxWidth: .infinity, alignment: .leading)
+//                                    .onLongPressGesture (minimumDuration: 0.2) {
+//                                        // Check in Database and Highlight
+//                                        let highlightedText = bookViewModel.highlightChecker(for: bookLines[index], highlightColor: curiPalette(.blue100), textColor: curiPalette(.blue500))
+//                                        withAnimation(.easeOut(duration: 0.1)) {
+//                                            bookLines[index] = highlightedText
+//                                        }
+//                                        
+//                                        print("🙈 Line \([index]): \(highlightedText)")
+//                                    }
+//                                    .sheet(isPresented: $thoughtSheetIsPresented) {
+//                                        QuoteNoteSheetView(bookViewModel: bookViewModel, highlight: bookLines[index])
+//                                    }
+////                                                            .background(Color.red) // Check section
+//                            }
+                            ForEach(bookLinesOriginal, id: \.self) { line in
+                                Text("\(line)")
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                    .onLongPressGesture (minimumDuration: 0.2) {
-                                        
-                                        // Check in Database and Highlight
-                                        let highlightedText = bookViewModel.highlightChecker(for: bookLines[index], highlightColor: curiPalette(.blue100), textColor: curiPalette(.blue500))
-                                        withAnimation(.easeOut(duration: 0.1)) {
-                                            bookLines[index] = highlightedText
-                                        }
-                                        
-                                        print("🙈 Line \([index]): \(highlightedText)")
-                                    }
-//                                                            .background(Color.red) // Check section
+//                                    .foregroundStyle(bookViewModel.highlightDatabase.contains(line) ? curiPalette(.blue500) : curiPalette(.ink500))
                             }
                         }
                     }
                     .padding(.top, 120)
                     .padding(.bottom, 160)
+                    .onAppear {
+                        print(highlightDatabase)
+                    }
                 })
                 .curiTypo(.bkRegular16)
                 .padding(.horizontal, 32)
@@ -87,9 +103,6 @@ struct BookView: View {
         .background(curiPalette(.paper500))
 //        .background(Color.cyan) // Check section
         .navigationBarHidden(true)
-        .sheet(isPresented: $thoughtSheetIsPresented) {
-            QuoteNoteSheetView()
-        }
         /// Change Name View
         .overlay(content: {
             if renameHighlightPrimaryView {
@@ -114,7 +127,7 @@ struct BookView: View {
 
 #Preview {
     @Previewable @Bindable var bookViewModel = BookViewModel()
-    BookView(bookViewModel: bookViewModel, bookTitle: "Harry Pọt tơ", bookLines: [
+    BookView(bookViewModel: bookViewModel, bookTitle: "Harry Pọt tơ", bookLinesOriginal: [
         "FROM off a hill whose concave womb reworded",
         "A plaintful story from a sistering vale,",
         "My spirits to attend this double voice accorded,",

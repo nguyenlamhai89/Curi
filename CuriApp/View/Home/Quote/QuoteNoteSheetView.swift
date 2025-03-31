@@ -8,10 +8,16 @@
 import SwiftUI
 
 struct QuoteNoteSheetView: View {
+    @Bindable var bookViewModel: BookViewModel
+    
     @Environment(\.presentationMode) var presentationMode
     @State var shareThoughts: String = ""
     @State var connectQuoteNavigate: Bool = false
     @State var deleteAlertIsPresented: Bool = false
+    
+    @State var highlight: AttributedString
+    
+//    var deletePositionIndex: Int
     
     var body: some View {
         NavigationStack {
@@ -19,7 +25,7 @@ struct QuoteNoteSheetView: View {
                 VStack (spacing: curiSpacing(.sp20)){
                     VStack (spacing: curiSpacing(.sp8)) {
                         HighlightTag(content: "Discuss Later")
-                        Text("All that year the animals worked like slaves. But they were happy in their work; they grudged no effort or sacrifice, well aware that everything they did was for the benefit of themselves and those of their kind who would come after them, and not for a pack of idle, thieving human beings.")
+                        Text("\(highlight)")
                             .curiTypo(.bkRegular16)
                             .foregroundStyle(curiPalette(.ink500))
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -79,12 +85,14 @@ struct QuoteNoteSheetView: View {
                   message: Text("Are you sure you want to delete the quote and the note?"),
                   primaryButton: .cancel(),
                   secondaryButton: .destructive(Text("Delete"), action: {
+//                bookViewModel.highlightDatabase.remove(at: deletePositionIndex)
                 print("Deleted!")
             }))
         }
     }
 }
 
-#Preview {
-    QuoteNoteSheetView()
-}
+//#Preview {
+//    @Previewable @Bindable var bookViewModel = BookViewModel()
+//    QuoteNoteSheetView(bookViewModel: bookViewModel)
+//}

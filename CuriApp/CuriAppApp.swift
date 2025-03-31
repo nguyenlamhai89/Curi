@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct CuriAppApp: App {
@@ -13,5 +14,6 @@ struct CuriAppApp: App {
         WindowGroup {
             LogInView()
         }
+        .modelContainer(for: [Highlight.self, Note.self])
     }
 }
