@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 class Book: Identifiable, Codable {
-    let bookID: UUID = UUID()
+    let id: UUID = UUID()
     var title: String
     var author: String
     var lines: [String]
@@ -24,24 +24,28 @@ class Book: Identifiable, Codable {
 @Model
 class Highlight {
     var bookID: UUID
+    var highlightID: UUID = UUID()
     var bookTitle: String
     var highlight: String
-    var note: Note?
+    @Relationship(deleteRule: .cascade) var note: Note?
     
-    init (bookID: UUID, bookTitle: String, highlight: String) {
+    init(bookID: UUID, bookTitle: String, highlight: String, note: Note? = nil) {
         self.bookID = bookID
         self.bookTitle = bookTitle
         self.highlight = highlight
+        self.note = note
     }
 }
 
 @Model
 class Note {
     var bookID: UUID
+    var highlightID: UUID
     var note: String
     
-    init (bookID: UUID, note: String) {
+    init(bookID: UUID, highlightID: UUID, note: String) {
         self.bookID = bookID
+        self.highlightID = highlightID
         self.note = note
     }
 }

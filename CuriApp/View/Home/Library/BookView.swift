@@ -20,6 +20,7 @@ struct BookView: View {
     
     @Bindable var bookViewModel: BookViewModel
     
+    var bookID: UUID
     var bookTitle: String
 //    @State var bookLines: [AttributedString] = []
     @State var bookLinesOriginal: [String]
@@ -42,36 +43,10 @@ struct BookView: View {
                         Text(bookTitle)
                             .curiTypo(.bkBold16)
                             .multilineTextAlignment(.center)
-                        VStack (spacing: 8) {
-//                            ForEach(bookLines.indices, id: \.self) { index in
-//                                Text(bookLines[index])
-//                                    .frame(maxWidth: .infinity, alignment: .leading)
-//                                    .onLongPressGesture (minimumDuration: 0.2) {
-//                                        // Check in Database and Highlight
-//                                        let highlightedText = bookViewModel.highlightChecker(for: bookLines[index], highlightColor: curiPalette(.blue100), textColor: curiPalette(.blue500))
-//                                        withAnimation(.easeOut(duration: 0.1)) {
-//                                            bookLines[index] = highlightedText
-//                                        }
-//                                        
-//                                        print("🙈 Line \([index]): \(highlightedText)")
-//                                    }
-//                                    .sheet(isPresented: $thoughtSheetIsPresented) {
-//                                        QuoteNoteSheetView(bookViewModel: bookViewModel, highlight: bookLines[index])
-//                                    }
-////                                                            .background(Color.red) // Check section
-//                            }
-                            ForEach(bookLinesOriginal, id: \.self) { line in
-                                Text("\(line)")
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-//                                    .foregroundStyle(bookViewModel.highlightDatabase.contains(line) ? curiPalette(.blue500) : curiPalette(.ink500))
-                            }
-                        }
+                        LinesView(bookID: bookID, bookTitle: bookTitle, bookLinesOriginal: bookLinesOriginal)
                     }
                     .padding(.top, 120)
                     .padding(.bottom, 160)
-                    .onAppear {
-                        print(highlightDatabase)
-                    }
                 })
                 .curiTypo(.bkRegular16)
                 .padding(.horizontal, 32)
@@ -127,10 +102,58 @@ struct BookView: View {
 
 #Preview {
     @Previewable @Bindable var bookViewModel = BookViewModel()
-    BookView(bookViewModel: bookViewModel, bookTitle: "Harry Pọt tơ", bookLinesOriginal: [
+    let bookIDFake = UUID()
+    BookView(bookViewModel: bookViewModel, bookID: bookIDFake, bookTitle: "Harry Pọt tơ", bookLinesOriginal: [
         "FROM off a hill whose concave womb reworded",
         "A plaintful story from a sistering vale,",
         "My spirits to attend this double voice accorded,",
         "And down I laid to list the sad-tuned tale;"
     ], nameHighlightPrimary: .constant("Discuss Later"), nameHighlightSecondary: .constant("Good Point"), placeholderHighlightName: "Your highlight name", renameHighlightPrimaryView: .constant(false), renameHighlightSecondaryView: .constant(false))
+}
+
+struct LinesView: View {
+    @Environment(\.modelContext) private var modelContext
+    @Query var highlightDatabase: [Highlight]
+    
+    var bookID: UUID
+    var bookTitle: String
+    var bookLinesOriginal: [String]
+    
+    var body: some View {
+        VStack (spacing: 8) {
+            //                            ForEach(bookLines.indices, id: \.self) { index in
+            //                                Text(bookLines[index])
+            //                                    .frame(maxWidth: .infinity, alignment: .leading)
+            //                                    .onLongPressGesture (minimumDuration: 0.2) {
+            //                                        // Check in Database and Highlight
+            //                                        let highlightedText = bookViewModel.highlightChecker(for: bookLines[index], highlightColor: curiPalette(.blue100), textColor: curiPalette(.blue500))
+            //                                        withAnimation(.easeOut(duration: 0.1)) {
+            //                                            bookLines[index] = highlightedText
+            //                                        }
+            //
+            //                                        print("🙈 Line \([index]): \(highlightedText)")
+            //                                    }
+            //                                    .sheet(isPresented: $thoughtSheetIsPresented) {
+            //                                        QuoteNoteSheetView(bookViewModel: bookViewModel, highlight: bookLines[index])
+            //                                    }
+            ////                                                            .background(Color.red) // Check section
+            //                            }
+            ForEach(bookLinesOriginal, id: \.self) { line in
+                Text("\(line)")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .onTapGesture {
+                        let newHighlight = Highlight(bookID: bookID, bookTitle: bookTitle, highlight: line)
+//                        highlightDatabase.insert(newHighlight)
+//                        print("Highligh Database: \(highlightDatabase)")
+//                        modelContext.insert(newHighlight)
+                        print("\(highlightDatabase)")
+                        print("Book ID: \(newHighlight.bookID)")
+                        print("Highlight ID: \(newHighlight.highlightID)")
+                        print("Book: \(newHighlight.bookTitle)")
+                        print("Lines: \(newHighlight.highlight)")
+                    }
+//                    .foregroundStyle(bookViewModel.highlightDatabase.contains(line) ? curiPalette(.blue500) : curiPalette(.ink500))
+            }
+        }
+    }
 }
