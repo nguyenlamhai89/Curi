@@ -8,8 +8,8 @@
 import SwiftUI
 
 enum CuriPalette {
-    case pink100, pink300, pink500
-    case blue100, blue300, blue500
+    case pink100, pink200, pink300, pink500
+    case blue100, blue200, blue300, blue500
     case paper300, paper500, paper50088
     case ink100, ink300, ink500
     
@@ -17,6 +17,8 @@ enum CuriPalette {
         switch self {
         case .pink100:
             return Color("pink-100")
+        case .pink200:
+            return Color("pink-200")
         case .pink300:
             return Color("pink-300")
         case .pink500:
@@ -24,6 +26,8 @@ enum CuriPalette {
             
         case .blue100:
             return Color("blue-100")
+        case .blue200:
+            return Color("blue-200")
         case .blue300:
             return Color("blue-300")
         case .blue500:
