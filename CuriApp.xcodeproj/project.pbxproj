@@ -9,18 +9,7 @@
 /* Begin PBXBuildFile section */
 		D8E011892D7BF130005ABDEF /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E011882D7BF130005ABDEF /* WidgetKit.framework */; };
 		D8E0118B2D7BF130005ABDEF /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E0118A2D7BF130005ABDEF /* SwiftUI.framework */; };
-		D8E0119C2D7BF131005ABDEF /* CuriWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D8E011862D7BF130005ABDEF /* CuriWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		D8E0119A2D7BF131005ABDEF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D894C98D2D6747EA00CE95C0 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D8E011852D7BF130005ABDEF;
-			remoteInfo = CuriWidgetExtension;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		D8E0119D2D7BF131005ABDEF /* Embed Foundation Extensions */ = {
@@ -29,7 +18,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				D8E0119C2D7BF131005ABDEF /* CuriWidgetExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -152,7 +140,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				D8E0119B2D7BF131005ABDEF /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				D894C9B92D6747F900CE95C0 /* CuriApp */,
@@ -257,14 +244,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		D8E0119B2D7BF131005ABDEF /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D8E011852D7BF130005ABDEF /* CuriWidgetExtension */;
-			targetProxy = D8E0119A2D7BF131005ABDEF /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		D894C9A22D6747EB00CE95C0 /* Debug */ = {
@@ -387,10 +366,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CuriApp/CuriApp.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CuriApp/Preview Content\"";
-				DEVELOPMENT_TEAM = 35KB5PK2KC;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = BP2GHWM7V6;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -410,8 +390,10 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.2;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = madebynham.CuriApp;
+				PRODUCT_BUNDLE_IDENTIFIER = madeby.nham.curiapp;
 				PRODUCT_NAME = Curi;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = nhaam;
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -427,10 +409,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CuriApp/CuriApp.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CuriApp/Preview Content\"";
-				DEVELOPMENT_TEAM = 35KB5PK2KC;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = BP2GHWM7V6;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -450,8 +433,10 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.2;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = madebynham.CuriApp;
+				PRODUCT_BUNDLE_IDENTIFIER = madeby.nham.curiapp;
 				PRODUCT_NAME = Curi;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = nhaam;
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;
