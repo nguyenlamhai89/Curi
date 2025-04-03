@@ -8,10 +8,10 @@
 import SwiftUI
 import SwiftData
 
-//struct IdentifiableHighlight: Identifiable {
-//    var id = UUID()
-//    var content: AttributedString
-//}
+struct IdentifiableHighlight: Identifiable {
+    var id = UUID()
+    var content: AttributedString
+}
 
 struct SearchView: View {
     @State var searchAvailableQuote: String = ""
@@ -19,7 +19,7 @@ struct SearchView: View {
     
     @Bindable var bookViewModel: BookViewModel
     @Query var highlightDatabase: [Highlight]
-//    @State var itemSelected: IdentifiableHighlight?
+    @State var itemSelected: IdentifiableHighlight?
     
     var body: some View {
         NavigationStack {
@@ -33,15 +33,18 @@ struct SearchView: View {
                         VStack (spacing: curiSpacing(.sp16)) {
                             ForEach(highlightDatabase, id: \.self) { itemHighlight in
                                 QuoteCard(
-                                    bookName: "Book", authorName: "Author", quoteContent: "\(itemHighlight)", highlightTagName: "Discuss Later", action: {
-//                                        self.itemSelected = IdentifiableHighlight(content: itemHighlight)
-//                                        self.quoteCardisPresented.toggle()
-//                                        print("HAINL self.itemSelected \(String(describing: self.itemSelected))")
+                                    bookName: itemHighlight.bookTitle, authorName: itemHighlight.authorName, quoteContent: "\(itemHighlight)", highlightTagName: "Discuss Later", action: {
+                                        self.itemSelected = IdentifiableHighlight(content: itemHighlight)
+                                        self.quoteCardisPresented.toggle()
+                                        print("HAINL self.itemSelected \(String(describing: self.itemSelected))")
                                     }
                                 )
-//                                .sheet(item: $itemSelected) { itemSelected in
-//                                    QuoteNoteSheetView(bookViewModel: bookViewModel, highlight: itemSelected.content)
-//                                }
+//                                .sheet(isPresented: $quoteCardisPresented, content: {
+//                                    QuoteNoteSheetView(bookViewModel: bookViewModel, highlight: itemHighlight)
+//                                })
+                                .sheet(item: $itemSelected) { itemSelected in
+                                    QuoteNoteSheetView(bookViewModel: bookViewModel, highlight: itemSelected.content)
+                                }
                             }
                         }
                     }

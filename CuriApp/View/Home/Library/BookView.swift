@@ -22,7 +22,7 @@ struct BookView: View {
     
     var bookID: UUID
     var bookTitle: String
-//    @State var bookLines: [AttributedString] = []
+    var bookAuthor: String
     @State var bookLinesOriginal: [String]
 //    @State var bookLinesHighlighted: [String] = []
     
@@ -43,7 +43,7 @@ struct BookView: View {
                         Text(bookTitle)
                             .curiTypo(.bkBold16)
                             .multilineTextAlignment(.center)
-                        LinesView(bookID: bookID, bookTitle: bookTitle, bookLinesOriginal: bookLinesOriginal)
+                        LinesView(bookID: bookID, bookTitle: bookTitle, bookAuthor: bookAuthor, bookLinesOriginal: bookLinesOriginal)
                     }
                     .padding(.top, 120)
                     .padding(.bottom, 160)
@@ -103,7 +103,13 @@ struct BookView: View {
 #Preview {
     @Previewable @Bindable var bookViewModel = BookViewModel()
     let bookIDFake = UUID()
-    BookView(bookViewModel: bookViewModel, bookID: bookIDFake, bookTitle: "Harry Pọt tơ", bookLinesOriginal: [
+//    BookView(bookViewModel: bookViewModel, bookID: bookIDFake, bookTitle: "Harry Pọt tơ", bookLinesOriginal: [
+//        "FROM off a hill whose concave womb reworded",
+//        "A plaintful story from a sistering vale,",
+//        "My spirits to attend this double voice accorded,",
+//        "And down I laid to list the sad-tuned tale;"
+//    ], nameHighlightPrimary: .constant("Discuss Later"), nameHighlightSecondary: .constant("Good Point"), placeholderHighlightName: "Your highlight name", bookAuthor: "William Shakespeare",, renameHighlightPrimaryView: .constant(false), renameHighlightSecondaryView: .constant(false))
+    BookView(bookViewModel: bookViewModel, bookID: bookIDFake, bookTitle: "Harry Pọt Tơ", bookAuthor: "William Shakespeare", bookLinesOriginal: [
         "FROM off a hill whose concave womb reworded",
         "A plaintful story from a sistering vale,",
         "My spirits to attend this double voice accorded,",
@@ -117,42 +123,32 @@ struct LinesView: View {
     
     var bookID: UUID
     var bookTitle: String
+    var bookAuthor: String
     var bookLinesOriginal: [String]
     
     var body: some View {
         VStack (spacing: 8) {
-            //                            ForEach(bookLines.indices, id: \.self) { index in
-            //                                Text(bookLines[index])
-            //                                    .frame(maxWidth: .infinity, alignment: .leading)
-            //                                    .onLongPressGesture (minimumDuration: 0.2) {
-            //                                        // Check in Database and Highlight
-            //                                        let highlightedText = bookViewModel.highlightChecker(for: bookLines[index], highlightColor: curiPalette(.blue100), textColor: curiPalette(.blue500))
-            //                                        withAnimation(.easeOut(duration: 0.1)) {
-            //                                            bookLines[index] = highlightedText
-            //                                        }
-            //
-            //                                        print("🙈 Line \([index]): \(highlightedText)")
-            //                                    }
-            //                                    .sheet(isPresented: $thoughtSheetIsPresented) {
-            //                                        QuoteNoteSheetView(bookViewModel: bookViewModel, highlight: bookLines[index])
-            //                                    }
-            ////                                                            .background(Color.red) // Check section
-            //                            }
             ForEach(bookLinesOriginal, id: \.self) { line in
-                Text("\(line)")
+                Text(line)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .onTapGesture {
-                        let newHighlight = Highlight(bookID: bookID, bookTitle: bookTitle, highlight: line)
-//                        highlightDatabase.insert(newHighlight)
-//                        print("Highligh Database: \(highlightDatabase)")
-//                        modelContext.insert(newHighlight)
-                        print("\(highlightDatabase)")
-                        print("Book ID: \(newHighlight.bookID)")
-                        print("Highlight ID: \(newHighlight.highlightID)")
-                        print("Book: \(newHighlight.bookTitle)")
-                        print("Lines: \(newHighlight.highlight)")
+                        if let existingHighlight = highlightDatabase.first(where: { $0.content == line }) {
+                            SoundManager.access.play(sound: .highlightRemoved)
+                            modelContext.delete(existingHighlight)
+                            print("------")
+                            print("[\(highlightDatabase.count)] Database: \(highlightDatabase)")
+                            print("Deleted highlight: \(line)")
+                        } else {
+                            SoundManager.access.play(sound: .highlightAdded)
+                            let newHighlight = Highlight(bookID: bookID, bookTitle: bookTitle, bookAuthor: bookAuthor, highlight: line)
+                            modelContext.insert(newHighlight)
+                            print("------")
+                            print("[\(highlightDatabase.count)] Database: \(highlightDatabase)")
+                            print("Added new highlight: \(line)")
+                        }
                     }
-//                    .foregroundStyle(bookViewModel.highlightDatabase.contains(line) ? curiPalette(.blue500) : curiPalette(.ink500))
+                    .foregroundStyle(highlightDatabase.contains(where: { $0.content == line }) ? curiPalette(.blue500) : curiPalette(.ink500))
+                    .background(highlightDatabase.contains(where: { $0.content == line }) ? curiPalette(.blue100) : Color.clear)
             }
         }
     }

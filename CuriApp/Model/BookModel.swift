@@ -26,13 +26,15 @@ class Highlight {
     var bookID: UUID
     var highlightID: UUID = UUID()
     var bookTitle: String
-    var highlight: String
+    var bookAuthor: String
+    var content: String
     @Relationship(deleteRule: .cascade) var note: Note?
     
-    init(bookID: UUID, bookTitle: String, highlight: String, note: Note? = nil) {
+    init(bookID: UUID, bookTitle: String, bookAuthor: String, highlight: String, note: Note? = nil) {
         self.bookID = bookID
         self.bookTitle = bookTitle
-        self.highlight = highlight
+        self.bookAuthor = bookAuthor
+        self.content = highlight
         self.note = note
     }
 }

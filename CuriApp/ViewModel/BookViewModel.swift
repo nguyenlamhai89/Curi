@@ -67,10 +67,10 @@ class BookViewModel {
             print("Loading: \(isLoading) - Fetch Done: \(isFetched)")
             
             // Run parallelly
-            async let sleepTask: Void = Task.sleep(nanoseconds: 1_600_000_000)
+//            async let sleepTask: Void = Task.sleep(nanoseconds: 1_600_000_000)
             async let dataTask: (Data, URLResponse) = URLSession.shared.data(from: url)
             
-            _ = try await sleepTask
+//            _ = try await sleepTask
             let (data, _) = try await dataTask
             
 //            Run step-by-step
