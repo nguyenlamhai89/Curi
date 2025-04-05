@@ -31,7 +31,7 @@ struct QuotePapers: View {
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
     //                        .background(Color.red) // Check section
-                HStack {
+                HStack (spacing: curiSpacing(.sp8)) {
                     VStack (alignment: .leading, spacing: 0) {
                         Text(bookInPaper)
                             .foregroundStyle(curiPalette(.ink500))
@@ -57,7 +57,7 @@ struct QuotePapers: View {
 }
 
 #Preview {
-    QuotePapers(quoteInPaper: "Hi", authorInPaper: "Haha", bookInPaper: "Hehe", buttonName: "Details") {
+    QuotePapers(quoteInPaper: "A plaintful story from a sistering vale,", authorInPaper: "William Shakespeare", bookInPaper: "A Lover's Complaint", buttonName: "Details") {
         print("Details")
     }
 }
