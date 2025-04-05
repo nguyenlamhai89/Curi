@@ -28,8 +28,8 @@ struct HomeViewManager: View {
     
     var placeholderHighlightName: String = "Highlight Name"
     
-    @State var renameHighlightPrimaryView: Bool = false
-    @State var renameHighlightSecondaryView: Bool = false
+    @State var renameViewPrimary: Bool = false
+    @State var renameViewSecondary: Bool = false
     
     
     var body: some View {
@@ -49,8 +49,8 @@ struct HomeViewManager: View {
                                     nameHighlightPrimary: $nameHighlightPrimary,
                                     nameHighlightSecondary: $nameHighlightSecondary,
                                     placeholderHighlightName: placeholderHighlightName,
-                                    renameHighlightPrimaryView: $renameHighlightPrimaryView,
-                                    renameHighlightSecondaryView: $renameHighlightSecondaryView)
+                                    renameViewPrimary: $renameViewPrimary,
+                                    renameViewSecondary: $renameViewSecondary)
                     } else {
                         LibraryErrorView(bookViewModel: bookViewModel)
                     }
@@ -59,8 +59,8 @@ struct HomeViewManager: View {
                 QuoteView(nameHighlightPrimary: $nameHighlightPrimary,
                           nameHighlightSecondary: $nameHighlightSecondary,
                           placeholderHighlightName: placeholderHighlightName,
-                          renameHighlightPrimaryView: $renameHighlightPrimaryView,
-                          renameHighlightSecondaryView: $renameHighlightSecondaryView)
+                          renameViewPrimary: $renameViewPrimary,
+                          renameViewSecondary: $renameViewSecondary)
             }
         }
         .toolbar(.hidden)
@@ -75,11 +75,16 @@ struct HomeViewManager: View {
             SearchView(bookViewModel: bookViewModel)
         }
         .overlay {
-            if renameHighlightPrimaryView {
+            if renameViewPrimary {
                 RenameHighlightView(backgroundColor: curiPalette(.blue500),
                                     placeholderHighlightName: placeholderHighlightName,
                                     highlightName: $nameHighlightPrimary,
-                                    viewIsPresented: $renameHighlightPrimaryView)
+                                    viewIsPresented: $renameViewPrimary)
+            } else if renameViewSecondary {
+                RenameHighlightView(backgroundColor: curiPalette(.pink500),
+                                    placeholderHighlightName: placeholderHighlightName,
+                                    highlightName: $nameHighlightSecondary,
+                                    viewIsPresented: $renameViewSecondary)
             }
         }
     }

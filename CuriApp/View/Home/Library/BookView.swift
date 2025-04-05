@@ -44,6 +44,9 @@ struct BookView: View {
                             .curiTypo(.bkBold16)
                             .multilineTextAlignment(.center)
                         LinesView(bookID: bookID, bookTitle: bookTitle, bookAuthor: bookAuthor, bookLinesOriginal: bookLinesOriginal)
+                            .onAppear {
+                                print("[\(highlightDatabase.count)] Current Database: \(highlightDatabase)")
+                            }
                     }
                     .padding(.top, 120)
                     .padding(.bottom, 160)
@@ -70,7 +73,7 @@ struct BookView: View {
                 Spacer()
                 
                 // Highlight
-                HighlightDial(quoteIsSelected: quoteSelected, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameHighlightViewIsPresented1: $renameHighlightPrimaryView, renameHighlightViewIsPresented2: $renameHighlightSecondaryView, highlightName1: nameHighlightPrimary, highlightName2: nameHighlightSecondary)
+                HighlightDial(quoteIsSelected: quoteSelected, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameViewPrimary: $renameHighlightPrimaryView, renameViewSecondary: $renameHighlightSecondaryView, highlightName1: nameHighlightPrimary, highlightName2: nameHighlightSecondary)
                     .bottomNavigationSpacing
             }
             
@@ -132,20 +135,25 @@ struct LinesView: View {
                 Text(line)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .onTapGesture {
-                        if let existingHighlight = highlightDatabase.first(where: { $0.content == line }) {
-                            SoundManager.access.play(sound: .highlightRemoved)
-                            modelContext.delete(existingHighlight)
-                            print("------")
-                            print("[\(highlightDatabase.count)] Database: \(highlightDatabase)")
-                            print("Deleted highlight: \(line)")
-                        } else {
-                            SoundManager.access.play(sound: .highlightAdded)
-                            let newHighlight = Highlight(bookID: bookID, bookTitle: bookTitle, bookAuthor: bookAuthor, highlight: line)
-                            modelContext.insert(newHighlight)
-                            print("------")
-                            print("[\(highlightDatabase.count)] Database: \(highlightDatabase)")
-                            print("Added new highlight: \(line)")
-                        }
+                        print("\(line)")
+                        let highlight = Highlight(bookID: bookID, bookTitle: bookTitle, bookAuthor: bookAuthor, content: line)
+                        print("--------")
+                        print("- BookID: \(highlight.bookID)")
+                        print("- HighlightID: \(highlight.highlightID)")
+                        print("- Title: \(highlight.bookTitle)")
+                        print("- Author: \(highlight.bookAuthor)")
+                        print("- Content: \(highlight.content)")
+//                        if highlight = highlightDatabase.first(where: { $0.content == line }) {
+//                            SoundManager.access.play(sound: .highlightAdded)
+//                            modelContext.insert(highlight)
+//                            print("[\(highlightDatabase.count)] Current Database: \(highlightDatabase)")
+//                            print("Added: \(highlight)")
+//                        } else {
+//                            SoundManager.access.play(sound: .highlightRemoved)
+//                            modelContext.delete(highlight)
+//                            print("[\(highlightDatabase.count)] Current Database: \(highlightDatabase)")
+//                            print("Removed: \(highlight)")
+//                        }
                     }
                     .foregroundStyle(highlightDatabase.contains(where: { $0.content == line }) ? curiPalette(.blue500) : curiPalette(.ink500))
                     .background(highlightDatabase.contains(where: { $0.content == line }) ? curiPalette(.blue100) : Color.clear)

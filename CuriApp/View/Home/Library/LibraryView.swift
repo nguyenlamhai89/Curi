@@ -19,8 +19,8 @@ struct LibraryView: View {
     @Binding var nameHighlightPrimary: String
     @Binding var nameHighlightSecondary: String
     var placeholderHighlightName: String
-    @Binding var renameHighlightPrimaryView: Bool
-    @Binding var renameHighlightSecondaryView: Bool
+    @Binding var renameViewPrimary: Bool
+    @Binding var renameViewSecondary: Bool
 //    var bookNameAtNavigationForEach: String
     
 //    @State var fetchedError: Bool = false
@@ -47,7 +47,7 @@ struct LibraryView: View {
                     })
                     .navigationDestination(isPresented: $bookNavigate) {
                         let bookIDSample = UUID()
-                        BookView(bookViewModel: bookViewModel, bookID: bookIDSample, bookTitle: "Feature Book Name", bookAuthor: "Shakespeare", bookLinesOriginal: ["Sample", "Book", "Lines"], nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView)
+                        BookView(bookViewModel: bookViewModel, bookID: bookIDSample, bookTitle: "Feature Book Name", bookAuthor: "Shakespeare", bookLinesOriginal: ["Sample", "Book", "Lines"], nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameViewPrimary, renameHighlightSecondaryView: $renameViewSecondary)
                     }
                 }
                 .frame(height: 200, alignment: .bottomLeading)
@@ -69,7 +69,7 @@ struct LibraryView: View {
                     LazyVStack {
                         ForEach(bookViewModel.bookDatabase) { book in
                             NavigationLink {
-                                BookView(bookViewModel: bookViewModel, bookID: book.id, bookTitle: book.title, bookAuthor: book.author, bookLinesOriginal: book.lines, nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameHighlightPrimaryView, renameHighlightSecondaryView: $renameHighlightSecondaryView)
+                                BookView(bookViewModel: bookViewModel, bookID: book.id, bookTitle: book.title, bookAuthor: book.author, bookLinesOriginal: book.lines, nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: placeholderHighlightName, renameHighlightPrimaryView: $renameViewPrimary, renameHighlightSecondaryView: $renameViewSecondary)
                             } label: {
                                 BookAuthorCard(bookName: "\(book.title)", authorName: "\(book.author)")
                             }
@@ -92,5 +92,5 @@ struct LibraryView: View {
 
 #Preview {
     @Previewable @Bindable var bookViewModel = BookViewModel()
-    LibraryView(bookViewModel: bookViewModel, bookNameInBanner: "Sonnet", authorNameInBanner: "William Shakespeare", nameHighlightPrimary: .constant("Discuss Later"), nameHighlightSecondary: .constant("Good Point"), placeholderHighlightName: "Your highlight name", renameHighlightPrimaryView: .constant(false), renameHighlightSecondaryView: .constant(false))
+    LibraryView(bookViewModel: bookViewModel, bookNameInBanner: "Sonnet", authorNameInBanner: "William Shakespeare", nameHighlightPrimary: .constant("Discuss Later"), nameHighlightSecondary: .constant("Good Point"), placeholderHighlightName: "Your highlight name", renameViewPrimary: .constant(false), renameViewSecondary: .constant(false))
 }

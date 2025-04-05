@@ -11,8 +11,8 @@ struct HighlightDial: View {
     var quoteIsSelected: Bool
     @Binding var thoughtSheetIsPresented: Bool
     @Binding var deleteAlertIsPresented: Bool
-    @Binding var renameHighlightViewIsPresented1: Bool
-    @Binding var renameHighlightViewIsPresented2: Bool
+    @Binding var renameViewPrimary: Bool
+    @Binding var renameViewSecondary: Bool
     
     var highlightName1: String
     var highlightName2: String
@@ -54,14 +54,14 @@ struct HighlightDial: View {
                             HStack (spacing: curiSpacing(.sp8)) {
                                 HighlightButton(content: highlightName1, color: curiPalette(.blue300), action: {
                                     withAnimation {
-                                        renameHighlightViewIsPresented1.toggle()
+                                        renameViewPrimary.toggle()
                                         print("Blue Pressed")
                                     }
                                 })
                                 
                                 HighlightButton(content: highlightName2, color: curiPalette(.pink300), action: {
                                     withAnimation {
-                                        renameHighlightViewIsPresented2.toggle()
+                                        renameViewSecondary.toggle()
                                         print("Pink Pressed")
                                     }
                                 })
@@ -152,9 +152,9 @@ struct HighlightTag: View {
     @Previewable @State var tagNameDemoBlue: String = "Discuss Later"
     @Previewable @State var tagNameDemoPink: String = "Good"
     
-    HighlightDial(quoteIsSelected: true, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameHighlightViewIsPresented1: $renameHighlightViewIsPresented1, renameHighlightViewIsPresented2: $renameHighlightViewIsPresented2, highlightName1: tagNameDemoBlue, highlightName2: tagNameDemoPink)
+    HighlightDial(quoteIsSelected: true, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameViewPrimary: $renameHighlightViewIsPresented1, renameViewSecondary: $renameHighlightViewIsPresented2, highlightName1: tagNameDemoBlue, highlightName2: tagNameDemoPink)
 
-    HighlightDial(quoteIsSelected: false, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameHighlightViewIsPresented1: $renameHighlightViewIsPresented1, renameHighlightViewIsPresented2: $renameHighlightViewIsPresented2, highlightName1: tagNameDemoBlue, highlightName2: tagNameDemoPink)
+    HighlightDial(quoteIsSelected: false, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameViewPrimary: $renameHighlightViewIsPresented1, renameViewSecondary: $renameHighlightViewIsPresented2, highlightName1: tagNameDemoBlue, highlightName2: tagNameDemoPink)
     
     HighlightButton(content: tagNameDemoBlue, color: Color.blue, action: {
         print("Highlight Button Pressed")

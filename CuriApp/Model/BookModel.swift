@@ -30,11 +30,15 @@ class Highlight {
     var content: String
     @Relationship(deleteRule: .cascade) var note: Note?
     
-    init(bookID: UUID, bookTitle: String, bookAuthor: String, highlight: String, note: Note? = nil) {
+    init(bookID: UUID,
+         bookTitle: String,
+         bookAuthor: String,
+         content: String,
+         note: Note? = nil) {
         self.bookID = bookID
         self.bookTitle = bookTitle
         self.bookAuthor = bookAuthor
-        self.content = highlight
+        self.content = content
         self.note = note
     }
 }
