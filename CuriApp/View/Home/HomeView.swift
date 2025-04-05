@@ -13,6 +13,7 @@ struct HomeViewManager: View {
     // Navigation Value
     @State var settingsTopNavigation: Bool = false
     @State var searchTopNavigation: Bool = false
+    @State var viewAllNavigation: Bool = false
     
     // Switch Page Value
     @State var pageOneIsSelected: Bool = true
@@ -31,6 +32,7 @@ struct HomeViewManager: View {
     @State var renameViewPrimary: Bool = false
     @State var renameViewSecondary: Bool = false
     
+    @State var quoteCardisPresented: Bool = false
     
     var body: some View {
         ZStack {
@@ -56,11 +58,11 @@ struct HomeViewManager: View {
                     }
                 }
             } else {
-                QuoteView(nameHighlightPrimary: $nameHighlightPrimary,
+                QuoteView(bookViewModel: bookViewModel, nameHighlightPrimary: $nameHighlightPrimary,
                           nameHighlightSecondary: $nameHighlightSecondary,
                           placeholderHighlightName: placeholderHighlightName,
                           renameViewPrimary: $renameViewPrimary,
-                          renameViewSecondary: $renameViewSecondary)
+                          renameViewSecondary: $renameViewSecondary, quoteCardisPresented: $quoteCardisPresented, viewAllNavigation: $viewAllNavigation)
             }
         }
         .toolbar(.hidden)
@@ -72,7 +74,7 @@ struct HomeViewManager: View {
             SettingsSheetView()
         }
         .navigationDestination(isPresented: $searchTopNavigation) {
-            SearchView(bookViewModel: bookViewModel)
+            SearchView(quoteCardisPresented: $quoteCardisPresented, bookViewModel: bookViewModel)
         }
         .overlay {
             if renameViewPrimary {

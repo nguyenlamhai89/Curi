@@ -15,7 +15,7 @@ import SwiftData
 
 struct SearchView: View {
     @State var searchAvailableQuote: String = ""
-    @State var quoteCardisPresented: Bool = false
+    @Binding var quoteCardisPresented: Bool
     
     @Bindable var bookViewModel: BookViewModel
     @Query var highlightDatabase: [Highlight]
@@ -64,5 +64,5 @@ struct SearchView: View {
 
 #Preview {
     @Previewable @Bindable var bookViewModel = BookViewModel()
-    SearchView(bookViewModel: bookViewModel)
+    SearchView(quoteCardisPresented: .constant(false), bookViewModel: bookViewModel)
 }

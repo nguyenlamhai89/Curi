@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct QuotePapers: View {
+    var connectedQuotesSample: [String] = ["Blow, blow, thou winter wind",
+                                           "Thou art not so unkind",
+                                           "As man's ingratitude;"]
+    
     var quoteInPaper: String
     var authorInPaper: String
     var bookInPaper: String
@@ -16,23 +20,14 @@ struct QuotePapers: View {
     
     var body: some View {
         // Quote Papers
-        ZStack {
-            Rectangle()
-                .fill(curiPalette(.paper500))
-                .frame(width: 240, height: 360)
-                .cornerRadius(curiRadius(.rd4))
-                .shadow(color: .black.opacity(0.16), radius: 8, x: 0, y: 4)
-                .rotationEffect(Angle(degrees: -6))
-            
-            VStack (spacing: curiSpacing(.sp8)) {
-                Text(quoteInPaper)
-                    .curiTypo(.bkRegular16)
-                    .foregroundStyle(curiPalette(.ink500))
-                    .multilineTextAlignment(.center)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-    //                        .background(Color.red) // Check section
-                HStack (spacing: curiSpacing(.sp8)) {
-                    VStack (alignment: .leading, spacing: 0) {
+        VStack (spacing: curiSpacing(.sp8)) {
+            // Headlines
+            HStack (spacing: curiSpacing(.sp8)) {
+                VStack (spacing: curiSpacing(.sp2)) {
+                    Text("Quote of the day")
+                        .curiTypo(.sfMedium14)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    HStack (spacing: curiSpacing(.sp8)) {
                         Text(bookInPaper)
                             .foregroundStyle(curiPalette(.ink500))
                         Text(authorInPaper)
@@ -41,17 +36,77 @@ struct QuotePapers: View {
                     .lineLimit(1)
                     .curiTypo(.sfMedium12)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    TextButtonStroke(content: buttonName) {
-                        action()
+                }
+                .frame(maxWidth: .infinity)
+//                .background(Color.yellow) // Check section
+                
+                HighlightTag(content: "Discuss Later")
+            }
+            .frame(maxWidth: .infinity)
+//            .background(Color.red)
+            
+            // Content
+            Text(quoteInPaper)
+                .curiTypo(.bkRegular32)
+                .foregroundStyle(curiPalette(.ink500))
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                        .background(Color.red) // Check section
+            
+            HStack (spacing: curiSpacing(.sp8)) {
+                Text("Connected")
+                    .curiTypo(.sfMedium14)
+                    .foregroundStyle(curiPalette(.ink500))
+                Rectangle()
+                    .fill(Color.clear)
+                .frame(maxWidth: .infinity, maxHeight: 40, alignment: .center)
+                .overlay {
+                    ScrollView (.horizontal) {
+                        HStack (spacing: curiSpacing(.sp8)) {
+                            ForEach(connectedQuotesSample, id:\.self) { connectedQuote in
+                                Button {
+                                    print("Hihihi")
+                                } label: {
+                                    Text(connectedQuote)
+                                        .curiTypo(.bkRegular14)
+                                        .foregroundStyle(curiPalette(.paper500))
+                                        .padding(.vertical, curiSpacing(.sp2))
+                                        .padding(.horizontal, curiSpacing(.sp8))
+                                        .frame(maxWidth: 160, alignment: .leading)
+                                        .background(curiPalette(.ink300))
+                                        .cornerRadius(curiRadius(.rd4))
+                                }
+                            }
+                        }
+                    }
+                    .scrollIndicators(.hidden)
+                    .safeAreaPadding(.horizontal, curiSpacing(.sp32))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .overlay {
+                    // Gradient Block
+                    HStack {
+                        LinearGradient(colors: [curiPalette(.paper300), curiPalette(.paper300).opacity(0)], startPoint: .leading, endPoint: .trailing)
+                            .frame(width: 32)
+                        Spacer()
+                        LinearGradient(colors: [curiPalette(.paper300), curiPalette(.paper300).opacity(0)], startPoint: .trailing, endPoint: .leading)
+                            .frame(width: 32)
                     }
                 }
-    //                    .background(Color.red) // Check section
+                .clipped()
+                
+//                TextButtonStroke(content: buttonName) {
+//                    action()
+//                }
             }
-            .padding(curiSpacing(.sp16))
-            .frame(width: 240, height: 360)
-            .background(curiPalette(.paper500))
-            .cornerRadius(curiRadius(.rd4))
-            .shadow(color: .black.opacity(0.16), radius: 8, x: 0, y: 4)
+//                    .background(Color.red) // Check section
+        }
+        .padding(curiSpacing(.sp16))
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(curiPalette(.paper300))
+        .cornerRadius(curiRadius(.rd4))
+        .onTapGesture {
+            action()
         }
     }
 }

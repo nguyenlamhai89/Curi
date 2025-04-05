@@ -9,13 +9,15 @@ import SwiftUI
 
 struct TakeNoteField: View {
     @Binding var shareThoughts: String
+    var book: String
+    var author: String
     
     var body: some View {
         VStack (spacing: curiSpacing(.sp8)) {
             VStack (alignment: .leading) {
-                Text("Animal Farm")
+                Text(book)
                     .foregroundStyle(curiPalette(.ink500))
-                Text("George Orwell")
+                Text(author)
                     .foregroundStyle(curiPalette(.ink300))
             }
             .curiTypo(.sfMedium12)
@@ -37,5 +39,6 @@ struct TakeNoteField: View {
 
 #Preview {
     @Previewable @State var shareThoughts: String = ""
-    TakeNoteField(shareThoughts: $shareThoughts)
+    TakeNoteField(shareThoughts: $shareThoughts, book: "Book Name Sample", author: "Author Name Sample")
+                
 }

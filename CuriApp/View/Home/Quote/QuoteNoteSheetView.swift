@@ -15,7 +15,10 @@ struct QuoteNoteSheetView: View {
     @State var connectQuoteNavigate: Bool = false
     @State var deleteAlertIsPresented: Bool = false
     
-    @State var highlight: AttributedString
+//    @State var highlight: AttributedString
+    var quote: String
+    var author: String
+    var book: String
     
 //    var deletePositionIndex: Int
     
@@ -25,7 +28,8 @@ struct QuoteNoteSheetView: View {
                 VStack (spacing: curiSpacing(.sp20)){
                     VStack (spacing: curiSpacing(.sp8)) {
                         HighlightTag(content: "Discuss Later")
-                        Text("\(highlight)")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        Text("\(quote)")
                             .curiTypo(.bkRegular16)
                             .foregroundStyle(curiPalette(.ink500))
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -50,8 +54,7 @@ struct QuoteNoteSheetView: View {
                             
                         }
                     }
-                    
-                    TakeNoteField(shareThoughts: $shareThoughts)
+                    TakeNoteField(shareThoughts: $shareThoughts, book: book, author: author)
                 }
                 .navigationTitle("Quote")
                 .navigationBarTitleDisplayMode(.inline)

@@ -44,11 +44,20 @@ import SwiftUI
 
 struct QuoteView: View {
     // Binding from HomeView
+    @Bindable var bookViewModel: BookViewModel
+    
     @Binding var nameHighlightPrimary: String
     @Binding var nameHighlightSecondary: String
     var placeholderHighlightName: String
     @Binding var renameViewPrimary: Bool
     @Binding var renameViewSecondary: Bool
+    
+    @Binding var quoteCardisPresented: Bool
+    @Binding var viewAllNavigation: Bool
+    
+    var quoteInPaper: String = "“It is only with the heart that one can see rightly; what is essential is invisible to the eye.”"
+    var authorInPaper: String = "John Doe"
+    var bookInPaper: String = "Sample"
     
     var body: some View {
         //        VStack (spacing: curiSpacing(.sp16)) {
@@ -58,30 +67,34 @@ struct QuoteView: View {
         //            }
         //            QuoteNode(quoteTitle: "“It is only with the heart that one can see rightly; what is essential is invisible to the eye.”")
         //        }
-        
-        VStack {
+        VStack (spacing: 0) {
             // Main Section
-            VStack (spacing: curiSpacing(.sp32)) {
-                QuotePapers(quoteInPaper: "Hi", authorInPaper: "Haha", bookInPaper: "Hehe", buttonName: "Details") {
+            VStack (spacing: 0) {
+                QuotePapers(quoteInPaper: quoteInPaper, authorInPaper: authorInPaper, bookInPaper: bookInPaper, buttonName: "Details") {
+                    quoteCardisPresented.toggle()
                     print("Details")
                 }
-                TextButtonPlain(content: "View All") {
+                .padding(.horizontal, curiSpacing(.sp16))
+                TextButtonPlain(content: "Show All") {
+                    viewAllNavigation.toggle()
                     print("All")
                 }
+                .bottomNavigationSpacing
             }
-            .ignoresSafeArea()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding(.top, 74)
 //            .background(Color.blue) // Check section
             
-            Spacer()
-            
-            HighlightDial(quoteIsSelected: false, thoughtSheetIsPresented: .constant(false), deleteAlertIsPresented: .constant(false), renameViewPrimary: $renameViewPrimary, renameViewSecondary: $renameViewSecondary, highlightName1: nameHighlightPrimary, highlightName2: nameHighlightSecondary)
-                .bottomNavigationSpacing
         }
-        
+        .sheet(isPresented: $quoteCardisPresented) {
+            QuoteNoteSheetView(bookViewModel: bookViewModel, quote: quoteInPaper, author: authorInPaper, book: bookInPaper)
+        }
+        .navigationDestination(isPresented: $viewAllNavigation) {
+            AllQuotesView()
+        }
     }
 }
 
 #Preview {
-    QuoteView(nameHighlightPrimary: .constant("Discuss Later"), nameHighlightSecondary: .constant("Good Point"), placeholderHighlightName: "Name your highlight", renameViewPrimary: .constant(false), renameViewSecondary: .constant(false))
+//    QuoteView(nameHighlightPrimary: .constant("Discuss Later"), nameHighlightSecondary: .constant("Good Point"), placeholderHighlightName: "Name your highlight", renameViewPrimary: .constant(false), renameViewSecondary: .constant(false))
 }

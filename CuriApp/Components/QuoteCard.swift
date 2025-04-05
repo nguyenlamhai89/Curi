@@ -41,6 +41,7 @@ struct QuoteCard: View {
                 
                 /// Highlight Tag
                 HighlightTag(content: highlightTagName)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(curiSpacing(.sp16))
             .background(curiPalette(.paper300))

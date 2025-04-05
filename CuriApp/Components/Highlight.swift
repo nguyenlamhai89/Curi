@@ -140,7 +140,7 @@ struct HighlightTag: View {
             .padding(.horizontal, curiSpacing(.sp8))
             .background(curiPalette(.blue300))
             .cornerRadius(curiRadius(.rd4))
-            .frame(maxWidth: .infinity, alignment: .leading)
+//            .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
