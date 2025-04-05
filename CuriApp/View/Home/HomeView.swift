@@ -12,7 +12,7 @@ struct HomeViewManager: View {
     
     // Navigation Value
     @State var settingsTopNavigation: Bool = false
-    @State var searchTopNavigation: Bool = false
+    @State var widgetTopNavigation: Bool = false
     @State var viewAllNavigation: Bool = false
     
     // Switch Page Value
@@ -37,7 +37,7 @@ struct HomeViewManager: View {
     var body: some View {
         ZStack {
             /// Top Navigation Bar
-            TopNavigationCanvas(settingsTopNavigation: $settingsTopNavigation, searchTopNavigation: $searchTopNavigation, pageOneIsSelected: $pageOneIsSelected, pageTwoIsSelected: $pageTwoIsSelected)
+            TopNavigationCanvas(settingsTopNavigation: $settingsTopNavigation, searchTopNavigation: $widgetTopNavigation, pageOneIsSelected: $pageOneIsSelected, pageTwoIsSelected: $pageTwoIsSelected)
                 .zIndex(1)
             
             /// Main View
@@ -73,8 +73,8 @@ struct HomeViewManager: View {
         .sheet(isPresented: $settingsTopNavigation) {
             SettingsSheetView()
         }
-        .navigationDestination(isPresented: $searchTopNavigation) {
-            SearchView(quoteCardisPresented: $quoteCardisPresented, bookViewModel: bookViewModel)
+        .sheet(isPresented: $widgetTopNavigation) {
+            WidgetIntroducingView()
         }
         .overlay {
             if renameViewPrimary {

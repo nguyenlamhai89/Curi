@@ -63,11 +63,11 @@ struct QuotePapers: View {
                 .overlay {
                     ScrollView (.horizontal) {
                         HStack (spacing: curiSpacing(.sp8)) {
-                            ForEach(connectedQuotesSample, id:\.self) { connectedQuote in
+                            ForEach(connectedQuotesSample, id:\.self) { quote in
                                 Button {
                                     print("Hihihi")
                                 } label: {
-                                    Text(connectedQuote)
+                                    Text(quote)
                                         .curiTypo(.bkRegular14)
                                         .foregroundStyle(curiPalette(.paper500))
                                         .padding(.vertical, curiSpacing(.sp2))

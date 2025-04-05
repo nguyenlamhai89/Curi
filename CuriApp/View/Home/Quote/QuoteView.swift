@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 //struct HighlightNode: View {
 //    var highlightName: String
@@ -45,6 +46,7 @@ import SwiftUI
 struct QuoteView: View {
     // Binding from HomeView
     @Bindable var bookViewModel: BookViewModel
+    @Query var highlightDatabase: [Highlight]
     
     @Binding var nameHighlightPrimary: String
     @Binding var nameHighlightSecondary: String
@@ -75,7 +77,7 @@ struct QuoteView: View {
                     print("Details")
                 }
                 .padding(.horizontal, curiSpacing(.sp16))
-                TextButtonPlain(content: "Show All") {
+                TextButtonPlain(content: "Show All (\(highlightDatabase.count))") {
                     viewAllNavigation.toggle()
                     print("All")
                 }
@@ -90,7 +92,7 @@ struct QuoteView: View {
             QuoteNoteSheetView(bookViewModel: bookViewModel, quote: quoteInPaper, author: authorInPaper, book: bookInPaper)
         }
         .navigationDestination(isPresented: $viewAllNavigation) {
-            AllQuotesView()
+            AllQuotesView(quoteCardisPresented: $quoteCardisPresented, bookViewModel: bookViewModel)
         }
     }
 }

@@ -13,7 +13,7 @@ import SwiftData
 //    var content: String
 //}
 
-struct SearchView: View {
+struct AllQuotesView: View {
     @State var searchAvailableQuote: String = ""
     @Binding var quoteCardisPresented: Bool
     
@@ -64,5 +64,6 @@ struct SearchView: View {
 
 #Preview {
     @Previewable @Bindable var bookViewModel = BookViewModel()
-    SearchView(quoteCardisPresented: .constant(false), bookViewModel: bookViewModel)
+    @Previewable @State var quoteCardisPresented: Bool = false
+    AllQuotesView(quoteCardisPresented: $quoteCardisPresented, bookViewModel: bookViewModel)
 }

@@ -56,9 +56,6 @@ struct SettingsSheetView: View {
         .background(curiPalette(.paper500))
         .presentationDetents([.medium])
         .presentationDragIndicator(.visible)
-        .interactiveDismissDisabled(true)
-        .presentationDragIndicator(.hidden)
-        
     }
 }
 
