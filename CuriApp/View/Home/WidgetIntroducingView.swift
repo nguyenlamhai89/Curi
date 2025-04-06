@@ -31,7 +31,7 @@ struct WidgetIntroducingView: View {
                         // GIF
                         Rectangle()
                             .frame(maxWidth: .infinity)
-                            .frame(height: geomtry.size.height * 0.48)
+                            .frame(height: geomtry.size.height * 0.4)
                             .foregroundStyle(Color.clear)
                             .background(
                                 Image(featureBanner)
@@ -72,7 +72,7 @@ struct WidgetIntroducingView: View {
                                             Image(step.image)
                                                 .resizable()
                                                 .scaledToFit()
-                                                .frame(width: 56)
+                                                .frame(width: 64)
                                                 .cornerRadius(curiRadius(.rd8))
                                             Text(step.description)
                                                 .curiTypo(.bkRegular14)
