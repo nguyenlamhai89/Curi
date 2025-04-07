@@ -62,7 +62,7 @@ struct HomeViewManager: View {
                           nameHighlightSecondary: $nameHighlightSecondary,
                           placeholderHighlightName: placeholderHighlightName,
                           renameViewPrimary: $renameViewPrimary,
-                          renameViewSecondary: $renameViewSecondary, quoteCardisPresented: $quoteCardisPresented, viewAllNavigation: $viewAllNavigation)
+                          renameViewSecondary: $renameViewSecondary, quoteCardIsPresented: $quoteCardisPresented, viewAllNavigation: $viewAllNavigation)
             }
         }
         .toolbar(.hidden)

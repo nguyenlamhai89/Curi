@@ -21,6 +21,10 @@ struct RenameHighlightView: View {
             .ignoresSafeArea()
             .overlay {
                 VStack (spacing: curiSpacing(.sp2)) {
+                    Text("This name will be used for other quotes")
+                        .curiTypo(.sfMedium14)
+                        .foregroundStyle(curiPalette(.paper500))
+                        .multilineTextAlignment(.center)
                     TextField(placeholderHighlightName, text: $highlightName)
                         .curiTypo(.sfRegular32)
                         .foregroundStyle(curiPalette(.paper500))

@@ -54,29 +54,26 @@ struct QuoteView: View {
     @Binding var renameViewPrimary: Bool
     @Binding var renameViewSecondary: Bool
     
-    @Binding var quoteCardisPresented: Bool
+    @Binding var quoteCardIsPresented: Bool
     @Binding var viewAllNavigation: Bool
     
     var quoteInPaper: String = "“It is only with the heart that one can see rightly; what is essential is invisible to the eye.”"
     var authorInPaper: String = "John Doe"
     var bookInPaper: String = "Sample"
     
+    var emptyHeadline: String = "No quotes yet, but that’s okay,"
+    var emptyParagraph: String = "Start with a book, and mark your way!"
+    
     var body: some View {
-        //        VStack (spacing: curiSpacing(.sp16)) {
-        //            QuoteNode(quoteTitle: "“the way to prevent further crisis is better technology, more laws, and bigger bureaucracy.”")
-        //            HighlightNode(highlightName: nameHighlightPrimary, highlightColor: curiPalette(.blue300)) {
-        //                renameHighlightPrimaryView.toggle()
-        //            }
-        //            QuoteNode(quoteTitle: "“It is only with the heart that one can see rightly; what is essential is invisible to the eye.”")
-        //        }
         VStack (spacing: 0) {
-            // Main Section
             VStack (spacing: 0) {
-                QuotePapers(quoteInPaper: quoteInPaper, authorInPaper: authorInPaper, bookInPaper: bookInPaper, buttonName: "Details") {
-                    quoteCardisPresented.toggle()
-                    print("Details")
-                }
-                .padding(.horizontal, curiSpacing(.sp16))
+                QuotePaperGroup(quoteInPaper: quoteInPaper, authorInPaper: authorInPaper, bookInPaper: bookInPaper, paperAction: {
+                    quoteCardIsPresented.toggle()
+                }, highlightContent: nameHighlightPrimary, highlightColor: curiPalette(.blue500), highlightAction: {
+                    renameViewPrimary.toggle()
+                })
+                .padding(curiSpacing(.sp16))
+                
                 TextButtonPlain(content: "Show All (\(highlightDatabase.count))") {
                     viewAllNavigation.toggle()
                     print("All")
@@ -85,18 +82,32 @@ struct QuoteView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding(.top, 74)
-//            .background(Color.blue) // Check section
-            
         }
-        .sheet(isPresented: $quoteCardisPresented) {
+        .sheet(isPresented: $quoteCardIsPresented) {
             QuoteNoteSheetView(bookViewModel: bookViewModel, quote: quoteInPaper, author: authorInPaper, book: bookInPaper)
         }
         .navigationDestination(isPresented: $viewAllNavigation) {
-            AllQuotesView(quoteCardisPresented: $quoteCardisPresented, bookViewModel: bookViewModel)
+            AllQuotesView(quoteCardisPresented: $quoteCardIsPresented, bookViewModel: bookViewModel)
+        }
+        .overlay {
+            if renameViewPrimary {
+                RenameHighlightView(backgroundColor: curiPalette(.blue500),
+                                    placeholderHighlightName: placeholderHighlightName,
+                                    highlightName: $nameHighlightPrimary,
+                                    viewIsPresented: $renameViewPrimary)
+            }
         }
     }
 }
 
 #Preview {
-//    QuoteView(nameHighlightPrimary: .constant("Discuss Later"), nameHighlightSecondary: .constant("Good Point"), placeholderHighlightName: "Name your highlight", renameViewPrimary: .constant(false), renameViewSecondary: .constant(false))
+    @Previewable @State var bookViewModel = BookViewModel()
+    @Previewable @State var nameHighlightPrimary: String = "Discuss Later"
+    @Previewable @State var nameHighlightSecondary: String = "Good Point"
+    @Previewable @State var renameViewPrimary: Bool = false
+    @Previewable @State var renameViewSecondary: Bool = false
+    @Previewable @State var quoteCardIsPresented: Bool = false
+    @Previewable @State var viewAllNavigation: Bool = false
+    
+    QuoteView(bookViewModel: bookViewModel, nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: "Your highlight name", renameViewPrimary: $renameViewPrimary, renameViewSecondary: $renameViewSecondary, quoteCardIsPresented: $quoteCardIsPresented, viewAllNavigation: $viewAllNavigation)
 }

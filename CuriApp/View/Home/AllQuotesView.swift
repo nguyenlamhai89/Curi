@@ -27,28 +27,22 @@ struct AllQuotesView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                if highlightDatabase.isEmpty {
-                    Spacer()
-                    EmptyStateDescription(headline: emptyHeadline, paragraph: emptyParagraph)
-                    Spacer()
-                } else {
-                    ScrollView {
-                        VStack (spacing: curiSpacing(.sp16)) {
-                            ForEach(highlightDatabase, id: \.self) { itemHighlight in
-                                QuoteCard(
-                                    bookName: itemHighlight.bookTitle, authorName: itemHighlight.bookAuthor, quoteContent: "\(itemHighlight.content)", highlightTagName: "Discuss Later", action: {
+                ScrollView {
+                    VStack (spacing: curiSpacing(.sp16)) {
+                        ForEach(highlightDatabase, id: \.self) { itemHighlight in
+                            QuoteCard(
+                                bookName: itemHighlight.bookTitle, authorName: itemHighlight.bookAuthor, quoteContent: "\(itemHighlight.content)", highlightTagName: "Discuss Later", action: {
 //                                        self.itemSelected = IdentifiableHighlight(content: itemHighlight)
-                                        self.quoteCardisPresented.toggle()
+                                    self.quoteCardisPresented.toggle()
 //                                        print("HAINL self.itemSelected \(String(describing: self.itemSelected))")
-                                    }
-                                )
+                                }
+                            )
 //                                .sheet(isPresented: $quoteCardisPresented, content: {
 //                                    QuoteNoteSheetView(bookViewModel: bookViewModel, highlight: itemHighlight)
 //                                })
 //                                .sheet(item: $itemSelected) { itemSelected in
 //                                    QuoteNoteSheetView(bookViewModel: bookViewModel, highlight: itemSelected.content)
 //                                }
-                            }
                         }
                     }
                 }

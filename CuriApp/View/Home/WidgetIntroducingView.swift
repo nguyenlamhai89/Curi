@@ -24,14 +24,14 @@ struct WidgetIntroducingView: View {
     ]
     
     var body: some View {
-        GeometryReader(content: { geomtry in
+        GeometryReader(content: { geometry in
             ZStack {
                 ScrollView {
                     VStack (spacing: 0) {
                         // GIF
                         Rectangle()
                             .frame(maxWidth: .infinity)
-                            .frame(height: geomtry.size.height * 0.4)
+                            .frame(height: geometry.size.height * 0.4)
                             .foregroundStyle(Color.clear)
                             .background(
                                 Image(featureBanner)

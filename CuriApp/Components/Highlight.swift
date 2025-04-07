@@ -129,6 +129,30 @@ struct HighlightButton: View {
     }
 }
 
+struct HighlightQuotePaperButton: View {
+    var content: String
+    var color: Color
+    var action: () -> Void
+    
+    var body: some View {
+        Button {
+            SoundManager.access.play(sound: .highlightRename)
+            HapticsManager.access.play(haptics: .light)
+            action()
+        } label: {
+            Text("\(content)")
+                .curiTypo(.sfMedium14)
+                .foregroundStyle(curiPalette(.paper500))
+                .padding(.top, curiSpacing(.sp2))
+                .padding(.bottom, curiSpacing(.sp16))
+                .padding(.horizontal, curiSpacing(.sp8))
+                .frame(width: 240)
+                .background(color)
+                .cornerRadius(curiRadius(.rd8))
+        }
+    }
+}
+
 struct HighlightTag: View {
     var content: String
     
@@ -161,4 +185,8 @@ struct HighlightTag: View {
     })
     
     HighlightTag(content: tagNameDemoPink)
+    
+    HighlightQuotePaperButton(content: tagNameDemoBlue, color: Color.blue) {
+        print("Highlight Quote Paper Button")
+    }
 }
