@@ -23,7 +23,7 @@ struct QuotePapers: View {
         VStack (spacing: curiSpacing(.sp8)) {
             // Headlines
             HStack (spacing: curiSpacing(.sp8)) {
-                VStack (spacing: curiSpacing(.sp2)) {
+                VStack (spacing: 0) {
                     Text("Quote of the day")
                         .curiTypo(.sfMedium14)
                         .frame(maxWidth: .infinity, alignment: .leading)

@@ -21,12 +21,15 @@ struct AllQuotesView: View {
     @Query var highlightDatabase: [Highlight]
 //    @State var itemSelected: IdentifiableHighlight?
     
+    var emptyHeadline: String = "No quotes yet, but that’s okay,"
+    var emptyParagraph: String = "Start with a book, and mark your way!"
+    
     var body: some View {
         NavigationStack {
             VStack {
                 if highlightDatabase.isEmpty {
                     Spacer()
-                    EmptyStateDescription(headline: "No highlights yet, but that’s okay,", paragraph: "Start with a book, and mark your way!")
+                    EmptyStateDescription(headline: emptyHeadline, paragraph: emptyParagraph)
                     Spacer()
                 } else {
                     ScrollView {
