@@ -34,9 +34,10 @@ Curi goes further — it helps you **build relationships between ideas**, right 
 
 ## 📸 Screenshots
 
-| Reading Mode and Highlight | Quote Link | Curi's Widget |
-|------|---------------|------------------|
-| ![](screenshots/home.png) | ![](screenshots/reading.png) | ![](screenshots/linking.png) |
+![Screenshot 1](Screenshots/screenshot1.png)
+![Screenshot 2](Screenshots/screenshot2.png)
+![Screenshot 3](Screenshots/screenshot3png)
+
 
 ---
 
