@@ -12,6 +12,16 @@
 		D8E0118B2D7BF130005ABDEF /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E0118A2D7BF130005ABDEF /* SwiftUI.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		D887F0CD2DA56D1B00BE2EC1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D894C98D2D6747EA00CE95C0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D8E011852D7BF130005ABDEF;
+			remoteInfo = CuriWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		D8E0119D2D7BF131005ABDEF /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -142,6 +152,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D887F0CE2DA56D1B00BE2EC1 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				D894C9B92D6747F900CE95C0 /* CuriApp */,
@@ -184,7 +195,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
-				LastUpgradeCheck = 1620;
+				LastUpgradeCheck = 1630;
 				TargetAttributes = {
 					D894C9942D6747EA00CE95C0 = {
 						CreatedOnToolsVersion = 16.2;
@@ -251,6 +262,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		D887F0CE2DA56D1B00BE2EC1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D8E011852D7BF130005ABDEF /* CuriWidgetExtension */;
+			targetProxy = D887F0CD2DA56D1B00BE2EC1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
 		D894C9A22D6747EB00CE95C0 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -286,6 +305,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -347,6 +367,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -374,6 +395,7 @@
 				CODE_SIGN_ENTITLEMENTS = CuriApp/CuriApp.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"CuriApp/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = BP2GHWM7V6;
@@ -417,6 +439,7 @@
 				CODE_SIGN_ENTITLEMENTS = CuriApp/CuriApp.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"CuriApp/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = BP2GHWM7V6;

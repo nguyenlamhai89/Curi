@@ -12,11 +12,11 @@ struct Provider: AppIntentTimelineProvider {
     let quoteOfTheDay = DataService()
     
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), quote: quoteOfTheDay.fetchSampleQuote())
+        SimpleEntry(date: Date(), quote: quoteOfTheDay.fetchContentQuote())
     }
 
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
-        SimpleEntry(date: Date(), quote: quoteOfTheDay.fetchSampleQuote())
+        SimpleEntry(date: Date(), quote: quoteOfTheDay.fetchContentQuote())
     }
     
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
@@ -26,7 +26,7 @@ struct Provider: AppIntentTimelineProvider {
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, quote: quoteOfTheDay.fetchSampleQuote())
+            let entry = SimpleEntry(date: entryDate, quote: quoteOfTheDay.fetchContentQuote())
             entries.append(entry)
         }
 
@@ -50,29 +50,37 @@ struct CuriWidgetEntryView : View {
     let quoteOfTheDay = DataService()
 
     var body: some View {
-        VStack (spacing: 16) {
-            HStack {
-                VStack (alignment: .leading) {
-                    Text("Animal Farm")
-                    Text("George Orwell")
+        if quoteOfTheDay.widgetQuote.isEmpty {
+            VStack {
+                Text("Empty")
+                    .curiTypo(.sfMedium16)
+                    .foregroundStyle(curiPalette(.ink100))
+            }
+        } else {
+            VStack (spacing: curiSpacing(.sp16)) {
+                HStack {
+                    VStack (alignment: .leading) {
+                        Text(quoteOfTheDay.fetchBookQuote())
+                            .foregroundStyle(curiPalette(.ink500))
+                        Text(quoteOfTheDay.fetchAuthorQuote())
+                            .foregroundStyle(curiPalette(.ink300))
+                    }
+                    .curiTypo(.sfMedium12)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .lineLimit(1)
+                    
+                    HighlightTag(content: quoteOfTheDay.fetchHighlightQuote(), color: curiPalette(.blue300))
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .lineLimit(1)
                 
-                Text("Discuss Later")
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 2)
-                    .background(Color.blue)
-                    .cornerRadius(4)
-                    .foregroundStyle(Color.white)
+                Text("“\(quoteOfTheDay.fetchContentQuote())”")
+                    .curiTypo(.bkRegular16)
+                    .foregroundStyle(curiPalette(.ink500))
+                    .lineLimit(3)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .font(.system(size: 12))
-            
-            Text("“\(quoteOfTheDay.fetchSampleQuote())”")
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                .font(.system(size: 16, weight: .medium))
         }
+        
     }
 }
 
