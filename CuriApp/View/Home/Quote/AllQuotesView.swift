@@ -47,7 +47,7 @@ struct AllQuotesView: View {
                     }
                 }
             }
-            .navigationTitle("All Quotes")
+            .navigationTitle("All Quotes \(highlightDatabase.count)")
             .navigationBarTitleDisplayMode(.inline)
             .padding(.horizontal, curiSpacing(.sp16))
             .frame(maxWidth: .infinity)
