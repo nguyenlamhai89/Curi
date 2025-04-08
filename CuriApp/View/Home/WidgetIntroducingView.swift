@@ -6,21 +6,22 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct WidgetIntroducingView: View {
     @Environment(\.presentationMode) var presentationMode
     
-    let featureBanner: String = "curiBannerSample"
+    let featureBannerGif: String = "curiWidgetIntroducingGIF.gif"
     
-    let featureName: String = "Widget"
+    let featureName: String = "Curi's Widget"
     let featureHeadline: String = "Let words find you"
     let featureDescription: String = "Each day, a gentle reminder — your saved highlight waiting quietly on the Home Screen."
     let featureCTA: String = "Got it"
     
     let stepsWidget: [(image: String, description: String)] = [
-        (image: "curiStep1", description: "Tap and hold anywhere on your phone's home screen"),
-        (image: "curiStep2", description: "Tap the + button in the top left corner"),
-        (image: "curiStep3", description: "Search for Curi, then tap Add Widget.")
+        (image: "curiStep1", description: "Tap and hold anywhere on your Home Screen"),
+        (image: "curiStep2", description: "Tap Edit in the top left corner, then tap Add Widget"),
+        (image: "curiStep3", description: "Search for Curi and tap Add Widget")
     ]
     
     var body: some View {
@@ -29,28 +30,43 @@ struct WidgetIntroducingView: View {
                 ScrollView {
                     VStack (spacing: 0) {
                         // GIF
-                        Rectangle()
-                            .frame(maxWidth: .infinity)
-                            .frame(height: geometry.size.height * 0.4)
-                            .foregroundStyle(Color.clear)
-                            .background(
-                                Image(featureBanner)
-                                    .resizable()
-                                    .scaledToFill()
-                            )
+//                        Rectangle()
+//                            .frame(maxWidth: .infinity)
+//                            .frame(height: geometry.size.height * 0.4)
+//                            .foregroundStyle(Color.clear)
+//                            .overlay {
+//                                AnimatedImage(name: "curiWidgetIntroducingGIF.gif", isAnimating: .constant(true))
+//                                    .resizable()
+//                                    .scaledToFill()
+//                            }
+                        
+                        AnimatedImage(name: featureBannerGif, isAnimating: .constant(true))
+                            .resizable()
+                            .scaledToFill()
                         
                         // Content
                         VStack (spacing: curiSpacing(.sp32)) {
                             VStack (spacing: curiSpacing(.sp8)) {
-                                Text(featureName)
-                                    .curiTypo(.bkRegular14)
-                                    .foregroundColor(curiPalette(.blue500))
-                                    .padding(.vertical, curiSpacing(.sp2))
-                                    .padding(.horizontal, curiSpacing(.sp8))
-                                    .background(curiPalette(.blue100))
-                                    .cornerRadius(curiRadius(.rd4))
-                                    .frame(maxWidth: .infinity)
+                                HStack (spacing: curiSpacing(.sp4)) {
+                                    Image("curiWidgetLeft")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 24)
+                                    Text(featureName)
+                                        .curiTypo(.bkRegular14)
+                                        .foregroundColor(curiPalette(.blue500))
+                                        .padding(.vertical, curiSpacing(.sp2))
+                                        .padding(.horizontal, curiSpacing(.sp8))
+                                        .background(curiPalette(.blue100))
+                                        .cornerRadius(curiRadius(.rd4))
+                                    Image("curiWidgetRight")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 24)
+                                }
+                                .frame(maxWidth: .infinity)
                                 //                        .background(Color.yellow) // Check section
+                                
                                 Text(featureHeadline)
                                     .curiTypo(.bkRegular32)
                                     .foregroundStyle(curiPalette(.ink500))
@@ -62,7 +78,7 @@ struct WidgetIntroducingView: View {
                                     .foregroundStyle(curiPalette(.ink300))
                                     .multilineTextAlignment(.center)
                                     .frame(maxWidth: .infinity)
-    //                                                    .background(Color.yellow) // Check section
+                                //                                                    .background(Color.yellow) // Check section
                             }
                             
                             VStack (spacing: curiSpacing(.sp12)) {
@@ -88,13 +104,13 @@ struct WidgetIntroducingView: View {
                                 }
                             }
                             .padding(.horizontal, curiSpacing(.sp16))
-    //                        .background(Color.red) // Check section
+                            //                        .background(Color.red) // Check section
                             
                         }
                         .padding(.horizontal, curiSpacing(.sp16))
                         .padding(.bottom, 80)
                         .padding(.vertical, curiSpacing(.sp32))
-        //                .background(Color.blue) // Check section
+                        //                .background(Color.blue) // Check section
                     }
                 }
                 .scrollIndicators(.hidden)
@@ -108,33 +124,18 @@ struct WidgetIntroducingView: View {
                     }
                     .bottomNavigationSpacing
                 }
-
-    //            VStack {
-    //                HStack {
-    //                    Spacer()
-    //                    IconButtonDefault(iconName: "curiDelete") {
-    //                        presentationMode.wrappedValue.dismiss()
-    //                    }
-    //                }
-    //                .frame(maxWidth: .infinity)
-    //                .padding(.horizontal, curiSpacing(.sp16))
-    //                .padding(.vertical, curiSpacing(.sp20))
-    //
-    //                Spacer()
-    //            }
             }
         })
         .background(curiPalette(.paper500))
-//        .presentationDragIndicator(.visible)
+        //        .presentationDragIndicator(.visible)
         .interactiveDismissDisabled(true)
     }
 }
 
 #Preview {
-//    WidgetIntroducingView()
     @Previewable @State var sheetPresented: Bool = true
     VStack {
-
+        Text("New Feature: Widget")
     }
     .sheet(isPresented: $sheetPresented) {
         WidgetIntroducingView()

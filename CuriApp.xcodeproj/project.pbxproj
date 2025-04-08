@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D8ADF06F2DA4FDFB00C3B486 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = D8ADF06E2DA4FDFB00C3B486 /* SDWebImageSwiftUI */; };
 		D8E011892D7BF130005ABDEF /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E011882D7BF130005ABDEF /* WidgetKit.framework */; };
 		D8E0118B2D7BF130005ABDEF /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E0118A2D7BF130005ABDEF /* SwiftUI.framework */; };
 /* End PBXBuildFile section */
@@ -81,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8ADF06F2DA4FDFB00C3B486 /* SDWebImageSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,6 +148,7 @@
 			);
 			name = CuriApp;
 			packageProductDependencies = (
+				D8ADF06E2DA4FDFB00C3B486 /* SDWebImageSwiftUI */,
 			);
 			productName = CuriApp;
 			productReference = D894C9952D6747EA00CE95C0 /* Curi.app */;
@@ -200,6 +203,9 @@
 			);
 			mainGroup = D894C98C2D6747EA00CE95C0;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				D8ADF06D2DA4FDFB00C3B486 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D894C9962D6747EA00CE95C0 /* Products */;
 			projectDirPath = "";
@@ -538,6 +544,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D8ADF06D2DA4FDFB00C3B486 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D8ADF06E2DA4FDFB00C3B486 /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D8ADF06D2DA4FDFB00C3B486 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D894C98D2D6747EA00CE95C0 /* Project object */;
 }

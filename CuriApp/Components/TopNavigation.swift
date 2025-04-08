@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TopNavigationCanvas: View {
     @Binding var settingsTopNavigation: Bool
-    @Binding var searchTopNavigation: Bool
+    @Binding var widgetTopNavigation: Bool
     
     @Binding var pageOneIsSelected: Bool
     @Binding var pageTwoIsSelected: Bool
@@ -37,9 +37,9 @@ struct TopNavigationCanvas: View {
                     Spacer()
                     
                     /// Icon Button - Search
-                    IconButtonDefault(iconName: "curiSearch") {
-                        searchTopNavigation.toggle()
-                        print("Search Navigated: \(searchTopNavigation)")
+                    IconButtonDefault(iconName: "curiWidget") {
+                        widgetTopNavigation.toggle()
+                        print("Widget Introducing Navigated: \(widgetTopNavigation)")
                     }
                     
                 }
@@ -101,10 +101,10 @@ struct TopNavigationBook: View {
 
 #Preview {
     @Previewable @State var settingsTopNavigation: Bool = false
-    @Previewable @State var searchTopNavigation: Bool = false
+    @Previewable @State var widgetTopNavigation: Bool = false
     @Previewable @State var pageOneIsSelected: Bool = true
     @Previewable @State var pageTwoIsSelected: Bool = false
     
-    TopNavigationCanvas(settingsTopNavigation: $settingsTopNavigation, searchTopNavigation: $searchTopNavigation, pageOneIsSelected: $pageOneIsSelected, pageTwoIsSelected: $pageTwoIsSelected)
+    TopNavigationCanvas(settingsTopNavigation: $settingsTopNavigation, widgetTopNavigation: $widgetTopNavigation, pageOneIsSelected: $pageOneIsSelected, pageTwoIsSelected: $pageTwoIsSelected)
     TopNavigationBook(quoteIsSelected: true)
 }

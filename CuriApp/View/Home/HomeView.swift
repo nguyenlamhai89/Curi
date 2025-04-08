@@ -37,7 +37,7 @@ struct HomeViewManager: View {
     var body: some View {
         ZStack {
             /// Top Navigation Bar
-            TopNavigationCanvas(settingsTopNavigation: $settingsTopNavigation, searchTopNavigation: $widgetTopNavigation, pageOneIsSelected: $pageOneIsSelected, pageTwoIsSelected: $pageTwoIsSelected)
+            TopNavigationCanvas(settingsTopNavigation: $settingsTopNavigation, widgetTopNavigation: $widgetTopNavigation, pageOneIsSelected: $pageOneIsSelected, pageTwoIsSelected: $pageTwoIsSelected)
                 .zIndex(1)
             
             /// Main View
