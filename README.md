@@ -36,11 +36,7 @@ Curi goes further — it helps you **build relationships between ideas**, right 
 
 ![Screenshot 1](Screenshots/screenshot1.png)
 ![Screenshot 2](Screenshots/screenshot2.png)
-<<<<<<< HEAD
-![Screenshot 3](Screenshots/screenshot3png)
-=======
 ![Screenshot 3](Screenshots/screenshot3.png)
->>>>>>> 8a8617d (README.md updated)
 
 
 ---
