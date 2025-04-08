@@ -30,16 +30,6 @@ struct WidgetIntroducingView: View {
                 ScrollView {
                     VStack (spacing: 0) {
                         // GIF
-//                        Rectangle()
-//                            .frame(maxWidth: .infinity)
-//                            .frame(height: geometry.size.height * 0.4)
-//                            .foregroundStyle(Color.clear)
-//                            .overlay {
-//                                AnimatedImage(name: "curiWidgetIntroducingGIF.gif", isAnimating: .constant(true))
-//                                    .resizable()
-//                                    .scaledToFill()
-//                            }
-                        
                         AnimatedImage(name: featureBannerGif, isAnimating: .constant(true))
                             .resizable()
                             .scaledToFill()
