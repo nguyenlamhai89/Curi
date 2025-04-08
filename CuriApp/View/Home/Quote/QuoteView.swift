@@ -69,7 +69,7 @@ struct QuoteView: View {
             VStack (spacing: 0) {
                 QuotePaperGroup(quoteInPaper: quoteInPaper, authorInPaper: authorInPaper, bookInPaper: bookInPaper, paperAction: {
                     quoteCardIsPresented.toggle()
-                }, highlightContent: nameHighlightPrimary, highlightColor: curiPalette(.blue500), highlightAction: {
+                }, highlightContent: nameHighlightPrimary, highlightColor: curiPalette(.blue300), highlightAction: {
                     renameViewPrimary.toggle()
                 })
                 .padding(curiSpacing(.sp16))
