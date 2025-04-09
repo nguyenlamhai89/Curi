@@ -7,13 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D879CCD82DA64E7E006A6410 /* CuriWidgetExtension.entitlements in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D80A96552D7EFE9F00AAC62F /* CuriWidgetExtension.entitlements */; };
 		D8ADF06F2DA4FDFB00C3B486 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = D8ADF06E2DA4FDFB00C3B486 /* SDWebImageSwiftUI */; };
 		D8E011892D7BF130005ABDEF /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E011882D7BF130005ABDEF /* WidgetKit.framework */; };
 		D8E0118B2D7BF130005ABDEF /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E0118A2D7BF130005ABDEF /* SwiftUI.framework */; };
+		D8E567BD2DA654E000B11DDA /* CuriWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D8E011862D7BF130005ABDEF /* CuriWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		D887F0CD2DA56D1B00BE2EC1 /* PBXContainerItemProxy */ = {
+		D8E567BB2DA651FE00B11DDA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D894C98D2D6747EA00CE95C0 /* Project object */;
 			proxyType = 1;
@@ -29,6 +31,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				D8E567BD2DA654E000B11DDA /* CuriWidgetExtension.appex in Embed Foundation Extensions */,
+				D879CCD82DA64E7E006A6410 /* CuriWidgetExtension.entitlements in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -152,7 +156,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				D887F0CE2DA56D1B00BE2EC1 /* PBXTargetDependency */,
+				D8E567BC2DA651FE00B11DDA /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				D894C9B92D6747F900CE95C0 /* CuriApp */,
@@ -263,10 +267,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		D887F0CE2DA56D1B00BE2EC1 /* PBXTargetDependency */ = {
+		D8E567BC2DA651FE00B11DDA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D8E011852D7BF130005ABDEF /* CuriWidgetExtension */;
-			targetProxy = D887F0CD2DA56D1B00BE2EC1 /* PBXContainerItemProxy */;
+			targetProxy = D8E567BB2DA651FE00B11DDA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -393,12 +397,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CuriApp/CuriApp.entitlements;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"CuriApp/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = BP2GHWM7V6;
+				DEVELOPMENT_TEAM = 35KB5PK2KC;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -418,10 +422,10 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.2;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = madeby.nham.curiapp;
+				PRODUCT_BUNDLE_IDENTIFIER = madebynham.CuriApp;
 				PRODUCT_NAME = Curi;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = nhaam;
+				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -437,12 +441,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CuriApp/CuriApp.entitlements;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"CuriApp/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = BP2GHWM7V6;
+				DEVELOPMENT_TEAM = 35KB5PK2KC;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -462,10 +466,10 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.2;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = madeby.nham.curiapp;
+				PRODUCT_BUNDLE_IDENTIFIER = madebynham.CuriApp;
 				PRODUCT_NAME = Curi;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = nhaam;
+				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;

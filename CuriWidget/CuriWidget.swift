@@ -12,11 +12,23 @@ struct Provider: AppIntentTimelineProvider {
     let quoteOfTheDay = DataService()
     
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), quote: quoteOfTheDay.fetchContentQuote())
+        SimpleEntry(
+            date: Date(),
+            authorName: "Author",
+            bookName: "Book",
+            quoteContent: "Placeholder quote",
+            highlightName: "Highlight"
+        )
     }
 
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
-        SimpleEntry(date: Date(), quote: quoteOfTheDay.fetchContentQuote())
+        SimpleEntry(
+            date: Date(),
+            authorName: "William Shakespeare",
+            bookName: "A Lover's Complaint",
+            quoteContent: "Storming her world with sorrow's wind and rain.",
+            highlightName: "Discuss Later"
+        )
     }
     
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
@@ -26,7 +38,13 @@ struct Provider: AppIntentTimelineProvider {
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, quote: quoteOfTheDay.fetchContentQuote())
+            let entry = SimpleEntry(
+                date: entryDate,
+                authorName: quoteOfTheDay.fetchAuthorQuote(),
+                bookName: quoteOfTheDay.fetchBookQuote(),
+                quoteContent: quoteOfTheDay.fetchContentQuote(),
+                highlightName: quoteOfTheDay.fetchHighlightQuote()
+            )
             entries.append(entry)
         }
 
@@ -40,7 +58,10 @@ struct Provider: AppIntentTimelineProvider {
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let quote: String
+    let authorName: String
+    let bookName: String
+    let quoteContent: String
+    let highlightName: String
 }
 
 struct CuriWidgetEntryView : View {
@@ -52,12 +73,13 @@ struct CuriWidgetEntryView : View {
     var body: some View {
         if quoteOfTheDay.widgetQuote.isEmpty {
             VStack {
-                Text("Empty")
+                Text("Read a book and highlight your first favorite quote!")
                     .curiTypo(.sfMedium16)
                     .foregroundStyle(curiPalette(.ink100))
+                    .multilineTextAlignment(.center)
             }
         } else {
-            VStack (spacing: curiSpacing(.sp16)) {
+            VStack (spacing: curiSpacing(.sp12)) {
                 HStack {
                     VStack (alignment: .leading) {
                         Text(quoteOfTheDay.fetchBookQuote())
@@ -76,7 +98,7 @@ struct CuriWidgetEntryView : View {
                 Text("“\(quoteOfTheDay.fetchContentQuote())”")
                     .curiTypo(.bkRegular16)
                     .foregroundStyle(curiPalette(.ink500))
-                    .lineLimit(3)
+//                    .lineLimit(3)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             }
         }
@@ -115,6 +137,11 @@ extension ConfigurationAppIntent {
 #Preview(as: .systemMedium) {
     CuriWidget()
 } timeline: {
-    SimpleEntry(date: .now, quote: "Hihi")
-    SimpleEntry(date: .now, quote: "Alo tôi đâyyy test tí nào")
+    SimpleEntry(
+        date: .now,
+        authorName: "Trần Dần",
+        bookName: "Thơ mini",
+        quoteContent: "Tôi khóc những chân trời không có người bay",
+        highlightName: "Bầu trời"
+    )
 }
