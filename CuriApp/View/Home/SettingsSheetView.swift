@@ -6,9 +6,12 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct SettingsSheetView: View {
     @Environment(\.presentationMode) var presentationMode
+    
+    let curiLogoGIF: String = "curiLogoGIF.gif"
     
     var body: some View {
         VStack (spacing: 0) {
@@ -31,10 +34,15 @@ struct SettingsSheetView: View {
             
             /// About Curi
             VStack (spacing: curiSpacing(.sp16)) {
-                Image("curiLogo")
+//                Image("curiLogo")
+//                    .resizable()
+//                    .scaledToFit()
+//                    .frame(width: 24)
+                AnimatedImage(name: curiLogoGIF, isAnimating: .constant(true))
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 24)
+                    .frame(width: 40)
+                
                 VStack (spacing: curiSpacing(.sp8)) {
                     Text("Curi transforms your reading experience into something more memorable and enjoyable.")
                     Text("Last synced: 3 min")

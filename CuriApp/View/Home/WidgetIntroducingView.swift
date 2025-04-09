@@ -11,7 +11,7 @@ import SDWebImageSwiftUI
 struct WidgetIntroducingView: View {
     @Environment(\.presentationMode) var presentationMode
     
-    let featureBannerGif: String = "curiWidgetIntroducingGIF.gif"
+    let featureBannerGIF: String = "curiWidgetIntroducingGIF.gif"
     
     let featureName: String = "Curi's Widget"
     let featureHeadline: String = "Let words find you"
@@ -30,7 +30,7 @@ struct WidgetIntroducingView: View {
                 ScrollView {
                     VStack (spacing: 0) {
                         // GIF
-                        AnimatedImage(name: featureBannerGif, isAnimating: .constant(true))
+                        AnimatedImage(name: featureBannerGIF, isAnimating: .constant(true))
                             .resizable()
                             .scaledToFill()
                         
