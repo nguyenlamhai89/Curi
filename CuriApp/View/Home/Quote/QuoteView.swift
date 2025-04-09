@@ -46,7 +46,7 @@ import SwiftData
 struct QuoteView: View {
     // Binding from HomeView
     @Bindable var bookViewModel: BookViewModel
-    @Query var highlightDatabase: [Highlight]
+    @Query var quoteDatabase: [Quote]
     
     @Binding var nameHighlightPrimary: String
     @Binding var nameHighlightSecondary: String
@@ -57,9 +57,15 @@ struct QuoteView: View {
     @Binding var quoteCardIsPresented: Bool
     @Binding var viewAllNavigation: Bool
     
-    var quoteInPaper: String = "“It is only with the heart that one can see rightly; what is essential is invisible to the eye.”"
-    var authorInPaper: String = "John Doe"
-    var bookInPaper: String = "Sample"
+    var quoteInPaper: String {
+        quoteDatabase.first?.quoteContent ?? "No quotes yet"
+    }
+    var authorInPaper: String {
+        quoteDatabase.first?.quoteAuthor ?? "Unknown Author"
+    }
+    var bookInPaper: String {
+        quoteDatabase.first?.quoteBook ?? "Unknown Book"
+    }
     
     var emptyHeadline: String = "No quotes yet, but that’s okay,"
     var emptyParagraph: String = "Start with a book, and mark your way!"
@@ -74,7 +80,7 @@ struct QuoteView: View {
                 })
                 .padding(curiSpacing(.sp16))
                 
-                TextButtonPlain(content: "Show All (\(highlightDatabase.count))") {
+                TextButtonPlain(content: "Show All (\(quoteDatabase.count))") {
                     viewAllNavigation.toggle()
                     print("All")
                 }

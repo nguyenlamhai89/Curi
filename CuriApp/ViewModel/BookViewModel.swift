@@ -56,7 +56,8 @@ class BookViewModel {
     
     // Get Book
     func fetchBooks() async throws {
-        guard let url = URL(string: "https://poetrydb.org/author/William%20Shakespeare") else { throw URLError(.badURL) }
+        guard let url = URL(string: "https://poetrydb.org/author/William%20Shakespeare") else { throw
+            URLError(.badURL) }
         do {
             isLoading = true
             isFetched = false
@@ -98,6 +99,7 @@ class BookViewModel {
             isFetched = false
             
             print("Loading: \(isLoading) - Fetch Done: \(isFetched)")
+            print("⚠️ Error: \(error)")
             throw error
         }
     }

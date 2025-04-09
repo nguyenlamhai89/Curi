@@ -10,7 +10,7 @@ import SwiftData
 
 struct BookView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query var highlightDatabase: [Highlight]
+    @Query var quoteDatabase: [Quote]
     
 //     Local
     @State var quoteSelected: Bool = true
@@ -45,7 +45,7 @@ struct BookView: View {
                             .multilineTextAlignment(.center)
                         LinesView(bookID: bookID, bookTitle: bookTitle, bookAuthor: bookAuthor, bookLinesOriginal: bookLinesOriginal)
                             .onAppear {
-                                print("[\(highlightDatabase.count)] Current Database: \(highlightDatabase)")
+                                print("[\(quoteDatabase.count)] Current Database: \(quoteDatabase)")
                             }
                     }
                     .padding(.top, 120)
@@ -106,12 +106,6 @@ struct BookView: View {
 #Preview {
     @Previewable @Bindable var bookViewModel = BookViewModel()
     let bookIDFake = UUID()
-//    BookView(bookViewModel: bookViewModel, bookID: bookIDFake, bookTitle: "Harry Pọt tơ", bookLinesOriginal: [
-//        "FROM off a hill whose concave womb reworded",
-//        "A plaintful story from a sistering vale,",
-//        "My spirits to attend this double voice accorded,",
-//        "And down I laid to list the sad-tuned tale;"
-//    ], nameHighlightPrimary: .constant("Discuss Later"), nameHighlightSecondary: .constant("Good Point"), placeholderHighlightName: "Your highlight name", bookAuthor: "William Shakespeare",, renameHighlightPrimaryView: .constant(false), renameHighlightSecondaryView: .constant(false))
     BookView(bookViewModel: bookViewModel, bookID: bookIDFake, bookTitle: "Harry Pọt Tơ", bookAuthor: "William Shakespeare", bookLinesOriginal: [
         "FROM off a hill whose concave womb reworded",
         "A plaintful story from a sistering vale,",
@@ -122,7 +116,7 @@ struct BookView: View {
 
 struct LinesView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query var highlightDatabase: [Highlight]
+    @Query var quoteDatabase: [Quote]
     
     var bookID: UUID
     var bookTitle: String
@@ -134,30 +128,40 @@ struct LinesView: View {
             ForEach(bookLinesOriginal, id: \.self) { line in
                 Text(line)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .onTapGesture {
+                    .onLongPressGesture {
                         print("\(line)")
-                        let highlight = Highlight(bookID: bookID, bookTitle: bookTitle, bookAuthor: bookAuthor, content: line)
-                        print("--------")
-                        print("- BookID: \(highlight.bookID)")
-                        print("- HighlightID: \(highlight.highlightID)")
-                        print("- Title: \(highlight.bookTitle)")
-                        print("- Author: \(highlight.bookAuthor)")
-                        print("- Content: \(highlight.content)")
-//                        if highlight = highlightDatabase.first(where: { $0.content == line }) {
-//                            SoundManager.access.play(sound: .highlightAdded)
-//                            modelContext.insert(highlight)
-//                            print("[\(highlightDatabase.count)] Current Database: \(highlightDatabase)")
-//                            print("Added: \(highlight)")
-//                        } else {
-//                            SoundManager.access.play(sound: .highlightRemoved)
-//                            modelContext.delete(highlight)
-//                            print("[\(highlightDatabase.count)] Current Database: \(highlightDatabase)")
-//                            print("Removed: \(highlight)")
-//                        }
+                        let quote = Quote(bookID: bookID, quoteBook: bookTitle, quoteAuthor: bookAuthor, quoteContent: line)
+                        print("📝 --------")
+                        print("- BookID: \(quote.bookID)")
+                        print("- QuoteID: \(quote.quoteID)")
+                        print("- Title: \(quote.quoteBook)")
+                        print("- Author: \(quote.quoteAuthor)")
+                        print("- Content: \(quote.quoteContent)")
+
+                        checkQuoteDatabase(checkingQuote: quote, currentLine: line)
+                        
                     }
-                    .foregroundStyle(highlightDatabase.contains(where: { $0.content == line }) ? curiPalette(.blue500) : curiPalette(.ink500))
-                    .background(highlightDatabase.contains(where: { $0.content == line }) ? curiPalette(.blue100) : Color.clear)
+                    .foregroundStyle(quoteDatabase.contains(where: { $0.quoteContent == line }) ? curiPalette(.blue500) : curiPalette(.ink500))
+                    .background(quoteDatabase.contains(where: { $0.quoteContent == line }) ? curiPalette(.blue100) : Color.clear)
             }
         }
+    }
+    
+    func checkQuoteDatabase(checkingQuote: Quote, currentLine: String) {
+        if let existingQuote = quoteDatabase.first(where: { $0.quoteContent == currentLine /*&& $0.quoteID == checkingQuote.quoteID*/ }) {
+            SoundManager.access.play(sound: .highlightRemoved)
+            modelContext.delete(existingQuote)
+            
+//            print("✅ [\(quoteDatabase.count)] Quote Database: \(quoteDatabase)")
+//            print("--- Removed: \(existingQuote)")
+        } else {
+            SoundManager.access.play(sound: .highlightAdded)
+            modelContext.insert(checkingQuote)
+            
+//            print("✅ [\(quoteDatabase.count)] Quote Database: \(quoteDatabase)")
+//            print("--- Added: \(checkingQuote)")
+        }
+        
+        print("✅ [\(quoteDatabase.count)] Quote Database: \(quoteDatabase)")
     }
 }

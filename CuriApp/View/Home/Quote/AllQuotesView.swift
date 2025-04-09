@@ -8,18 +8,20 @@
 import SwiftUI
 import SwiftData
 
-//struct IdentifiableHighlight: Identifiable {
-//    var id = UUID()
-//    var content: String
-//}
+struct IdentifiableHighlight: Identifiable {
+    var id = UUID()
+    var book: String
+    var author: String
+    var lines: String
+}
 
 struct AllQuotesView: View {
     @State var searchAvailableQuote: String = ""
     @Binding var quoteCardisPresented: Bool
     
     @Bindable var bookViewModel: BookViewModel
-    @Query var highlightDatabase: [Highlight]
-//    @State var itemSelected: IdentifiableHighlight?
+    @Query var quoteDatabase: [Quote]
+    @State var itemSelected: IdentifiableHighlight?
     
     var emptyHeadline: String = "No quotes yet, but that’s okay,"
     var emptyParagraph: String = "Start with a book, and mark your way!"
@@ -29,25 +31,25 @@ struct AllQuotesView: View {
             VStack {
                 ScrollView {
                     VStack (spacing: curiSpacing(.sp16)) {
-                        ForEach(highlightDatabase, id: \.self) { itemHighlight in
+                        ForEach(quoteDatabase) { quote in
                             QuoteCard(
-                                bookName: itemHighlight.bookTitle, authorName: itemHighlight.bookAuthor, quoteContent: "\(itemHighlight.content)", highlightTagName: "Discuss Later", action: {
-//                                        self.itemSelected = IdentifiableHighlight(content: itemHighlight)
+                                bookName: quote.quoteBook, authorName: quote.quoteAuthor, quoteContent: "\(quote.quoteContent)", highlightTagName: "Discuss Later", action: {
+                                    self.itemSelected = IdentifiableHighlight(book: quote.quoteBook, author: quote.quoteAuthor, lines: quote.quoteContent)
                                     self.quoteCardisPresented.toggle()
-//                                        print("HAINL self.itemSelected \(String(describing: self.itemSelected))")
+                                    print("HAINL self.itemSelected \(String(describing: self.itemSelected))")
                                 }
                             )
-//                                .sheet(isPresented: $quoteCardisPresented, content: {
-//                                    QuoteNoteSheetView(bookViewModel: bookViewModel, highlight: itemHighlight)
-//                                })
-//                                .sheet(item: $itemSelected) { itemSelected in
-//                                    QuoteNoteSheetView(bookViewModel: bookViewModel, highlight: itemSelected.content)
-//                                }
+                            //                                .sheet(isPresented: $quoteCardisPresented, content: {
+                            //                                    QuoteNoteSheetView(bookViewModel: bookViewModel, quote: quote.quoteContent, author: quote.quoteAuthor, book: quote.quoteBook)
+                            //                                })
+                            .sheet(item: $itemSelected) { quoteSelected in
+                                QuoteNoteSheetView(bookViewModel: bookViewModel, quote: quoteSelected.quoteContent, author: quoteSelected.quoteAuthor, book: quoteSelected.quoteBook)
+                            }
                         }
                     }
                 }
             }
-            .navigationTitle("All Quotes \(highlightDatabase.count)")
+            .navigationTitle("All Quotes (\(quoteDatabase.count))")
             .navigationBarTitleDisplayMode(.inline)
             .padding(.horizontal, curiSpacing(.sp16))
             .frame(maxWidth: .infinity)

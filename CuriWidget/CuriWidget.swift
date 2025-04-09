@@ -71,15 +71,13 @@ struct CuriWidgetEntryView : View {
     let quoteOfTheDay = DataService()
 
     var body: some View {
-        if quoteOfTheDay.widgetQuote.isEmpty {
-            VStack {
+        VStack (spacing: curiSpacing(.sp12)) {
+            if quoteOfTheDay.widgetQuote.isEmpty {
                 Text("Read a book and highlight your first favorite quote!")
                     .curiTypo(.sfMedium16)
                     .foregroundStyle(curiPalette(.ink100))
                     .multilineTextAlignment(.center)
-            }
-        } else {
-            VStack (spacing: curiSpacing(.sp12)) {
+            } else {
                 HStack {
                     VStack (alignment: .leading) {
                         Text(quoteOfTheDay.fetchBookQuote())
@@ -98,11 +96,10 @@ struct CuriWidgetEntryView : View {
                 Text("“\(quoteOfTheDay.fetchContentQuote())”")
                     .curiTypo(.bkRegular16)
                     .foregroundStyle(curiPalette(.ink500))
-//                    .lineLimit(3)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             }
         }
-        
+//        .background(curiPalette(.paper300))
     }
 }
 

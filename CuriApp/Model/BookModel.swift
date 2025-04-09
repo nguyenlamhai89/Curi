@@ -21,37 +21,82 @@ class Book: Identifiable, Codable {
     }
 }
 
+//@Model
+//class Highlight {
+//    var bookID: UUID
+//    var highlightID: UUID = UUID()
+//    var bookTitle: String
+//    var bookAuthor: String
+//    var content: String
+//    @Relationship(deleteRule: .cascade) var note: Note?
+//    
+//    init(bookID: UUID,
+//         bookTitle: String,
+//         bookAuthor: String,
+//         content: String,
+//         note: Note? = nil) {
+//        self.bookID = bookID
+//        self.bookTitle = bookTitle
+//        self.bookAuthor = bookAuthor
+//        self.content = content
+//        self.note = note
+//    }
+//}
+
 @Model
-class Highlight {
+class Quote: Identifiable {
     var bookID: UUID
-    var highlightID: UUID = UUID()
-    var bookTitle: String
-    var bookAuthor: String
-    var content: String
-    @Relationship(deleteRule: .cascade) var note: Note?
+    var quoteID: UUID = UUID()
+    var quoteBook: String
+    var quoteAuthor: String
+    var quoteContent: String
+    var quoteHighlightName: String?
     
-    init(bookID: UUID,
-         bookTitle: String,
-         bookAuthor: String,
-         content: String,
-         note: Note? = nil) {
+    var isConnected: Bool = false
+    var connectedQuotes: [Quote]?
+    
+    @Relationship(deleteRule: .cascade) var quoteNote: Note?
+    
+    init(bookID: UUID, quoteBook: String, quoteAuthor: String, quoteContent: String, quoteHighlightName: String? = nil, connectedQuotes: [Quote]? = nil, quoteNote: Note? = nil) {
         self.bookID = bookID
-        self.bookTitle = bookTitle
-        self.bookAuthor = bookAuthor
-        self.content = content
-        self.note = note
+        self.quoteBook = quoteBook
+        self.quoteAuthor = quoteAuthor
+        self.quoteContent = quoteContent
+        self.quoteHighlightName = quoteHighlightName
+        self.connectedQuotes = connectedQuotes
+        self.quoteNote = quoteNote
+    }
+    
+}
+
+extension Quote: CustomStringConvertible {
+    var description: String {
+        "Quote(id: \(quoteID), content: \"\(quoteContent)\", book: \"\(quoteBook)\")"
     }
 }
 
+//@Model
+//class Note {
+//    var bookID: UUID
+//    var highlightID: UUID
+//    var note: String
+//    
+//    init(bookID: UUID, highlightID: UUID, note: String) {
+//        self.bookID = bookID
+//        self.highlightID = highlightID
+//        self.note = note
+//    }
+//}
 @Model
-class Note {
+class Note: Identifiable {
     var bookID: UUID
-    var highlightID: UUID
-    var note: String
+    var quoteID: UUID
+    var noteID: UUID = UUID()
+    var noteContent: String
     
-    init(bookID: UUID, highlightID: UUID, note: String) {
+    init(bookID: UUID, quoteID: UUID, noteContent: String) {
         self.bookID = bookID
-        self.highlightID = highlightID
-        self.note = note
+        self.quoteID = quoteID
+        self.noteContent = noteContent
     }
 }
