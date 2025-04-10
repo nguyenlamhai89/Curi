@@ -34,6 +34,8 @@ struct BookView: View {
     @Binding var renameHighlightSecondaryView: Bool
 //    var bookNameAtNavigationForEach: String
     
+    @State var isShowKeyboard: Bool = false
+    
     var body: some View {
         ZStack {
             // Book content
@@ -73,8 +75,10 @@ struct BookView: View {
                 Spacer()
                 
                 // Highlight
-                HighlightDial(quoteIsSelected: quoteSelected, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameViewPrimary: $renameHighlightPrimaryView, renameViewSecondary: $renameHighlightSecondaryView, highlightName1: nameHighlightPrimary, highlightName2: nameHighlightSecondary)
-                    .bottomNavigationSpacing
+                if !isShowKeyboard {
+                    HighlightDial(quoteIsSelected: quoteSelected, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameViewPrimary: $renameHighlightPrimaryView, renameViewSecondary: $renameHighlightSecondaryView, highlightName1: nameHighlightPrimary, highlightName2: nameHighlightSecondary)
+                        .bottomNavigationSpacing
+                }
             }
             
         }
@@ -98,6 +102,12 @@ struct BookView: View {
                   secondaryButton: .destructive(Text("Delete"), action: {
                 print("Deleted!")
             }))
+        }
+        .onAppear {
+            setupKeyboardObserver()
+        }
+        .onDisappear {
+            removeKeyboardObserver()
         }
 
     }
@@ -160,5 +170,24 @@ struct LinesView: View {
             SoundManager.access.play(sound: .highlightAdded)
             modelContext.insert(checkingQuote)
         }
+    }
+}
+
+extension BookView {
+    private func setupKeyboardObserver() {
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
+            if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+                let keyboardHeight = keyboardFrame.height
+                self.isShowKeyboard = true
+            }
+        }
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
+            self.isShowKeyboard = false
+        }
+    }
+    
+    private func removeKeyboardObserver() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 }

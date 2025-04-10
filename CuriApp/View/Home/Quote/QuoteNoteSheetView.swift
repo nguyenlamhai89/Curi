@@ -19,32 +19,13 @@ struct QuoteNoteSheetView: View {
     @State var connectQuoteNavigate: Bool = false
     @State var deleteAlertIsPresented: Bool = false
     
-//    @State var highlight: AttributedString
-//    let quoteChecking: Quote
     let quote: Quote
-//    let quote: String
-//    let author: String
-//    let book: String
+    @State var isShowKeyboard: Bool = false
     
     init(bookViewModel: BookViewModel, quote: Quote) {
         self.bookViewModel = bookViewModel
         self.quote = quote
     }
-//    init(bookViewModel: BookViewModel, quote: String, author: String, book: String) {
-//        self.bookViewModel = bookViewModel
-//        self.quote = quote
-//        self.author = author
-//        self.book = book
-//    }
-//    init(bookViewModel: BookViewModel, quoteChecking: Quote, quote: String, author: String, book: String) {
-//        self.bookViewModel = bookViewModel
-//        self.quoteChecking = quoteChecking
-//        self.quote = quote
-//        self.author = author
-//        self.book = book
-//    }
-    
-//    var deletePositionIndex: Int
     
     var body: some View {
         NavigationStack {
@@ -93,12 +74,14 @@ struct QuoteNoteSheetView: View {
                         }
                     }
                 }
+                if !isShowKeyboard {
+                    TextButtonPlain(content: "Delete Quote and Note", action: {
+                        deleteAlertIsPresented.toggle()
+                        print("Delete")
+                    })
+                    .bottomNavigationSpacing
+                }
                 
-                TextButtonPlain(content: "Delete Quote and Note", action: {
-                    deleteAlertIsPresented.toggle()
-                    print("Delete")
-                })
-                .bottomNavigationSpacing
             }
             .padding(.horizontal, curiSpacing(.sp16))
             .background(curiPalette(.paper500))
@@ -112,7 +95,8 @@ struct QuoteNoteSheetView: View {
                   message: Text("Are you sure you want to delete the quote and the note?"),
                   primaryButton: .cancel(),
                   secondaryButton: .destructive(Text("Delete"), action: {
-//                bookViewModel.highlightDatabase.remove(at: deletePositionIndex)
+                
+                // Delete Quote
                 if let quoteIsPresented = quoteDatabase.first(where: { $0.quoteContent == quote.quoteContent}) {
                     modelContext.delete(quoteIsPresented)
                     presentationMode.wrappedValue.dismiss()
@@ -128,6 +112,10 @@ struct QuoteNoteSheetView: View {
             print("🔖 Author - \(quote.quoteAuthor)")
             print("🔖 Book - \(quote.quoteBook)")
             print("Raw Data: \(quote)")
+            setupKeyboardObserver()
+        }
+        .onDisappear {
+            removeKeyboardObserver()
         }
     }
     
@@ -135,5 +123,24 @@ struct QuoteNoteSheetView: View {
 
 //#Preview {
 //    @Previewable @Bindable var bookViewModel = BookViewModel()
-//    QuoteNoteSheetView(bookViewModel: bookViewModel)
+//    QuoteNoteSheetView(bookViewModel: bookViewModel, quote: Quo)
 //}
+
+extension QuoteNoteSheetView {
+    private func setupKeyboardObserver() {
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
+            if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+                let keyboardHeight = keyboardFrame.height
+                self.isShowKeyboard = true
+            }
+        }
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
+            self.isShowKeyboard = false
+        }
+    }
+    
+    private func removeKeyboardObserver() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+}

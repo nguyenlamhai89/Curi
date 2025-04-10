@@ -22,6 +22,8 @@ struct QuoteView: View {
     @Binding var quoteCardIsPresented: Bool
     @Binding var viewAllNavigation: Bool
     
+    @State var isShowKeyboard: Bool = false
+    
     var quote: Quote {
         if let first = quoteDatabase.first {
             return first
@@ -49,18 +51,21 @@ struct QuoteView: View {
         } else {
             VStack (spacing: 0) {
                 VStack (spacing: 0) {
-                    QuotePaperGroup(quoteInPaper: quote.quoteContent, authorInPaper: quote.quoteAuthor, bookInPaper: quote.quoteBook, paperAction: {
-                        quoteCardIsPresented.toggle()
-                    }, highlightContent: nameHighlightPrimary, highlightColor: curiPalette(.blue300), highlightAction: {
-                        renameViewPrimary.toggle()
-                    })
-                    .padding(curiSpacing(.sp16))
-                    
-                    TextButtonPlain(content: "Show All (\(quoteDatabase.count))") {
-                        viewAllNavigation.toggle()
-                        print("All")
+                    if !isShowKeyboard {
+                        QuotePaperGroup(quoteInPaper: quote.quoteContent, authorInPaper: quote.quoteAuthor, bookInPaper: quote.quoteBook, paperAction: {
+                            quoteCardIsPresented.toggle()
+                        }, highlightContent: nameHighlightPrimary, highlightColor: curiPalette(.blue300), highlightAction: {
+                            renameViewPrimary.toggle()
+                        })
+                        .padding(curiSpacing(.sp16))
+                        
+                        TextButtonPlain(content: "Show All (\(quoteDatabase.count))") {
+                            viewAllNavigation.toggle()
+                            print("All")
+                        }
+                        .bottomNavigationSpacing
                     }
-                    .bottomNavigationSpacing
+                    
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .padding(.top, 74)
@@ -81,6 +86,12 @@ struct QuoteView: View {
                                         viewIsPresented: $renameViewPrimary)
                 }
             }
+            .onAppear {
+                setupKeyboardObserver()
+            }
+            .onDisappear {
+                removeKeyboardObserver()
+            }
         }
         
     }
@@ -96,5 +107,23 @@ struct QuoteView: View {
     @Previewable @State var viewAllNavigation: Bool = false
     
     QuoteView(bookViewModel: bookViewModel, nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: "Your highlight name", renameViewPrimary: $renameViewPrimary, renameViewSecondary: $renameViewSecondary, quoteCardIsPresented: $quoteCardIsPresented, viewAllNavigation: $viewAllNavigation)
-//    QuoteView(bookViewModel: bookViewModel, nameHighlightPrimary: $nameHighlightPrimary, nameHighlightSecondary: $nameHighlightSecondary, placeholderHighlightName: "Highlight Name", renameViewPrimary: $renameViewPrimary, renameViewSecondary: $renameViewSecondary, quoteCardIsPresented: $quoteCardIsPresented, viewAllNavigation: $viewAllNavigation, quoteInPaper: "Unknow Quote", authorInPaper: "Unknow Author", bookInPaper: "Unknow Book")
+}
+
+extension QuoteView {
+    private func setupKeyboardObserver() {
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
+            if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+                let keyboardHeight = keyboardFrame.height
+                self.isShowKeyboard = true
+            }
+        }
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
+            self.isShowKeyboard = false
+        }
+    }
+    
+    private func removeKeyboardObserver() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
 }
