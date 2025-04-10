@@ -90,10 +90,11 @@ struct QuoteView: View {
             .padding(.top, 74)
         }
         .sheet(isPresented: $quoteCardIsPresented) {
+//            QuoteNoteSheetView(bookViewModel: bookViewModel, quote: quoteInPaper, author: authorInPaper, book: bookInPaper)
             QuoteNoteSheetView(bookViewModel: bookViewModel, quote: quoteInPaper, author: authorInPaper, book: bookInPaper)
         }
         .navigationDestination(isPresented: $viewAllNavigation) {
-            AllQuotesView(quoteCardisPresented: $quoteCardIsPresented, bookViewModel: bookViewModel)
+            AllQuotesView(bookViewModel: bookViewModel)
         }
         .overlay {
             if renameViewPrimary {

@@ -149,12 +149,14 @@ struct LinesView: View {
     
     func checkQuoteDatabase(checkingQuote: Quote, currentLine: String) {
         if let existingQuote = quoteDatabase.first(where: { $0.quoteContent == currentLine /*&& $0.quoteID == checkingQuote.quoteID*/ }) {
+            HapticsManager.access.play(haptics: .light)
             SoundManager.access.play(sound: .highlightRemoved)
             modelContext.delete(existingQuote)
             
 //            print("✅ [\(quoteDatabase.count)] Quote Database: \(quoteDatabase)")
 //            print("--- Removed: \(existingQuote)")
         } else {
+            HapticsManager.access.play(haptics: .light)
             SoundManager.access.play(sound: .highlightAdded)
             modelContext.insert(checkingQuote)
             
