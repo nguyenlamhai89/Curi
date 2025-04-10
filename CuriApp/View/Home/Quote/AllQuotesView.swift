@@ -32,7 +32,7 @@ struct AllQuotesView: View {
                                     highlightTagName: "Discuss Later",
                                     action: {
                                         self.itemSelected = IdentifiableHighlight(book: quote.quoteBook, author: quote.quoteAuthor, lines: quote.quoteContent)
-                                        print("HAINL self.itemSelected \(self.itemSelected)")
+                                        print("HAINL self.itemSelected \(String(describing: self.itemSelected))")
                                     }
                                 )
                             }

@@ -144,6 +144,9 @@ struct LinesView: View {
                     .foregroundStyle(quoteDatabase.contains(where: { $0.quoteContent == line }) ? curiPalette(.blue500) : curiPalette(.ink500))
                     .background(quoteDatabase.contains(where: { $0.quoteContent == line }) ? curiPalette(.blue100) : Color.clear)
             }
+            .onChange(of: quoteDatabase) { newQuotes in
+                print("✅ [\(newQuotes.count)] Quote Database: \(quoteDatabase)")
+            }
         }
     }
     
@@ -152,18 +155,11 @@ struct LinesView: View {
             HapticsManager.access.play(haptics: .light)
             SoundManager.access.play(sound: .highlightRemoved)
             modelContext.delete(existingQuote)
-            
-//            print("✅ [\(quoteDatabase.count)] Quote Database: \(quoteDatabase)")
-//            print("--- Removed: \(existingQuote)")
         } else {
             HapticsManager.access.play(haptics: .light)
             SoundManager.access.play(sound: .highlightAdded)
             modelContext.insert(checkingQuote)
-            
-//            print("✅ [\(quoteDatabase.count)] Quote Database: \(quoteDatabase)")
-//            print("--- Added: \(checkingQuote)")
         }
-        
-        print("✅ [\(quoteDatabase.count)] Quote Database: \(quoteDatabase)")
+//        print("✅ [\(quoteDatabase.count)] Quote Database: \(quoteDatabase)")
     }
 }
