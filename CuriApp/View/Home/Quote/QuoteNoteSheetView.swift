@@ -6,9 +6,13 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct QuoteNoteSheetView: View {
     @Bindable var bookViewModel: BookViewModel
+    
+    @Environment(\.modelContext) private var modelContext
+    @Query var quoteDatabase: [Quote]
     
     @Environment(\.presentationMode) var presentationMode
     @State var shareThoughts: String = ""
@@ -16,16 +20,30 @@ struct QuoteNoteSheetView: View {
     @State var deleteAlertIsPresented: Bool = false
     
 //    @State var highlight: AttributedString
-    let quote: String
-    let author: String
-    let book: String
+//    let quoteChecking: Quote
+    let quote: Quote
+//    let quote: String
+//    let author: String
+//    let book: String
     
-    init(bookViewModel: BookViewModel, quote: String, author: String, book: String) {
+    init(bookViewModel: BookViewModel, quote: Quote) {
         self.bookViewModel = bookViewModel
         self.quote = quote
-        self.author = author
-        self.book = book
     }
+//    init(bookViewModel: BookViewModel, quote: String, author: String, book: String) {
+//        self.bookViewModel = bookViewModel
+//        self.quote = quote
+//        self.author = author
+//        self.book = book
+//    }
+//    init(bookViewModel: BookViewModel, quoteChecking: Quote, quote: String, author: String, book: String) {
+//        self.bookViewModel = bookViewModel
+//        self.quoteChecking = quoteChecking
+//        self.quote = quote
+//        self.author = author
+//        self.book = book
+//    }
+    
 //    var deletePositionIndex: Int
     
     var body: some View {
@@ -35,7 +53,7 @@ struct QuoteNoteSheetView: View {
                     VStack (spacing: curiSpacing(.sp8)) {
                         HighlightTag(content: "Discuss Later")
                             .frame(maxWidth: .infinity, alignment: .leading)
-                        Text("\(quote)")
+                        Text("\(quote.quoteContent)")
                             .curiTypo(.bkRegular16)
                             .foregroundStyle(curiPalette(.ink500))
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -60,7 +78,7 @@ struct QuoteNoteSheetView: View {
                             
                         }
                     }
-                    TakeNoteField(shareThoughts: $shareThoughts, book: book, author: author)
+                    TakeNoteField(shareThoughts: $shareThoughts, book: quote.quoteBook, author: quote.quoteAuthor)
                 }
                 .navigationTitle("Quote")
                 .navigationBarTitleDisplayMode(.inline)
@@ -95,15 +113,24 @@ struct QuoteNoteSheetView: View {
                   primaryButton: .cancel(),
                   secondaryButton: .destructive(Text("Delete"), action: {
 //                bookViewModel.highlightDatabase.remove(at: deletePositionIndex)
-                print("Deleted!")
+                if let quoteIsPresented = quoteDatabase.first(where: { $0.quoteContent == quote.quoteContent}) {
+                    modelContext.delete(quoteIsPresented)
+                    presentationMode.wrappedValue.dismiss()
+                    print("Deleted!")
+                }
             }))
         }
+        .onChange(of: quoteDatabase) {
+            print("✅ [\(quoteDatabase.count)] Quote Database: \(quoteDatabase)")
+        }
         .onAppear() {
-            print("quote \(quote)")
-            print("author \(author)")
-            print("book \(book)")
+            print("🔖 Quote - \(quote.quoteContent)")
+            print("🔖 Author - \(quote.quoteAuthor)")
+            print("🔖 Book - \(quote.quoteBook)")
+            print("Raw Data: \(quote)")
         }
     }
+    
 }
 
 //#Preview {

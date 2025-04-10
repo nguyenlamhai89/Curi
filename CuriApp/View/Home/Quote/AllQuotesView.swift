@@ -1,19 +1,19 @@
 import SwiftUI
 import SwiftData
 
-struct IdentifiableHighlight: Identifiable {
-    var id = UUID()
-    var book: String
-    var author: String
-    var lines: String
-}
+//struct IdentifiableHighlight: Identifiable {
+//    var id = UUID()
+//    var book: String
+//    var author: String
+//    var lines: String
+//}
 
 struct AllQuotesView: View {
     @State var searchAvailableQuote: String = ""
     
     @Bindable var bookViewModel: BookViewModel
     @Query var quoteDatabase: [Quote]
-    @State private var itemSelected: IdentifiableHighlight?
+    @State private var itemSelected: Quote?
     
     var emptyHeadline: String = "No quotes yet, but that’s okay,"
     var emptyParagraph: String = "Start with a book, and mark your way!"
@@ -31,7 +31,8 @@ struct AllQuotesView: View {
                                     quoteContent: "\(quote.quoteContent)",
                                     highlightTagName: "Discuss Later",
                                     action: {
-                                        self.itemSelected = IdentifiableHighlight(book: quote.quoteBook, author: quote.quoteAuthor, lines: quote.quoteContent)
+//                                        self.itemSelected = IdentifiableHighlight(book: quote.quoteBook, author: quote.quoteAuthor, lines: quote.quoteContent)
+                                        self.itemSelected = quote
                                         print("HAINL self.itemSelected \(String(describing: self.itemSelected))")
                                     }
                                 )
@@ -49,12 +50,13 @@ struct AllQuotesView: View {
             .background(curiPalette(.paper500))
         }
         .sheet(item: $itemSelected) { item in
-            QuoteNoteSheetView(
-                bookViewModel: bookViewModel,
-                quote: item.lines,
-                author: item.author,
-                book: item.book
-            )
+//            QuoteNoteSheetView(
+//                bookViewModel: bookViewModel,
+//                quote: item.lines,
+//                author: item.author,
+//                book: item.book
+//            )
+            QuoteNoteSheetView(bookViewModel: bookViewModel, quote: item)
         }
     }
 }

@@ -144,8 +144,8 @@ struct LinesView: View {
                     .foregroundStyle(quoteDatabase.contains(where: { $0.quoteContent == line }) ? curiPalette(.blue500) : curiPalette(.ink500))
                     .background(quoteDatabase.contains(where: { $0.quoteContent == line }) ? curiPalette(.blue100) : Color.clear)
             }
-            .onChange(of: quoteDatabase) { newQuotes in
-                print("✅ [\(newQuotes.count)] Quote Database: \(quoteDatabase)")
+            .onChange(of: quoteDatabase) {
+                print("✅ [\(quoteDatabase.count)] Quote Database: \(quoteDatabase)")
             }
         }
     }
@@ -160,6 +160,5 @@ struct LinesView: View {
             SoundManager.access.play(sound: .highlightAdded)
             modelContext.insert(checkingQuote)
         }
-//        print("✅ [\(quoteDatabase.count)] Quote Database: \(quoteDatabase)")
     }
 }
