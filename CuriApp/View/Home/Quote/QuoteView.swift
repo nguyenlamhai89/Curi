@@ -71,8 +71,6 @@ struct QuoteView: View {
                 .padding(.top, 74)
             }
             .sheet(isPresented: $quoteCardIsPresented) {
-    //            QuoteNoteSheetView(bookViewModel: bookViewModel, quote: quoteInPaper, author: authorInPaper, book: bookInPaper)
-//                QuoteNoteSheetView(bookViewModel: bookViewModel, quote: quoteOfTheDay.quoteContent, author: quoteOfTheDay.quoteAuthor, book: quoteOfTheDay.quoteBook)
                 QuoteNoteSheetView(bookViewModel: bookViewModel, quote: quote)
             }
             .navigationDestination(isPresented: $viewAllNavigation) {

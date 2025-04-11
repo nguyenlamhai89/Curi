@@ -1,12 +1,6 @@
 import SwiftUI
 import SwiftData
 
-//struct IdentifiableHighlight: Identifiable {
-//    var id = UUID()
-//    var book: String
-//    var author: String
-//    var lines: String
-//}
 
 struct AllQuotesView: View {
     @State var searchAvailableQuote: String = ""
@@ -26,12 +20,11 @@ struct AllQuotesView: View {
                         VStack (spacing: curiSpacing(.sp16)) {
                             ForEach(quoteDatabase) { quote in
                                 QuoteCard(
-                                    bookName: quote.quoteBook,
-                                    authorName: quote.quoteAuthor,
+                                    quoteBook: quote.quoteBook,
+                                    quoteAuthor: quote.quoteAuthor,
                                     quoteContent: "\(quote.quoteContent)",
-                                    highlightTagName: "Discuss Later",
+                                    quoteHighlightName: "Discuss Later",
                                     action: {
-//                                        self.itemSelected = IdentifiableHighlight(book: quote.quoteBook, author: quote.quoteAuthor, lines: quote.quoteContent)
                                         self.itemSelected = quote
                                         print("HAINL self.itemSelected \(String(describing: self.itemSelected))")
                                     }
@@ -50,12 +43,6 @@ struct AllQuotesView: View {
             .background(curiPalette(.paper500))
         }
         .sheet(item: $itemSelected) { item in
-//            QuoteNoteSheetView(
-//                bookViewModel: bookViewModel,
-//                quote: item.lines,
-//                author: item.author,
-//                book: item.book
-//            )
             QuoteNoteSheetView(bookViewModel: bookViewModel, quote: item)
         }
     }

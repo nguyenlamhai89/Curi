@@ -67,9 +67,9 @@ struct CarouselView: View {
                                 }
                             }
                     )
-                    .onChange(of: selectedIndex) { newIndex in
+                    .onChange(of: selectedIndex) {
                         withAnimation {
-                            scrollProxy.scrollTo(newIndex, anchor: .center)
+                            scrollProxy.scrollTo(selectedIndex, anchor: .center)
                         }
                     }
                 }

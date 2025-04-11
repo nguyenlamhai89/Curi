@@ -54,7 +54,7 @@ struct QuoteNoteSheetView: View {
                                 }
                             })
                             .navigationDestination(isPresented: $connectQuoteNavigate) {
-                                QuoteConnectView()
+                                QuoteConnectView(quote: quote)
                             }
                             
                         }

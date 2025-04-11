@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct QuoteCard: View {
-    var bookName: String
-    var authorName: String
+    var quoteBook: String
+    var quoteAuthor: String
     var quoteContent: String
-    var highlightTagName: String
+    var quoteHighlightName: String
     var action: () -> Void
     
     var body: some View {
@@ -22,9 +22,9 @@ struct QuoteCard: View {
             VStack (spacing: curiSpacing(.sp8)) {
                 /// Book Info and Navigation
                 VStack (alignment: .leading) {
-                    Text(bookName)
+                    Text(quoteBook)
                         .foregroundStyle(curiPalette(.ink500))
-                    Text(authorName)
+                    Text(quoteAuthor)
                         .foregroundStyle(curiPalette(.ink300))
                 }
                 .curiTypo(.sfMedium12)
@@ -40,7 +40,7 @@ struct QuoteCard: View {
                     .lineLimit(3)
                 
                 /// Highlight Tag
-                HighlightTag(content: highlightTagName)
+                HighlightTag(content: quoteHighlightName)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(curiSpacing(.sp16))
@@ -104,6 +104,7 @@ struct QuoteCardWithCheckbox: View {
                 
                 /// Highlight Tag
                 HighlightTag(content: highlightTagName)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(curiSpacing(.sp16))
             .background(
@@ -122,7 +123,7 @@ struct QuoteCardWithCheckbox: View {
 #Preview {
     @Previewable @State var connectedQuote: Int = 0
     VStack {
-        QuoteCard(bookName: "Animal Farm", authorName: "George Orwell", quoteContent: "All that year the animals worked like slaves. But they were happy in their work; they grudged no effort or sacrifice, well aware that everything they did was for the benefit of themselves and those of their kind who would come after them, and not for a pack of idle, thieving human beings.", highlightTagName: "Discuss Later", action: {
+        QuoteCard(quoteBook: "Animal Farm", quoteAuthor: "George Orwell", quoteContent: "All that year the animals worked like slaves. But they were happy in their work; they grudged no effort or sacrifice, well aware that everything they did was for the benefit of themselves and those of their kind who would come after them, and not for a pack of idle, thieving human beings.", quoteHighlightName: "Discuss Later", action: {
             print("Navigation Card")
         })
         
