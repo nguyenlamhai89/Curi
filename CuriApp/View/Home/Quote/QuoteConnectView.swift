@@ -12,6 +12,7 @@ struct QuoteConnectView: View {
     @State var searchLinkQuote: String = ""
     @State var connectedQuote: Int = 0
     
+//    @Environment(\.modelContext) var modelContext
     @Query var quoteDatabase: [Quote]
     
     @AppStorage("sampleQuote", store: UserDefaults(suiteName: "group.madebynham.curi")) var sampleQuote: String = "Can you not understand that liberty is worth more than just ribbons?"
@@ -21,30 +22,26 @@ struct QuoteConnectView: View {
     var body: some View {
         ScrollView {
             VStack (spacing: curiSpacing(.sp16)) {
-                ForEach(quoteDatabase) { quoteItem in
-                    QuoteCardWithCheckbox(bookName: quoteItem.quoteBook, authorName: quoteItem.quoteAuthor, quoteContent: quoteItem.quoteContent, highlightTagName: "Discuss Later", action: {
+                ForEach(quoteDatabase.filter { $0.quoteID != quote.quoteID }) { quoteInDatabase in
+    
+                    QuoteCardWithCheckbox(bookName: quoteInDatabase.quoteBook, authorName: quoteInDatabase.quoteAuthor, quoteContent: quoteInDatabase.quoteContent, highlightTagName: "Discuss Later", isConnected: quoteInDatabase.isConnected, action: {
                         
-//                        quote.connectedQuotes?.append(quoteItem)
-                        
-                        if quote.connectedQuotes?.contains(where: {
-                            $0.quoteContent == quoteItem.quoteContent && $0.quoteBook == quoteItem.quoteBook
-                        }) == false {
-                            quote.connectedQuotes?.append(quoteItem)
-                            quote.isConnected = true
+                        if quote.connectedQuotes?.contains(where: { $0.quoteID == quoteInDatabase.quoteID }) == false {
+                            quoteInDatabase.isConnected = true
+                            quote.connectedQuotes?.append(quoteInDatabase)
+                            print("[\(quoteInDatabase.isConnected ? "✅" : "🙅🏼")] ID: \(quoteInDatabase.quoteID) - Quote: \(quoteInDatabase.quoteContent) - Connected: \(quoteInDatabase.isConnected)")
                         } else {
-                            quote.connectedQuotes?.removeAll(where: {
-                                $0.quoteContent == quoteItem.quoteContent && $0.quoteBook == quoteItem.quoteBook
-                            })
-                            quote.isConnected = false
+                            quoteInDatabase.isConnected = false
+                            quote.connectedQuotes?.removeAll(where: { $0.quoteID == quoteInDatabase.quoteID })
+                            print("[\(quoteInDatabase.isConnected ? "✅" : "🙅🏼")] ID: \(quoteInDatabase.quoteID) - Quote: \(quoteInDatabase.quoteContent) - Connected: \(quoteInDatabase.isConnected)")
                         }
                         
-                        print("🔗 Connected Quotes for this Quote: \(String(describing: quote.connectedQuotes))")
-                        
-                    }, connectedQuote: $connectedQuote)
+                    })
+                    
                 }
             }
         }
-        .navigationTitle("Connected (\(connectedQuote))")
+        .navigationTitle("Connected (\(quote.connectedQuotes?.count ?? 0))")
         .navigationBarTitleDisplayMode(.inline)
         .padding(.horizontal, curiSpacing(.sp16))
         .scrollIndicators(.hidden)
@@ -52,7 +49,7 @@ struct QuoteConnectView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(curiPalette(.paper500))
         .onAppear {
-            print("Quote Connecting With: \(quote)")
+            print("🔗 This quote is connecting with: \(String(describing: quote.connectedQuotes))")
         }
     }
 }

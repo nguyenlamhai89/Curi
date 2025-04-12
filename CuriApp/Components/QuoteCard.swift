@@ -56,23 +56,15 @@ struct QuoteCardWithCheckbox: View {
     var authorName: String
     var quoteContent: String
     var highlightTagName: String
+    var isConnected: Bool
     var action: () -> Void
     
-    @Binding var connectedQuote: Int
-    
-    @State var isChecked: Bool = false
+//    @Binding var connectedQuote: Int
     
     var body: some View {
         Button {
             HapticsManager.access.play(haptics: .light)
-            isChecked.toggle()
-            if isChecked {
-                connectedQuote += 1
-                print("Check Status: \(isChecked)")
-            } else {
-                connectedQuote -= 1
-                print("Check Status: \(isChecked)")
-            }
+//            isConnected.toggle()
             action()
         } label: {
             VStack (spacing: curiSpacing(.sp8)) {
@@ -88,7 +80,7 @@ struct QuoteCardWithCheckbox: View {
                     .lineLimit(1)
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                    Image(isChecked ? "curiCheckDone" : "curiCheckUndone")
+                    Image(isConnected ? "curiCheckDone" : "curiCheckUndone")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 32)
@@ -113,7 +105,7 @@ struct QuoteCardWithCheckbox: View {
             )
             .overlay(
                 RoundedRectangle(cornerRadius: curiRadius(.rd8))
-                    .strokeBorder(isChecked ? curiPalette(.ink500) :  curiPalette(.ink300), lineWidth: isChecked ? 1.6 : 0)
+                    .strokeBorder(isConnected ? curiPalette(.ink500) :  curiPalette(.ink300), lineWidth: isConnected ? 1.6 : 0)
             )
         }
 
@@ -127,9 +119,9 @@ struct QuoteCardWithCheckbox: View {
             print("Navigation Card")
         })
         
-        QuoteCardWithCheckbox(bookName: "Animal Farm", authorName: "George Orwell", quoteContent: "All that year the animals worked like slaves. But they were happy in their work; they grudged no effort or sacrifice, well aware that everything they did was for the benefit of themselves and those of their kind who would come after them, and not for a pack of idle, thieving human beings.", highlightTagName: "Discuss Later", action: {
+        QuoteCardWithCheckbox(bookName: "Animal Farm", authorName: "George Orwell", quoteContent: "All that year the animals worked like slaves. But they were happy in their work; they grudged no effort or sacrifice, well aware that everything they did was for the benefit of themselves and those of their kind who would come after them, and not for a pack of idle, thieving human beings.", highlightTagName: "Discuss Later", isConnected: false, action: {
             print("Checkbox Card")
-        }, connectedQuote: $connectedQuote)
+        })
     }
     .padding(16)
 }
