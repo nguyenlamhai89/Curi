@@ -24,7 +24,7 @@ struct QuoteConnectView: View {
             VStack (spacing: curiSpacing(.sp16)) {
                 ForEach(quoteDatabase.filter { $0.quoteID != quote.quoteID }) { quoteInDatabase in
     
-                    QuoteCardWithCheckbox(bookName: quoteInDatabase.quoteBook, authorName: quoteInDatabase.quoteAuthor, quoteContent: quoteInDatabase.quoteContent, highlightTagName: "Discuss Later", isConnected: quoteInDatabase.isConnected, action: {
+                    QuoteCardWithCheckbox(bookName: quoteInDatabase.quoteBook, authorName: quoteInDatabase.quoteAuthor, quoteContent: quoteInDatabase.quoteContent, highlightTagName: quoteInDatabase.quoteHighlightName, isConnected: quoteInDatabase.isConnected, action: {
                         
                         if quote.connectedQuotes?.contains(where: { $0.quoteID == quoteInDatabase.quoteID }) == false {
                             quoteInDatabase.isConnected = true
@@ -61,7 +61,7 @@ struct QuoteConnectView: View {
     }
     .sheet(isPresented: $isPresented) {
         NavigationView {
-            QuoteConnectView(quote: Quote(bookID: UUID(), quoteBook: "Hi", quoteAuthor: "Hi", quoteContent: "Bar"))
+            QuoteConnectView(quote: Quote(bookID: UUID(), quoteBook: "Hi", quoteAuthor: "Hi", quoteContent: "Bar", quoteHighlightName: "Discuss Later"))
         }
     }
 }

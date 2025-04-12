@@ -28,19 +28,9 @@ struct QuoteView: View {
         if let first = quoteDatabase.first {
             return first
         } else {
-            return Quote(bookID: UUID(), quoteBook: "", quoteAuthor: "", quoteContent: "")
+            return Quote(bookID: UUID(), quoteBook: "", quoteAuthor: "", quoteContent: "", quoteHighlightName: "")
         }
     }
-    
-//    var quoteInPaper: String {
-//        quoteDatabase.first?.quoteContent ?? ""
-//    }
-//    var authorInPaper: String {
-//        quoteDatabase.first?.quoteAuthor ?? ""
-//    }
-//    var bookInPaper: String {
-//        quoteDatabase.first?.quoteBook ?? ""
-//    }
     
     var emptyHeadline: String = "No quotes yet, but that’s okay,"
     var emptyParagraph: String = "Start with a book, and mark your way!"
@@ -52,11 +42,12 @@ struct QuoteView: View {
             VStack (spacing: 0) {
                 VStack (spacing: 0) {
                     if !isShowKeyboard {
-                        QuotePaperGroup(quoteInPaper: quote.quoteContent, authorInPaper: quote.quoteAuthor, bookInPaper: quote.quoteBook, paperAction: {
+                        
+                        QuotePaperGroup(quote: quote, quoteContent: quote.quoteContent, quoteAuthor: quote.quoteAuthor, quoteBook: quote.quoteBook, paperAction: {
                             quoteCardIsPresented.toggle()
-                        }, highlightContent: nameHighlightPrimary, highlightColor: curiPalette(.blue300), highlightAction: {
+                        }, highlightContent: nameHighlightPrimary, highlightColor: curiPalette(.blue300)) {
                             renameViewPrimary.toggle()
-                        })
+                        }
                         .padding(curiSpacing(.sp16))
                         
                         TextButtonPlain(content: "Show All (\(quoteDatabase.count))") {
@@ -64,17 +55,17 @@ struct QuoteView: View {
                             print("All")
                         }
                         .bottomNavigationSpacing
+                        
                     }
-                    
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .padding(.top, 74)
             }
             .sheet(isPresented: $quoteCardIsPresented) {
-                QuoteNoteSheetView(bookViewModel: bookViewModel, quote: quote)
+                QuoteNoteSheetView(bookViewModel: bookViewModel, quote: quote, nameHighlightPrimary: nameHighlightPrimary, nameHighlightSecondary: nameHighlightSecondary)
             }
             .navigationDestination(isPresented: $viewAllNavigation) {
-                AllQuotesView(bookViewModel: bookViewModel)
+                AllQuotesView(bookViewModel: bookViewModel, nameHighlightPrimary: nameHighlightPrimary, nameHighlightSecondary: nameHighlightSecondary)
             }
             .overlay {
                 if renameViewPrimary {

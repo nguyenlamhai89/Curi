@@ -45,7 +45,7 @@ struct BookView: View {
                         Text(bookTitle)
                             .curiTypo(.bkBold16)
                             .multilineTextAlignment(.center)
-                        LinesView(bookID: bookID, bookTitle: bookTitle, bookAuthor: bookAuthor, bookLinesOriginal: bookLinesOriginal)
+                        LinesView(bookID: bookID, bookTitle: bookTitle, bookAuthor: bookAuthor, bookHighlightName: nameHighlightPrimary, bookLinesOriginal: bookLinesOriginal)
                             .onAppear {
                                 print("[\(quoteDatabase.count)] Current Database: \(quoteDatabase)")
                             }
@@ -131,6 +131,7 @@ struct LinesView: View {
     var bookID: UUID
     var bookTitle: String
     var bookAuthor: String
+    var bookHighlightName: String
     var bookLinesOriginal: [String]
     
     var body: some View {
@@ -140,13 +141,14 @@ struct LinesView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .onLongPressGesture {
                         print("\(line)")
-                        let quote = Quote(bookID: bookID, quoteBook: bookTitle, quoteAuthor: bookAuthor, quoteContent: line)
+                        let quote = Quote(bookID: bookID, quoteBook: bookTitle, quoteAuthor: bookAuthor, quoteContent: line, quoteHighlightName: bookHighlightName)
                         print("📝 --------")
                         print("- BookID: \(quote.bookID)")
                         print("- QuoteID: \(quote.quoteID)")
                         print("- Title: \(quote.quoteBook)")
                         print("- Author: \(quote.quoteAuthor)")
                         print("- Content: \(quote.quoteContent)")
+                        print("- Highlight: \(quote.quoteHighlightName)")
 
                         checkQuoteDatabase(checkingQuote: quote, currentLine: line)
                         
@@ -161,7 +163,7 @@ struct LinesView: View {
     }
     
     func checkQuoteDatabase(checkingQuote: Quote, currentLine: String) {
-        if let existingQuote = quoteDatabase.first(where: { $0.quoteContent == currentLine /*&& $0.quoteID == checkingQuote.quoteID*/ }) {
+        if let existingQuote = quoteDatabase.first(where: { $0.quoteContent == currentLine }) {
             HapticsManager.access.play(haptics: .light)
             SoundManager.access.play(sound: .highlightRemoved)
             modelContext.delete(existingQuote)

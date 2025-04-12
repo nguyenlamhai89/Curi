@@ -10,10 +10,10 @@ import SwiftUI
 
 struct QuotePaperGroup: View {
 //    var connectedQuotesSample: [String] = ["Blow, blow, thou winter wind", "Thou art not so unkind", "As man's ingratitude;"]
-    var connectedQuotesSample: [String] = []
-    var quoteInPaper: String
-    var authorInPaper: String
-    var bookInPaper: String
+    var quote: Quote
+    var quoteContent: String
+    var quoteAuthor: String
+    var quoteBook: String
     var paperAction: () -> Void
     
     var highlightContent: String
@@ -29,7 +29,11 @@ struct QuotePaperGroup: View {
                 Rectangle()
                     .fill(Color.clear)
                     .frame(height: 22)
-                QuotePaper(connectedQuotesSample: connectedQuotesSample, quoteInPaper: quoteInPaper, authorInPaper: authorInPaper, bookInPaper: bookInPaper) {
+//                QuotePaper(quote: connectedQuotesSample, quoteContent: quoteInPaper, quoteAuthor: authorInPaper, quoteBook: bookInPaper) {
+//                    print("Open Quote Paper")
+//                    paperAction()
+//                }
+                QuotePaper(quote: quote, quoteContent: quoteContent, quoteAuthor: quoteAuthor, quoteBook: quoteBook) {
                     print("Open Quote Paper")
                     paperAction()
                 }
@@ -40,10 +44,10 @@ struct QuotePaperGroup: View {
 }
 
 struct QuotePaper: View {
-    var connectedQuotesSample: [String]
-    var quoteInPaper: String
-    var authorInPaper: String
-    var bookInPaper: String
+    var quote: Quote
+    var quoteContent: String
+    var quoteAuthor: String
+    var quoteBook: String
     var action: () -> Void
     
     var body: some View {
@@ -56,15 +60,15 @@ struct QuotePaper: View {
 //                    .background(Color.yellow) // Check section
                 
                 VStack (spacing: curiSpacing(.sp16)) {
-                    Text("\(quoteInPaper)")
+                    Text("\(quoteContent)")
                         .curiTypo(.bkRegular32)
                         .foregroundStyle(curiPalette(.ink500))
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: .infinity)
                     HStack (spacing: curiSpacing(.sp8)) {
-                        Text(bookInPaper)
+                        Text(quoteBook)
                             .foregroundStyle(curiPalette(.ink500))
-                        Text(authorInPaper)
+                        Text(quoteAuthor)
                             .foregroundStyle(curiPalette(.ink300))
                     }
                     .lineLimit(1)
@@ -77,7 +81,7 @@ struct QuotePaper: View {
             .padding(curiSpacing(.sp16))
             .background(curiPalette(.paper500))
             
-            if !connectedQuotesSample.isEmpty {
+            if !(quote.connectedQuotes?.isEmpty ?? true) {
                 VStack (spacing: 0) {
                     Divider()
                         .background(curiPalette(.ink100))
@@ -92,11 +96,11 @@ struct QuotePaper: View {
                         .overlay {
                             ScrollView (.horizontal) {
                                 HStack (spacing: curiSpacing(.sp8)) {
-                                    ForEach(connectedQuotesSample, id:\.self) { quote in
+                                    ForEach(quote.connectedQuotes ?? []) { quote in
                                         Button {
-                                            print("Hihihi")
+                                            print("-- From \(quote.quoteBook): \(quote.quoteContent)")
                                         } label: {
-                                            Text(quote)
+                                            Text(quote.quoteContent)
                                                 .curiTypo(.bkRegular14)
                                                 .foregroundStyle(curiPalette(.paper500))
                                                 .padding(.vertical, curiSpacing(.sp2))
@@ -145,7 +149,7 @@ struct QuotePaper: View {
 }
 
 #Preview {
-    QuotePaperGroup(quoteInPaper: "Quote quote quote", authorInPaper: "Author", bookInPaper: "Book name", paperAction: {
+    QuotePaperGroup(quote: Quote(bookID: UUID(), quoteBook: "Animal Farm", quoteAuthor: "George Orwell", quoteContent: "Four legs is good, two legs is better, one leg is the best", quoteHighlightName: "Discuss Later"), quoteContent: "Quote quote quote", quoteAuthor: "Author", quoteBook: "Book name", paperAction: {
         print("Quote Paper Tapped")
     }, highlightContent: "Discuss Later", highlightColor: Color.red, highlightAction: {
         print("Highlight Button Rename")

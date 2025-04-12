@@ -12,6 +12,9 @@ struct AllQuotesView: View {
     var emptyHeadline: String = "No quotes yet, but that’s okay,"
     var emptyParagraph: String = "Start with a book, and mark your way!"
     
+    var nameHighlightPrimary: String
+    var nameHighlightSecondary: String
+    
     var body: some View {
         ZStack {
             NavigationStack {
@@ -43,12 +46,12 @@ struct AllQuotesView: View {
             .background(curiPalette(.paper500))
         }
         .sheet(item: $itemSelected) { item in
-            QuoteNoteSheetView(bookViewModel: bookViewModel, quote: item)
+            QuoteNoteSheetView(bookViewModel: bookViewModel, quote: item, nameHighlightPrimary: nameHighlightPrimary, nameHighlightSecondary: nameHighlightSecondary)
         }
     }
 }
 
 #Preview {
     @Previewable @Bindable var bookViewModel = BookViewModel()
-    AllQuotesView(bookViewModel: bookViewModel)
+    AllQuotesView(bookViewModel: bookViewModel, nameHighlightPrimary: "Hi", nameHighlightSecondary: "Haha")
 }

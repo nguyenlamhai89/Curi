@@ -50,14 +50,14 @@ class Quote: Identifiable {
     var quoteBook: String
     var quoteAuthor: String
     var quoteContent: String
-    var quoteHighlightName: String?
+    var quoteHighlightName: String
     var isConnected: Bool = false
     
     var connectedQuotes: [Quote]?
     
     @Relationship(deleteRule: .cascade) var quoteNote: Note?
     
-    init(bookID: UUID, quoteBook: String, quoteAuthor: String, quoteContent: String, quoteHighlightName: String? = nil, connectedQuotes: [Quote]? = nil, quoteNote: Note? = nil) {
+    init(bookID: UUID, quoteBook: String, quoteAuthor: String, quoteContent: String, quoteHighlightName: String, connectedQuotes: [Quote]? = nil, quoteNote: Note? = nil) {
         self.bookID = bookID
         self.quoteBook = quoteBook
         self.quoteAuthor = quoteAuthor
@@ -77,7 +77,7 @@ extension Quote: CustomStringConvertible {
             content: \"\(quoteContent)\",
             book: \"\(quoteBook)\",
             author: \"\(quoteAuthor)\",
-            highlightName: \"\(quoteHighlightName ?? "None")\",
+            highlightName: \"\(quoteHighlightName)\",
             Connect Status: \(isConnected)
         )
         """

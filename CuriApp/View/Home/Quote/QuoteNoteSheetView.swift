@@ -18,13 +18,17 @@ struct QuoteNoteSheetView: View {
     @State var shareThoughts: String = ""
     @State var connectQuoteNavigate: Bool = false
     @State var deleteAlertIsPresented: Bool = false
+    var nameHighlightPrimary: String
+    var nameHighlightSecondary: String
     
     let quote: Quote
     @State var isShowKeyboard: Bool = false
     
-    init(bookViewModel: BookViewModel, quote: Quote) {
+    init(bookViewModel: BookViewModel, quote: Quote, nameHighlightPrimary: String, nameHighlightSecondary: String) {
         self.bookViewModel = bookViewModel
         self.quote = quote
+        self.nameHighlightPrimary = nameHighlightPrimary
+        self.nameHighlightSecondary = nameHighlightSecondary
     }
     
     var body: some View {
@@ -32,7 +36,7 @@ struct QuoteNoteSheetView: View {
             VStack {
                 VStack (spacing: curiSpacing(.sp20)){
                     VStack (spacing: curiSpacing(.sp8)) {
-                        HighlightTag(content: "Discuss Later")
+                        HighlightTag(content: quote.quoteHighlightName)
                             .frame(maxWidth: .infinity, alignment: .leading)
                         Text("\(quote.quoteContent)")
                             .curiTypo(.bkRegular16)
