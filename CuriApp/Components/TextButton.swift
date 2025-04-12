@@ -75,6 +75,48 @@ struct TextButtonFilledIcon: View {
     }
 }
 
+struct TextButtonFilledNumber: View {
+    var content: String
+    var icon: String
+    var connectedNumber: Int
+    var action: () -> Void
+    
+    var body: some View {
+        Button {
+            HapticsManager.access.play(haptics: .light)
+            action()
+        } label: {
+            HStack (spacing: curiSpacing(.sp4)) {
+                Text(content)
+                Image(connectedNumber > 0 ? "curiNumber" : icon)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 24)
+                    .overlay {
+                        if connectedNumber > 0 {
+                            Text("\(connectedNumber)")
+                                .curiTypo(.sfMedium12)
+                                .foregroundStyle(curiPalette(.ink500))
+                                .multilineTextAlignment(.center)
+                        } else {
+                            EmptyView()
+                        }
+                    }
+            }
+                .curiTypo(.sfMedium14)
+                .foregroundStyle(connectedNumber > 0 ? curiPalette(.paper500) : curiPalette(.ink500))
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, curiSpacing(.sp4))
+                .background(
+                    RoundedRectangle(cornerRadius: curiRadius(.rdMax))
+                        .fill(connectedNumber > 0 ? curiPalette(.ink500) : Color.clear)
+                        .stroke(connectedNumber > 0 ? Color.clear : curiPalette(.ink100), lineWidth: 1)
+                )
+                .cornerRadius(curiRadius(.rdMax))
+        }
+    }
+}
+
 struct TextButtonStroke: View {
     var content: String
     var action: () -> Void
@@ -111,4 +153,16 @@ struct TextButtonStroke: View {
     TextButtonStroke(content: "Stroke", action: {
         print("Stroke")
     })
+    
+    TextButtonFilledNumber(content: "Filled Number", icon: "curiNumber", connectedNumber: 0) {
+        print("Number")
+    }
+    
+    TextButtonFilledNumber(content: "Filled Number", icon: "curiNumber", connectedNumber: 4) {
+        print("Number")
+    }
+    
+    TextButtonFilledNumber(content: "Filled Number", icon: "curiNumber", connectedNumber: 16) {
+        print("Number")
+    }
 }

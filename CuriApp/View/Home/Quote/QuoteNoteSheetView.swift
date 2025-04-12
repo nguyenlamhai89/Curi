@@ -45,13 +45,8 @@ struct QuoteNoteSheetView: View {
                                 print("Go to Book")
                             })
                             
-                            TextButtonFilledIcon(content: "Connect", icon: "curiConnect", action: {
+                            TextButtonFilledNumber(content: "Connect", icon: "curiConnect", connectedNumber: quote.connectedQuotes?.count ?? 0, action: {
                                 connectQuoteNavigate.toggle()
-                                if connectQuoteNavigate {
-                                    print("Connect")
-                                } else {
-                                    print("Error")
-                                }
                             })
                             .navigationDestination(isPresented: $connectQuoteNavigate) {
                                 QuoteConnectView(quote: quote)
