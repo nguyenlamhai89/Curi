@@ -142,13 +142,12 @@ struct LinesView: View {
                     .onLongPressGesture {
                         print("\(line)")
                         let quote = Quote(bookID: bookID, quoteBook: bookTitle, quoteAuthor: bookAuthor, quoteContent: line, quoteHighlightName: bookHighlightName)
-                        print("📝 --------")
+                        
                         print("- BookID: \(quote.bookID)")
                         print("- QuoteID: \(quote.quoteID)")
                         print("- Title: \(quote.quoteBook)")
                         print("- Author: \(quote.quoteAuthor)")
-                        print("- Content: \(quote.quoteContent)")
-                        print("- Highlight: \(quote.quoteHighlightName)")
+                        print("📝 -------- \(quote.quoteContent) - \(quote.quoteHighlightName)")
 
                         checkQuoteDatabase(checkingQuote: quote, currentLine: line)
                         
@@ -157,7 +156,7 @@ struct LinesView: View {
                     .background(quoteDatabase.contains(where: { $0.quoteContent == line }) ? curiPalette(.blue100) : Color.clear)
             }
             .onChange(of: quoteDatabase) {
-                print("✅ [\(quoteDatabase.count)] Quote Database: \(quoteDatabase)")
+                print("✅ [\(quoteDatabase.count)] Quotes: \(quoteDatabase)")
             }
         }
     }

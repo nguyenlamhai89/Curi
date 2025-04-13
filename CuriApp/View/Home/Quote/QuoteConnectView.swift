@@ -22,18 +22,18 @@ struct QuoteConnectView: View {
     var body: some View {
         ScrollView {
             VStack (spacing: curiSpacing(.sp16)) {
-                ForEach(quoteDatabase.filter { $0.quoteID != quote.quoteID }) { quoteInDatabase in
+                ForEach(quoteDatabase.filter { $0.quoteID != quote.quoteID }) { quoteConnecting in
     
-                    QuoteCardWithCheckbox(bookName: quoteInDatabase.quoteBook, authorName: quoteInDatabase.quoteAuthor, quoteContent: quoteInDatabase.quoteContent, highlightTagName: quoteInDatabase.quoteHighlightName, isConnected: quoteInDatabase.isConnected, action: {
+                    QuoteCardWithCheckbox(bookName: quoteConnecting.quoteBook, authorName: quoteConnecting.quoteAuthor, quoteContent: quoteConnecting.quoteContent, highlightTagName: quoteConnecting.quoteHighlightName, isConnected: quoteConnecting.isConnected, action: {
                         
-                        if quote.connectedQuotes?.contains(where: { $0.quoteID == quoteInDatabase.quoteID }) == false {
-                            quoteInDatabase.isConnected = true
-                            quote.connectedQuotes?.append(quoteInDatabase)
-                            print("[\(quoteInDatabase.isConnected ? "✅" : "🙅🏼")] ID: \(quoteInDatabase.quoteID) - Quote: \(quoteInDatabase.quoteContent) - Connected: \(quoteInDatabase.isConnected)")
+                        if quote.connectedQuotes?.contains(where: { $0.quoteID == quoteConnecting.quoteID }) == false {
+                            quoteConnecting.isConnected = true
+                            quote.connectedQuotes?.append(quoteConnecting)
+                            print("[\(quoteConnecting.isConnected ? "✅" : "🙅🏼")] ID: \(quoteConnecting.quoteID) - Quote: \(quoteConnecting.quoteContent) - Connected: \(quoteConnecting.isConnected)")
                         } else {
-                            quoteInDatabase.isConnected = false
-                            quote.connectedQuotes?.removeAll(where: { $0.quoteID == quoteInDatabase.quoteID })
-                            print("[\(quoteInDatabase.isConnected ? "✅" : "🙅🏼")] ID: \(quoteInDatabase.quoteID) - Quote: \(quoteInDatabase.quoteContent) - Connected: \(quoteInDatabase.isConnected)")
+                            quoteConnecting.isConnected = false
+                            quote.connectedQuotes?.removeAll(where: { $0.quoteID == quoteConnecting.quoteID })
+                            print("[\(quoteConnecting.isConnected ? "✅" : "🙅🏼")] ID: \(quoteConnecting.quoteID) - Quote: \(quoteConnecting.quoteContent) - Connected: \(quoteConnecting.isConnected)")
                         }
                         
                     })

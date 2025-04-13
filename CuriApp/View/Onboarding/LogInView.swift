@@ -31,12 +31,34 @@ struct LogInView: View {
                     isLoggedIn = true
                 })
                 .bottomNavigationSpacing
+//                SignInWithAppleButtonView()
+//                    .bottomNavigationSpacing
             }
             .navigationDestination(isPresented: $isLoggedIn, destination: {
                 HomeViewManager()
             })
             .background(curiPalette(.paper500))
         }
+    }
+}
+
+import AuthenticationServices
+
+struct SignInWithAppleButtonView: View {
+    var body: some View {
+        SignInWithAppleButton(.signIn, onRequest: { request in
+            request.requestedScopes = [.fullName, .email]
+        }, onCompletion: { result in
+            switch result {
+            case .success(let authResults):
+                // Use authResults.credential.user as user identifier
+                print("✅ Apple Sign-In Success: \(authResults)")
+            case .failure(let error):
+                print("❌ Apple Sign-In Error: \(error.localizedDescription)")
+            }
+        })
+        .signInWithAppleButtonStyle(.black)
+        .frame(height: 44)
     }
 }
 
