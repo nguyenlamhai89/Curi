@@ -10,6 +10,25 @@ import SwiftUI
 struct HomeViewManager: View {
     @Bindable var bookViewModel = BookViewModel()
     
+    @State var highlightPenStorage: [HighlightPen] = [
+        HighlightPen(defaultName: "Discuss Later",
+                     selectedTextColor: Color.paper500,
+                     selectedBackgroundColor: Color.blue300,
+                     unselectedTextColor: Color.blue500,
+                     unselectedBackgroundColor: Color.blue100,
+                     highlightedTextColor: Color.blue500,
+                     unselectedHighlightedBackgroundColor: Color.blue100,
+                     selectedHighlightedBackgroundColor: Color.blue200),
+        HighlightPen(defaultName: "Good Point",
+                     selectedTextColor: Color.paper500,
+                     selectedBackgroundColor: Color.pink300,
+                     unselectedTextColor: Color.pink500,
+                     unselectedBackgroundColor: Color.pink100,
+                     highlightedTextColor: Color.pink500,
+                     unselectedHighlightedBackgroundColor: Color.pink100,
+                     selectedHighlightedBackgroundColor: Color.pink200)
+    ]
+    
     // Navigation Value
     @State var settingsTopNavigation: Bool = false
     @State var widgetTopNavigation: Bool = false
@@ -27,7 +46,7 @@ struct HomeViewManager: View {
     @State var nameHighlightPrimary: String = "Discuss Later"
     @State var nameHighlightSecondary: String = "Good Point"
     
-    var placeholderHighlightName: String = "Highlight Name"
+    var placeholderHighlightName: String = "Your Highlight Name"
     
     @State var renameViewPrimary: Bool = false
     @State var renameViewSecondary: Bool = false

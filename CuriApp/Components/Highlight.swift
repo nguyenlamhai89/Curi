@@ -7,7 +7,55 @@
 
 import SwiftUI
 
+@Observable
+class HighlightPen {
+    var defaultName: String
+    
+    var selectedTextColor: Color
+    var selectedBackgroundColor: Color
+    
+    var isPresentedRenameView: Bool = false
+    
+    var unselectedTextColor: Color
+    var unselectedBackgroundColor: Color
+    
+    var highlightedTextColor: Color?
+    var unselectedHighlightedBackgroundColor: Color?
+    var selectedHighlightedBackgroundColor: Color?
+    
+    init(defaultName: String, selectedTextColor: Color, selectedBackgroundColor: Color, unselectedTextColor: Color, unselectedBackgroundColor: Color, highlightedTextColor: Color? = nil, unselectedHighlightedBackgroundColor: Color? = nil, selectedHighlightedBackgroundColor: Color? = nil) {
+        self.defaultName = defaultName
+        self.selectedTextColor = selectedTextColor
+        self.selectedBackgroundColor = selectedBackgroundColor
+        self.unselectedTextColor = unselectedTextColor
+        self.unselectedBackgroundColor = unselectedBackgroundColor
+        self.highlightedTextColor = highlightedTextColor
+        self.unselectedHighlightedBackgroundColor = unselectedHighlightedBackgroundColor
+        self.selectedHighlightedBackgroundColor = selectedHighlightedBackgroundColor
+    }
+}
+
 struct HighlightDial: View {
+    var highlightPenStorage: [HighlightPen] = [
+        HighlightPen(defaultName: "Discuss Later",
+                     selectedTextColor: Color.paper500,
+                     selectedBackgroundColor: Color.blue300,
+                     unselectedTextColor: Color.blue500,
+                     unselectedBackgroundColor: Color.blue100,
+                     highlightedTextColor: Color.blue500,
+                     unselectedHighlightedBackgroundColor: Color.blue100,
+                     selectedHighlightedBackgroundColor: Color.blue200),
+        HighlightPen(defaultName: "Good Point",
+                     selectedTextColor: Color.paper500,
+                     selectedBackgroundColor: Color.pink300,
+                     unselectedTextColor: Color.pink500,
+                     unselectedBackgroundColor: Color.pink100,
+                     highlightedTextColor: Color.pink500,
+                     unselectedHighlightedBackgroundColor: Color.pink100,
+                     selectedHighlightedBackgroundColor: Color.pink200)
+    ]
+    @State private var selectedIndex: Int = 0
+    
     var quoteIsSelected: Bool
     @Binding var thoughtSheetIsPresented: Bool
     @Binding var deleteAlertIsPresented: Bool
@@ -16,6 +64,7 @@ struct HighlightDial: View {
     
     var highlightName1: String
     var highlightName2: String
+    
     
     var body: some View {
         VStack (spacing: curiSpacing(.sp8)) {
@@ -48,29 +97,58 @@ struct HighlightDial: View {
                     }
                 }
                 .overlay {
-                    // Highlight Buttons
                     GeometryReader { geometry in
+                        let cardWidth = geometry.size.width * 0.5
+                        let spacing: CGFloat = curiSpacing(.sp8)
+                        let dragThreshold: CGFloat = 100
+                        
                         ScrollView(.horizontal, showsIndicators: false) {
-                            HStack (spacing: curiSpacing(.sp8)) {
-                                HighlightButton(content: highlightName1, color: curiPalette(.blue300), action: {
-                                    withAnimation {
-                                        renameViewPrimary.toggle()
-                                        print("Blue Pressed")
+                            ScrollViewReader { scrollProxy in
+                                HStack(spacing: spacing) {
+                                    ForEach(highlightPenStorage.indices, id: \.self) { penIndex in
+                                        let isSelected = selectedIndex == penIndex
+                                        
+                                        HighlightButtonBook(name: highlightPenStorage[penIndex].defaultName,
+                                                            buttonWidth: cardWidth,
+                                                            selectedTextColor: highlightPenStorage[penIndex].selectedTextColor,
+                                                            selectedBackgroundColor: highlightPenStorage[penIndex].selectedBackgroundColor,
+                                                            unselectedTextColor: highlightPenStorage[penIndex].unselectedTextColor,
+                                                            unselectedBackgroundColor: highlightPenStorage[penIndex].unselectedBackgroundColor,
+                                                            isSelected: isSelected,
+                                                            renameViewIsPresented: highlightPenStorage[penIndex].isPresentedRenameView) {
+                                            
+                                            highlightPenStorage[penIndex].isPresentedRenameView.toggle()
+                                            
+                                        }
                                     }
-                                })
-                                
-                                HighlightButton(content: highlightName2, color: curiPalette(.pink300), action: {
-                                    withAnimation {
-                                        renameViewSecondary.toggle()
-                                        print("Pink Pressed")
+                                }
+                                .padding(.horizontal, (geometry.size.width - cardWidth) / 2 - spacing / 2)
+                                .gesture(
+                                    DragGesture()
+                                        .onEnded { value in
+                                            let direction = value.translation.width
+                                            
+                                            if direction < -dragThreshold, selectedIndex < highlightPenStorage.count - 1 {
+                                                selectedIndex += 1
+                                            } else if direction > dragThreshold, selectedIndex > 0 {
+                                                selectedIndex -= 1
+                                            }
+                                            
+                                            withAnimation(.interpolatingSpring(stiffness: 150, damping: 15)) {
+                                                scrollProxy.scrollTo(selectedIndex, anchor: .center)
+                                            }
+                                        }
+                                )
+                                .onAppear {
+                                    DispatchQueue.main.async {
+                                        withAnimation {
+                                            scrollProxy.scrollTo(selectedIndex, anchor: .center)
+                                        }
                                     }
-                                })
+                                }
                             }
-                            .padding(.horizontal, geometry.size.width * 0.4)
-                            .scrollTargetLayout()
                         }
                     }
-                    .scrollTargetBehavior(.viewAligned)
                 }
                 .overlay {
                     // Gradient Block
@@ -107,9 +185,19 @@ struct HighlightDial: View {
     }
 }
 
-struct HighlightButton: View {
-    var content: String
-    var color: Color
+struct HighlightButtonBook: View {
+    var name: String
+    var buttonWidth: CGFloat
+    
+    var selectedTextColor: Color
+    var selectedBackgroundColor: Color
+    var unselectedTextColor: Color
+    var unselectedBackgroundColor: Color
+    
+    var isSelected: Bool
+    
+    var renameViewIsPresented: Bool
+    
     var action: () -> Void
     
     var body: some View {
@@ -118,12 +206,13 @@ struct HighlightButton: View {
             HapticsManager.access.play(haptics: .light)
             action()
         } label: {
-            Text("\(content)")
+            Text("\(name)")
                 .curiTypo(.sfMedium16)
-                .foregroundStyle(curiPalette(.paper500))
+                .foregroundStyle(isSelected ? selectedTextColor : unselectedTextColor)
                 .padding(.vertical, curiSpacing(.sp2))
                 .padding(.horizontal, curiSpacing(.sp8))
-                .background(color)
+                .frame(width: buttonWidth)
+                .background(isSelected ? selectedBackgroundColor : unselectedBackgroundColor)
                 .cornerRadius(curiRadius(.rd4))
         }
     }
@@ -180,9 +269,9 @@ struct HighlightTag: View {
 
     HighlightDial(quoteIsSelected: false, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameViewPrimary: $renameHighlightViewIsPresented1, renameViewSecondary: $renameHighlightViewIsPresented2, highlightName1: tagNameDemoBlue, highlightName2: tagNameDemoPink)
     
-    HighlightButton(content: tagNameDemoBlue, color: Color.blue, action: {
-        print("Highlight Button Pressed")
-    })
+//    HighlightButton(content: tagNameDemoBlue, color: Color.blue, action: {
+//        print("Highlight Button Pressed")
+//    })
     
     HighlightTag(content: tagNameDemoPink)
     
