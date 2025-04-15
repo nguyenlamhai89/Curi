@@ -42,7 +42,7 @@ struct QuoteNoteSheetView: View {
             VStack {
                 VStack (spacing: curiSpacing(.sp20)){
                     VStack (spacing: curiSpacing(.sp8)) {
-                        HighlightTag(content: quote.quoteHighlightName)
+                        HighlightTag(content: quote.quoteHighlight.name)
                             .frame(maxWidth: .infinity, alignment: .leading)
                         Text("\(quote.quoteContent)")
                             .curiTypo(.bkRegular16)

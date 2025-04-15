@@ -87,7 +87,7 @@ struct LibraryView: View {
         }
         .scrollIndicators(.hidden)
         .onAppear {
-            print("Selected Pen: \(bookViewModel.selectedPen?.defaultName)")
+            print("Selected Pen: \(bookViewModel.selectedPen?.name)")
         }
     }
 }

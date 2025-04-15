@@ -16,23 +16,20 @@ struct QuotePaperGroup: View {
     var quoteBook: String
     var paperAction: () -> Void
     
-    var highlightContent: String
-    var highlightColor: Color
+    var highlight: HighlightPencil
+//    var highlightContent: String
+//    var highlightColor: Color
     var highlightAction: () -> Void
     
     var body: some View {
         ZStack (alignment: .top) {
-            HighlightQuotePaperButton(content: highlightContent, color: highlightColor) {
+            HighlightQuotePaperButton(content: highlight.name, color: Color(highlight.primaryBackgroundColor)) {
                 highlightAction()
             }
             VStack {
                 Rectangle()
                     .fill(Color.clear)
                     .frame(height: 22)
-//                QuotePaper(quote: connectedQuotesSample, quoteContent: quoteInPaper, quoteAuthor: authorInPaper, quoteBook: bookInPaper) {
-//                    print("Open Quote Paper")
-//                    paperAction()
-//                }
                 QuotePaper(quote: quote, quoteContent: quoteContent, quoteAuthor: quoteAuthor, quoteBook: quoteBook) {
                     print("Open Quote Paper")
                     paperAction()
@@ -148,11 +145,11 @@ struct QuotePaper: View {
     }
 }
 
-#Preview {
-    QuotePaperGroup(quote: Quote(bookID: UUID(), quoteBook: "Animal Farm", quoteAuthor: "George Orwell", quoteContent: "Four legs is good, two legs is better, one leg is the best", quoteHighlightName: "Discuss Later"), quoteContent: "Quote quote quote", quoteAuthor: "Author", quoteBook: "Book name", paperAction: {
-        print("Quote Paper Tapped")
-    }, highlightContent: "Discuss Later", highlightColor: Color.red, highlightAction: {
-        print("Highlight Button Rename")
-    })
-    .padding(24)
-}
+//#Preview {
+//    QuotePaperGroup(quote: Quote(bookID: UUID(), quoteBook: "Animal Farm", quoteAuthor: "George Orwell", quoteContent: "Four legs is good, two legs is better, one leg is the best", quoteHighlight: HighlightPencil(name: "Discuss Later", primaryTextColor: "paper-500", primaryBackgroundColor: "blue-300", secondaryTextColor: "blue-500", secondaryBackgroundColor: "blue-100", highlightedTextColor: "blue-500", defaultHighlightedBackgroundColor: "blue-100", selectedHighlightedBackgroundColor: "blue-200")), quoteContent: "Quote quote quote", quoteAuthor: "Author", quoteBook: "Book name", paperAction: {
+//        print("Quote Paper Tapped")
+//    }, highlightContent: "Discuss Later", highlightColor: Color.red, highlightAction: {
+//        print("Highlight Button Rename")
+//    })
+//    .padding(24)
+//}

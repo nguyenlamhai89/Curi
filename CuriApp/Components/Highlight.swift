@@ -6,43 +6,47 @@
 //
 
 import SwiftUI
+import SwiftData
 
-@Observable
-class HighlightPen {
-    var defaultName: String
-    
-    var selectedTextColor: Color
-    var selectedBackgroundColor: Color
-    
-    var isPresentedRenameView: Bool = false
-    
-    var unselectedTextColor: Color
-    var unselectedBackgroundColor: Color
-    
-    var highlightedTextColor: Color?
-    var unselectedHighlightedBackgroundColor: Color?
-    var selectedHighlightedBackgroundColor: Color?
-    
-    init(defaultName: String, selectedTextColor: Color, selectedBackgroundColor: Color, unselectedTextColor: Color, unselectedBackgroundColor: Color, highlightedTextColor: Color? = nil, unselectedHighlightedBackgroundColor: Color? = nil, selectedHighlightedBackgroundColor: Color? = nil) {
-        self.defaultName = defaultName
-        self.selectedTextColor = selectedTextColor
-        self.selectedBackgroundColor = selectedBackgroundColor
-        self.unselectedTextColor = unselectedTextColor
-        self.unselectedBackgroundColor = unselectedBackgroundColor
-        self.highlightedTextColor = highlightedTextColor
-        self.unselectedHighlightedBackgroundColor = unselectedHighlightedBackgroundColor
-        self.selectedHighlightedBackgroundColor = selectedHighlightedBackgroundColor
-    }
-}
+//@Observable
+//class HighlightPen {
+//    var defaultName: String
+//    
+//    var selectedTextColor: Color
+//    var selectedBackgroundColor: Color
+//    
+//    var isPresentedRenameView: Bool = false
+//    
+//    var unselectedTextColor: Color
+//    var unselectedBackgroundColor: Color
+//    
+//    var highlightedTextColor: Color?
+//    var unselectedHighlightedBackgroundColor: Color?
+//    var selectedHighlightedBackgroundColor: Color?
+//    
+//    init(defaultName: String, selectedTextColor: Color, selectedBackgroundColor: Color, unselectedTextColor: Color, unselectedBackgroundColor: Color, highlightedTextColor: Color? = nil, unselectedHighlightedBackgroundColor: Color? = nil, selectedHighlightedBackgroundColor: Color? = nil) {
+//        self.defaultName = defaultName
+//        self.selectedTextColor = selectedTextColor
+//        self.selectedBackgroundColor = selectedBackgroundColor
+//        self.unselectedTextColor = unselectedTextColor
+//        self.unselectedBackgroundColor = unselectedBackgroundColor
+//        self.highlightedTextColor = highlightedTextColor
+//        self.unselectedHighlightedBackgroundColor = unselectedHighlightedBackgroundColor
+//        self.selectedHighlightedBackgroundColor = selectedHighlightedBackgroundColor
+//    }
+//}
 
 struct HighlightDial: View {
     @Bindable var bookViewModel: BookViewModel
+    @Query var pencilDatabase: [HighlightPencil]
     
     @State var selectedIndex: Int = 0
     
     var quoteIsSelected: Bool
     @Binding var thoughtSheetIsPresented: Bool
     @Binding var deleteAlertIsPresented: Bool
+    
+    var action: () -> Void
 //    @Binding var renameViewPrimary: Bool
 //    @Binding var renameViewSecondary: Bool
 //    
@@ -94,19 +98,20 @@ struct HighlightDial: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             ScrollViewReader { scrollProxy in
                                 HStack(spacing: spacing) {
-                                    ForEach(bookViewModel.highlightPenStorage.indices, id: \.self) { penIndex in
+                                    ForEach(pencilDatabase.indices, id: \.self) { penIndex in
                                         let isSelected = selectedIndex == penIndex
                                         
-                                        HighlightButtonBook(name: bookViewModel.highlightPenStorage[penIndex].defaultName,
+                                        HighlightButtonBook(name: pencilDatabase[penIndex].name,
                                                             buttonWidth: cardWidth,
-                                                            selectedTextColor: bookViewModel.highlightPenStorage[penIndex].selectedTextColor,
-                                                            selectedBackgroundColor: bookViewModel.highlightPenStorage[penIndex].selectedBackgroundColor,
-                                                            unselectedTextColor: bookViewModel.highlightPenStorage[penIndex].unselectedTextColor,
-                                                            unselectedBackgroundColor: bookViewModel.highlightPenStorage[penIndex].unselectedBackgroundColor,
+                                                            selectedTextColor: Color(pencilDatabase[penIndex].primaryTextColor),
+                                                            selectedBackgroundColor: Color(pencilDatabase[penIndex].primaryBackgroundColor),
+                                                            unselectedTextColor: Color(pencilDatabase[penIndex].secondaryTextColor),
+                                                            unselectedBackgroundColor: Color(pencilDatabase[penIndex].secondaryBackgroundColor),
                                                             isSelected: isSelected,
-                                                            renameViewIsPresented: bookViewModel.highlightPenStorage[penIndex].isPresentedRenameView) {
-                                            
-                                            bookViewModel.highlightPenStorage[penIndex].isPresentedRenameView.toggle()
+                                                            renameViewIsPresented: pencilDatabase[penIndex].isPresentedRenameView) {
+                                            action()
+//                                            print("Selected: \(bookViewModel.selectedPen)")
+//                                            bookViewModel.selectedPen.isPresentedRenameView.toggle()
                                             
                                         }
                                     }
@@ -117,12 +122,12 @@ struct HighlightDial: View {
                                         .onEnded { value in
                                             let direction = value.translation.width
                                             
-                                            if direction < -dragThreshold, selectedIndex < bookViewModel.highlightPenStorage.count - 1 {
+                                            if direction < -dragThreshold, selectedIndex < pencilDatabase.count - 1 {
                                                 selectedIndex += 1
-                                                bookViewModel.selectedPen = bookViewModel.highlightPenStorage[selectedIndex]
+                                                bookViewModel.selectedPen = pencilDatabase[selectedIndex]
                                             } else if direction > dragThreshold, selectedIndex > 0 {
                                                 selectedIndex -= 1
-                                                bookViewModel.selectedPen = bookViewModel.highlightPenStorage[selectedIndex]
+                                                bookViewModel.selectedPen = pencilDatabase[selectedIndex]
                                             }
                                             
                                             withAnimation(.interpolatingSpring(stiffness: 150, damping: 15)) {
@@ -136,7 +141,7 @@ struct HighlightDial: View {
                                             scrollProxy.scrollTo(selectedIndex, anchor: .center)
                                         }
                                     }
-                                    bookViewModel.selectedPen = bookViewModel.highlightPenStorage[selectedIndex]
+                                    bookViewModel.selectedPen = pencilDatabase[selectedIndex]
                                 }
                             }
                         }

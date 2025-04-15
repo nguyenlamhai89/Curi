@@ -6,9 +6,12 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct HomeViewManager: View {
+    @Environment(\.modelContext) var modelContext
     @Bindable var bookViewModel = BookViewModel()
+    @Query var pencilDatabase: [HighlightPencil]
         
     // Navigation Value
     @State var settingsTopNavigation: Bool = false
@@ -65,6 +68,34 @@ struct HomeViewManager: View {
         }
         .sheet(isPresented: $widgetTopNavigation) {
             WidgetIntroducingView()
+        }
+        .onAppear {
+            if pencilDatabase.isEmpty {
+                var pencil1 = HighlightPencil(
+                    name: "Discuss Later",
+                    primaryTextColor: "paper-500",
+                    primaryBackgroundColor: "blue-300",
+                    secondaryTextColor: "blue-500",
+                    secondaryBackgroundColor: "blue-100",
+                    highlightedTextColor: "blue-500",
+                    defaultHighlightedBackgroundColor: "blue-100",
+                    selectedHighlightedBackgroundColor: "blue-200"
+                )
+                var pencil2 = HighlightPencil(
+                    name: "Good Point",
+                    primaryTextColor: "paper-500",
+                    primaryBackgroundColor: "pink-300",
+                    secondaryTextColor: "pink-500",
+                    secondaryBackgroundColor: "pink-100",
+                    highlightedTextColor: "pink-500",
+                    defaultHighlightedBackgroundColor: "pink-100",
+                    selectedHighlightedBackgroundColor: "pink-200"
+                )
+                modelContext.insert(pencil1)
+                modelContext.insert(pencil2)
+                print("🖍️ Available Highlight Pencils: \(pencilDatabase.count)")
+                print("--- \(pencilDatabase)")
+            }
         }
 //        .overlay {
 //            if renameViewPrimary {

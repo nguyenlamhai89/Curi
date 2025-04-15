@@ -11,6 +11,7 @@ import SwiftData
 struct BookView: View {
     @Environment(\.modelContext) private var modelContext
     @Query var quoteDatabase: [Quote]
+    @Query var pencilDatabase: [HighlightPencil]
     
 //    @State var selectedPen: HighlightPen
     
@@ -47,7 +48,7 @@ struct BookView: View {
                         Text(bookTitle)
                             .curiTypo(.bkBold16)
                             .multilineTextAlignment(.center)
-                        LinesView(bookViewModel: bookViewModel, bookID: bookID, bookTitle: bookTitle, bookAuthor: bookAuthor, bookHighlightName: bookViewModel.highlightPenStorage[0].defaultName, bookLinesOriginal: bookLinesOriginal)
+                        LinesView(bookViewModel: bookViewModel, bookID: bookID, bookTitle: bookTitle, bookAuthor: bookAuthor, bookHighlightName: bookViewModel.selectedPen?.name ?? "", bookLinesOriginal: bookLinesOriginal)
                     }
                     .padding(.top, 120)
                     .padding(.bottom, 160)
@@ -74,12 +75,12 @@ struct BookView: View {
                 Spacer()
                 
                 // Highlight
-                HighlightDial(
-                    bookViewModel: bookViewModel,
-                    quoteIsSelected: quoteSelected,
-                    thoughtSheetIsPresented: $thoughtSheetIsPresented,
-                    deleteAlertIsPresented: $deleteAlertIsPresented
-                )
+                HighlightDial(bookViewModel: bookViewModel,
+                              quoteIsSelected: quoteSelected,
+                              thoughtSheetIsPresented: $thoughtSheetIsPresented,
+                              deleteAlertIsPresented: $deleteAlertIsPresented, action: {
+                    bookViewModel.selectedPen?.isPresentedRenameView.toggle()
+                })
                 .bottomNavigationSpacing
             }
             
@@ -87,12 +88,37 @@ struct BookView: View {
         .background(curiPalette(.paper500))
 //        .background(Color.cyan) // Check section
         .navigationBarHidden(true)
+        .overlay(content: {
+            if let selectedPen = bookViewModel.selectedPen, selectedPen.isPresentedRenameView {
+                let bindingToName = Binding(
+                    get: { selectedPen.name },
+                    set: { newValue in
+                        selectedPen.name = newValue
+                        try? modelContext.save()
+                    }
+                )
+
+                let bindingToPresented = Binding(
+                    get: { selectedPen.isPresentedRenameView },
+                    set: { newValue in
+                        selectedPen.isPresentedRenameView = newValue
+                    }
+                )
+
+                RenameHighlightView(
+                    backgroundColor: Color(selectedPen.primaryBackgroundColor),
+                    placeholderHighlightName: placeholderHighlightName,
+                    highlightName: bindingToName,
+                    viewIsPresented: bindingToPresented
+                )
+            }
+        })
         /// Change Name View
 //        .overlay(content: {
 //            if renameHighlightPrimaryView {
 //                RenameHighlightView(backgroundColor: curiPalette(.blue500), placeholderHighlightName: placeholderHighlightName, highlightName: $nameHighlightPrimary, viewIsPresented: $renameHighlightPrimaryView, autoFocus: _autoFocusRename)
 //            }
-//            
+//
 //            if renameHighlightSecondaryView {
 //                RenameHighlightView(backgroundColor: curiPalette(.pink500), placeholderHighlightName: placeholderHighlightName, highlightName: $nameHighlightSecondary, viewIsPresented: $renameHighlightSecondaryView, autoFocus: _autoFocusRename)
 //            }
@@ -140,22 +166,22 @@ struct BookView: View {
 ////        "My spirits to attend this double voice accorded,",
 ////        "And down I laid to list the sad-tuned tale;"
 ////    ], nameHighlightPrimary: .constant("Discuss Later"), nameHighlightSecondary: .constant("Good Point"), placeholderHighlightName: "Your highlight name", renameHighlightPrimaryView: .constant(false), renameHighlightSecondaryView: .constant(false))
-//    
+//
 //    BookView(selectedPen: HighlightPen(defaultName: "Discussssss", selectedTextColor: Color.red, selectedBackgroundColor: Color.red.opacity(0.2)), unselectedTextColor: Color.blue, unselectedBackgroundColor: Color.yellow);, bookViewModel: bookViewModel, bookID: bookIDFake, bookTitle: "Harry Pọt Tơ", bookAuthor: "William Shakespeare", bookLinesOriginal: ["FROM off a hill whose concave womb reworded", "A plaintful story from a sistering vale,", "My spirits to attend this double voice accorded,", "And down I laid to list the sad-tuned tale;"], nameHighlightPrimary: .constant("Discuss Later"), nameHighlightSecondary: .constant("Goodđ"), placeholderHighlightName: "Your Highlight Name", renameHighlightPrimaryView: .constant(false), renameHighlightSecondaryView: .constant(false))
 //}
 
 //struct LinesView: View {
 //    @Environment(\.modelContext) private var modelContext
 //    @Query var quoteDatabase: [Quote]
-//    
+//
 //    var bookID: UUID
 //    var bookTitle: String
 //    var bookAuthor: String
 //    var bookHighlightName: String
 //    var bookLinesOriginal: [String]
-//    
+//
 //    var selectedHighlightPen: HighlightPen?
-//    
+//
 //    var body: some View {
 //        VStack (spacing: 8) {
 //            ForEach(bookLinesOriginal, id: \.self) { line in
@@ -164,7 +190,7 @@ struct BookView: View {
 //                    .onLongPressGesture {
 //                        print("\(line)")
 //                        let quote = Quote(bookID: bookID, quoteBook: bookTitle, quoteAuthor: bookAuthor, quoteContent: line, quoteHighlightName: bookHighlightName)
-//                        
+//
 //                        print("- BookID: \(quote.bookID)")
 //                        print("- QuoteID: \(quote.quoteID)")
 //                        print("- Title: \(quote.quoteBook)")
@@ -172,7 +198,7 @@ struct BookView: View {
 //                        print("📝 -------- \(quote.quoteContent) - \(quote.quoteHighlightName)")
 //
 //                        checkQuoteDatabase(checkingQuote: quote, currentLine: line)
-//                        
+//
 //                    }
 //                    .foregroundStyle(quoteDatabase.contains(where: { $0.quoteContent == line }) ? curiPalette(.blue500) : curiPalette(.ink500))
 //                    .background(quoteDatabase.contains(where: { $0.quoteContent == line }) ? curiPalette(.blue100) : Color.clear)
@@ -189,7 +215,7 @@ struct BookView: View {
 //            }
 //        }
 //    }
-//    
+//
 //    func checkQuoteDatabase(checkingQuote: Quote, currentLine: String) {
 //        if let existingQuote = quoteDatabase.first(where: { $0.quoteContent == currentLine }) {
 //            HapticsManager.access.play(haptics: .light)
@@ -215,7 +241,7 @@ struct BookView: View {
 //            self.isShowKeyboard = false
 //        }
 //    }
-//    
+//
 //    private func removeKeyboardObserver() {
 //        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
 //        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)

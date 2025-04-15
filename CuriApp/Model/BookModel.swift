@@ -21,34 +21,35 @@ class Book: Identifiable, Codable {
     }
 }
 
-//@Model
-//class HighlightPen {
-//    var defaultName: String
-//    
-//    var selectedTextColor: String
-//    var selectedBackgroundColor: String
-//    
-//    var isPresentedRenameView: Bool = false
-//    
-//    var unselectedTextColor: String
-//    var unselectedBackgroundColor: String
-//    
-//    var highlightedTextColor: String?
-//    var unselectedHighlightedBackgroundColor: String?
-//    var selectedHighlightedBackgroundColor: String?
-//    
-//    init(defaultName: String, selectedTextColor: String, selectedBackgroundColor: String, isPresentedRenameView: Bool, unselectedTextColor: String, unselectedBackgroundColor: String, highlightedTextColor: String? = nil, unselectedHighlightedBackgroundColor: String? = nil, selectedHighlightedBackgroundColor: String? = nil) {
-//        self.defaultName = defaultName
-//        self.selectedTextColor = selectedTextColor
-//        self.selectedBackgroundColor = selectedBackgroundColor
-//        self.isPresentedRenameView = isPresentedRenameView
-//        self.unselectedTextColor = unselectedTextColor
-//        self.unselectedBackgroundColor = unselectedBackgroundColor
-//        self.highlightedTextColor = highlightedTextColor
-//        self.unselectedHighlightedBackgroundColor = unselectedHighlightedBackgroundColor
-//        self.selectedHighlightedBackgroundColor = selectedHighlightedBackgroundColor
-//    }
-//}
+@Model
+class HighlightPencil {
+    var name: String
+
+    var primaryTextColor: String
+    var primaryBackgroundColor: String
+    
+    var isPresentedRenameView: Bool
+    
+    var secondaryTextColor: String
+    var secondaryBackgroundColor: String
+    
+    // Lines
+    var highlightedTextColor: String
+    var defaultHighlightedBackgroundColor: String
+    var selectedHighlightedBackgroundColor: String
+    
+    init(name: String, primaryTextColor: String, primaryBackgroundColor: String, isPresentedRenameView: Bool = false, secondaryTextColor: String, secondaryBackgroundColor: String, highlightedTextColor: String, defaultHighlightedBackgroundColor: String, selectedHighlightedBackgroundColor: String) {
+        self.name = name
+        self.primaryTextColor = primaryTextColor
+        self.primaryBackgroundColor = primaryBackgroundColor
+        self.isPresentedRenameView = isPresentedRenameView
+        self.secondaryTextColor = secondaryTextColor
+        self.secondaryBackgroundColor = secondaryBackgroundColor
+        self.highlightedTextColor = highlightedTextColor
+        self.defaultHighlightedBackgroundColor = defaultHighlightedBackgroundColor
+        self.selectedHighlightedBackgroundColor = selectedHighlightedBackgroundColor
+    }
+}
 
 @Model
 class Quote: Identifiable {
@@ -57,22 +58,23 @@ class Quote: Identifiable {
     var quoteBook: String
     var quoteAuthor: String
     var quoteContent: String
-    var quoteHighlightName: String
+    var quoteHighlight: HighlightPencil
     var isConnected: Bool = false
     
     var connectedQuotes: [Quote]?
     
     @Relationship(deleteRule: .cascade) var quoteNote: Note?
     
-    init(bookID: UUID, quoteBook: String, quoteAuthor: String, quoteContent: String, quoteHighlightName: String, connectedQuotes: [Quote]? = nil, quoteNote: Note? = nil) {
+    init(bookID: UUID, quoteBook: String, quoteAuthor: String, quoteContent: String, quoteHighlight: HighlightPencil, connectedQuotes: [Quote]? = nil, quoteNote: Note? = nil) {
         self.bookID = bookID
         self.quoteBook = quoteBook
         self.quoteAuthor = quoteAuthor
         self.quoteContent = quoteContent
-        self.quoteHighlightName = quoteHighlightName
+        self.quoteHighlight = quoteHighlight
         self.connectedQuotes = connectedQuotes
         self.quoteNote = quoteNote
     }
+    
     
 }
 
@@ -84,25 +86,13 @@ extension Quote: CustomStringConvertible {
             content: \"\(quoteContent)\",
             book: \"\(quoteBook)\",
             author: \"\(quoteAuthor)\",
-            highlightName: \"\(quoteHighlightName)\",
+            highlight: \"\(quoteHighlight.name)\",
             Connect Status: \(isConnected)
         )
         """
     }
 }
 
-//@Model
-//class Note {
-//    var bookID: UUID
-//    var highlightID: UUID
-//    var note: String
-//    
-//    init(bookID: UUID, highlightID: UUID, note: String) {
-//        self.bookID = bookID
-//        self.highlightID = highlightID
-//        self.note = note
-//    }
-//}
 @Model
 class Note: Identifiable {
     var bookID: UUID

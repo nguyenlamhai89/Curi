@@ -28,7 +28,7 @@ struct QuoteView: View {
         if let first = quoteDatabase.first {
             return first
         } else {
-            return Quote(bookID: UUID(), quoteBook: "", quoteAuthor: "", quoteContent: "", quoteHighlightName: "")
+            return Quote(bookID: UUID(), quoteBook: "", quoteAuthor: "", quoteContent: "", quoteHighlight: HighlightPencil(name: "", primaryTextColor: "", primaryBackgroundColor: "b", secondaryTextColor: "", secondaryBackgroundColor: "", highlightedTextColor: "", defaultHighlightedBackgroundColor: "", selectedHighlightedBackgroundColor: ""))
         }
     }
     
@@ -41,6 +41,24 @@ struct QuoteView: View {
         } else {
             VStack (spacing: 0) {
                 VStack (spacing: 0) {
+//                    QuotePaperGroup(quote: quote, quoteContent: quote.quoteContent, quoteAuthor: quote.quoteAuthor, quoteBook: quote.quoteBook, paperAction: {
+//                        quoteCardIsPresented.toggle()
+//                    }, highlightContent: nameHighlightPrimary, highlightColor: curiPalette(.blue300)) {
+//                        renameViewPrimary.toggle()
+//                    }
+                    QuotePaperGroup(quote: quote, quoteContent: quote.quoteContent, quoteAuthor: quote.quoteAuthor, quoteBook: quote.quoteBook, paperAction: {
+                        quoteCardIsPresented.toggle()
+                    }, highlight: quote.quoteHighlight, highlightAction: {
+                        
+                    })
+                    .padding(curiSpacing(.sp16))
+                                        
+                    TextButtonPlain(content: "Show All (\(quoteDatabase.count))") {
+                        viewAllNavigation.toggle()
+                        print("All")
+                    }
+                    .bottomNavigationSpacing
+                    
 //                    if !isShowKeyboard {
 //                        
 //                        QuotePaperGroup(quote: quote, quoteContent: quote.quoteContent, quoteAuthor: quote.quoteAuthor, quoteBook: quote.quoteBook, paperAction: {
