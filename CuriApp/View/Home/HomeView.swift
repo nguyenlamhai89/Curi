@@ -9,26 +9,7 @@ import SwiftUI
 
 struct HomeViewManager: View {
     @Bindable var bookViewModel = BookViewModel()
-    
-    @State var highlightPenStorage: [HighlightPen] = [
-        HighlightPen(defaultName: "Discuss Later",
-                     selectedTextColor: Color.paper500,
-                     selectedBackgroundColor: Color.blue300,
-                     unselectedTextColor: Color.blue500,
-                     unselectedBackgroundColor: Color.blue100,
-                     highlightedTextColor: Color.blue500,
-                     unselectedHighlightedBackgroundColor: Color.blue100,
-                     selectedHighlightedBackgroundColor: Color.blue200),
-        HighlightPen(defaultName: "Good Point",
-                     selectedTextColor: Color.paper500,
-                     selectedBackgroundColor: Color.pink300,
-                     unselectedTextColor: Color.pink500,
-                     unselectedBackgroundColor: Color.pink100,
-                     highlightedTextColor: Color.pink500,
-                     unselectedHighlightedBackgroundColor: Color.pink100,
-                     selectedHighlightedBackgroundColor: Color.pink200)
-    ]
-    
+        
     // Navigation Value
     @State var settingsTopNavigation: Bool = false
     @State var widgetTopNavigation: Bool = false
@@ -43,13 +24,13 @@ struct HomeViewManager: View {
     var authorNameInBanner: String = "William Shakespeare"
     
     // Quote - Book Value
-    @State var nameHighlightPrimary: String = "Discuss Later"
-    @State var nameHighlightSecondary: String = "Good Point"
+//    @State var nameHighlightPrimary: String = "Discuss Later"
+//    @State var nameHighlightSecondary: String = "Good Point"
     
     var placeholderHighlightName: String = "Your Highlight Name"
     
-    @State var renameViewPrimary: Bool = false
-    @State var renameViewSecondary: Bool = false
+//    @State var renameViewPrimary: Bool = false
+//    @State var renameViewSecondary: Bool = false
     
     @State var quoteCardisPresented: Bool = false
     
@@ -65,23 +46,14 @@ struct HomeViewManager: View {
                     SkeletonView(bookViewModel: bookViewModel)
                 } else {
                     if bookViewModel.isFetched {
-                        LibraryView(bookViewModel: bookViewModel, bookNameInBanner: bookNameInBanner,
-                                    authorNameInBanner: authorNameInBanner,
-                                    nameHighlightPrimary: $nameHighlightPrimary,
-                                    nameHighlightSecondary: $nameHighlightSecondary,
-                                    placeholderHighlightName: placeholderHighlightName,
-                                    renameViewPrimary: $renameViewPrimary,
-                                    renameViewSecondary: $renameViewSecondary)
+                        LibraryView(bookViewModel: bookViewModel, bookNameInBanner: bookNameInBanner, authorNameInBanner: authorNameInBanner, placeholderHighlightName: placeholderHighlightName)
                     } else {
                         LibraryErrorView(bookViewModel: bookViewModel)
                     }
                 }
             } else {
-                QuoteView(bookViewModel: bookViewModel, nameHighlightPrimary: $nameHighlightPrimary,
-                          nameHighlightSecondary: $nameHighlightSecondary,
-                          placeholderHighlightName: placeholderHighlightName,
-                          renameViewPrimary: $renameViewPrimary,
-                          renameViewSecondary: $renameViewSecondary, quoteCardIsPresented: $quoteCardisPresented, viewAllNavigation: $viewAllNavigation)            }
+                QuoteView(bookViewModel: bookViewModel, placeholderHighlightName: placeholderHighlightName, quoteCardIsPresented: $quoteCardisPresented, viewAllNavigation: $viewAllNavigation)
+            }
         }
         .toolbar(.hidden)
         .background(curiPalette(.paper500))
@@ -94,19 +66,19 @@ struct HomeViewManager: View {
         .sheet(isPresented: $widgetTopNavigation) {
             WidgetIntroducingView()
         }
-        .overlay {
-            if renameViewPrimary {
-                RenameHighlightView(backgroundColor: curiPalette(.blue500),
-                                    placeholderHighlightName: placeholderHighlightName,
-                                    highlightName: $nameHighlightPrimary,
-                                    viewIsPresented: $renameViewPrimary)
-            } else if renameViewSecondary {
-                RenameHighlightView(backgroundColor: curiPalette(.pink500),
-                                    placeholderHighlightName: placeholderHighlightName,
-                                    highlightName: $nameHighlightSecondary,
-                                    viewIsPresented: $renameViewSecondary)
-            }
-        }
+//        .overlay {
+//            if renameViewPrimary {
+//                RenameHighlightView(backgroundColor: curiPalette(.blue500),
+//                                    placeholderHighlightName: placeholderHighlightName,
+//                                    highlightName: $nameHighlightPrimary,
+//                                    viewIsPresented: $renameViewPrimary)
+//            } else if renameViewSecondary {
+//                RenameHighlightView(backgroundColor: curiPalette(.pink500),
+//                                    placeholderHighlightName: placeholderHighlightName,
+//                                    highlightName: $nameHighlightSecondary,
+//                                    viewIsPresented: $renameViewSecondary)
+//            }
+//        }
     }
 }
 

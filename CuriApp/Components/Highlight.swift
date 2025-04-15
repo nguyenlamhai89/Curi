@@ -36,35 +36,24 @@ class HighlightPen {
 }
 
 struct HighlightDial: View {
-    var highlightPenStorage: [HighlightPen] = [
-        HighlightPen(defaultName: "Discuss Later",
-                     selectedTextColor: Color.paper500,
-                     selectedBackgroundColor: Color.blue300,
-                     unselectedTextColor: Color.blue500,
-                     unselectedBackgroundColor: Color.blue100,
-                     highlightedTextColor: Color.blue500,
-                     unselectedHighlightedBackgroundColor: Color.blue100,
-                     selectedHighlightedBackgroundColor: Color.blue200),
-        HighlightPen(defaultName: "Good Point",
-                     selectedTextColor: Color.paper500,
-                     selectedBackgroundColor: Color.pink300,
-                     unselectedTextColor: Color.pink500,
-                     unselectedBackgroundColor: Color.pink100,
-                     highlightedTextColor: Color.pink500,
-                     unselectedHighlightedBackgroundColor: Color.pink100,
-                     selectedHighlightedBackgroundColor: Color.pink200)
-    ]
-    @State private var selectedIndex: Int = 0
+    @Bindable var bookViewModel: BookViewModel
+    
+    @State var selectedIndex: Int = 0
     
     var quoteIsSelected: Bool
     @Binding var thoughtSheetIsPresented: Bool
     @Binding var deleteAlertIsPresented: Bool
-    @Binding var renameViewPrimary: Bool
-    @Binding var renameViewSecondary: Bool
+//    @Binding var renameViewPrimary: Bool
+//    @Binding var renameViewSecondary: Bool
+//    
+//    var highlightName1: String
+//    var highlightName2: String
     
-    var highlightName1: String
-    var highlightName2: String
+//    var onSelectPen: ((HighlightPen) -> Void)?
     
+//    var onSelectedPen: HighlightPen
+    
+//    @State var selectedPenIndex: Int?
     
     var body: some View {
         VStack (spacing: curiSpacing(.sp8)) {
@@ -105,19 +94,19 @@ struct HighlightDial: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             ScrollViewReader { scrollProxy in
                                 HStack(spacing: spacing) {
-                                    ForEach(highlightPenStorage.indices, id: \.self) { penIndex in
+                                    ForEach(bookViewModel.highlightPenStorage.indices, id: \.self) { penIndex in
                                         let isSelected = selectedIndex == penIndex
                                         
-                                        HighlightButtonBook(name: highlightPenStorage[penIndex].defaultName,
+                                        HighlightButtonBook(name: bookViewModel.highlightPenStorage[penIndex].defaultName,
                                                             buttonWidth: cardWidth,
-                                                            selectedTextColor: highlightPenStorage[penIndex].selectedTextColor,
-                                                            selectedBackgroundColor: highlightPenStorage[penIndex].selectedBackgroundColor,
-                                                            unselectedTextColor: highlightPenStorage[penIndex].unselectedTextColor,
-                                                            unselectedBackgroundColor: highlightPenStorage[penIndex].unselectedBackgroundColor,
+                                                            selectedTextColor: bookViewModel.highlightPenStorage[penIndex].selectedTextColor,
+                                                            selectedBackgroundColor: bookViewModel.highlightPenStorage[penIndex].selectedBackgroundColor,
+                                                            unselectedTextColor: bookViewModel.highlightPenStorage[penIndex].unselectedTextColor,
+                                                            unselectedBackgroundColor: bookViewModel.highlightPenStorage[penIndex].unselectedBackgroundColor,
                                                             isSelected: isSelected,
-                                                            renameViewIsPresented: highlightPenStorage[penIndex].isPresentedRenameView) {
+                                                            renameViewIsPresented: bookViewModel.highlightPenStorage[penIndex].isPresentedRenameView) {
                                             
-                                            highlightPenStorage[penIndex].isPresentedRenameView.toggle()
+                                            bookViewModel.highlightPenStorage[penIndex].isPresentedRenameView.toggle()
                                             
                                         }
                                     }
@@ -128,10 +117,12 @@ struct HighlightDial: View {
                                         .onEnded { value in
                                             let direction = value.translation.width
                                             
-                                            if direction < -dragThreshold, selectedIndex < highlightPenStorage.count - 1 {
+                                            if direction < -dragThreshold, selectedIndex < bookViewModel.highlightPenStorage.count - 1 {
                                                 selectedIndex += 1
+                                                bookViewModel.selectedPen = bookViewModel.highlightPenStorage[selectedIndex]
                                             } else if direction > dragThreshold, selectedIndex > 0 {
                                                 selectedIndex -= 1
+                                                bookViewModel.selectedPen = bookViewModel.highlightPenStorage[selectedIndex]
                                             }
                                             
                                             withAnimation(.interpolatingSpring(stiffness: 150, damping: 15)) {
@@ -145,6 +136,7 @@ struct HighlightDial: View {
                                             scrollProxy.scrollTo(selectedIndex, anchor: .center)
                                         }
                                     }
+                                    bookViewModel.selectedPen = bookViewModel.highlightPenStorage[selectedIndex]
                                 }
                             }
                         }
@@ -257,25 +249,26 @@ struct HighlightTag: View {
     }
 }
 
-#Preview {
-    @Previewable @State var thoughtSheetIsPresented: Bool = false
-    @Previewable @State var deleteAlertIsPresented: Bool = false
-    @Previewable @State var renameHighlightViewIsPresented1: Bool = false
-    @Previewable @State var renameHighlightViewIsPresented2: Bool = false
-    @Previewable @State var tagNameDemoBlue: String = "Discuss Later"
-    @Previewable @State var tagNameDemoPink: String = "Good"
-    
-    HighlightDial(quoteIsSelected: true, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameViewPrimary: $renameHighlightViewIsPresented1, renameViewSecondary: $renameHighlightViewIsPresented2, highlightName1: tagNameDemoBlue, highlightName2: tagNameDemoPink)
-
-    HighlightDial(quoteIsSelected: false, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameViewPrimary: $renameHighlightViewIsPresented1, renameViewSecondary: $renameHighlightViewIsPresented2, highlightName1: tagNameDemoBlue, highlightName2: tagNameDemoPink)
-    
-//    HighlightButton(content: tagNameDemoBlue, color: Color.blue, action: {
-//        print("Highlight Button Pressed")
-//    })
-    
-    HighlightTag(content: tagNameDemoPink)
-    
-    HighlightQuotePaperButton(content: tagNameDemoBlue, color: Color.blue) {
-        print("Highlight Quote Paper Button")
-    }
-}
+//#Preview {
+//    @Previewable @Bindable var bookViewModel = BookViewModel()
+//    @Previewable @State var thoughtSheetIsPresented: Bool = false
+//    @Previewable @State var deleteAlertIsPresented: Bool = false
+//    @Previewable @State var renameHighlightViewIsPresented1: Bool = false
+//    @Previewable @State var renameHighlightViewIsPresented2: Bool = false
+//    @Previewable @State var tagNameDemoBlue: String = "Discuss Later"
+//    @Previewable @State var tagNameDemoPink: String = "Good"
+//    
+//    HighlightDial(bookViewModel: bookViewModel, quoteIsSelected: true, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameViewPrimary: $renameHighlightViewIsPresented1, renameViewSecondary: $renameHighlightViewIsPresented2, highlightName1: tagNameDemoBlue, highlightName2: tagNameDemoPink)
+//
+//    HighlightDial(bookViewModel: bookViewModel, quoteIsSelected: false, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameViewPrimary: $renameHighlightViewIsPresented1, renameViewSecondary: $renameHighlightViewIsPresented2, highlightName1: tagNameDemoBlue, highlightName2: tagNameDemoPink)
+//    
+////    HighlightButton(content: tagNameDemoBlue, color: Color.blue, action: {
+////        print("Highlight Button Pressed")
+////    })
+//    
+//    HighlightTag(content: tagNameDemoPink)
+//    
+//    HighlightQuotePaperButton(content: tagNameDemoBlue, color: Color.blue) {
+//        print("Highlight Quote Paper Button")
+//    }
+//}

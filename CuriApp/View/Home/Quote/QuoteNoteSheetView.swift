@@ -18,18 +18,24 @@ struct QuoteNoteSheetView: View {
     @State var shareThoughts: String = ""
     @State var connectQuoteNavigate: Bool = false
     @State var deleteAlertIsPresented: Bool = false
-    var nameHighlightPrimary: String
-    var nameHighlightSecondary: String
+//    var nameHighlightPrimary: String
+//    var nameHighlightSecondary: String
     
     let quote: Quote
     @State var isShowKeyboard: Bool = false
     
-    init(bookViewModel: BookViewModel, quote: Quote, nameHighlightPrimary: String, nameHighlightSecondary: String) {
+//    init(bookViewModel: BookViewModel, quote: Quote, nameHighlightPrimary: String, nameHighlightSecondary: String) {
+//        self.bookViewModel = bookViewModel
+//        self.quote = quote
+//        self.nameHighlightPrimary = nameHighlightPrimary
+//        self.nameHighlightSecondary = nameHighlightSecondary
+//    }
+    
+    init(bookViewModel: BookViewModel, quote: Quote) {
         self.bookViewModel = bookViewModel
         self.quote = quote
-        self.nameHighlightPrimary = nameHighlightPrimary
-        self.nameHighlightSecondary = nameHighlightSecondary
     }
+    
     
     var body: some View {
         NavigationStack {

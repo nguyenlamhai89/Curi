@@ -13,44 +13,27 @@ import SwiftData
 class BookViewModel {
     
     var bookDatabase: [Book] = []
-//    var highlightDatabase: [Highlight] = []
     
-//    func highlightChecker(for highlight: AttributedString, highlightColor: Color, textColor: Color) -> AttributedString {
-//        if let index = highlightDatabase.firstIndex(where: { $0.description == highlight.description }) {
-//                var initialText = highlightDatabase[index]
-//            
-//                let range = initialText.startIndex..<initialText.endIndex
-//                initialText[range].backgroundColor = nil
-//                initialText[range].foregroundColor = nil
-//            
-//                highlightDatabase.remove(at: index)
-//                
-//                HapticsManager.access.play(haptics: .light)
-//                SoundManager.access.play(sound: .highlightRemoved)
-//            
-//                print("🗑 All highlights: \(highlightDatabase)")
-//                print("🗑 Highlight removed. Total: \(highlightDatabase.count)")
-//            
-//                return initialText
-//            
-//            } else {
-//                var newText = highlight
-//                
-//                let range = newText.startIndex..<newText.endIndex
-//                newText[range].backgroundColor = highlightColor
-//                newText[range].foregroundColor = textColor
-//                
-//                highlightDatabase.append(newText)
-//                
-//                HapticsManager.access.play(haptics: .light)
-//                SoundManager.access.play(sound: .highlightAdded)
-//                
-//                print("✅ All highlights: \(highlightDatabase)")
-//                print("✅ Highlight added. Total: \(highlightDatabase.count)")
-//                
-//                return newText
-//            }
-//    }
+    var highlightPenStorage: [HighlightPen] = [
+        HighlightPen(defaultName: "Discuss Later",
+                     selectedTextColor: Color.paper500,
+                     selectedBackgroundColor: Color.blue300,
+                     unselectedTextColor: Color.blue500,
+                     unselectedBackgroundColor: Color.blue100,
+                     highlightedTextColor: Color.blue500,
+                     unselectedHighlightedBackgroundColor: Color.blue100,
+                     selectedHighlightedBackgroundColor: Color.blue200),
+        HighlightPen(defaultName: "Good Point",
+                     selectedTextColor: Color.paper500,
+                     selectedBackgroundColor: Color.pink300,
+                     unselectedTextColor: Color.pink500,
+                     unselectedBackgroundColor: Color.pink100,
+                     highlightedTextColor: Color.pink500,
+                     unselectedHighlightedBackgroundColor: Color.pink100,
+                     selectedHighlightedBackgroundColor: Color.pink200)
+    ]
+    
+    var selectedPen: HighlightPen?
     
     var isLoading = true
     var isFetched = false

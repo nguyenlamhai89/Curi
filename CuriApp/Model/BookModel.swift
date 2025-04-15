@@ -22,24 +22,31 @@ class Book: Identifiable, Codable {
 }
 
 //@Model
-//class Highlight {
-//    var bookID: UUID
-//    var highlightID: UUID = UUID()
-//    var bookTitle: String
-//    var bookAuthor: String
-//    var content: String
-//    @Relationship(deleteRule: .cascade) var note: Note?
+//class HighlightPen {
+//    var defaultName: String
 //    
-//    init(bookID: UUID,
-//         bookTitle: String,
-//         bookAuthor: String,
-//         content: String,
-//         note: Note? = nil) {
-//        self.bookID = bookID
-//        self.bookTitle = bookTitle
-//        self.bookAuthor = bookAuthor
-//        self.content = content
-//        self.note = note
+//    var selectedTextColor: String
+//    var selectedBackgroundColor: String
+//    
+//    var isPresentedRenameView: Bool = false
+//    
+//    var unselectedTextColor: String
+//    var unselectedBackgroundColor: String
+//    
+//    var highlightedTextColor: String?
+//    var unselectedHighlightedBackgroundColor: String?
+//    var selectedHighlightedBackgroundColor: String?
+//    
+//    init(defaultName: String, selectedTextColor: String, selectedBackgroundColor: String, isPresentedRenameView: Bool, unselectedTextColor: String, unselectedBackgroundColor: String, highlightedTextColor: String? = nil, unselectedHighlightedBackgroundColor: String? = nil, selectedHighlightedBackgroundColor: String? = nil) {
+//        self.defaultName = defaultName
+//        self.selectedTextColor = selectedTextColor
+//        self.selectedBackgroundColor = selectedBackgroundColor
+//        self.isPresentedRenameView = isPresentedRenameView
+//        self.unselectedTextColor = unselectedTextColor
+//        self.unselectedBackgroundColor = unselectedBackgroundColor
+//        self.highlightedTextColor = highlightedTextColor
+//        self.unselectedHighlightedBackgroundColor = unselectedHighlightedBackgroundColor
+//        self.selectedHighlightedBackgroundColor = selectedHighlightedBackgroundColor
 //    }
 //}
 
