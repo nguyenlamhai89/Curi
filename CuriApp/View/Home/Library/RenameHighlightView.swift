@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct RenameHighlightView: View {
-    var backgroundColor: Color
-    var placeholderHighlightName: String
     @Binding var highlightName: String
-    @Binding var viewIsPresented: Bool
-    
     @FocusState var autoFocus: Bool
+    
+    var backgroundColor: Color
+    var placeholderHighlightName: String = "Highlight Name"
+    
+    var onSaveNewName: () -> Void
     
     var body: some View {
         Rectangle()
@@ -34,8 +35,7 @@ struct RenameHighlightView: View {
                         .submitLabel(.done)
                         .onSubmit {
                             withAnimation {
-                                viewIsPresented.toggle()
-                                print("Rename View On: \(viewIsPresented)")
+                                onSaveNewName()
                             }
                         }
                         .onChange(of: highlightName) { oldValue, newValue in
@@ -53,10 +53,4 @@ struct RenameHighlightView: View {
                 }
             }
     }
-}
-
-#Preview {
-    @Previewable @State var viewIsPresented: Bool = false
-    @Previewable @State var highlightName: String = "Good Point"
-    RenameHighlightView(backgroundColor: Color.pink, placeholderHighlightName: "Pink", highlightName: $highlightName, viewIsPresented: $viewIsPresented)
 }

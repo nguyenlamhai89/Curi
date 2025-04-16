@@ -74,8 +74,20 @@ class Quote: Identifiable {
         self.connectedQuotes = connectedQuotes
         self.quoteNote = quoteNote
     }
+}
+
+@Model
+class Note: Identifiable {
+    var bookID: UUID
+    var quoteID: UUID
+    var noteID: UUID = UUID()
+    var noteContent: String
     
-    
+    init(bookID: UUID, quoteID: UUID, noteContent: String) {
+        self.bookID = bookID
+        self.quoteID = quoteID
+        self.noteContent = noteContent
+    }
 }
 
 extension Quote: CustomStringConvertible {
@@ -90,19 +102,5 @@ extension Quote: CustomStringConvertible {
             Connect Status: \(isConnected)
         )
         """
-    }
-}
-
-@Model
-class Note: Identifiable {
-    var bookID: UUID
-    var quoteID: UUID
-    var noteID: UUID = UUID()
-    var noteContent: String
-    
-    init(bookID: UUID, quoteID: UUID, noteContent: String) {
-        self.bookID = bookID
-        self.quoteID = quoteID
-        self.noteContent = noteContent
     }
 }

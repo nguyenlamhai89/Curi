@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct TopNavigationCanvas: View {
+struct TopNavigationUniversal: View {
     @Binding var settingsTopNavigation: Bool
     @Binding var widgetTopNavigation: Bool
     
-    @Binding var pageOneIsSelected: Bool
-    @Binding var pageTwoIsSelected: Bool
+    @Binding var isOpenedTabOne: Bool
+    @Binding var isOpenedTabTwo: Bool
     
     var body: some View {
         VStack (spacing: 0) {
@@ -32,7 +32,7 @@ struct TopNavigationCanvas: View {
                     Spacer()
                     
                     /// Segmented Control
-                    SegmentedControl(pageOneIsSelected: $pageOneIsSelected, pageTwoIsSelected: $pageTwoIsSelected)
+                    SegmentedControl(pageOneIsSelected: $isOpenedTabOne, pageTwoIsSelected: $isOpenedTabTwo)
                     
                     Spacer()
                     
@@ -105,6 +105,6 @@ struct TopNavigationBook: View {
     @Previewable @State var pageOneIsSelected: Bool = true
     @Previewable @State var pageTwoIsSelected: Bool = false
     
-    TopNavigationCanvas(settingsTopNavigation: $settingsTopNavigation, widgetTopNavigation: $widgetTopNavigation, pageOneIsSelected: $pageOneIsSelected, pageTwoIsSelected: $pageTwoIsSelected)
+    TopNavigationUniversal(settingsTopNavigation: $settingsTopNavigation, widgetTopNavigation: $widgetTopNavigation, isOpenedTabOne: $pageOneIsSelected, isOpenedTabTwo: $pageTwoIsSelected)
     TopNavigationBook(quoteIsSelected: true)
 }

@@ -9,16 +9,14 @@ import SwiftUI
 
 
 struct QuotePaperGroup: View {
-//    var connectedQuotesSample: [String] = ["Blow, blow, thou winter wind", "Thou art not so unkind", "As man's ingratitude;"]
+    var highlight: HighlightPencil
     var quote: Quote
+    
     var quoteContent: String
     var quoteAuthor: String
     var quoteBook: String
     var paperAction: () -> Void
-    
-    var highlight: HighlightPencil
-//    var highlightContent: String
-//    var highlightColor: Color
+
     var highlightAction: () -> Void
     
     var body: some View {
@@ -144,12 +142,3 @@ struct QuotePaper: View {
         
     }
 }
-
-//#Preview {
-//    QuotePaperGroup(quote: Quote(bookID: UUID(), quoteBook: "Animal Farm", quoteAuthor: "George Orwell", quoteContent: "Four legs is good, two legs is better, one leg is the best", quoteHighlight: HighlightPencil(name: "Discuss Later", primaryTextColor: "paper-500", primaryBackgroundColor: "blue-300", secondaryTextColor: "blue-500", secondaryBackgroundColor: "blue-100", highlightedTextColor: "blue-500", defaultHighlightedBackgroundColor: "blue-100", selectedHighlightedBackgroundColor: "blue-200")), quoteContent: "Quote quote quote", quoteAuthor: "Author", quoteBook: "Book name", paperAction: {
-//        print("Quote Paper Tapped")
-//    }, highlightContent: "Discuss Later", highlightColor: Color.red, highlightAction: {
-//        print("Highlight Button Rename")
-//    })
-//    .padding(24)
-//}

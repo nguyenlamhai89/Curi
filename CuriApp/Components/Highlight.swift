@@ -41,23 +41,12 @@ struct HighlightDial: View {
     @Query var pencilDatabase: [HighlightPencil]
     
     @State var selectedIndex: Int = 0
-    
-    var quoteIsSelected: Bool
     @Binding var thoughtSheetIsPresented: Bool
     @Binding var deleteAlertIsPresented: Bool
     
+    var quoteIsSelected: Bool
+    
     var action: () -> Void
-//    @Binding var renameViewPrimary: Bool
-//    @Binding var renameViewSecondary: Bool
-//    
-//    var highlightName1: String
-//    var highlightName2: String
-    
-//    var onSelectPen: ((HighlightPen) -> Void)?
-    
-//    var onSelectedPen: HighlightPen
-    
-//    @State var selectedPenIndex: Int?
     
     var body: some View {
         VStack (spacing: curiSpacing(.sp8)) {
@@ -110,9 +99,6 @@ struct HighlightDial: View {
                                                             isSelected: isSelected,
                                                             renameViewIsPresented: pencilDatabase[penIndex].isPresentedRenameView) {
                                             action()
-//                                            print("Selected: \(bookViewModel.selectedPen)")
-//                                            bookViewModel.selectedPen.isPresentedRenameView.toggle()
-                                            
                                         }
                                     }
                                 }
@@ -253,27 +239,3 @@ struct HighlightTag: View {
 //            .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
-
-//#Preview {
-//    @Previewable @Bindable var bookViewModel = BookViewModel()
-//    @Previewable @State var thoughtSheetIsPresented: Bool = false
-//    @Previewable @State var deleteAlertIsPresented: Bool = false
-//    @Previewable @State var renameHighlightViewIsPresented1: Bool = false
-//    @Previewable @State var renameHighlightViewIsPresented2: Bool = false
-//    @Previewable @State var tagNameDemoBlue: String = "Discuss Later"
-//    @Previewable @State var tagNameDemoPink: String = "Good"
-//    
-//    HighlightDial(bookViewModel: bookViewModel, quoteIsSelected: true, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameViewPrimary: $renameHighlightViewIsPresented1, renameViewSecondary: $renameHighlightViewIsPresented2, highlightName1: tagNameDemoBlue, highlightName2: tagNameDemoPink)
-//
-//    HighlightDial(bookViewModel: bookViewModel, quoteIsSelected: false, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, renameViewPrimary: $renameHighlightViewIsPresented1, renameViewSecondary: $renameHighlightViewIsPresented2, highlightName1: tagNameDemoBlue, highlightName2: tagNameDemoPink)
-//    
-////    HighlightButton(content: tagNameDemoBlue, color: Color.blue, action: {
-////        print("Highlight Button Pressed")
-////    })
-//    
-//    HighlightTag(content: tagNameDemoPink)
-//    
-//    HighlightQuotePaperButton(content: tagNameDemoBlue, color: Color.blue) {
-//        print("Highlight Quote Paper Button")
-//    }
-//}

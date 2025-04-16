@@ -18,24 +18,13 @@ struct QuoteNoteSheetView: View {
     @State var shareThoughts: String = ""
     @State var connectQuoteNavigate: Bool = false
     @State var deleteAlertIsPresented: Bool = false
-//    var nameHighlightPrimary: String
-//    var nameHighlightSecondary: String
     
     let quote: Quote
-    @State var isShowKeyboard: Bool = false
-    
-//    init(bookViewModel: BookViewModel, quote: Quote, nameHighlightPrimary: String, nameHighlightSecondary: String) {
-//        self.bookViewModel = bookViewModel
-//        self.quote = quote
-//        self.nameHighlightPrimary = nameHighlightPrimary
-//        self.nameHighlightSecondary = nameHighlightSecondary
-//    }
     
     init(bookViewModel: BookViewModel, quote: Quote) {
         self.bookViewModel = bookViewModel
         self.quote = quote
     }
-    
     
     var body: some View {
         NavigationStack {
@@ -79,13 +68,12 @@ struct QuoteNoteSheetView: View {
                         }
                     }
                 }
-                if !isShowKeyboard {
-                    TextButtonPlain(content: "Delete Quote and Note", action: {
-                        deleteAlertIsPresented.toggle()
-                        print("Delete")
-                    })
-                    .bottomNavigationSpacing
-                }
+                
+                TextButtonPlain(content: "Delete Quote and Note", action: {
+                    deleteAlertIsPresented.toggle()
+                    print("Delete")
+                })
+                .bottomNavigationSpacing
                 
             }
             .padding(.horizontal, curiSpacing(.sp16))
@@ -117,35 +105,13 @@ struct QuoteNoteSheetView: View {
             print("🔖 Author - \(quote.quoteAuthor)")
             print("🔖 Book - \(quote.quoteBook)")
             print("Raw Data: \(quote)")
-            setupKeyboardObserver()
-        }
-        .onDisappear {
-            removeKeyboardObserver()
         }
     }
     
 }
 
-//#Preview {
-//    @Previewable @Bindable var bookViewModel = BookViewModel()
-//    QuoteNoteSheetView(bookViewModel: bookViewModel, quote: Quo)
-//}
-
-extension QuoteNoteSheetView {
-    private func setupKeyboardObserver() {
-        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
-            if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
-                let keyboardHeight = keyboardFrame.height
-                self.isShowKeyboard = true
-            }
-        }
-        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
-            self.isShowKeyboard = false
-        }
-    }
+#Preview {
+    @Previewable @Bindable var bookViewModel = BookViewModel()
     
-    private func removeKeyboardObserver() {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
+    QuoteNoteSheetView(bookViewModel: bookViewModel, quote: Quote(bookID: UUID(), quoteBook: "Test Book", quoteAuthor: "Test Author", quoteContent: "Test Quote Content Bla Blo Bla Blo", quoteHighlight: HighlightPencil(name: "Test Highlight Name", primaryTextColor: "paper-500", primaryBackgroundColor: "blue-300", secondaryTextColor: "blue-500", secondaryBackgroundColor: "blue-100", highlightedTextColor: "blue-500", defaultHighlightedBackgroundColor: "blue-100", selectedHighlightedBackgroundColor: "blue-200")))
 }
