@@ -28,7 +28,15 @@ struct LinesView: View {
         bookViewModel.selectedPen?.defaultHighlightedBackgroundColor ?? ""
     }
     
-//    var selectedHighlightPen: HighlightPen?
+    var textHighlightedSelectingColor: String {
+        bookViewModel.selectedPen?.highlightedTextColor ?? ""
+    }
+    
+    var backgroundHighlightedSelectingColor: String {
+        bookViewModel.selectedPen?.selectedHighlightedBackgroundColor ?? "" 
+    }
+    
+//    @State var selectedLine: String? = nil
     
     var body: some View {
         VStack (spacing: 8) {
@@ -48,8 +56,29 @@ struct LinesView: View {
                         checkQuoteDatabase(checkingQuote: quote, currentLine: line)
                         
                     }
-                    .foregroundStyle(quoteDatabase.contains(where: { $0.quoteContent == line }) ? Color(textHighlightedColor) : curiPalette(.ink500))
-                    .background(quoteDatabase.contains(where: { $0.quoteContent == line }) ? Color(backgroundHighlightedColor) : Color.clear)
+                    .onTapGesture {
+                        if quoteDatabase.contains(where: { $0.quoteContent == line }) {
+                            bookViewModel.selectedLine = (bookViewModel.selectedLine == line) ? nil : line
+                        } else {
+                            bookViewModel.selectedLine = nil
+                        }
+                        print("-- Ready to add Note: \(bookViewModel.selectedLine != nil ? "✅" : "🙅🏻‍♂️")")
+//                        print("Quote content: \(bookViewModel.selectedLine)")
+                    }
+                    .foregroundStyle(
+                        quoteDatabase.contains(where: { $0.quoteContent == line }) && bookViewModel.selectedLine == line
+                        ? Color(textHighlightedSelectingColor)
+                        : quoteDatabase.contains(where: { $0.quoteContent == line })
+                          ? Color(textHighlightedColor)
+                          : curiPalette(.ink500)
+                    )
+                    .background(
+                        quoteDatabase.contains(where: { $0.quoteContent == line }) && bookViewModel.selectedLine == line
+                        ? Color(backgroundHighlightedSelectingColor)
+                        : quoteDatabase.contains(where: { $0.quoteContent == line })
+                          ? Color(backgroundHighlightedColor)
+                          : Color.clear
+                    )
                     .animation(.easeInOut, value: quoteDatabase)
             }
             .onChange(of: quoteDatabase) {

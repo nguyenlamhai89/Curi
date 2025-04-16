@@ -8,35 +8,9 @@
 import SwiftUI
 import SwiftData
 
-//@Observable
-//class HighlightPen {
-//    var defaultName: String
-//    
-//    var selectedTextColor: Color
-//    var selectedBackgroundColor: Color
-//    
-//    var isPresentedRenameView: Bool = false
-//    
-//    var unselectedTextColor: Color
-//    var unselectedBackgroundColor: Color
-//    
-//    var highlightedTextColor: Color?
-//    var unselectedHighlightedBackgroundColor: Color?
-//    var selectedHighlightedBackgroundColor: Color?
-//    
-//    init(defaultName: String, selectedTextColor: Color, selectedBackgroundColor: Color, unselectedTextColor: Color, unselectedBackgroundColor: Color, highlightedTextColor: Color? = nil, unselectedHighlightedBackgroundColor: Color? = nil, selectedHighlightedBackgroundColor: Color? = nil) {
-//        self.defaultName = defaultName
-//        self.selectedTextColor = selectedTextColor
-//        self.selectedBackgroundColor = selectedBackgroundColor
-//        self.unselectedTextColor = unselectedTextColor
-//        self.unselectedBackgroundColor = unselectedBackgroundColor
-//        self.highlightedTextColor = highlightedTextColor
-//        self.unselectedHighlightedBackgroundColor = unselectedHighlightedBackgroundColor
-//        self.selectedHighlightedBackgroundColor = selectedHighlightedBackgroundColor
-//    }
-//}
 
 struct HighlightDial: View {
+    @Environment(\.modelContext) var modelContext
     @Bindable var bookViewModel: BookViewModel
     @Query var pencilDatabase: [HighlightPencil]
     
@@ -44,25 +18,28 @@ struct HighlightDial: View {
     @Binding var thoughtSheetIsPresented: Bool
     @Binding var deleteAlertIsPresented: Bool
     
-    var quoteIsSelected: Bool
-    
     var action: () -> Void
     
     var body: some View {
         VStack (spacing: curiSpacing(.sp8)) {
             HStack (spacing: curiSpacing(.sp8)) {
-                if quoteIsSelected {
-                    IconButtonDefault(iconName: "curiThought", action: {
-                        withAnimation {
-                            thoughtSheetIsPresented.toggle()
-                        }
-                        print("Thought Sheet On: \(thoughtSheetIsPresented)")
-                    })
-                } else {
-                    Rectangle()
-                        .fill(curiPalette(.paper500))
-                        .frame(width: 32, height: 32)
+                ZStack {
+                    if let line = bookViewModel.selectedLine, !line.isEmpty {
+                        IconButtonDefault(iconName: "curiThought", action: {
+                            withAnimation {
+                                thoughtSheetIsPresented.toggle()
+                            }
+                            print("Thought Sheet On: \(thoughtSheetIsPresented)")
+                        })
+//                        .transition(.scale.combined(with: .opacity))
+                    } else {
+                        Rectangle()
+                            .fill(curiPalette(.paper500))
+                            .frame(width: 32, height: 32)
+//                            .transition(.scale.combined(with: .opacity))
+                    }
                 }
+                .animation(.easeInOut, value: bookViewModel.selectedLine)
                 
                 // Highlight Dial
                 Rectangle()
@@ -129,6 +106,9 @@ struct HighlightDial: View {
                                     }
                                     bookViewModel.selectedPen = pencilDatabase[selectedIndex]
                                 }
+                                .onChange(of: bookViewModel.selectedPen) {
+                                    print("On Selected - \(String(describing: bookViewModel.selectedPen?.name))")
+                                }
                             }
                         }
                     }
@@ -145,18 +125,23 @@ struct HighlightDial: View {
                 }
                 .clipped()
                 
-                if quoteIsSelected {
-                    IconButtonDefault(iconName: "curiDelete", action: {
-                        withAnimation {
-                            deleteAlertIsPresented.toggle()
-                        }
-                        print("Delete Pressed")
-                    })
-                } else {
-                    Rectangle()
-                        .fill(curiPalette(.paper500))
-                        .frame(width: 32, height: 32)
+                ZStack {
+                    if let line = bookViewModel.selectedLine, !line.isEmpty {
+                        IconButtonDefault(iconName: "curiDelete", action: {
+                            withAnimation {
+                                deleteAlertIsPresented.toggle()
+                            }
+                            print("Delete Pressed")
+                        })
+//                        .transition(.scale.combined(with: .opacity))
+                    } else {
+                        Rectangle()
+                            .fill(curiPalette(.paper500))
+                            .frame(width: 32, height: 32)
+//                            .transition(.scale.combined(with: .opacity))
+                    }
                 }
+                .animation(.easeInOut, value: bookViewModel.selectedLine)
                 
             }
             

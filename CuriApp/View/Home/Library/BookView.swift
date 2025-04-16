@@ -17,12 +17,15 @@ struct BookView: View {
     
     @State var isPresentedRenameView: Bool = false
     @State var newHighlightName: String = ""
-    @State var quoteSelected: Bool = true
+//    @State var pageIsSelected: Bool = true
+    @State var quoteSelected: Bool = false
     @State var thoughtSheetIsPresented: Bool = false
     @State var deleteAlertIsPresented: Bool = false
     @State var bookLinesOriginal: [String]
     @State var isShowKeyboard: Bool = false
     @FocusState private var autoFocusRename: Bool
+    
+//    @Binding var selectedLine: String?
     
     var bookID: UUID
     var bookTitle: String
@@ -52,19 +55,19 @@ struct BookView: View {
             .ignoresSafeArea()
             .onTapGesture {
                 withAnimation {
-                    quoteSelected.toggle()
+                    bookViewModel.pageIsSelected.toggle()
                 }
             }
             
             VStack {
                 // Navigation
-                TopNavigationBook(quoteIsSelected: quoteSelected)
+                TopNavigationBook(pageIsSelected: bookViewModel.pageIsSelected)
 //                    .background(Color.blue)
                 
                 Spacer()
                 
                 // Highlight
-                HighlightDial(bookViewModel: bookViewModel, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented, quoteIsSelected: false) {
+                HighlightDial(bookViewModel: bookViewModel, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented) {
                     isPresentedRenameView.toggle()
                 }
                 .bottomNavigationSpacing

@@ -17,6 +17,9 @@ class BookViewModel {
     var isLoading = true
     var isFetched = false
     
+    var pageIsSelected: Bool = false
+    var selectedLine: String? = nil
+    
     // Get Book
     func fetchBooks() async throws {
         guard let url = URL(string: "https://poetrydb.org/author/William%20Shakespeare") else { throw

@@ -59,7 +59,7 @@ struct TopNavigationUniversal: View {
 
 struct TopNavigationBook: View {
     @Environment(\.dismiss) var dismiss
-    var quoteIsSelected: Bool
+    var pageIsSelected: Bool
 //    var bookName: String
     
     var body: some View {
@@ -69,7 +69,7 @@ struct TopNavigationBook: View {
             .overlay {
                 HStack {
                     /// Icon Button - User
-                    if quoteIsSelected {
+                    if pageIsSelected {
                         IconButtonDefault(iconName: "curiLeft") {
                             dismiss()
                             print("Backed")
@@ -82,9 +82,6 @@ struct TopNavigationBook: View {
                     
                     /// Icon Button - Search
                     EmptyView()
-//                    Rectangle()
-//                        .fill(curiPalette(.paper500))
-//                        .frame(width: 32, height: 32)
                     
                 }
                 .padding(.horizontal, curiSpacing(.sp16))
@@ -106,5 +103,5 @@ struct TopNavigationBook: View {
     @Previewable @State var pageTwoIsSelected: Bool = false
     
     TopNavigationUniversal(settingsTopNavigation: $settingsTopNavigation, widgetTopNavigation: $widgetTopNavigation, isOpenedTabOne: $pageOneIsSelected, isOpenedTabTwo: $pageTwoIsSelected)
-    TopNavigationBook(quoteIsSelected: true)
+    TopNavigationBook(pageIsSelected: true)
 }
