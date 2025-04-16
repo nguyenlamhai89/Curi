@@ -35,7 +35,7 @@ struct LinesView: View {
             ForEach(bookLinesOriginal, id: \.self) { line in
                 Text(line)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .onLongPressGesture {
+                    .onLongPressGesture(minimumDuration: 0.2) {
                         print("\(line)")
                         let quote = Quote(bookID: bookID, quoteBook: bookTitle, quoteAuthor: bookAuthor, quoteContent: line, quoteHighlight: bookViewModel.selectedPen!)
                         
@@ -44,12 +44,13 @@ struct LinesView: View {
                         print("- Title: \(quote.quoteBook)")
                         print("- Author: \(quote.quoteAuthor)")
                         print("📝 -------- \(quote.quoteContent) - \(quote.quoteHighlight)")
-
+                        
                         checkQuoteDatabase(checkingQuote: quote, currentLine: line)
                         
                     }
                     .foregroundStyle(quoteDatabase.contains(where: { $0.quoteContent == line }) ? Color(textHighlightedColor) : curiPalette(.ink500))
                     .background(quoteDatabase.contains(where: { $0.quoteContent == line }) ? Color(backgroundHighlightedColor) : Color.clear)
+                    .animation(.easeInOut, value: quoteDatabase)
             }
             .onChange(of: quoteDatabase) {
                 print("✅ [\(quoteDatabase.count)] Quotes: \(quoteDatabase)")

@@ -72,7 +72,7 @@ struct HomeViewManager: View {
                 let pencil1 = HighlightPencil(
                     name: "Discuss Later",
                     primaryTextColor: "paper-500",
-                    primaryBackgroundColor: "blue-300",
+                    primaryBackgroundColor: "blue-500",
                     secondaryTextColor: "blue-500",
                     secondaryBackgroundColor: "blue-100",
                     highlightedTextColor: "blue-500",
@@ -82,7 +82,7 @@ struct HomeViewManager: View {
                 let pencil2 = HighlightPencil(
                     name: "Good Point",
                     primaryTextColor: "paper-500",
-                    primaryBackgroundColor: "pink-300",
+                    primaryBackgroundColor: "pink-500",
                     secondaryTextColor: "pink-500",
                     secondaryBackgroundColor: "pink-100",
                     highlightedTextColor: "pink-500",
