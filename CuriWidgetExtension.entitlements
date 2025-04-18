@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.madeby.nham.curiapp.extension</string>
+		<string>group.madeby.nham.curiapp</string>
 	</array>
 </dict>
 </plist>
