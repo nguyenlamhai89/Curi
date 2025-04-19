@@ -17,7 +17,7 @@ struct QuoteView: View {
     @Query var quoteDatabase: [Quote]
     
     @State var viewAllNavigation: Bool = false
-    @State var isPresentedQuoteSheetView: Bool = false
+//    @State var isPresentedQuoteSheetView: Bool = false
     @State var newHighlightName: String = ""
     
     @Binding var isPresentedRenameView: Bool
@@ -26,7 +26,7 @@ struct QuoteView: View {
         if let first = quoteDatabase.first {
             return first
         } else {
-            return Quote(bookID: UUID(), quoteBook: "", quoteAuthor: "", quoteContent: "", quoteHighlight: HighlightPencil(name: "", primaryTextColor: "", primaryBackgroundColor: "b", secondaryTextColor: "", secondaryBackgroundColor: "", highlightedTextColor: "", defaultHighlightedBackgroundColor: "", selectedHighlightedBackgroundColor: ""))
+            return Quote(bookID: UUID(), quoteBook: "", quoteAuthor: "", quoteContent: "", quoteHighlight: HighlightPencil(name: "", primaryTextColor: "", primaryBackgroundColor: "b", secondaryTextColor: "", secondaryBackgroundColor: "", highlightedTextColor: "", defaultHighlightedBackgroundColor: "", selectedHighlightedBackgroundColor: ""), quoteNote: Note())
         }
     }
     
@@ -40,7 +40,7 @@ struct QuoteView: View {
             VStack (spacing: 0) {
                 VStack (spacing: 0) {
                     QuotePaperGroup(highlight: quoteOnPaper.quoteHighlight, quote: quoteOnPaper, quoteContent: quoteOnPaper.quoteContent, quoteAuthor: quoteOnPaper.quoteAuthor, quoteBook: quoteOnPaper.quoteBook, paperAction: {
-                        isPresentedQuoteSheetView.toggle()
+                        bookViewModel.quoteNoteSheetViewIsPresented.toggle()
                     }, highlightAction: {
                         isPresentedRenameView.toggle()
                     })
@@ -55,7 +55,7 @@ struct QuoteView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .padding(.top, 74)
             }
-            .sheet(isPresented: $isPresentedQuoteSheetView) {
+            .sheet(isPresented: $bookViewModel.quoteNoteSheetViewIsPresented) {
                 QuoteNoteSheetView(bookViewModel: bookViewModel, quote: quoteOnPaper)
             }
             .navigationDestination(isPresented: $viewAllNavigation) {

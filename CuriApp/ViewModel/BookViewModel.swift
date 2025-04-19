@@ -18,7 +18,12 @@ class BookViewModel {
     var isFetched = false
     
     var pageIsSelected: Bool = false
-    var selectedLine: String? = nil
+    var quoteIsSelected: Bool = false
+    
+    var quoteNoteSheetViewIsPresented: Bool = false
+    var deleteAlertIsPresented: Bool = false
+    
+    var selectedLine: Quote? = nil
     
     // Get Book
     func fetchBooks() async throws {

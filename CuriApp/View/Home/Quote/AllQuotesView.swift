@@ -26,7 +26,8 @@ struct AllQuotesView: View {
                                     quoteBook: quote.quoteBook,
                                     quoteAuthor: quote.quoteAuthor,
                                     quoteContent: "\(quote.quoteContent)",
-                                    quoteHighlightName: "Discuss Later",
+                                    quoteHighlightName: quote.quoteHighlight.name,
+                                    quoteHighlightColor: quote.quoteHighlight.primaryBackgroundColor,
                                     action: {
                                         self.itemSelected = quote
                                         print("HAINL self.itemSelected \(String(describing: self.itemSelected))")

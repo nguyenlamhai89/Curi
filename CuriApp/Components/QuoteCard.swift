@@ -12,6 +12,7 @@ struct QuoteCard: View {
     var quoteAuthor: String
     var quoteContent: String
     var quoteHighlightName: String
+    var quoteHighlightColor: String
     var action: () -> Void
     
     var body: some View {
@@ -40,7 +41,7 @@ struct QuoteCard: View {
                     .lineLimit(3)
                 
                 /// Highlight Tag
-                HighlightTag(content: quoteHighlightName)
+                HighlightTag(highlightName: quoteHighlightName, highlightColor: quoteHighlightColor)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(curiSpacing(.sp16))
@@ -56,6 +57,7 @@ struct QuoteCardWithCheckbox: View {
     var authorName: String
     var quoteContent: String
     var highlightTagName: String
+    var highlightTagColor: String
     var isConnected: Bool
     var action: () -> Void
     
@@ -95,7 +97,7 @@ struct QuoteCardWithCheckbox: View {
                     .lineLimit(3)
                 
                 /// Highlight Tag
-                HighlightTag(content: highlightTagName)
+                HighlightTag(highlightName: highlightTagName, highlightColor: highlightTagColor)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(curiSpacing(.sp16))
@@ -115,11 +117,11 @@ struct QuoteCardWithCheckbox: View {
 #Preview {
     @Previewable @State var connectedQuote: Int = 0
     VStack {
-        QuoteCard(quoteBook: "Animal Farm", quoteAuthor: "George Orwell", quoteContent: "All that year the animals worked like slaves. But they were happy in their work; they grudged no effort or sacrifice, well aware that everything they did was for the benefit of themselves and those of their kind who would come after them, and not for a pack of idle, thieving human beings.", quoteHighlightName: "Discuss Later", action: {
+        QuoteCard(quoteBook: "Animal Farm", quoteAuthor: "George Orwell", quoteContent: "All that year the animals worked like slaves. But they were happy in their work; they grudged no effort or sacrifice, well aware that everything they did was for the benefit of themselves and those of their kind who would come after them, and not for a pack of idle, thieving human beings.", quoteHighlightName: "Discuss Later", quoteHighlightColor: "pink-200", action: {
             print("Navigation Card")
         })
         
-        QuoteCardWithCheckbox(bookName: "Animal Farm", authorName: "George Orwell", quoteContent: "All that year the animals worked like slaves. But they were happy in their work; they grudged no effort or sacrifice, well aware that everything they did was for the benefit of themselves and those of their kind who would come after them, and not for a pack of idle, thieving human beings.", highlightTagName: "Discuss Later", isConnected: false, action: {
+        QuoteCardWithCheckbox(bookName: "Animal Farm", authorName: "George Orwell", quoteContent: "All that year the animals worked like slaves. But they were happy in their work; they grudged no effort or sacrifice, well aware that everything they did was for the benefit of themselves and those of their kind who would come after them, and not for a pack of idle, thieving human beings.", highlightTagName: "Discuss Later", highlightTagColor: "blue-200", isConnected: false, action: {
             print("Checkbox Card")
         })
     }

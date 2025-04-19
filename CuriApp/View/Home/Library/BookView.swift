@@ -17,15 +17,11 @@ struct BookView: View {
     
     @State var isPresentedRenameView: Bool = false
     @State var newHighlightName: String = ""
-//    @State var pageIsSelected: Bool = true
-    @State var quoteSelected: Bool = false
-    @State var thoughtSheetIsPresented: Bool = false
-    @State var deleteAlertIsPresented: Bool = false
+
     @State var bookLinesOriginal: [String]
     @State var isShowKeyboard: Bool = false
     @FocusState private var autoFocusRename: Bool
     
-//    @Binding var selectedLine: String?
     
     var bookID: UUID
     var bookTitle: String
@@ -56,6 +52,7 @@ struct BookView: View {
             .onTapGesture {
                 withAnimation {
                     bookViewModel.pageIsSelected.toggle()
+                    bookViewModel.selectedLine = nil
                 }
             }
             
@@ -67,7 +64,7 @@ struct BookView: View {
                 Spacer()
                 
                 // Highlight
-                HighlightDial(bookViewModel: bookViewModel, thoughtSheetIsPresented: $thoughtSheetIsPresented, deleteAlertIsPresented: $deleteAlertIsPresented) {
+                HighlightDial(bookViewModel: bookViewModel, thoughtSheetIsPresented: $bookViewModel.quoteNoteSheetViewIsPresented, deleteAlertIsPresented: $bookViewModel.deleteAlertIsPresented) {
                     isPresentedRenameView.toggle()
                 }
                 .bottomNavigationSpacing
@@ -96,13 +93,20 @@ struct BookView: View {
                 }
             }
         })
-        .alert(isPresented: $deleteAlertIsPresented) {
-            Alert(title: Text("Delete Quote and Note?"),
-                  message: Text("Are you sure you want to delete the quote and the note?"),
-                  primaryButton: .cancel(),
-                  secondaryButton: .destructive(Text("Delete"), action: {
-                print("Deleted!")
-            }))
+        .alert(isPresented: $bookViewModel.deleteAlertIsPresented) {
+            Alert(
+                title: Text("Delete Quote and Note?"),
+                message: Text("Are you sure you want to delete the quote and the note?"),
+                primaryButton: .cancel(),
+                secondaryButton: .destructive(Text("Delete"), action: {
+                    modelContext.delete(bookViewModel.selectedLine!)
+                })
+            )
+        }
+        .sheet(isPresented: $bookViewModel.quoteNoteSheetViewIsPresented) {
+            if let selectedQuote = bookViewModel.selectedLine {
+                QuoteNoteSheetView(bookViewModel: bookViewModel, quote: selectedQuote)
+            }
         }
     }
 }

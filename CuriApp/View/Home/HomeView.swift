@@ -10,7 +10,7 @@ import SwiftData
 
 struct HomeViewManager: View {
     @Environment(\.modelContext) var modelContext
-    @Bindable var bookViewModel = BookViewModel()
+    @State var bookViewModel = BookViewModel()
     @Query var pencilDatabase: [HighlightPencil]
     @Query var quoteDatabase: [Quote]
         
@@ -31,7 +31,7 @@ struct HomeViewManager: View {
         if let first = quoteDatabase.first {
             return first
         } else {
-            return Quote(bookID: UUID(), quoteBook: "", quoteAuthor: "", quoteContent: "", quoteHighlight: HighlightPencil(name: "", primaryTextColor: "", primaryBackgroundColor: "b", secondaryTextColor: "", secondaryBackgroundColor: "", highlightedTextColor: "", defaultHighlightedBackgroundColor: "", selectedHighlightedBackgroundColor: ""))
+            return Quote(bookID: UUID(), quoteBook: "", quoteAuthor: "", quoteContent: "", quoteHighlight: HighlightPencil(name: "", primaryTextColor: "", primaryBackgroundColor: "b", secondaryTextColor: "", secondaryBackgroundColor: "", highlightedTextColor: "", defaultHighlightedBackgroundColor: "", selectedHighlightedBackgroundColor: ""), quoteNote: Note())
         }
     }
     

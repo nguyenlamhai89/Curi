@@ -59,13 +59,13 @@ class Quote: Identifiable {
     var quoteAuthor: String
     var quoteContent: String
     var quoteHighlight: HighlightPencil
-    var isConnected: Bool = false
     
+    var isConnected: Bool = false
     var connectedQuotes: [Quote]?
     
     @Relationship(deleteRule: .cascade) var quoteNote: Note?
     
-    init(bookID: UUID, quoteBook: String, quoteAuthor: String, quoteContent: String, quoteHighlight: HighlightPencil, connectedQuotes: [Quote]? = nil, quoteNote: Note? = nil) {
+    init(bookID: UUID, quoteBook: String, quoteAuthor: String, quoteContent: String, quoteHighlight: HighlightPencil, connectedQuotes: [Quote]? = nil, quoteNote: Note) {
         self.bookID = bookID
         self.quoteBook = quoteBook
         self.quoteAuthor = quoteAuthor
@@ -78,16 +78,21 @@ class Quote: Identifiable {
 
 @Model
 class Note: Identifiable {
-    var bookID: UUID
-    var quoteID: UUID
-    var noteID: UUID = UUID()
+//    var bookID: UUID
+//    var quoteID: UUID
+    var noteID: UUID
     var noteContent: String
     
-    init(bookID: UUID, quoteID: UUID, noteContent: String) {
-        self.bookID = bookID
-        self.quoteID = quoteID
+    init(noteID: UUID = UUID(), noteContent: String = "") {
+        self.noteID = noteID
         self.noteContent = noteContent
     }
+//    init(bookID: UUID, quoteID: UUID, noteContent: String) {
+//        self.bookID = bookID
+//        self.quoteID = quoteID
+//        self.noteContent = noteContent
+//    }
+    
 }
 
 extension Quote: CustomStringConvertible {

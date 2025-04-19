@@ -15,15 +15,17 @@ struct QuoteNoteSheetView: View {
     @Query var quoteDatabase: [Quote]
     
     @Environment(\.presentationMode) var presentationMode
-    @State var shareThoughts: String = ""
+//    @State var shareThoughts: String = ""
     @State var connectQuoteNavigate: Bool = false
     @State var deleteAlertIsPresented: Bool = false
     
-    let quote: Quote
+    @Bindable var quote: Quote
     
-    init(bookViewModel: BookViewModel, quote: Quote) {
-        self.bookViewModel = bookViewModel
-        self.quote = quote
+    var shareThoughtsBinding: Binding<String> {
+        Binding(
+            get: { quote.quoteNote?.noteContent ?? "" },
+            set: { quote.quoteNote?.noteContent = $0 }
+        )
     }
     
     var body: some View {
@@ -31,9 +33,9 @@ struct QuoteNoteSheetView: View {
             VStack {
                 VStack (spacing: curiSpacing(.sp20)){
                     VStack (spacing: curiSpacing(.sp8)) {
-                        HighlightTag(content: quote.quoteHighlight.name)
+                        HighlightTag(highlightName: quote.quoteHighlight.name, highlightColor: quote.quoteHighlight.primaryBackgroundColor)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                        Text("\(quote.quoteContent)")
+                        Text("\"\(quote.quoteContent)\"")
                             .curiTypo(.bkRegular16)
                             .foregroundStyle(curiPalette(.ink500))
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -53,7 +55,9 @@ struct QuoteNoteSheetView: View {
                             
                         }
                     }
-                    TakeNoteField(shareThoughts: $shareThoughts, book: quote.quoteBook, author: quote.quoteAuthor)
+//                    TakeNoteField(shareThoughts: $shareThoughts, book: quote.quoteBook, author: quote.quoteAuthor)
+                    
+                    TakeNoteField(shareThoughts: shareThoughtsBinding, book: quote.quoteBook, author: quote.quoteAuthor)
                 }
                 .navigationTitle("Quote")
                 .navigationBarTitleDisplayMode(.inline)
@@ -113,5 +117,5 @@ struct QuoteNoteSheetView: View {
 #Preview {
     @Previewable @Bindable var bookViewModel = BookViewModel()
     
-    QuoteNoteSheetView(bookViewModel: bookViewModel, quote: Quote(bookID: UUID(), quoteBook: "Test Book", quoteAuthor: "Test Author", quoteContent: "Test Quote Content Bla Blo Bla Blo", quoteHighlight: HighlightPencil(name: "Test Highlight Name", primaryTextColor: "paper-500", primaryBackgroundColor: "blue-300", secondaryTextColor: "blue-500", secondaryBackgroundColor: "blue-100", highlightedTextColor: "blue-500", defaultHighlightedBackgroundColor: "blue-100", selectedHighlightedBackgroundColor: "blue-200")))
+    QuoteNoteSheetView(bookViewModel: bookViewModel, quote: Quote(bookID: UUID(), quoteBook: "Test Book", quoteAuthor: "Test Author", quoteContent: "Test Quote Content Bla Blo Bla Blo", quoteHighlight: HighlightPencil(name: "Test Highlight Name", primaryTextColor: "paper-500", primaryBackgroundColor: "blue-300", secondaryTextColor: "blue-500", secondaryBackgroundColor: "blue-100", highlightedTextColor: "blue-500", defaultHighlightedBackgroundColor: "blue-100", selectedHighlightedBackgroundColor: "blue-200"), quoteNote: Note()))
 }

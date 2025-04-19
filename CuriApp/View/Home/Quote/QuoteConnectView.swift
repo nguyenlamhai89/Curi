@@ -25,7 +25,7 @@ struct QuoteConnectView: View {
             VStack (spacing: curiSpacing(.sp16)) {
                 ForEach(quoteDatabase.filter { $0.quoteID != quote.quoteID }) { quoteConnecting in
     
-                    QuoteCardWithCheckbox(bookName: quoteConnecting.quoteBook, authorName: quoteConnecting.quoteAuthor, quoteContent: quoteConnecting.quoteContent, highlightTagName: quoteConnecting.quoteHighlight.name, isConnected: quoteConnecting.isConnected, action: {
+                    QuoteCardWithCheckbox(bookName: quoteConnecting.quoteBook, authorName: quoteConnecting.quoteAuthor, quoteContent: quoteConnecting.quoteContent, highlightTagName: quoteConnecting.quoteHighlight.name, highlightTagColor: quoteConnecting.quoteHighlight.primaryBackgroundColor, isConnected: quoteConnecting.isConnected, action: {
                         
                         if quote.connectedQuotes?.contains(where: { $0.quoteID == quoteConnecting.quoteID }) == false {
                             quoteConnecting.isConnected = true
@@ -62,7 +62,7 @@ struct QuoteConnectView: View {
     }
     .sheet(isPresented: $isPresented) {
         NavigationView {
-            QuoteConnectView(quote: Quote(bookID: UUID(), quoteBook: "Hi", quoteAuthor: "Hi", quoteContent: "Bar", quoteHighlight: HighlightPencil(name: "Discuss Later", primaryTextColor: "paper-500", primaryBackgroundColor: "blue-300", secondaryTextColor: "blue-500", secondaryBackgroundColor: "blue-100", highlightedTextColor: "blue-500", defaultHighlightedBackgroundColor: "blue-100", selectedHighlightedBackgroundColor: "blue-200")))
+            QuoteConnectView(quote: Quote(bookID: UUID(), quoteBook: "Hi", quoteAuthor: "Hi", quoteContent: "Bar", quoteHighlight: HighlightPencil(name: "Discuss Later", primaryTextColor: "paper-500", primaryBackgroundColor: "blue-300", secondaryTextColor: "blue-500", secondaryBackgroundColor: "blue-100", highlightedTextColor: "blue-500", defaultHighlightedBackgroundColor: "blue-100", selectedHighlightedBackgroundColor: "blue-200"), quoteNote: Note()))
         }
     }
 }

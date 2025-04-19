@@ -24,7 +24,7 @@ struct HighlightDial: View {
         VStack (spacing: curiSpacing(.sp8)) {
             HStack (spacing: curiSpacing(.sp8)) {
                 ZStack {
-                    if let line = bookViewModel.selectedLine, !line.isEmpty {
+                    if let lineQuote = bookViewModel.selectedLine?.quoteContent, !lineQuote.isEmpty {
                         IconButtonDefault(iconName: "curiThought", action: {
                             withAnimation {
                                 thoughtSheetIsPresented.toggle()
@@ -39,7 +39,7 @@ struct HighlightDial: View {
 //                            .transition(.scale.combined(with: .opacity))
                     }
                 }
-                .animation(.easeInOut, value: bookViewModel.selectedLine)
+                .animation(.easeInOut, value: bookViewModel.selectedLine?.quoteContent)
                 
                 // Highlight Dial
                 Rectangle()
@@ -87,13 +87,15 @@ struct HighlightDial: View {
                                             
                                             if direction < -dragThreshold, selectedIndex < pencilDatabase.count - 1 {
                                                 selectedIndex += 1
+                                                HapticsManager.access.play(haptics: .light)
                                                 bookViewModel.selectedPen = pencilDatabase[selectedIndex]
                                             } else if direction > dragThreshold, selectedIndex > 0 {
                                                 selectedIndex -= 1
+                                                HapticsManager.access.play(haptics: .light)
                                                 bookViewModel.selectedPen = pencilDatabase[selectedIndex]
                                             }
                                             
-                                            withAnimation(.interpolatingSpring(stiffness: 150, damping: 15)) {
+                                            withAnimation {
                                                 scrollProxy.scrollTo(selectedIndex, anchor: .center)
                                             }
                                         }
@@ -126,7 +128,7 @@ struct HighlightDial: View {
                 .clipped()
                 
                 ZStack {
-                    if let line = bookViewModel.selectedLine, !line.isEmpty {
+                    if let lineQuote = bookViewModel.selectedLine?.quoteContent, !lineQuote.isEmpty {
                         IconButtonDefault(iconName: "curiDelete", action: {
                             withAnimation {
                                 deleteAlertIsPresented.toggle()
@@ -141,7 +143,7 @@ struct HighlightDial: View {
 //                            .transition(.scale.combined(with: .opacity))
                     }
                 }
-                .animation(.easeInOut, value: bookViewModel.selectedLine)
+                .animation(.easeInOut, value: bookViewModel.selectedLine?.quoteContent)
                 
             }
             
@@ -211,15 +213,16 @@ struct HighlightQuotePaperButton: View {
 }
 
 struct HighlightTag: View {
-    var content: String
+    var highlightName: String
+    var highlightColor: String
     
     var body: some View {
-        Text("\(content)")
+        Text("\(highlightName)")
             .curiTypo(.sfMedium14)
             .foregroundStyle(curiPalette(.paper500))
             .padding(.vertical, curiSpacing(.sp2))
             .padding(.horizontal, curiSpacing(.sp8))
-            .background(curiPalette(.blue300))
+            .background(Color(highlightColor))
             .cornerRadius(curiRadius(.rd4))
 //            .frame(maxWidth: .infinity, alignment: .leading)
     }

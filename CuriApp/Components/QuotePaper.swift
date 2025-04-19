@@ -55,7 +55,7 @@ struct QuotePaper: View {
 //                    .background(Color.yellow) // Check section
                 
                 VStack (spacing: curiSpacing(.sp16)) {
-                    Text("\(quoteContent)")
+                    Text("\"\(quoteContent)\"")
                         .curiTypo(.bkRegular32)
                         .foregroundStyle(curiPalette(.ink500))
                         .multilineTextAlignment(.center)

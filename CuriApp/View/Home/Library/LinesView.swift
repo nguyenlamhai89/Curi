@@ -45,7 +45,8 @@ struct LinesView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .onLongPressGesture(minimumDuration: 0.2) {
                         print("\(line)")
-                        let quote = Quote(bookID: bookID, quoteBook: bookTitle, quoteAuthor: bookAuthor, quoteContent: line, quoteHighlight: bookViewModel.selectedPen!)
+                        let quote = Quote(bookID: bookID, quoteBook: bookTitle, quoteAuthor: bookAuthor, quoteContent: line, quoteHighlight: bookViewModel.selectedPen!, quoteNote: Note())
+                        
                         
                         print("- BookID: \(quote.bookID)")
                         print("- QuoteID: \(quote.quoteID)")
@@ -57,23 +58,29 @@ struct LinesView: View {
                         
                     }
                     .onTapGesture {
-                        if quoteDatabase.contains(where: { $0.quoteContent == line }) {
-                            bookViewModel.selectedLine = (bookViewModel.selectedLine == line) ? nil : line
-                        } else {
-                            bookViewModel.selectedLine = nil
+                        withAnimation {
+                            if let existingQuote = quoteDatabase.first(where: { $0.quoteContent == line }) {
+                                if bookViewModel.selectedLine?.quoteID == existingQuote.quoteID {
+                                    bookViewModel.selectedLine = nil
+                                } else {
+                                    bookViewModel.selectedLine = existingQuote
+                                }
+                            } else {
+                                bookViewModel.selectedLine = nil
+                            }
+                            bookViewModel.pageIsSelected = true
                         }
                         print("-- Ready to add Note: \(bookViewModel.selectedLine != nil ? "✅" : "🙅🏻‍♂️")")
-//                        print("Quote content: \(bookViewModel.selectedLine)")
                     }
                     .foregroundStyle(
-                        quoteDatabase.contains(where: { $0.quoteContent == line }) && bookViewModel.selectedLine == line
+                        quoteDatabase.contains(where: { $0.quoteContent == line }) && bookViewModel.selectedLine?.quoteContent == line
                         ? Color(textHighlightedSelectingColor)
                         : quoteDatabase.contains(where: { $0.quoteContent == line })
                           ? Color(textHighlightedColor)
                           : curiPalette(.ink500)
                     )
                     .background(
-                        quoteDatabase.contains(where: { $0.quoteContent == line }) && bookViewModel.selectedLine == line
+                        quoteDatabase.contains(where: { $0.quoteContent == line }) && bookViewModel.selectedLine?.quoteContent == line
                         ? Color(backgroundHighlightedSelectingColor)
                         : quoteDatabase.contains(where: { $0.quoteContent == line })
                           ? Color(backgroundHighlightedColor)
