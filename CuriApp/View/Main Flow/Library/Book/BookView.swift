@@ -64,10 +64,12 @@ struct BookView: View {
                 Spacer()
                 
                 // Highlight
-                HighlightDial(bookViewModel: bookViewModel, thoughtSheetIsPresented: $bookViewModel.quoteNoteSheetViewIsPresented, deleteAlertIsPresented: $bookViewModel.deleteAlertIsPresented) {
-                    isPresentedRenameView.toggle()
+                if !isShowKeyboard {
+                    HighlightDial(bookViewModel: bookViewModel, thoughtSheetIsPresented: $bookViewModel.quoteNoteSheetViewIsPresented, deleteAlertIsPresented: $bookViewModel.deleteAlertIsPresented) {
+                        isPresentedRenameView.toggle()
+                    }
+                    .bottomNavigationSpacing
                 }
-                .bottomNavigationSpacing
             }
             
         }
@@ -108,5 +110,36 @@ struct BookView: View {
                 QuoteNoteSheetView(bookViewModel: bookViewModel, quote: selectedQuote)
             }
         }
+        .onAppear {
+            setupKeyboardObserver()
+        }
+        .onDisappear {
+            removeKeyboardObserver()
+        }
+    }
+}
+
+extension BookView {
+    // MARK: - Keyboard Handling
+    private func setupKeyboardObserver() {
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification,
+                                               object: nil, queue: .main) { notification in
+            if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+                let keyboardHeight = keyboardFrame.height
+                self.isShowKeyboard = true
+            }
+        }
+
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification,
+                                               object: nil, queue: .main) { _ in
+            withTransaction(Transaction(animation: .easeInOut(duration: 0.3))) {
+                self.isShowKeyboard = false
+            }
+        }
+    }
+
+    private func removeKeyboardObserver() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 }

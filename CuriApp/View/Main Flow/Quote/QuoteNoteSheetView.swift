@@ -28,6 +28,9 @@ struct QuoteNoteSheetView: View {
         )
     }
     
+//    @State private var keyboardHeight: CGFloat = 0
+    @State var isShowKeyboard: Bool = false
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -55,7 +58,6 @@ struct QuoteNoteSheetView: View {
                             
                         }
                     }
-//                    TakeNoteField(shareThoughts: $shareThoughts, book: quote.quoteBook, author: quote.quoteAuthor)
                     
                     TakeNoteField(shareThoughts: shareThoughtsBinding, book: quote.quoteBook, author: quote.quoteAuthor)
                 }
@@ -73,11 +75,13 @@ struct QuoteNoteSheetView: View {
                     }
                 }
                 
-                TextButtonPlain(content: "Delete Quote and Note", action: {
-                    deleteAlertIsPresented.toggle()
-                    print("Delete")
-                })
-                .bottomNavigationSpacing
+                if !isShowKeyboard {
+                    TextButtonPlain(content: "Delete Quote and Note", action: {
+                        deleteAlertIsPresented.toggle()
+                        print("Delete")
+                    })
+                    .bottomNavigationSpacing
+                }
                 
             }
             .padding(.horizontal, curiSpacing(.sp16))
@@ -110,8 +114,39 @@ struct QuoteNoteSheetView: View {
             print("🔖 Book - \(quote.quoteBook)")
             print("Raw Data: \(quote)")
         }
+        .onAppear {
+            setupKeyboardObserver()
+        }
+        .onDisappear {
+            removeKeyboardObserver()
+        }
     }
     
+}
+
+extension QuoteNoteSheetView {
+    // MARK: - Keyboard Handling
+    private func setupKeyboardObserver() {
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification,
+                                               object: nil, queue: .main) { notification in
+            if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+                let keyboardHeight = keyboardFrame.height
+                self.isShowKeyboard = true
+            }
+        }
+
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification,
+                                               object: nil, queue: .main) { _ in
+            withTransaction(Transaction(animation: .easeInOut(duration: 0.3))) {
+                self.isShowKeyboard = false
+            }
+        }
+    }
+
+    private func removeKeyboardObserver() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
 }
 
 #Preview {

@@ -41,7 +41,7 @@ struct HomeViewManager: View {
             /// Main View
             if libraryViewIsPresented {
                 if bookViewModel.isLoading {
-                    SkeletonView(bookViewModel: bookViewModel)
+                    LibrarySkeletonView(bookViewModel: bookViewModel)
                 } else {
                     if bookViewModel.isFetched {
                         LibraryView(bookViewModel: bookViewModel, bookNameInBanner: bookNameInBanner, authorNameInBanner: authorNameInBanner)

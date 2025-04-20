@@ -26,9 +26,7 @@ struct HighlightDial: View {
                 ZStack {
                     if let lineQuote = bookViewModel.selectedLine?.quoteContent, !lineQuote.isEmpty {
                         IconButtonDefault(iconName: "curiThought", action: {
-                            withAnimation {
-                                thoughtSheetIsPresented.toggle()
-                            }
+                            thoughtSheetIsPresented.toggle()
                             print("Thought Sheet On: \(thoughtSheetIsPresented)")
                         })
 //                        .transition(.scale.combined(with: .opacity))
@@ -130,9 +128,7 @@ struct HighlightDial: View {
                 ZStack {
                     if let lineQuote = bookViewModel.selectedLine?.quoteContent, !lineQuote.isEmpty {
                         IconButtonDefault(iconName: "curiDelete", action: {
-                            withAnimation {
-                                deleteAlertIsPresented.toggle()
-                            }
+                            deleteAlertIsPresented.toggle()
                             print("Delete Pressed")
                         })
 //                        .transition(.scale.combined(with: .opacity))

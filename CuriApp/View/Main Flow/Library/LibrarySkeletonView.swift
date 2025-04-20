@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SkeletonView: View {
+struct LibrarySkeletonView: View {
     @Bindable var bookViewModel: BookViewModel
     
     var body: some View {
@@ -39,5 +39,5 @@ struct SkeletonView: View {
 
 #Preview {
     @Previewable @Bindable var bookViewModel = BookViewModel()
-    SkeletonView(bookViewModel: bookViewModel)
+    LibrarySkeletonView(bookViewModel: bookViewModel)
 }
