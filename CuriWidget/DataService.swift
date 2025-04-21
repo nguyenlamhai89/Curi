@@ -7,12 +7,16 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
 struct DataService {
     @AppStorage("sampleQuote", store: UserDefaults(suiteName: "group.madebynham.curi")) var widgetQuote: String = "Tôi khóc những chân trời không có người bay; Lại khóc những người bay không có chân trời"
     @AppStorage("sampleQuote", store: UserDefaults(suiteName: "group.madebynham.curi")) var widgetAuthor: String = "Trần Dần"
     @AppStorage("sampleQuote", store: UserDefaults(suiteName: "group.madebynham.curi")) var widgetBook: String = "Thơ mini"
-    @AppStorage("sampleQuote", store: UserDefaults(suiteName: "group.madebynham.curi")) var widgetHighlight: String = "Discuss Later"
+    @AppStorage("sampleQuote", store: UserDefaults(suiteName: "group.madebynham.curi")) var widgetHighlightName: String = "Discuss Later"
+    @AppStorage("sampleQuote", store: UserDefaults(suiteName: "group.madebynham.curi")) var widgetHighlightColor: String = "blue-300"
+    
+//    @Query var quoteDatabase: [Quote]
     
     func fetchContentQuote() -> String {
         return widgetQuote
@@ -26,7 +30,15 @@ struct DataService {
         return widgetBook
     }
     
-    func fetchHighlightQuote() -> String {
-        return widgetHighlight
+    func fetchHighlightName() -> String {
+        return widgetHighlightName
     }
+    
+    func fetchHighlightColor() -> Color {
+        return Color(widgetHighlightColor)
+    }
+    
+//    func saveWidgetDatabase() {
+//        WidgetCenter.shared.reloadAllTimelines()
+//    }
 }

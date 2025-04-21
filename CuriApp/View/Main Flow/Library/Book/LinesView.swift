@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import WidgetKit
 
 struct LinesView: View {
     @Bindable var bookViewModel: BookViewModel
@@ -95,6 +96,10 @@ struct LinesView: View {
             HapticsManager.access.play(haptics: .light)
             SoundManager.access.play(sound: .highlightAdded)
             modelContext.insert(checkingQuote)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
+            WidgetCenter.shared.reloadAllTimelines()
         }
     }
 }

@@ -62,6 +62,13 @@
 			);
 			target = D894C9942D6747EA00CE95C0 /* CuriApp */;
 		};
+		D8A5B30E2DB67F0500137C28 /* Exceptions for "CuriApp" folder in "CuriWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Model/BookModel.swift,
+			);
+			target = D8E011852D7BF130005ABDEF /* CuriWidgetExtension */;
+		};
 		D8E011A12D7BF131005ABDEF /* Exceptions for "CuriWidget" folder in "CuriWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -76,6 +83,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				D894C9CC2D67484E00CE95C0 /* Exceptions for "CuriApp" folder in "CuriApp" target */,
+				D8A5B30E2DB67F0500137C28 /* Exceptions for "CuriApp" folder in "CuriWidgetExtension" target */,
 			);
 			path = CuriApp;
 			sourceTree = "<group>";

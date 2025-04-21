@@ -7,6 +7,7 @@
 
 import WidgetKit
 import SwiftUI
+import SwiftData
 
 struct Provider: AppIntentTimelineProvider {
     let quoteOfTheDay = DataService()
@@ -14,20 +15,22 @@ struct Provider: AppIntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
         SimpleEntry(
             date: Date(),
-            authorName: "Author",
-            bookName: "Book",
-            quoteContent: "Placeholder quote",
-            highlightName: "Highlight"
+            authorName: "Author Placeholder",
+            bookName: "Book Placeholder",
+            quoteContent: "Quote Placeholder",
+            highlightName: "Highlight Name",
+            highlightColor: Color("blue-300")
         )
     }
 
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
         SimpleEntry(
             date: Date(),
-            authorName: "William Shakespeare",
-            bookName: "A Lover's Complaint",
-            quoteContent: "Storming her world with sorrow's wind and rain.",
-            highlightName: "Discuss Later"
+            authorName: quoteOfTheDay.fetchAuthorQuote(),
+            bookName: quoteOfTheDay.fetchBookQuote(),
+            quoteContent: quoteOfTheDay.fetchContentQuote(),
+            highlightName: quoteOfTheDay.fetchHighlightName(),
+            highlightColor: quoteOfTheDay.fetchHighlightColor()
         )
     }
     
@@ -43,12 +46,17 @@ struct Provider: AppIntentTimelineProvider {
                 authorName: quoteOfTheDay.fetchAuthorQuote(),
                 bookName: quoteOfTheDay.fetchBookQuote(),
                 quoteContent: quoteOfTheDay.fetchContentQuote(),
-                highlightName: quoteOfTheDay.fetchHighlightQuote()
+                highlightName: quoteOfTheDay.fetchHighlightName(),
+                highlightColor: quoteOfTheDay.fetchHighlightColor()
             )
             entries.append(entry)
         }
+        
+        let reloadDate = Calendar.current.date(byAdding: .hour, value: 1, to: currentDate)!
 
-        return Timeline(entries: entries, policy: .atEnd)
+        return Timeline(entries: entries, policy: .after(reloadDate))
+//        return Timeline(entries: entries, policy: .atEnd)
+//        return Timeline(entries: entries, policy: .never)
     }
 
 //    func relevances() async -> WidgetRelevances<ConfigurationAppIntent> {
@@ -62,17 +70,19 @@ struct SimpleEntry: TimelineEntry {
     let bookName: String
     let quoteContent: String
     let highlightName: String
+    let highlightColor: Color
 }
 
 struct CuriWidgetEntryView : View {
     @Environment(\.widgetFamily) var widgetFamily
+    @Query var quoteDatabase: [Quote]
     var entry: Provider.Entry
     
     let quoteOfTheDay = DataService()
 
     var body: some View {
         VStack (spacing: curiSpacing(.sp12)) {
-            if quoteOfTheDay.widgetQuote.isEmpty {
+            if quoteDatabase.isEmpty {
                 Text("Read a book and highlight your first favorite quote!")
                     .curiTypo(.sfMedium16)
                     .foregroundStyle(curiPalette(.ink100))
@@ -80,25 +90,28 @@ struct CuriWidgetEntryView : View {
             } else {
                 HStack {
                     VStack (alignment: .leading) {
-                        Text(quoteOfTheDay.fetchBookQuote())
+                        Text(quoteDatabase[0].quoteBook)
                             .foregroundStyle(curiPalette(.ink500))
-                        Text(quoteOfTheDay.fetchAuthorQuote())
+                        Text(quoteDatabase[0].quoteAuthor)
                             .foregroundStyle(curiPalette(.ink300))
                     }
                     .curiTypo(.sfMedium12)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .lineLimit(1)
                     
-                    HighlightTag(content: quoteOfTheDay.fetchHighlightQuote(), color: curiPalette(.blue300))
+                    HighlightTag(content: quoteDatabase[0].quoteHighlight.name, color: Color(quoteDatabase[0].quoteHighlight.primaryBackgroundColor))
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 
-                Text("“\(quoteOfTheDay.fetchContentQuote())”")
+                Text("\"\(quoteDatabase[0].quoteContent)\"")
                     .curiTypo(.bkRegular16)
                     .foregroundStyle(curiPalette(.ink500))
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             }
         }
+//        .onChange(of: quoteDatabase) {
+//            WidgetCenter.shared.reloadAllTimelines()
+//        }
 //        .background(curiPalette(.paper300))
     }
 }
@@ -110,6 +123,7 @@ struct CuriWidget: Widget {
         AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
             CuriWidgetEntryView(entry: entry)
                 .containerBackground(.fill.tertiary, for: .widget)
+                .modelContainer(for: [HighlightPencil.self, Quote.self, Note.self])
         }
         .configurationDisplayName("Quote of the Day")
         .description("Shuffle from all the quotes you've highlighted in your entire books")
@@ -139,6 +153,7 @@ extension ConfigurationAppIntent {
         authorName: "Trần Dần",
         bookName: "Thơ mini",
         quoteContent: "Tôi khóc những chân trời không có người bay",
-        highlightName: "Bầu trời"
+        highlightName: "Bầu trời",
+        highlightColor: Color.cyan
     )
 }
