@@ -11,7 +11,7 @@ import SwiftData
 struct HomeViewManager: View {
     @Environment(\.modelContext) var modelContext
     @State var bookViewModel = BookViewModel()
-    @Query var pencilDatabase: [HighlightPencil]
+    @Query var pencilDatabase: [HighlightPencil] = []
     @Query var quoteDatabase: [Quote]
         
     // Navigation Value
@@ -68,31 +68,50 @@ struct HomeViewManager: View {
             WidgetIntroducingView()
         }
         .onAppear {
-            if pencilDatabase.isEmpty {
-                let pencil1 = HighlightPencil(
+            let pencilLibrary: [HighlightPencil] = [
+                HighlightPencil(
                     name: "Discuss Later",
                     primaryTextColor: "paper-500",
-                    primaryBackgroundColor: "blue-500",
+                    primaryBackgroundColor: "blue-300",
                     secondaryTextColor: "blue-500",
                     secondaryBackgroundColor: "blue-100",
                     highlightedTextColor: "blue-500",
                     defaultHighlightedBackgroundColor: "blue-100",
                     selectedHighlightedBackgroundColor: "blue-200"
-                )
-                let pencil2 = HighlightPencil(
+                ),
+                HighlightPencil(
                     name: "Good Point",
                     primaryTextColor: "paper-500",
-                    primaryBackgroundColor: "pink-500",
+                    primaryBackgroundColor: "pink-300",
                     secondaryTextColor: "pink-500",
                     secondaryBackgroundColor: "pink-100",
                     highlightedTextColor: "pink-500",
                     defaultHighlightedBackgroundColor: "pink-100",
                     selectedHighlightedBackgroundColor: "pink-200"
                 )
-                modelContext.insert(pencil1)
-                modelContext.insert(pencil2)
+            ]
+            
+            if pencilDatabase.isEmpty {
+                for insertPencil in pencilLibrary {
+                    modelContext.insert(insertPencil)
+                }
                 print("🖍️ Available Highlight Pencils: \(pencilDatabase.count)")
                 print("--- \(pencilDatabase)")
+            } else {
+                for index in pencilDatabase.indices {
+                    let pencilOld = pencilDatabase[index]
+                    let pencilNew = pencilLibrary[index]
+                    
+                    pencilOld.name = pencilNew.name
+                    pencilOld.primaryTextColor = pencilNew.primaryTextColor
+                    pencilOld.primaryBackgroundColor = pencilNew.primaryBackgroundColor
+                    pencilOld.secondaryTextColor = pencilNew.secondaryTextColor
+                    pencilOld.secondaryBackgroundColor = pencilNew.secondaryBackgroundColor
+                    pencilOld.highlightedTextColor = pencilNew.highlightedTextColor
+                    pencilOld.defaultHighlightedBackgroundColor = pencilNew.defaultHighlightedBackgroundColor
+                    pencilOld.selectedHighlightedBackgroundColor = pencilNew.selectedHighlightedBackgroundColor
+                }
+                try? modelContext.save()
             }
         }
         .overlay {
