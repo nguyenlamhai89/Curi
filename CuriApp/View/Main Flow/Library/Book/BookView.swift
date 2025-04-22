@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import WidgetKit
 
 struct BookView: View {
     @Bindable var bookViewModel: BookViewModel
@@ -102,6 +103,7 @@ struct BookView: View {
                 primaryButton: .cancel(),
                 secondaryButton: .destructive(Text("Delete"), action: {
                     modelContext.delete(bookViewModel.selectedLine!)
+                    WidgetCenter.shared.reloadAllTimelines()
                 })
             )
         }

@@ -22,7 +22,7 @@ struct SettingsSheetView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Spacer()
                 
-                IconButtonDefault(iconName: "curiDelete") {
+                IconButton(iconName: "curiDelete", hasNote: false) {
                     presentationMode.wrappedValue.dismiss()
                 }
             }

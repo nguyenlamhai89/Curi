@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import WidgetKit
 
 struct QuoteNoteSheetView: View {
     @Bindable var bookViewModel: BookViewModel
@@ -23,8 +24,8 @@ struct QuoteNoteSheetView: View {
     
     var shareThoughtsBinding: Binding<String> {
         Binding(
-            get: { quote.quoteNote?.noteContent ?? "" },
-            set: { quote.quoteNote?.noteContent = $0 }
+            get: { quote.quoteNote.noteContent },
+            set: { quote.quoteNote.noteContent = $0 }
         )
     }
     
@@ -102,6 +103,7 @@ struct QuoteNoteSheetView: View {
                     modelContext.delete(quoteIsPresented)
                     presentationMode.wrappedValue.dismiss()
                     print("Deleted!")
+                    WidgetCenter.shared.reloadAllTimelines()
                 }
             }))
         }

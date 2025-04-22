@@ -24,7 +24,7 @@ struct TopNavigationUniversal: View {
                
                 HStack {
                     /// Icon Button - User
-                    IconButtonDefault(iconName: "curiUser") {
+                    IconButton(iconName: "curiUser", hasNote: false) {
                         settingsTopNavigation.toggle()
                         print("Settings Sheet Opened: \(settingsTopNavigation)")
                     }
@@ -37,7 +37,7 @@ struct TopNavigationUniversal: View {
                     Spacer()
                     
                     /// Icon Button - Search
-                    IconButtonDefault(iconName: "curiWidget") {
+                    IconButton(iconName: "curiWidget", hasNote: false) {
                         widgetTopNavigation.toggle()
                         print("Widget Introducing Navigated: \(widgetTopNavigation)")
                     }
@@ -70,7 +70,7 @@ struct TopNavigationBook: View {
                 HStack {
                     /// Icon Button - User
                     if pageIsSelected {
-                        IconButtonDefault(iconName: "curiLeft") {
+                        IconButton(iconName: "curiLeft", hasNote: false) {
                             dismiss()
                             print("Backed")
                         }

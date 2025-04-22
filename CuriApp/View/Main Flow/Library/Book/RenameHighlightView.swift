@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 struct RenameHighlightView: View {
     @Binding var highlightName: String
@@ -37,6 +38,7 @@ struct RenameHighlightView: View {
                             withAnimation {
                                 onSaveNewName()
                             }
+                            WidgetCenter.shared.reloadAllTimelines()
                         }
                         .onChange(of: highlightName) { oldValue, newValue in
                             highlightName = newValue.prefix(20).description

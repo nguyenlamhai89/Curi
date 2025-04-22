@@ -98,8 +98,6 @@ struct LinesView: View {
             modelContext.insert(checkingQuote)
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now()) {
-            WidgetCenter.shared.reloadAllTimelines()
-        }
+        WidgetCenter.shared.reloadAllTimelines()
     }
 }

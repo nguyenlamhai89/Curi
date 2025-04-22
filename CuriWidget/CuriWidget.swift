@@ -26,11 +26,16 @@ struct Provider: AppIntentTimelineProvider {
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
         SimpleEntry(
             date: Date(),
-            authorName: quoteOfTheDay.fetchAuthorQuote(),
-            bookName: quoteOfTheDay.fetchBookQuote(),
-            quoteContent: quoteOfTheDay.fetchContentQuote(),
-            highlightName: quoteOfTheDay.fetchHighlightName(),
-            highlightColor: quoteOfTheDay.fetchHighlightColor()
+//            authorName: quoteOfTheDay.fetchAuthorQuote(),
+//            bookName: quoteOfTheDay.fetchBookQuote(),
+//            quoteContent: quoteOfTheDay.fetchContentQuote(),
+//            highlightName: quoteOfTheDay.fetchHighlightName(),
+//            highlightColor: quoteOfTheDay.fetchHighlightColor()
+            authorName: "Trần Dần",
+            bookName: "Thơ mini",
+            quoteContent: "Tôi khóc những chân trời không có người bay; Lại khóc những người bay không có chân trời",
+            highlightName: "Thơ tình",
+            highlightColor: Color("blue-300")
         )
     }
     
@@ -52,11 +57,11 @@ struct Provider: AppIntentTimelineProvider {
             entries.append(entry)
         }
         
-        let reloadDate = Calendar.current.date(byAdding: .hour, value: 1, to: currentDate)!
+//        let reloadDate = Calendar.current.date(byAdding: .hour, value: 1, to: currentDate)!
 
-        return Timeline(entries: entries, policy: .after(reloadDate))
+//        return Timeline(entries: entries, policy: .after(reloadDate))
 //        return Timeline(entries: entries, policy: .atEnd)
-//        return Timeline(entries: entries, policy: .never)
+        return Timeline(entries: entries, policy: .never)
     }
 
 //    func relevances() async -> WidgetRelevances<ConfigurationAppIntent> {
@@ -90,20 +95,20 @@ struct CuriWidgetEntryView : View {
             } else {
                 HStack {
                     VStack (alignment: .leading) {
-                        Text(quoteDatabase[0].quoteBook)
+                        Text(quoteDatabase.last?.quoteBook ?? "")
                             .foregroundStyle(curiPalette(.ink500))
-                        Text(quoteDatabase[0].quoteAuthor)
+                        Text(quoteDatabase.last?.quoteAuthor ?? "")
                             .foregroundStyle(curiPalette(.ink300))
                     }
                     .curiTypo(.sfMedium12)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .lineLimit(1)
                     
-                    HighlightTag(content: quoteDatabase[0].quoteHighlight.name, color: Color(quoteDatabase[0].quoteHighlight.primaryBackgroundColor))
+                    HighlightTag(content: quoteDatabase.last?.quoteHighlight.name ?? "", color: Color(quoteDatabase.last?.quoteHighlight.primaryBackgroundColor ?? ""))
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 
-                Text("\"\(quoteDatabase[0].quoteContent)\"")
+                Text("\"\(quoteDatabase.last?.quoteContent ?? "")\"")
                     .curiTypo(.bkRegular16)
                     .foregroundStyle(curiPalette(.ink500))
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)

@@ -18,23 +18,33 @@ struct HighlightDial: View {
     @Binding var thoughtSheetIsPresented: Bool
     @Binding var deleteAlertIsPresented: Bool
     
+    var selectedLineHasNote: Bool {
+        bookViewModel.selectedLine?.quoteNote.hasContent ?? false
+    }
+
+    var selectedLineHasQuote: Bool {
+        !(bookViewModel.selectedLine?.quoteContent ?? "").isEmpty
+    }
+    
     var action: () -> Void
     
     var body: some View {
         VStack (spacing: curiSpacing(.sp8)) {
             HStack (spacing: curiSpacing(.sp8)) {
                 ZStack {
-                    if let lineQuote = bookViewModel.selectedLine?.quoteContent, !lineQuote.isEmpty {
-                        IconButtonDefault(iconName: "curiThought", action: {
-                            thoughtSheetIsPresented.toggle()
-                            print("Thought Sheet On: \(thoughtSheetIsPresented)")
-                        })
-//                        .transition(.scale.combined(with: .opacity))
+                    if selectedLineHasQuote {
+                        IconButton(
+                            iconName: "curiThought",
+                            hasNote: selectedLineHasNote,
+                            action: {
+                                thoughtSheetIsPresented.toggle()
+                                print("Thought Sheet On: \(thoughtSheetIsPresented)")
+                            }
+                        )
                     } else {
                         Rectangle()
                             .fill(curiPalette(.paper500))
                             .frame(width: 32, height: 32)
-//                            .transition(.scale.combined(with: .opacity))
                     }
                 }
                 .animation(.easeInOut, value: bookViewModel.selectedLine?.quoteContent)
@@ -126,11 +136,11 @@ struct HighlightDial: View {
                 .clipped()
                 
                 ZStack {
-                    if let lineQuote = bookViewModel.selectedLine?.quoteContent, !lineQuote.isEmpty {
-                        IconButtonDefault(iconName: "curiDelete", action: {
+                    if selectedLineHasQuote {
+                        IconButton(iconName: "curiDelete", hasNote: false) {
                             deleteAlertIsPresented.toggle()
                             print("Delete Pressed")
-                        })
+                        }
 //                        .transition(.scale.combined(with: .opacity))
                     } else {
                         Rectangle()

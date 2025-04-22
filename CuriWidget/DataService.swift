@@ -10,11 +10,11 @@ import SwiftUI
 import SwiftData
 
 struct DataService {
-    @AppStorage("sampleQuote", store: UserDefaults(suiteName: "group.madebynham.curi")) var widgetQuote: String = "Tôi khóc những chân trời không có người bay; Lại khóc những người bay không có chân trời"
-    @AppStorage("sampleQuote", store: UserDefaults(suiteName: "group.madebynham.curi")) var widgetAuthor: String = "Trần Dần"
-    @AppStorage("sampleQuote", store: UserDefaults(suiteName: "group.madebynham.curi")) var widgetBook: String = "Thơ mini"
-    @AppStorage("sampleQuote", store: UserDefaults(suiteName: "group.madebynham.curi")) var widgetHighlightName: String = "Discuss Later"
-    @AppStorage("sampleQuote", store: UserDefaults(suiteName: "group.madebynham.curi")) var widgetHighlightColor: String = "blue-300"
+    @AppStorage("sampleQuote", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var widgetQuote: String = "Tôi khóc những chân trời không có người bay; Lại khóc những người bay không có chân trời"
+    @AppStorage("sampleQuote", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var widgetAuthor: String = "Trần Dần"
+    @AppStorage("sampleQuote", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var widgetBook: String = "Thơ mini"
+    @AppStorage("sampleQuote", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var widgetHighlightName: String = "Discuss Later"
+    @AppStorage("sampleQuote", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var widgetHighlightColor: String = "blue-300"
     
 //    @Query var quoteDatabase: [Quote]
     
