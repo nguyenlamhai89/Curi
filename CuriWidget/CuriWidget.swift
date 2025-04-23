@@ -10,7 +10,8 @@ import SwiftUI
 import SwiftData
 
 struct Provider: AppIntentTimelineProvider {
-    let quoteOfTheDay = DataService()
+//    let quoteOfTheDay = DataService()
+    @Query var quoteDatabase: [Quote]
     
     func placeholder(in context: Context) -> SimpleEntry {
         SimpleEntry(
@@ -19,50 +20,41 @@ struct Provider: AppIntentTimelineProvider {
             bookName: "Book Placeholder",
             quoteContent: "Quote Placeholder",
             highlightName: "Highlight Name",
-            highlightColor: Color("blue-300")
+            highlightColor: "blue-300"
         )
     }
 
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
-        SimpleEntry(
-            date: Date(),
-//            authorName: quoteOfTheDay.fetchAuthorQuote(),
-//            bookName: quoteOfTheDay.fetchBookQuote(),
-//            quoteContent: quoteOfTheDay.fetchContentQuote(),
-//            highlightName: quoteOfTheDay.fetchHighlightName(),
-//            highlightColor: quoteOfTheDay.fetchHighlightColor()
-            authorName: "Trần Dần",
-            bookName: "Thơ mini",
-            quoteContent: "Tôi khóc những chân trời không có người bay; Lại khóc những người bay không có chân trời",
-            highlightName: "Thơ tình",
-            highlightColor: Color("blue-300")
-        )
-    }
+            return SimpleEntry(
+                date: Date(),
+                authorName: "Trần Dần",
+                bookName: "Thơ mini",
+                quoteContent: "Tôi khóc những chân trời không có người bay; Lại khóc những người bay không có chân trời",
+                highlightName: "Thơ tình",
+                highlightColor: "blue-300"
+            )
+        }
     
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
-        var entries: [SimpleEntry] = []
+            var entries: [SimpleEntry] = []
+            let quoteInWidget = quoteDatabase.last
 
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(
-                date: entryDate,
-                authorName: quoteOfTheDay.fetchAuthorQuote(),
-                bookName: quoteOfTheDay.fetchBookQuote(),
-                quoteContent: quoteOfTheDay.fetchContentQuote(),
-                highlightName: quoteOfTheDay.fetchHighlightName(),
-                highlightColor: quoteOfTheDay.fetchHighlightColor()
-            )
-            entries.append(entry)
+            let currentDate = Date()
+            for hourOffset in 0..<5 {
+                let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
+                let entry = SimpleEntry(
+                    date: entryDate,
+                    authorName: quoteInWidget?.quoteAuthor ?? "",
+                    bookName: quoteInWidget?.quoteBook ?? "",
+                    quoteContent: quoteInWidget?.quoteContent ?? "",
+                    highlightName: quoteInWidget?.quoteHighlight.name ?? "",
+                    highlightColor: quoteInWidget?.quoteHighlight.primaryBackgroundColor ?? "pink-300"
+                )
+                entries.append(entry)
+            }
+
+            return Timeline(entries: entries, policy: .never)
         }
-        
-//        let reloadDate = Calendar.current.date(byAdding: .hour, value: 1, to: currentDate)!
-
-//        return Timeline(entries: entries, policy: .after(reloadDate))
-//        return Timeline(entries: entries, policy: .atEnd)
-        return Timeline(entries: entries, policy: .never)
-    }
 
 //    func relevances() async -> WidgetRelevances<ConfigurationAppIntent> {
 //        // Generate a list containing the contexts this widget is relevant in.
@@ -75,7 +67,7 @@ struct SimpleEntry: TimelineEntry {
     let bookName: String
     let quoteContent: String
     let highlightName: String
-    let highlightColor: Color
+    let highlightColor: String
 }
 
 struct CuriWidgetEntryView : View {
@@ -83,7 +75,7 @@ struct CuriWidgetEntryView : View {
     @Query var quoteDatabase: [Quote]
     var entry: Provider.Entry
     
-    let quoteOfTheDay = DataService()
+//    let quoteOfTheDay = DataService()
 
     var body: some View {
         VStack (spacing: curiSpacing(.sp12)) {
@@ -94,30 +86,26 @@ struct CuriWidgetEntryView : View {
                     .multilineTextAlignment(.center)
             } else {
                 HStack {
-                    VStack (alignment: .leading) {
-                        Text(quoteDatabase.last?.quoteBook ?? "")
+                    VStack(alignment: .leading) {
+                        Text(entry.bookName)
                             .foregroundStyle(curiPalette(.ink500))
-                        Text(quoteDatabase.last?.quoteAuthor ?? "")
+                        Text(entry.authorName)
                             .foregroundStyle(curiPalette(.ink300))
                     }
                     .curiTypo(.sfMedium12)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .lineLimit(1)
                     
-                    HighlightTag(content: quoteDatabase.last?.quoteHighlight.name ?? "", color: Color(quoteDatabase.last?.quoteHighlight.primaryBackgroundColor ?? ""))
+                    HighlightTag(content: entry.highlightName, color: Color(entry.highlightColor))
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                
-                Text("\"\(quoteDatabase.last?.quoteContent ?? "")\"")
+
+                Text("\"\(entry.quoteContent)\"")
                     .curiTypo(.bkRegular16)
                     .foregroundStyle(curiPalette(.ink500))
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             }
         }
-//        .onChange(of: quoteDatabase) {
-//            WidgetCenter.shared.reloadAllTimelines()
-//        }
-//        .background(curiPalette(.paper300))
     }
 }
 
@@ -159,6 +147,6 @@ extension ConfigurationAppIntent {
         bookName: "Thơ mini",
         quoteContent: "Tôi khóc những chân trời không có người bay",
         highlightName: "Bầu trời",
-        highlightColor: Color.cyan
+        highlightColor: "cyan"
     )
 }

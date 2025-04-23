@@ -7,35 +7,33 @@
 
 import Foundation
 import SwiftUI
-import SwiftData
 
 struct DataService {
-    @AppStorage("sampleQuote", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var widgetQuote: String = "Tôi khóc những chân trời không có người bay; Lại khóc những người bay không có chân trời"
-    @AppStorage("sampleQuote", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var widgetAuthor: String = "Trần Dần"
-    @AppStorage("sampleQuote", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var widgetBook: String = "Thơ mini"
-    @AppStorage("sampleQuote", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var widgetHighlightName: String = "Discuss Later"
-    @AppStorage("sampleQuote", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var widgetHighlightColor: String = "blue-300"
+    @AppStorage("widgetQuote", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var quoteOnWidget: String = ""
+    @AppStorage("widgetAuthor", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var authorOnWidget: String = ""
+    @AppStorage("widgetBook", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var bookOnWidget: String = ""
+    @AppStorage("widgetHighlightName", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var highlightNameOnWidget: String = ""
+    @AppStorage("widgetHighlightColor", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var highlightColorOnWidget: String = ""
     
-//    @Query var quoteDatabase: [Quote]
     
     func fetchContentQuote() -> String {
-        return widgetQuote
+        return quoteOnWidget
     }
     
     func fetchAuthorQuote() -> String {
-        return widgetAuthor
+        return authorOnWidget
     }
     
     func fetchBookQuote() -> String {
-        return widgetBook
+        return bookOnWidget
     }
     
     func fetchHighlightName() -> String {
-        return widgetHighlightName
+        return highlightNameOnWidget
     }
     
     func fetchHighlightColor() -> Color {
-        return Color(widgetHighlightColor)
+        return Color(highlightColorOnWidget)
     }
     
 //    func saveWidgetDatabase() {

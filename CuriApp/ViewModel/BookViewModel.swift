@@ -8,6 +8,7 @@
 import SwiftUI
 import UIKit
 
+//@MainActor
 @Observable
 class BookViewModel {
     var bookDatabase: [Book] = []

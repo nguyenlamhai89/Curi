@@ -19,7 +19,7 @@ struct HighlightDial: View {
     @Binding var deleteAlertIsPresented: Bool
     
     var selectedLineHasNote: Bool {
-        bookViewModel.selectedLine?.quoteNote.hasContent ?? false
+        bookViewModel.selectedLine?.quoteNote?.hasContent ?? false
     }
 
     var selectedLineHasQuote: Bool {

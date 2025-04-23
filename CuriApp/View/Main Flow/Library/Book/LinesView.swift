@@ -10,6 +10,21 @@ import SwiftData
 import WidgetKit
 
 struct LinesView: View {
+//    @AppStorage("widgetQuote", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var quoteOnWidget: String = ""
+//    @AppStorage("widgetAuthor", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var authorOnWidget: String = ""
+//    @AppStorage("widgetBook", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var bookOnWidget: String = ""
+//    @AppStorage("widgetHighlightName", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var highlightNameOnWidget: String = ""
+//    @AppStorage("widgetHighlightColor", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var highlightColorOnWidget: String = ""
+//    
+//    func saveFirstQuoteToAppStorage(quoteDatabase: [Quote]) {
+//        guard let quote = quoteDatabase.last else { return }
+//        quoteOnWidget = quote.quoteContent
+//        authorOnWidget = quote.quoteAuthor
+//        bookOnWidget = quote.quoteBook
+//        highlightNameOnWidget = quote.quoteHighlight.name
+//        highlightColorOnWidget = quote.quoteHighlight.primaryBackgroundColor
+//    }
+    
     @Bindable var bookViewModel: BookViewModel
     @Environment(\.modelContext) private var modelContext
     @Query var quoteDatabase: [Quote]
@@ -98,6 +113,9 @@ struct LinesView: View {
             modelContext.insert(checkingQuote)
         }
         
+//        saveFirstQuoteToAppStorage(quoteDatabase: quoteDatabase)
         WidgetCenter.shared.reloadAllTimelines()
     }
+    
+    
 }

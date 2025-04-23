@@ -24,8 +24,8 @@ struct QuoteNoteSheetView: View {
     
     var shareThoughtsBinding: Binding<String> {
         Binding(
-            get: { quote.quoteNote.noteContent },
-            set: { quote.quoteNote.noteContent = $0 }
+            get: { quote.quoteNote?.noteContent ?? "" },
+            set: { quote.quoteNote?.noteContent = $0 }
         )
     }
     
