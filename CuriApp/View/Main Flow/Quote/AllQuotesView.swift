@@ -5,6 +5,15 @@ import SwiftData
 struct AllQuotesView: View {
     @State var searchAvailableQuote: String = ""
     
+    var filteredQuoteContent: [Quote] {
+        guard !searchAvailableQuote.isEmpty else {
+            return quoteDatabase
+        }
+        return quoteDatabase.filter {
+            $0.quoteContent.localizedCaseInsensitiveContains(searchAvailableQuote)
+        }
+    }
+    
     @Bindable var bookViewModel: BookViewModel
 //    @Query var quoteDatabase: [Quote]
     @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
@@ -22,7 +31,7 @@ struct AllQuotesView: View {
                 VStack {
                     ScrollView {
                         VStack (spacing: curiSpacing(.sp16)) {
-                            ForEach(quoteDatabase) { quote in
+                            ForEach(filteredQuoteContent) { quote in
                                 QuoteCard(
                                     quoteBook: quote.quoteBook,
                                     quoteAuthor: quote.quoteAuthor,

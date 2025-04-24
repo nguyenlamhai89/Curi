@@ -15,6 +15,16 @@ struct QuoteConnectView: View {
 //    @Environment(\.modelContext) var modelContext
 //    @Query var quoteDatabase: [Quote]
     @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
+    
+    var filteredQuoteContent: [Quote] {
+        guard !searchLinkQuote.isEmpty else {
+            return quoteDatabase
+        }
+        return quoteDatabase.filter {
+            $0.quoteContent.localizedCaseInsensitiveContains(searchLinkQuote)
+        }
+    }
+    
     @Query var pencilDatabase: [HighlightPencil]
     
     @AppStorage("sampleQuote", store: UserDefaults(suiteName: "group.madebynham.curi")) var sampleQuote: String = "Can you not understand that liberty is worth more than just ribbons?"
@@ -24,7 +34,7 @@ struct QuoteConnectView: View {
     var body: some View {
         ScrollView {
             VStack (spacing: curiSpacing(.sp16)) {
-                ForEach(quoteDatabase.filter { $0.quoteID != quote.quoteID }) { quoteConnecting in
+                ForEach(filteredQuoteContent.filter { $0.quoteID != quote.quoteID }) { quoteConnecting in
     
                     QuoteCardWithCheckbox(bookName: quoteConnecting.quoteBook, authorName: quoteConnecting.quoteAuthor, quoteContent: quoteConnecting.quoteContent, highlightTagName: quoteConnecting.quoteHighlight.name, highlightTagColor: quoteConnecting.quoteHighlight.primaryBackgroundColor, isConnected: quoteConnecting.isConnected, action: {
                         
