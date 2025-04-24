@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LibrarySkeletonView: View {
-    @Bindable var bookViewModel: BookViewModel
+    @ObservedObject var bookViewModel: BookViewModel
     
     var body: some View {
         ScrollView {
@@ -38,6 +38,6 @@ struct LibrarySkeletonView: View {
 
 
 #Preview {
-    @Previewable @Bindable var bookViewModel = BookViewModel()
+    @Previewable @State var bookViewModel = BookViewModel()
     LibrarySkeletonView(bookViewModel: bookViewModel)
 }

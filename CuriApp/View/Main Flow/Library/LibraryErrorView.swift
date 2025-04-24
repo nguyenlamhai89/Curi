@@ -27,7 +27,7 @@ struct EmptyStateDescription: View {
 }
 
 struct LibraryErrorView: View {
-    @Bindable var bookViewModel: BookViewModel
+    @ObservedObject var bookViewModel: BookViewModel
     
     var body: some View {
         VStack (spacing: curiSpacing(.sp16)) {
@@ -46,6 +46,6 @@ struct LibraryErrorView: View {
 }
 
 #Preview {
-    @Previewable @Bindable var bookViewModel = BookViewModel()
+    @Previewable @StateObject var bookViewModel = BookViewModel()
     LibraryErrorView(bookViewModel: bookViewModel)
 }

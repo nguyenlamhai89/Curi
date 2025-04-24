@@ -13,7 +13,7 @@ struct QuoteView: View {
     
     @Environment(\.modelContext) var modelContext
 
-    @Bindable var bookViewModel: BookViewModel
+    @ObservedObject var bookViewModel: BookViewModel
 //    @Query var quoteDatabase: [Quote]
     @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
     
@@ -102,6 +102,6 @@ extension QuoteView {
 }
 
 #Preview {
-    @Previewable @State var bookViewModel = BookViewModel()
+    @Previewable @StateObject var bookViewModel = BookViewModel()
     QuoteView(bookViewModel: bookViewModel, isPresentedRenameView: .constant(false))
 }

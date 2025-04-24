@@ -11,7 +11,7 @@ import SwiftData
 
 struct HighlightDial: View {
     @Environment(\.modelContext) var modelContext
-    @Bindable var bookViewModel: BookViewModel
+    @ObservedObject var bookViewModel: BookViewModel
     @Query var pencilDatabase: [HighlightPencil]
     
     @State var selectedIndex: Int = 0

@@ -14,7 +14,7 @@ struct AllQuotesView: View {
         }
     }
     
-    @Bindable var bookViewModel: BookViewModel
+    @ObservedObject var bookViewModel: BookViewModel
 //    @Query var quoteDatabase: [Quote]
     @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
     @State private var itemSelected: Quote?

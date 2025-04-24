@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LibraryView: View {
-    @Bindable var bookViewModel: BookViewModel
+    @ObservedObject var bookViewModel: BookViewModel
     @State var bookNavigate: Bool = false
     
     // Binding from HomeView
@@ -83,7 +83,7 @@ struct LibraryView: View {
 
 
 #Preview {
-    @Previewable @Bindable var bookViewModel = BookViewModel()
+    @Previewable @StateObject var bookViewModel = BookViewModel()
 
     LibraryView(bookViewModel: bookViewModel, bookNameInBanner: "Điên", authorNameInBanner: "Ngô Kha")
 }

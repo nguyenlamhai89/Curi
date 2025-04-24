@@ -10,7 +10,7 @@ import SwiftData
 
 struct HomeViewManager: View {
     @Environment(\.modelContext) var modelContext
-    @State var bookViewModel = BookViewModel()
+    @StateObject var bookViewModel = BookViewModel()
     @Query var pencilDatabase: [HighlightPencil] = []
 //    @Query var quoteDatabase: [Quote]
     @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]

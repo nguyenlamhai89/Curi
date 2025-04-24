@@ -10,7 +10,7 @@ import SwiftData
 import WidgetKit
 
 struct LinesView: View {
-    @Bindable var bookViewModel: BookViewModel
+    @ObservedObject var bookViewModel: BookViewModel
     @Environment(\.modelContext) private var modelContext
 //    @Query var quoteDatabase: [Quote]
     @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]

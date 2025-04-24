@@ -10,7 +10,7 @@ import SwiftData
 import WidgetKit
 
 struct QuoteNoteSheetView: View {
-    @Bindable var bookViewModel: BookViewModel
+    @ObservedObject var bookViewModel: BookViewModel
     
     @Environment(\.modelContext) private var modelContext
 //    @Query var quoteDatabase: [Quote]
@@ -155,7 +155,7 @@ extension QuoteNoteSheetView {
 }
 
 #Preview {
-    @Previewable @Bindable var bookViewModel = BookViewModel()
+    @Previewable @StateObject var bookViewModel = BookViewModel()
     
     QuoteNoteSheetView(bookViewModel: bookViewModel, quote: Quote(bookID: UUID(), quoteBook: "Test Book", quoteAuthor: "Test Author", quoteContent: "Test Quote Content Bla Blo Bla Blo", quoteHighlight: HighlightPencil(name: "Test Highlight Name", primaryTextColor: "paper-500", primaryBackgroundColor: "blue-300", secondaryTextColor: "blue-500", secondaryBackgroundColor: "blue-100", highlightedTextColor: "blue-500", defaultHighlightedBackgroundColor: "blue-100", selectedHighlightedBackgroundColor: "blue-200"), quoteNote: Note()))
 }

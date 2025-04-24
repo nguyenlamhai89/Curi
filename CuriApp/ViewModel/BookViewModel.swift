@@ -9,30 +9,32 @@ import SwiftUI
 import UIKit
 
 //@MainActor
-@Observable
-class BookViewModel {
-    var bookDatabase: [Book] = []
+//@Observable
+class BookViewModel: ObservableObject {
+    @Published var bookDatabase: [Book] = []
     
-    var selectedPen: HighlightPencil?
+    @Published var selectedPen: HighlightPencil?
     
-    var isLoading = true
-    var isFetched = false
+    @Published var isLoading = true
+    @Published var isFetched = false
     
-    var pageIsSelected: Bool = false
-    var quoteIsSelected: Bool = false
+    @Published var pageIsSelected: Bool = false
+    @Published var quoteIsSelected: Bool = false
     
-    var quoteNoteSheetViewIsPresented: Bool = false
-    var deleteAlertIsPresented: Bool = false
+    @Published var quoteNoteSheetViewIsPresented: Bool = false
+    @Published var deleteAlertIsPresented: Bool = false
     
-    var selectedLine: Quote? = nil
+    @Published var selectedLine: Quote? = nil
     
     // Get Book
     func fetchBooks() async throws {
         guard let url = URL(string: "https://poetrydb.org/author/William%20Shakespeare") else { throw
             URLError(.badURL) }
         do {
-            isLoading = true
-            isFetched = false
+            await MainActor.run {
+                isLoading = true
+                isFetched = false
+            }
             
             print("Loading: \(isLoading) - Fetch Done: \(isFetched)")
             
