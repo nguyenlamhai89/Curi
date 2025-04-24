@@ -33,7 +33,7 @@ struct QuoteCard: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 
                 /// Quote
-                Text("\(quoteContent)")
+                Text("\"\(quoteContent)\"")
                     .curiTypo(.bkRegular16)
                     .foregroundStyle(curiPalette(.ink500))
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -89,7 +89,7 @@ struct QuoteCardWithCheckbox: View {
                 }
                 
                 /// Quote
-                Text("\(quoteContent)")
+                Text("\"\(quoteContent)\"")
                     .curiTypo(.bkRegular16)
                     .foregroundStyle(curiPalette(.ink500))
                     .frame(maxWidth: .infinity, alignment: .leading)

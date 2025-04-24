@@ -103,7 +103,7 @@ struct HomeViewManager: View {
                     let pencilOld = pencilDatabase[index]
                     let pencilNew = pencilLibrary[index]
                     
-                    pencilOld.name = pencilNew.name
+//                    pencilOld.name = pencilNew.name
                     pencilOld.primaryTextColor = pencilNew.primaryTextColor
                     pencilOld.primaryBackgroundColor = pencilNew.primaryBackgroundColor
                     pencilOld.secondaryTextColor = pencilNew.secondaryTextColor
