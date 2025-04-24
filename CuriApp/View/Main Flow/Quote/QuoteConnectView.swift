@@ -13,7 +13,8 @@ struct QuoteConnectView: View {
     @State var connectedQuote: Int = 0
     
 //    @Environment(\.modelContext) var modelContext
-    @Query var quoteDatabase: [Quote]
+//    @Query var quoteDatabase: [Quote]
+    @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
     @Query var pencilDatabase: [HighlightPencil]
     
     @AppStorage("sampleQuote", store: UserDefaults(suiteName: "group.madebynham.curi")) var sampleQuote: String = "Can you not understand that liberty is worth more than just ribbons?"

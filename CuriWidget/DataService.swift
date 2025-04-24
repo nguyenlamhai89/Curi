@@ -35,8 +35,4 @@ struct DataService {
     func fetchHighlightColor() -> Color {
         return Color(highlightColorOnWidget)
     }
-    
-//    func saveWidgetDatabase() {
-//        WidgetCenter.shared.reloadAllTimelines()
-//    }
 }

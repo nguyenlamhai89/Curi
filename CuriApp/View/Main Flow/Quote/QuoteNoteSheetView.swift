@@ -13,7 +13,8 @@ struct QuoteNoteSheetView: View {
     @Bindable var bookViewModel: BookViewModel
     
     @Environment(\.modelContext) private var modelContext
-    @Query var quoteDatabase: [Quote]
+//    @Query var quoteDatabase: [Quote]
+    @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
     
     @Environment(\.presentationMode) var presentationMode
 //    @State var shareThoughts: String = ""
@@ -103,7 +104,9 @@ struct QuoteNoteSheetView: View {
                     modelContext.delete(quoteIsPresented)
                     presentationMode.wrappedValue.dismiss()
                     print("Deleted!")
-                    WidgetCenter.shared.reloadAllTimelines()
+                    
+                    WidgetDataManager().updateQuoteOnWidget(quoteDatabase: quoteDatabase)
+//                    WidgetCenter.shared.reloadAllTimelines()
                 }
             }))
         }

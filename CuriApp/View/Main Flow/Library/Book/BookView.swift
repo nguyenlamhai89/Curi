@@ -13,7 +13,8 @@ struct BookView: View {
     @Bindable var bookViewModel: BookViewModel
     
     @Environment(\.modelContext) private var modelContext
-    @Query var quoteDatabase: [Quote]
+//    @Query var quoteDatabase: [Quote]
+    @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
     @Query var pencilDatabase: [HighlightPencil]
     
     @State var isPresentedRenameView: Bool = false
@@ -103,7 +104,10 @@ struct BookView: View {
                 primaryButton: .cancel(),
                 secondaryButton: .destructive(Text("Delete"), action: {
                     modelContext.delete(bookViewModel.selectedLine!)
-                    WidgetCenter.shared.reloadAllTimelines()
+                    
+//                    saveFirstQuoteToAppStorage(quoteDatabase: quoteDatabase)
+                    WidgetDataManager().updateQuoteOnWidget(quoteDatabase: quoteDatabase)
+//                    WidgetCenter.shared.reloadAllTimelines()
                 })
             )
         }

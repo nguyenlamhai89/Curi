@@ -6,7 +6,8 @@ struct AllQuotesView: View {
     @State var searchAvailableQuote: String = ""
     
     @Bindable var bookViewModel: BookViewModel
-    @Query var quoteDatabase: [Quote]
+//    @Query var quoteDatabase: [Quote]
+    @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
     @State private var itemSelected: Quote?
     
     var emptyHeadline: String = "No quotes yet, but that’s okay,"
