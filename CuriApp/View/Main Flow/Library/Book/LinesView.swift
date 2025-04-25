@@ -75,10 +75,31 @@ struct LinesView: View {
                         print("-- Ready to add Note: \(bookViewModel.selectedLine != nil ? "✅" : "🙅🏻‍♂️") - \(String(describing: bookViewModel.selectedLine?.quoteContent))")
                     }
                     .foregroundStyle(
-                        quoteDatabase.contains(where: { $0.quoteContent == line }) && bookViewModel.selectedLine?.quoteContent == line ? Color(textHighlightedSelectingColor) : quoteDatabase.contains(where: { $0.quoteContent == line }) ? Color(textHighlightedColor) : curiPalette(.ink500)
+                        {
+                            if let quote = quoteDatabase.first(where: { $0.quoteContent == line }) {
+                                if bookViewModel.selectedLine?.quoteContent == line {
+                                    return Color(quote.quoteHighlight.highlightedTextColor)
+                                } else {
+                                    return Color(quote.quoteHighlight.highlightedTextColor)
+                                }
+                            } else {
+                                return curiPalette(.ink500)
+                            }
+                        }()
                     )
                     .background(
-                        quoteDatabase.contains(where: { $0.quoteContent == line }) && bookViewModel.selectedLine?.quoteContent == line ? Color(backgroundHighlightedSelectingColor) : quoteDatabase.contains(where: { $0.quoteContent == line }) ? Color(backgroundHighlightedColor) : Color.clear
+                        {
+                            if let quote = quoteDatabase.first(where: { $0.quoteContent == line }) {
+                                if bookViewModel.selectedLine?.quoteContent == line {
+                                    return Color(quote.quoteHighlight.selectedHighlightedBackgroundColor)
+                                } else {
+                                    return Color(quote.quoteHighlight.defaultHighlightedBackgroundColor)
+                                }
+                                
+                            } else {
+                                return Color.clear
+                            }
+                        }()
                     )
                     .animation(.easeInOut(duration: 0.1), value: quoteDatabase)
             }

@@ -103,6 +103,8 @@ struct HighlightDial: View {
                                                 bookViewModel.selectedPen = pencilDatabase[selectedIndex]
                                             }
                                             
+                                            bookViewModel.selectedLine?.quoteHighlight = bookViewModel.selectedPen!
+                                            
                                             withAnimation {
                                                 scrollProxy.scrollTo(selectedIndex, anchor: .center)
                                             }

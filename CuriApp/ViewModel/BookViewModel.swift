@@ -57,8 +57,10 @@ class BookViewModel: ObservableObject {
             print("📚 \(bookDatabase.count) is successfully loaded!")
             
         } catch {
-            isLoading = false
-            isFetched = false
+            await MainActor.run {
+                isLoading = false
+                isFetched = false
+            }
             
             print("Loading: \(isLoading) - Fetch Done: \(isFetched)")
             print("⚠️ Error: \(error)")

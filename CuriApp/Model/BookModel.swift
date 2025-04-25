@@ -66,15 +66,6 @@ class Quote: Identifiable {
     
     @Relationship(deleteRule: .cascade) var quoteNote: Note?
     
-//    init(bookID: UUID, quoteBook: String, quoteAuthor: String, quoteContent: String, quoteHighlight: HighlightPencil, connectedQuotes: [Quote]? = nil, quoteNote: Note? = nil) {
-//        self.bookID = bookID
-//        self.quoteBook = quoteBook
-//        self.quoteAuthor = quoteAuthor
-//        self.quoteContent = quoteContent
-//        self.quoteHighlight = quoteHighlight
-//        self.connectedQuotes = connectedQuotes
-//        self.quoteNote = quoteNote
-//    }
     init(bookID: UUID, quoteBook: String, quoteAuthor: String, quoteContent: String, quoteHighlight: HighlightPencil, connectedQuotes: [Quote]? = nil, quoteNote: Note? = nil) {
         self.bookID = bookID
         self.quoteBook = quoteBook
