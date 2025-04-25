@@ -26,6 +26,8 @@ class BookViewModel: ObservableObject {
     
     @Published var selectedLine: Quote? = nil
     
+    @Published var firstTimeOnBook: Bool = true
+    
     // Get Book
     func fetchBooks() async throws {
         guard let url = URL(string: "https://poetrydb.org/author/William%20Shakespeare") else { throw

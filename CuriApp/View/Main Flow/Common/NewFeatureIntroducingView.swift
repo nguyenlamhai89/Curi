@@ -8,21 +8,19 @@
 import SwiftUI
 import SDWebImageSwiftUI
 
-struct WidgetIntroducingView: View {
+struct NewFeatureIntroducingView: View {
     @Environment(\.presentationMode) var presentationMode
+        
+    let featureBannerGIF: String
     
-    let featureBannerGIF: String = "curiWidgetIntroducingGIF.gif"
+    let featureName: String
+    let featureHeadline: String
+    let featureDescription: String
+    let featureCTA: String
+        
+    let stepsWidget: [(image: String, description: String)]
     
-    let featureName: String = "Curi's Widget"
-    let featureHeadline: String = "Let words find you"
-    let featureDescription: String = "Each day, a gentle reminder — your saved highlight waiting quietly on the Home Screen."
-    let featureCTA: String = "Got it"
-    
-    let stepsWidget: [(image: String, description: String)] = [
-        (image: "curiStep1", description: "Tap and hold anywhere on your Home Screen"),
-        (image: "curiStep2", description: "Tap Edit in the top left corner, then tap Add Widget"),
-        (image: "curiStep3", description: "Search for Curi and tap Add Widget")
-    ]
+    @State var isAnimating: Bool = false
     
     var body: some View {
         GeometryReader(content: { geometry in
@@ -30,7 +28,7 @@ struct WidgetIntroducingView: View {
                 ScrollView {
                     VStack (spacing: 0) {
                         // GIF
-                        AnimatedImage(name: featureBannerGIF, isAnimating: .constant(true))
+                        AnimatedImage(name: featureBannerGIF, isAnimating: $isAnimating)
                             .resizable()
                             .scaledToFill()
                         
@@ -128,6 +126,6 @@ struct WidgetIntroducingView: View {
         Text("New Feature: Widget")
     }
     .sheet(isPresented: $sheetPresented) {
-        WidgetIntroducingView()
+        NewFeatureIntroducingView(featureBannerGIF: "curiWidgetIntroducingGIF.gif", featureName: "Curi's Widget", featureHeadline: "Headline Sample", featureDescription: "Description Sample", featureCTA: "Got It", stepsWidget: [("curiWidgetStep1","Hihi"),("curiWidgetStep2","Haha"),("curiWidgetStep3","Haha")])
     }
 }

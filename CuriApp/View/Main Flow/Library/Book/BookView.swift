@@ -13,7 +13,7 @@ struct BookView: View {
     @ObservedObject var bookViewModel: BookViewModel
     
     @Environment(\.modelContext) private var modelContext
-//    @Query var quoteDatabase: [Quote]
+    @Environment(\.presentationMode) var presentationMode
     @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
     @Query var pencilDatabase: [HighlightPencil]
     
@@ -22,6 +22,8 @@ struct BookView: View {
 
     @State var bookLinesOriginal: [String]
     @State var isShowKeyboard: Bool = false
+    @State var highlightNewFeature: Bool = false
+    
     @FocusState private var autoFocusRename: Bool
     
     
@@ -104,10 +106,7 @@ struct BookView: View {
                 primaryButton: .cancel(),
                 secondaryButton: .destructive(Text("Delete"), action: {
                     modelContext.delete(bookViewModel.selectedLine!)
-                    
-//                    saveFirstQuoteToAppStorage(quoteDatabase: quoteDatabase)
                     WidgetDataManager().updateQuoteOnWidget(quoteDatabase: quoteDatabase)
-//                    WidgetCenter.shared.reloadAllTimelines()
                 })
             )
         }
@@ -116,8 +115,26 @@ struct BookView: View {
                 QuoteNoteSheetView(bookViewModel: bookViewModel, quote: selectedQuote)
             }
         }
+        .sheet(isPresented: $highlightNewFeature, content: {
+            NewFeatureIntroducingView(
+                featureBannerGIF: "curiWidgetIntroducingGIF.gif",
+                featureName: "Curi's Highlight",
+                featureHeadline: "Mark what matters",
+                featureDescription: "A sentence can be more than words — it can be a feeling, a memory, or a moment of clarity.",
+                featureCTA: "Try now",
+                stepsWidget: [("curiHighlightStep1", "Swipe the highlight dial below to pick a color that fits your theme."), ("curiHighlightStep2", "Tap and hold a sentence to leave your mark."), ("curiHighlightStep3", "Tap again and swipe to change the color — or leave your thoughts!")]
+            )
+        })
         .onAppear {
             setupKeyboardObserver()
+            if !bookViewModel.firstTimeOnBook {
+                return
+            } else {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    highlightNewFeature = true
+                    bookViewModel.firstTimeOnBook = false
+                }
+            }
         }
         .onDisappear {
             removeKeyboardObserver()

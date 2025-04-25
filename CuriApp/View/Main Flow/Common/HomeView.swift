@@ -10,6 +10,7 @@ import SwiftData
 
 struct HomeViewManager: View {
     @Environment(\.modelContext) var modelContext
+    @Environment(\.presentationMode) var presentationMode
     @StateObject var bookViewModel = BookViewModel()
     @Query var pencilDatabase: [HighlightPencil] = []
 //    @Query var quoteDatabase: [Quote]
@@ -66,7 +67,14 @@ struct HomeViewManager: View {
             SettingsSheetView()
         }
         .sheet(isPresented: $widgetTopNavigation) {
-            WidgetIntroducingView()
+            NewFeatureIntroducingView(
+                featureBannerGIF: "curiWidgetIntroducingGIF.gif",
+                featureName: "Curi's Widget",
+                featureHeadline: "Let words find you",
+                featureDescription: "Each day, a gentle reminder — your saved highlight waiting quietly on the Home Screen.",
+                featureCTA: "Got it",
+                stepsWidget: [("curiWidgetStep1", "Tap and hold anywhere on your Home Screen"), ("curiWidgetStep2", "Tap Edit in the top left corner, then tap Add Widget"), ("curiWidgetStep3", "Search for Curi and tap Add Widget")]
+            )
         }
         .onAppear {
             let pencilLibrary: [HighlightPencil] = [
