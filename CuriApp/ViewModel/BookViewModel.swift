@@ -11,6 +11,8 @@ import UIKit
 //@MainActor
 //@Observable
 class BookViewModel: ObservableObject {
+    @AppStorage("firstTimeReading", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var firstTimeReading: Bool = true
+
     @Published var bookDatabase: [Book] = []
     
     @Published var selectedPen: HighlightPencil?
@@ -25,8 +27,8 @@ class BookViewModel: ObservableObject {
     @Published var deleteAlertIsPresented: Bool = false
     
     @Published var selectedLine: Quote? = nil
-    
-    @Published var firstTimeOnBook: Bool = true
+        
+    @Published var accessSheetFromBookView: Bool = false
     
     // Get Book
     func fetchBooks() async throws {

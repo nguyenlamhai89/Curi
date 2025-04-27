@@ -112,7 +112,7 @@ struct BookView: View {
         }
         .sheet(isPresented: $bookViewModel.quoteNoteSheetViewIsPresented) {
             if let selectedQuote = bookViewModel.selectedLine {
-                QuoteNoteSheetView(bookViewModel: bookViewModel, quote: selectedQuote)
+                QuoteNoteSheetView(bookViewModel: bookViewModel, bookNavigated: .constant(false), quote: selectedQuote)
             }
         }
         .sheet(isPresented: $highlightNewFeature, content: {
@@ -122,21 +122,23 @@ struct BookView: View {
                 featureHeadline: "Mark what matters",
                 featureDescription: "A sentence can be more than words — it can be a feeling, a memory, or a moment of clarity.",
                 featureCTA: "Try now",
-                stepsWidget: [("curiHighlightStep1", "Swipe the highlight dial below to pick a color that fits your theme."), ("curiHighlightStep2", "Tap and hold a sentence to leave your mark."), ("curiHighlightStep3", "Tap again and swipe to change the color — or leave your thoughts!")]
+                stepsWidget: [("curiHighlightStep1", "Swipe the highlight dial below to pick a color that fits your theme."), ("curiHighlightStep2", "Tap and hold a sentence to leave your mark."), ("curiHighlightStep3", "Tap again and leave your thoughts - or swipe to change the color")]
             )
         })
         .onAppear {
+            bookViewModel.accessSheetFromBookView = true
             setupKeyboardObserver()
-            if !bookViewModel.firstTimeOnBook {
+            if !bookViewModel.firstTimeReading {
                 return
             } else {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.6) {
                     highlightNewFeature = true
-                    bookViewModel.firstTimeOnBook = false
+                    bookViewModel.firstTimeReading = false
                 }
             }
         }
         .onDisappear {
+            bookViewModel.accessSheetFromBookView = false
             removeKeyboardObserver()
         }
     }

@@ -33,7 +33,6 @@ struct LibraryView: View {
                     
                     TextButtonFilled(content: "Read Now", action: {
                         bookNavigate.toggle()
-                        print("Go to book")
                     })
                     .navigationDestination(isPresented: $bookNavigate) {
                         let bookIDSample = UUID()

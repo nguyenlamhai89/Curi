@@ -80,7 +80,7 @@ class Quote: Identifiable {
 @Model
 class Note: Identifiable {
     var noteID: UUID
-    var noteContent: String
+    var noteContent: String = ""
     var hasContent: Bool {
         !noteContent.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }

@@ -21,6 +21,8 @@ struct QuoteNoteSheetView: View {
     @State var connectQuoteNavigate: Bool = false
     @State var deleteAlertIsPresented: Bool = false
     
+    @Binding var bookNavigated: Bool
+    
     @Bindable var quote: Quote
     
     var shareThoughtsBinding: Binding<String> {
@@ -47,9 +49,16 @@ struct QuoteNoteSheetView: View {
                             .multilineTextAlignment(.leading)
                             .lineLimit(3)
                         HStack (spacing: curiSpacing(.sp8)) {
-                            TextButtonFilledIcon(content: "Go to Book", icon: "curiBook", action: {
-                                print("Go to Book")
-                            })
+                            if !bookViewModel.accessSheetFromBookView {
+                                TextButtonFilledIcon(content: "Go to Book", icon: "curiBook", action: {
+                                    presentationMode.wrappedValue.dismiss()
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                                        bookNavigated.toggle()
+                                    }
+                                })
+                            } else {
+                                EmptyView()
+                            }
                             
                             TextButtonFilledNumber(content: "Connect", icon: "curiConnect", connectedNumber: quote.connectedQuotes?.count ?? 0, action: {
                                 connectQuoteNavigate.toggle()
@@ -91,6 +100,7 @@ struct QuoteNoteSheetView: View {
             .navigationTitle("Quote")
             .navigationBarTitleDisplayMode(.inline)
         }
+        
         .presentationDragIndicator(.hidden)
         .interactiveDismissDisabled(true)
         .alert(isPresented: $deleteAlertIsPresented) {
@@ -106,7 +116,6 @@ struct QuoteNoteSheetView: View {
                     print("Deleted!")
                     
                     WidgetDataManager().updateQuoteOnWidget(quoteDatabase: quoteDatabase)
-//                    WidgetCenter.shared.reloadAllTimelines()
                 }
             }))
         }
@@ -157,5 +166,5 @@ extension QuoteNoteSheetView {
 #Preview {
     @Previewable @StateObject var bookViewModel = BookViewModel()
     
-    QuoteNoteSheetView(bookViewModel: bookViewModel, quote: Quote(bookID: UUID(), quoteBook: "Test Book", quoteAuthor: "Test Author", quoteContent: "Test Quote Content Bla Blo Bla Blo", quoteHighlight: HighlightPencil(name: "Test Highlight Name", primaryTextColor: "paper-500", primaryBackgroundColor: "blue-300", secondaryTextColor: "blue-500", secondaryBackgroundColor: "blue-100", highlightedTextColor: "blue-500", defaultHighlightedBackgroundColor: "blue-100", selectedHighlightedBackgroundColor: "blue-200"), quoteNote: Note()))
+    QuoteNoteSheetView(bookViewModel: bookViewModel, bookNavigated: .constant(false), quote: Quote(bookID: UUID(), quoteBook: "Test Book", quoteAuthor: "Test Author", quoteContent: "Test Quote Content Bla Blo Bla Blo", quoteHighlight: HighlightPencil(name: "Test Highlight Name", primaryTextColor: "paper-500", primaryBackgroundColor: "blue-300", secondaryTextColor: "blue-500", secondaryBackgroundColor: "blue-100", highlightedTextColor: "blue-500", defaultHighlightedBackgroundColor: "blue-100", selectedHighlightedBackgroundColor: "blue-200"), quoteNote: Note()))
 }

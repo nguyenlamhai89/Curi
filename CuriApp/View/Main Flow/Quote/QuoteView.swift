@@ -21,6 +21,8 @@ struct QuoteView: View {
 //    @State var isPresentedQuoteSheetView: Bool = false
     @State var newHighlightName: String = ""
     @State var isShowKeyboard: Bool = false
+    @State var bookNavigated: Bool = false
+    @State var itemSelected: Quote?
     
     @Binding var isPresentedRenameView: Bool
     
@@ -44,6 +46,7 @@ struct QuoteView: View {
                     if !isShowKeyboard {
                         QuotePaperGroup(highlight: quoteOnPaper.quoteHighlight, quote: quoteOnPaper, quoteContent: quoteOnPaper.quoteContent, quoteAuthor: quoteOnPaper.quoteAuthor, quoteBook: quoteOnPaper.quoteBook, paperAction: {
                             bookViewModel.quoteNoteSheetViewIsPresented.toggle()
+                            itemSelected = quoteOnPaper
                         }, highlightAction: {
                             isPresentedRenameView.toggle()
                         })
@@ -60,10 +63,21 @@ struct QuoteView: View {
                 .padding(.top, 74)
             }
             .sheet(isPresented: $bookViewModel.quoteNoteSheetViewIsPresented) {
-                QuoteNoteSheetView(bookViewModel: bookViewModel, quote: quoteOnPaper)
+                QuoteNoteSheetView(bookViewModel: bookViewModel, bookNavigated: $bookNavigated, quote: quoteOnPaper)
             }
             .navigationDestination(isPresented: $viewAllNavigation) {
                 AllQuotesView(bookViewModel: bookViewModel)
+            }
+            .navigationDestination(isPresented: $bookNavigated) {
+                if let book = bookViewModel.bookDatabase.first(where: { $0.title == itemSelected?.quoteBook }) {
+                    BookView(
+                        bookViewModel: bookViewModel,
+                        bookLinesOriginal: book.lines,
+                        bookID: book.id,
+                        bookTitle: book.title,
+                        bookAuthor: book.author
+                    )
+                }
             }
             .onAppear {
                 setupKeyboardObserver()

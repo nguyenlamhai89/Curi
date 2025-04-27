@@ -4,6 +4,7 @@ import SwiftData
 
 struct AllQuotesView: View {
     @State var searchAvailableQuote: String = ""
+    @State var bookNavigated: Bool = false
     
     var filteredQuoteContent: [Quote] {
         guard !searchAvailableQuote.isEmpty else {
@@ -17,10 +18,14 @@ struct AllQuotesView: View {
     @ObservedObject var bookViewModel: BookViewModel
 //    @Query var quoteDatabase: [Quote]
     @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
-    @State private var itemSelected: Quote?
+    @State var itemSelected: Quote?
     
     var emptyHeadline: String = "No quotes yet, but that’s okay,"
     var emptyParagraph: String = "Start with a book, and mark your way!"
+    
+    @State var showAddQuoteSheet: Bool = false
+    
+//    var bookSelectedName: String = ""
     
 //    var nameHighlightPrimary: String
 //    var nameHighlightSecondary: String
@@ -39,8 +44,9 @@ struct AllQuotesView: View {
                                     quoteHighlightName: quote.quoteHighlight.name,
                                     quoteHighlightColor: quote.quoteHighlight.primaryBackgroundColor,
                                     action: {
-                                        self.itemSelected = quote
-                                        print("HAINL self.itemSelected \(String(describing: self.itemSelected))")
+                                        showAddQuoteSheet.toggle()
+                                        itemSelected = quote
+                                        print("HAINL self.itemSelected \(String(describing: itemSelected))")
                                     }
                                 )
                             }
@@ -56,8 +62,21 @@ struct AllQuotesView: View {
             }
             .background(curiPalette(.paper500))
         }
-        .sheet(item: $itemSelected) { item in
-            QuoteNoteSheetView(bookViewModel: bookViewModel, quote: item)
+        .sheet(isPresented: $showAddQuoteSheet, content: {
+            QuoteNoteSheetView(bookViewModel: bookViewModel, bookNavigated: $bookNavigated, quote: itemSelected ?? Quote(bookID: UUID(), quoteBook: "", quoteAuthor: "", quoteContent: "", quoteHighlight: HighlightPencil(name: "", primaryTextColor: "", primaryBackgroundColor: "", secondaryTextColor: "", secondaryBackgroundColor: "", highlightedTextColor: "", defaultHighlightedBackgroundColor: "", selectedHighlightedBackgroundColor: "")))
+        })
+        .navigationDestination(isPresented: $bookNavigated) {
+            if let book = bookViewModel.bookDatabase.first(where: { $0.title == itemSelected?.quoteBook }) {
+                BookView(
+                    bookViewModel: bookViewModel,
+                    bookLinesOriginal: book.lines,
+                    bookID: book.id,
+                    bookTitle: book.title,
+                    bookAuthor: book.author
+                )
+            } else {
+                Text("Book not found")
+            }
         }
     }
 }
