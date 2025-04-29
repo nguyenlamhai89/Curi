@@ -60,6 +60,7 @@ struct TopNavigationUniversal: View {
 struct TopNavigationBook: View {
     @Environment(\.dismiss) var dismiss
     var pageIsSelected: Bool
+    @Binding var highlightNewFeature: Bool
 //    var bookName: String
     
     var body: some View {
@@ -81,7 +82,13 @@ struct TopNavigationBook: View {
                     Spacer()
                     
                     /// Icon Button - Search
-                    EmptyView()
+                    if pageIsSelected {
+                        IconButton(iconName: "curiHighlight", hasNote: false) {
+                            highlightNewFeature.toggle()
+                        }
+                    } else {
+                        EmptyView()
+                    }
                     
                 }
                 .padding(.horizontal, curiSpacing(.sp16))
@@ -101,7 +108,8 @@ struct TopNavigationBook: View {
     @Previewable @State var widgetTopNavigation: Bool = false
     @Previewable @State var pageOneIsSelected: Bool = true
     @Previewable @State var pageTwoIsSelected: Bool = false
+    @Previewable @State var highlightNewFeature: Bool = false
     
     TopNavigationUniversal(settingsTopNavigation: $settingsTopNavigation, widgetTopNavigation: $widgetTopNavigation, isOpenedTabOne: $pageOneIsSelected, isOpenedTabTwo: $pageTwoIsSelected)
-    TopNavigationBook(pageIsSelected: true)
+    TopNavigationBook(pageIsSelected: true, highlightNewFeature: $highlightNewFeature)
 }

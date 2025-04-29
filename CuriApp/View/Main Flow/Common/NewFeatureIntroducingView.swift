@@ -12,6 +12,8 @@ struct NewFeatureIntroducingView: View {
     @Environment(\.presentationMode) var presentationMode
         
     let featureBannerGIF: String
+    let featureIconLeft: String
+    let featureIconRight: String
     
     let featureName: String
     let featureHeadline: String
@@ -36,7 +38,7 @@ struct NewFeatureIntroducingView: View {
                         VStack (spacing: curiSpacing(.sp32)) {
                             VStack (spacing: curiSpacing(.sp8)) {
                                 HStack (spacing: curiSpacing(.sp4)) {
-                                    Image("curiWidgetLeft")
+                                    Image(featureIconLeft)
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: 24)
@@ -47,7 +49,7 @@ struct NewFeatureIntroducingView: View {
                                         .padding(.horizontal, curiSpacing(.sp8))
                                         .background(curiPalette(.blue100))
                                         .cornerRadius(curiRadius(.rd4))
-                                    Image("curiWidgetRight")
+                                    Image(featureIconRight)
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: 24)
@@ -126,6 +128,6 @@ struct NewFeatureIntroducingView: View {
         Text("New Feature: Widget")
     }
     .sheet(isPresented: $sheetPresented) {
-        NewFeatureIntroducingView(featureBannerGIF: "curiWidgetIntroducingGIF.gif", featureName: "Curi's Widget", featureHeadline: "Headline Sample", featureDescription: "Description Sample", featureCTA: "Got It", stepsWidget: [("curiWidgetStep1","Hihi"),("curiWidgetStep2","Haha"),("curiWidgetStep3","Haha")])
+        NewFeatureIntroducingView(featureBannerGIF: "curiWidgetIntroducingGIF.gif", featureIconLeft: "curiWidgetLeft", featureIconRight: "curiWidgetRight", featureName: "Curi's Widget", featureHeadline: "Headline Sample", featureDescription: "Description Sample", featureCTA: "Got It", stepsWidget: [("curiWidgetStep1","Hihi"),("curiWidgetStep2","Haha"),("curiWidgetStep3","Haha")])
     }
 }

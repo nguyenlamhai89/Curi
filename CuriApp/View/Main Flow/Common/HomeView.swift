@@ -69,6 +69,8 @@ struct HomeViewManager: View {
         .sheet(isPresented: $widgetTopNavigation) {
             NewFeatureIntroducingView(
                 featureBannerGIF: "curiWidgetIntroducingGIF.gif",
+                featureIconLeft: "curiWidgetLeft",
+                featureIconRight: "curiWidgetRight",
                 featureName: "Curi's Widget",
                 featureHeadline: "Let words find you",
                 featureDescription: "Each day, a gentle reminder — your saved highlight waiting quietly on the Home Screen.",

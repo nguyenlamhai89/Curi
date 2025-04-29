@@ -62,7 +62,7 @@ struct BookView: View {
             
             VStack {
                 // Navigation
-                TopNavigationBook(pageIsSelected: bookViewModel.pageIsSelected)
+                TopNavigationBook(pageIsSelected: bookViewModel.pageIsSelected, highlightNewFeature: $highlightNewFeature)
 //                    .background(Color.blue)
                 
                 Spacer()
@@ -117,7 +117,9 @@ struct BookView: View {
         }
         .sheet(isPresented: $highlightNewFeature, content: {
             NewFeatureIntroducingView(
-                featureBannerGIF: "curiWidgetIntroducingGIF.gif",
+                featureBannerGIF: "curiHighlightIntroducingGIF.gif",
+                featureIconLeft: "curiHighlightLeft",
+                featureIconRight: "curiHighlightRight",
                 featureName: "Curi's Highlight",
                 featureHeadline: "Mark what matters",
                 featureDescription: "A sentence can be more than words — it can be a feeling, a memory, or a moment of clarity.",
