@@ -64,9 +64,9 @@ class Quote: Identifiable {
     var isConnected: Bool = false
     var connectedQuotes: [Quote]?
     
-    @Relationship(deleteRule: .cascade) var quoteNote: Note?
+    var quoteNote: Note
     
-    init(bookID: UUID, quoteBook: String, quoteAuthor: String, quoteContent: String, quoteHighlight: HighlightPencil, connectedQuotes: [Quote]? = nil, quoteNote: Note? = Note()) {
+    init(bookID: UUID, quoteBook: String, quoteAuthor: String, quoteContent: String, quoteHighlight: HighlightPencil, connectedQuotes: [Quote]? = nil, quoteNote: Note = Note()) {
         self.bookID = bookID
         self.quoteBook = quoteBook
         self.quoteAuthor = quoteAuthor
@@ -79,14 +79,13 @@ class Quote: Identifiable {
 
 @Model
 class Note: Identifiable {
-    var noteID: UUID
-    var noteContent: String = ""
+    var noteID: UUID = UUID()
+    var noteContent: String
     var hasContent: Bool {
         !noteContent.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
     
-    init(noteID: UUID = UUID(), noteContent: String = "") {
-        self.noteID = noteID
+    init(noteContent: String = "") {
         self.noteContent = noteContent
     }
 }

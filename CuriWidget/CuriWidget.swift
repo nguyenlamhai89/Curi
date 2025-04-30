@@ -117,8 +117,7 @@ struct CuriWidget: Widget {
         AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
             CuriWidgetEntryView(entry: entry)
                 .containerBackground(.fill.tertiary, for: .widget)
-//                .modelContainer(for: [HighlightPencil.self, Quote.self, Note.self])
-                .modelContainer(for: [HighlightPencil.self, Quote.self])
+                .modelContainer(for: [HighlightPencil.self, Quote.self, Note.self])
         }
         .configurationDisplayName("Quote of the Day")
         .description("Shuffle from all the quotes you've highlighted in your entire books")

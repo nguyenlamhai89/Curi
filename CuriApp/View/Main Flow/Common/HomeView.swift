@@ -120,7 +120,6 @@ struct HomeViewManager: View {
                     pencilOld.defaultHighlightedBackgroundColor = pencilNew.defaultHighlightedBackgroundColor
                     pencilOld.selectedHighlightedBackgroundColor = pencilNew.selectedHighlightedBackgroundColor
                 }
-//                try? modelContext.save()
             }
             try? modelContext.save()
         }

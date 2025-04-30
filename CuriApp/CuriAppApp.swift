@@ -14,7 +14,6 @@ struct CuriAppApp: App {
         WindowGroup {
             LogInView()
         }
-//        .modelContainer(for: [HighlightPencil.self, Quote.self, Note.self])
-        .modelContainer(for: [HighlightPencil.self, Quote.self])
+        .modelContainer(for: [HighlightPencil.self, Quote.self, Note.self])
     }
 }
