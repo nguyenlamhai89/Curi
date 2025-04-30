@@ -33,7 +33,7 @@ struct HomeViewManager: View {
         if let first = quoteDatabase.first {
             return first
         } else {
-            return Quote(bookID: UUID(), quoteBook: "", quoteAuthor: "", quoteContent: "", quoteHighlight: HighlightPencil(name: "", primaryTextColor: "", primaryBackgroundColor: "b", secondaryTextColor: "", secondaryBackgroundColor: "", highlightedTextColor: "", defaultHighlightedBackgroundColor: "", selectedHighlightedBackgroundColor: ""), quoteNote: Note())
+            return Quote(bookID: UUID(), quoteBook: "", quoteAuthor: "", quoteContent: "", quoteHighlight: HighlightPencil(name: "", primaryTextColor: "", primaryBackgroundColor: "b", secondaryTextColor: "", secondaryBackgroundColor: "", highlightedTextColor: "", defaultHighlightedBackgroundColor: "", selectedHighlightedBackgroundColor: ""))
         }
     }
     
@@ -106,8 +106,6 @@ struct HomeViewManager: View {
                 for insertPencil in pencilLibrary {
                     modelContext.insert(insertPencil)
                 }
-                print("🖍️ Available Highlight Pencils: \(pencilDatabase.count)")
-                print("--- \(pencilDatabase)")
             } else {
                 for index in pencilDatabase.indices {
                     let pencilOld = pencilDatabase[index]
@@ -122,8 +120,9 @@ struct HomeViewManager: View {
                     pencilOld.defaultHighlightedBackgroundColor = pencilNew.defaultHighlightedBackgroundColor
                     pencilOld.selectedHighlightedBackgroundColor = pencilNew.selectedHighlightedBackgroundColor
                 }
-                try? modelContext.save()
+//                try? modelContext.save()
             }
+            try? modelContext.save()
         }
         .overlay {
             if isPresentedRenameView {
@@ -142,7 +141,6 @@ struct HomeViewManager: View {
                 }
             }
         }
-
     }
 }
 

@@ -9,11 +9,9 @@ import SwiftUI
 import SwiftData
 
 struct QuoteView: View {
-    
-    
-    @Environment(\.modelContext) var modelContext
-
     @ObservedObject var bookViewModel: BookViewModel
+
+    @Environment(\.modelContext) var modelContext
 //    @Query var quoteDatabase: [Quote]
     @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
     
@@ -30,7 +28,7 @@ struct QuoteView: View {
         if let first = quoteDatabase.first {
             return first
         } else {
-            return Quote(bookID: UUID(), quoteBook: "", quoteAuthor: "", quoteContent: "", quoteHighlight: HighlightPencil(name: "", primaryTextColor: "", primaryBackgroundColor: "b", secondaryTextColor: "", secondaryBackgroundColor: "", highlightedTextColor: "", defaultHighlightedBackgroundColor: "", selectedHighlightedBackgroundColor: ""), quoteNote: Note())
+            return Quote(bookID: UUID(), quoteBook: "", quoteAuthor: "", quoteContent: "", quoteHighlight: HighlightPencil(name: "", primaryTextColor: "", primaryBackgroundColor: "b", secondaryTextColor: "", secondaryBackgroundColor: "", highlightedTextColor: "", defaultHighlightedBackgroundColor: "", selectedHighlightedBackgroundColor: ""))
         }
     }
     

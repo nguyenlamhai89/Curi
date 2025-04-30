@@ -24,8 +24,6 @@ struct BookView: View {
     @State var isShowKeyboard: Bool = false
     @State var highlightNewFeature: Bool = false
     
-    @FocusState private var autoFocusRename: Bool
-    
     
     var bookID: UUID
     var bookTitle: String
@@ -123,7 +121,7 @@ struct BookView: View {
                 featureName: "Curi's Highlight",
                 featureHeadline: "Mark what matters",
                 featureDescription: "A sentence can be more than words — it can be a feeling, a memory, or a moment of clarity.",
-                featureCTA: "Try now",
+                featureCTA: "Got it",
                 stepsWidget: [("curiHighlightStep1", "Swipe the highlight dial below to pick a color that fits your theme."), ("curiHighlightStep2", "Tap and hold a sentence to leave your mark."), ("curiHighlightStep3", "Tap again and leave your thoughts - or swipe to change the color")]
             )
         })

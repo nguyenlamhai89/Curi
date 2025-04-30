@@ -83,6 +83,5 @@ struct LibraryView: View {
 
 #Preview {
     @Previewable @StateObject var bookViewModel = BookViewModel()
-
     LibraryView(bookViewModel: bookViewModel, bookNameInBanner: "Điên", authorNameInBanner: "Ngô Kha")
 }

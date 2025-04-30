@@ -47,7 +47,10 @@ struct LinesView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .onLongPressGesture(minimumDuration: 0.1) {
                         print("\(line)")
-                        let quote = Quote(bookID: bookID, quoteBook: bookTitle, quoteAuthor: bookAuthor, quoteContent: line, quoteHighlight: bookViewModel.selectedPen!, quoteNote: Note())
+                        let quote = Quote(bookID: bookID, quoteBook: bookTitle, quoteAuthor: bookAuthor, quoteContent: line, quoteHighlight: bookViewModel.selectedPen!)
+//                        let note = Note()
+//                        modelContext.insert(note)
+//                        let quote = Quote(bookID: bookID, quoteBook: bookTitle, quoteAuthor: bookAuthor, quoteContent: line, quoteHighlight: bookViewModel.selectedPen!, quoteNote: note)
                         
                         
                         print("- BookID: \(quote.bookID)")
@@ -110,7 +113,7 @@ struct LinesView: View {
     }
     
     func checkQuoteDatabase(checkingQuote: Quote, currentLine: String) {
-        if let existingQuote = quoteDatabase.first(where: { $0.quoteContent == currentLine }) {
+        if let existingQuote = quoteDatabase.first(where: { $0.quoteContent == currentLine && $0.bookID == bookID }) {
             HapticsManager.access.play(haptics: .light)
             SoundManager.access.play(sound: .highlightRemoved)
             modelContext.delete(existingQuote)

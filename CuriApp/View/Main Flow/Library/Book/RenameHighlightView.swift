@@ -10,7 +10,7 @@ import WidgetKit
 
 struct RenameHighlightView: View {
     @Binding var highlightName: String
-    @FocusState var autoFocus: Bool
+    @FocusState var autoFocusRename: Bool
     
     var backgroundColor: Color
     var placeholderHighlightName: String = "Highlight Name"
@@ -32,7 +32,7 @@ struct RenameHighlightView: View {
                         .foregroundStyle(curiPalette(.paper500))
                         .frame(maxWidth: .infinity)
                         .multilineTextAlignment(.center)
-                        .focused($autoFocus)
+                        .focused($autoFocusRename)
                         .submitLabel(.done)
                         .onSubmit {
                             withAnimation {
@@ -51,7 +51,7 @@ struct RenameHighlightView: View {
             }
             .onAppear {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    autoFocus.toggle()
+                    autoFocusRename.toggle()
                 }
             }
     }

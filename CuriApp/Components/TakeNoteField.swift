@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TakeNoteField: View {
+    @ObservedObject var bookViewModel: BookViewModel
     @FocusState private var isFocused: Bool
     @Binding var shareThoughts: String
     var book: String
@@ -34,6 +35,11 @@ struct TakeNoteField: View {
                 TextField("Share your thoughts...", text: $shareThoughts)
                     .focused($isFocused)
                     .curiTypo(.sfRegular16)
+                    .onAppear {
+                        if bookViewModel.accessSheetFromBookView {
+                            isFocused = true
+                        }
+                    }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
 //            .background(Color.blue) // Check section
@@ -48,6 +54,6 @@ struct TakeNoteField: View {
 
 #Preview {
     @Previewable @State var shareThoughts: String = ""
-    TakeNoteField(shareThoughts: $shareThoughts, book: "Book Name Sample", author: "Author Name Sample")
-                
+    @Previewable @StateObject var bookViewModel = BookViewModel()
+    TakeNoteField(bookViewModel: bookViewModel, shareThoughts: $shareThoughts, book: "Book Name Sample", author: "Author Name Sample")
 }

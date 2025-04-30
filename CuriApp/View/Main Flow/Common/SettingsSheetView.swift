@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import SwiftData
 import SDWebImageSwiftUI
 
 struct SettingsSheetView: View {
     @Environment(\.presentationMode) var presentationMode
+    @Query var pencilDatabase: [HighlightPencil] = []
     
     let curiLogoGIF: String = "curiLogoGIF.gif"
     
@@ -65,6 +67,12 @@ struct SettingsSheetView: View {
         .presentationDetents([.medium])
 //        .presentationDragIndicator(.visible)
         .interactiveDismissDisabled(true)
+        .onAppear {
+            print("🖍️ Available Highlight Pencils: \(pencilDatabase.count)")
+            for (index, pen) in pencilDatabase.enumerated() {
+                print(String(describing: "--- [\(index + 1)] Pencil: \(pen.name), Color: \(pen.primaryBackgroundColor)"))
+            }
+        }
     }
 }
 
