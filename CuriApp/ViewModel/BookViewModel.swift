@@ -15,6 +15,7 @@ class BookViewModel: ObservableObject {
 
     @Published var bookDatabase: [Book] = []
     
+    @Published var selectedIndex: Int = 0
     @Published var selectedPen: HighlightPencil?
     
     @Published var isLoading = true

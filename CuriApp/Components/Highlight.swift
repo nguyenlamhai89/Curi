@@ -14,7 +14,7 @@ struct HighlightDial: View {
     @ObservedObject var bookViewModel: BookViewModel
     @Query var pencilDatabase: [HighlightPencil]
     
-    @State var selectedIndex: Int = 0
+//    @State var selectedIndex: Int = 0
     @Binding var thoughtSheetIsPresented: Bool
     @Binding var deleteAlertIsPresented: Bool
     
@@ -73,7 +73,7 @@ struct HighlightDial: View {
                             ScrollViewReader { scrollProxy in
                                 HStack(spacing: spacing) {
                                     ForEach(pencilDatabase.indices, id: \.self) { penIndex in
-                                        let isSelected = selectedIndex == penIndex
+                                        let isSelected = bookViewModel.selectedIndex == penIndex
                                         
                                         HighlightButtonBook(name: pencilDatabase[penIndex].name,
                                                             buttonWidth: cardWidth,
@@ -93,33 +93,40 @@ struct HighlightDial: View {
                                         .onEnded { value in
                                             let direction = value.translation.width
                                             
-                                            if direction < -dragThreshold, selectedIndex < pencilDatabase.count - 1 {
-                                                selectedIndex += 1
+                                            if direction < -dragThreshold, bookViewModel.selectedIndex < pencilDatabase.count - 1 {
+                                                bookViewModel.selectedIndex += 1
                                                 HapticsManager.access.play(haptics: .light)
-                                                bookViewModel.selectedPen = pencilDatabase[selectedIndex]
-                                            } else if direction > dragThreshold, selectedIndex > 0 {
-                                                selectedIndex -= 1
+                                                bookViewModel.selectedPen = pencilDatabase[bookViewModel.selectedIndex]
+                                            } else if direction > dragThreshold, bookViewModel.selectedIndex > 0 {
+                                                bookViewModel.selectedIndex -= 1
                                                 HapticsManager.access.play(haptics: .light)
-                                                bookViewModel.selectedPen = pencilDatabase[selectedIndex]
+                                                bookViewModel.selectedPen = pencilDatabase[bookViewModel.selectedIndex]
                                             }
                                             
                                             bookViewModel.selectedLine?.quoteHighlight = bookViewModel.selectedPen!
                                             
                                             withAnimation {
-                                                scrollProxy.scrollTo(selectedIndex, anchor: .center)
+                                                scrollProxy.scrollTo(bookViewModel.selectedIndex, anchor: .center)
                                             }
                                         }
                                 )
                                 .onAppear {
-                                    DispatchQueue.main.async {
-                                        withAnimation {
-                                            scrollProxy.scrollTo(selectedIndex, anchor: .center)
-                                        }
-                                    }
-                                    bookViewModel.selectedPen = pencilDatabase[selectedIndex]
+                                    scrollProxy.scrollTo(bookViewModel.selectedIndex, anchor: .center)
+                                    bookViewModel.selectedPen = pencilDatabase[bookViewModel.selectedIndex]
+                                    print("Selected Index: \(bookViewModel.selectedIndex) - \(String(describing: bookViewModel.selectedPen))")
                                 }
                                 .onChange(of: bookViewModel.selectedPen) {
                                     print("On Selected - \(String(describing: bookViewModel.selectedPen?.name))")
+                                }
+                                .onChange(of: bookViewModel.selectedLine) {
+                                    if let selectedHighlight = bookViewModel.selectedLine?.quoteHighlight,
+                                       let index = pencilDatabase.firstIndex(where: { $0.id == selectedHighlight.id }) {
+                                        bookViewModel.selectedIndex = index
+                                        bookViewModel.selectedPen = pencilDatabase[bookViewModel.selectedIndex]
+                                        withAnimation {
+                                            scrollProxy.scrollTo(bookViewModel.selectedIndex, anchor: .center)
+                                        }
+                                    }
                                 }
                             }
                         }

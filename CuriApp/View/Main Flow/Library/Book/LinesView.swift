@@ -72,7 +72,7 @@ struct LinesView: View {
                             }
                             bookViewModel.pageIsSelected = true
                         }
-                        print("-- Ready to add Note: \(bookViewModel.selectedLine != nil ? "✅" : "🙅🏻‍♂️") - \(String(describing: bookViewModel.selectedLine?.quoteContent))")
+                        print("-- Ready to add Note: \(bookViewModel.selectedLine != nil ? "✅" : "🙅🏻‍♂️") - \(String(describing: bookViewModel.selectedLine?.quoteContent)), \(String(describing: bookViewModel.selectedLine?.quoteHighlight.name))")
                     }
                     .foregroundStyle(
                         {
