@@ -60,7 +60,7 @@ struct BookView: View {
             
             VStack {
                 // Navigation
-                TopNavigationBook(pageIsSelected: bookViewModel.pageIsSelected, highlightNewFeature: $highlightNewFeature)
+                TopNavigationBook(bookViewModel: bookViewModel, pageIsSelected: bookViewModel.pageIsSelected, highlightNewFeature: $highlightNewFeature)
 //                    .background(Color.blue)
                 
                 Spacer()
@@ -115,6 +115,7 @@ struct BookView: View {
         }
         .sheet(isPresented: $highlightNewFeature, content: {
             NewFeatureIntroducingView(
+                bookViewModel: bookViewModel,
                 featureBannerGIF: "curiHighlightIntroducingGIF.gif",
                 featureIconLeft: "curiHighlightLeft",
                 featureIconRight: "curiHighlightRight",

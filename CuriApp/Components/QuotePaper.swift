@@ -9,6 +9,7 @@ import SwiftUI
 
 
 struct QuotePaperGroup: View {
+    @ObservedObject var bookViewModel: BookViewModel
     var highlight: HighlightPencil
     var quote: Quote
     
@@ -21,7 +22,7 @@ struct QuotePaperGroup: View {
     
     var body: some View {
         ZStack (alignment: .top) {
-            HighlightQuotePaperButton(content: highlight.name, color: Color(highlight.primaryBackgroundColor)) {
+            HighlightQuotePaperButton(bookViewModel: bookViewModel, content: highlight.name, color: Color(highlight.primaryBackgroundColor)) {
                 highlightAction()
             }
             VStack {

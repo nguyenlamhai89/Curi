@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct QuoteConnectView: View {
+    @ObservedObject var bookViewModel: BookViewModel
     @State var searchLinkQuote: String = ""
     @State var connectedQuote: Int = 0
     
@@ -36,7 +37,7 @@ struct QuoteConnectView: View {
             VStack (spacing: curiSpacing(.sp16)) {
                 ForEach(filteredQuoteContent.filter { $0.quoteID != quote.quoteID }) { quoteConnecting in
     
-                    QuoteCardWithCheckbox(bookName: quoteConnecting.quoteBook, authorName: quoteConnecting.quoteAuthor, quoteContent: quoteConnecting.quoteContent, highlightTagName: quoteConnecting.quoteHighlight.name, highlightTagColor: quoteConnecting.quoteHighlight.primaryBackgroundColor, isConnected: quoteConnecting.isConnected, action: {
+                    QuoteCardWithCheckbox(bookViewModel: bookViewModel, bookName: quoteConnecting.quoteBook, authorName: quoteConnecting.quoteAuthor, quoteContent: quoteConnecting.quoteContent, highlightTagName: quoteConnecting.quoteHighlight.name, highlightTagColor: quoteConnecting.quoteHighlight.primaryBackgroundColor, isConnected: quoteConnecting.isConnected, action: {
                         
                         if quote.connectedQuotes?.contains(where: { $0.quoteID == quoteConnecting.quoteID }) == false {
                             quoteConnecting.isConnected = true
@@ -68,12 +69,13 @@ struct QuoteConnectView: View {
 
 #Preview {
     @Previewable @State var isPresented: Bool = true
+    @Previewable @StateObject var bookViewModel = BookViewModel()
     VStack {
         Text("Test")
     }
     .sheet(isPresented: $isPresented) {
         NavigationView {
-            QuoteConnectView(quote: Quote(bookID: UUID(), quoteBook: "Hi", quoteAuthor: "Hi", quoteContent: "Bar", quoteHighlight: HighlightPencil(name: "Discuss Later", primaryTextColor: "paper-500", primaryBackgroundColor: "blue-300", secondaryTextColor: "blue-500", secondaryBackgroundColor: "blue-100", highlightedTextColor: "blue-500", defaultHighlightedBackgroundColor: "blue-100", selectedHighlightedBackgroundColor: "blue-200")))
+            QuoteConnectView(bookViewModel: bookViewModel, quote: Quote(bookID: UUID(), quoteBook: "Hi", quoteAuthor: "Hi", quoteContent: "Bar", quoteHighlight: HighlightPencil(name: "Discuss Later", primaryTextColor: "paper-500", primaryBackgroundColor: "blue-300", secondaryTextColor: "blue-500", secondaryBackgroundColor: "blue-100", highlightedTextColor: "blue-500", defaultHighlightedBackgroundColor: "blue-100", selectedHighlightedBackgroundColor: "blue-200")))
         }
     }
 }

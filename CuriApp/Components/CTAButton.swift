@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct CTAButtonPrimary: View {
+    @ObservedObject var bookViewModel: BookViewModel
     var content: String
     var action: () -> Void
     
     var body: some View {
         Button {
-            HapticsManager.access.play(haptics: .heavy)
+            HapticsManager.access.play(haptics: .heavy, vibrationEnabledInApp: bookViewModel.vibrationInApp)
             action()
         } label: {
             Text(content)
@@ -29,12 +30,13 @@ struct CTAButtonPrimary: View {
 }
 
 struct CTAButtonSecondary: View {
+    @ObservedObject var bookViewModel: BookViewModel
     var content: String
     var action: () -> Void
     
     var body: some View {
         Button {
-            HapticsManager.access.play(haptics: .heavy)
+            HapticsManager.access.play(haptics: .heavy, vibrationEnabledInApp: bookViewModel.vibrationInApp)
             action()
         } label: {
             Text(content)
@@ -50,11 +52,12 @@ struct CTAButtonSecondary: View {
 }
 
 #Preview {
+    @Previewable @StateObject var bookViewModel = BookViewModel()
     VStack (spacing: 16) {
-        CTAButtonPrimary(content: "Primary", action: {
+        CTAButtonPrimary(bookViewModel: bookViewModel, content: "Primary", action: {
             print("Primary")
         })
-        CTAButtonSecondary(content: "Secondary", action: {
+        CTAButtonSecondary(bookViewModel: bookViewModel, content: "Secondary", action: {
             print("Secondary")
         })
     }

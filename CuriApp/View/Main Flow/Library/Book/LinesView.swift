@@ -111,12 +111,12 @@ struct LinesView: View {
     
     func checkQuoteDatabase(checkingQuote: Quote, currentLine: String) {
         if let existingQuote = quoteDatabase.first(where: { $0.quoteContent == currentLine }) {
-            HapticsManager.access.play(haptics: .light)
-            SoundManager.access.play(sound: .highlightRemoved)
+            HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: bookViewModel.vibrationInApp)
+            SoundManager.access.play(sound: .highlightRemoved, soundEnabledInApp: bookViewModel.soundInApp)
             modelContext.delete(existingQuote)
         } else {
-            HapticsManager.access.play(haptics: .light)
-            SoundManager.access.play(sound: .highlightAdded)
+            HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: bookViewModel.vibrationInApp)
+            SoundManager.access.play(sound: .highlightAdded, soundEnabledInApp: bookViewModel.soundInApp)
             modelContext.insert(checkingQuote)
         }
         WidgetDataManager().updateQuoteOnWidget(quoteDatabase: quoteDatabase)

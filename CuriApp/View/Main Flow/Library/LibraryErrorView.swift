@@ -37,7 +37,7 @@ struct LibraryErrorView: View {
     var body: some View {
         VStack (spacing: curiSpacing(.sp16)) {
             EmptyStateDescription(image: "curiLogo", headline: "Some things broke, but don’t dismay, ", paragraph: "We’ll patch it up — then you can play.")
-            TextButtonStroke(content: "Try Again", action: {
+            TextButtonStroke(bookViewModel: bookViewModel, content: "Try Again", action: {
                 Task {
                     try? await bookViewModel.fetchBooks()
                 }

@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct SegmentedButton: View {
+    @ObservedObject var bookViewModel: BookViewModel
     var isSelected: Bool
     var content: String
     var action: () -> Void
     
     var body: some View {
         Button {
-            HapticsManager.access.play(haptics: .light)
+            HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: bookViewModel.vibrationInApp)
             action()
         } label: {
             Text(content)
@@ -29,12 +30,13 @@ struct SegmentedButton: View {
 }
 
 struct SegmentedControl: View {
+    @ObservedObject var bookViewModel: BookViewModel
     @Binding var pageOneIsSelected: Bool
     @Binding var pageTwoIsSelected: Bool
     
     var body: some View {
         HStack (spacing: curiSpacing(.sp4)) {
-            SegmentedButton(isSelected: pageOneIsSelected, content: "Library") {
+            SegmentedButton(bookViewModel: bookViewModel, isSelected: pageOneIsSelected, content: "Library") {
                 if !pageOneIsSelected && pageTwoIsSelected {
                     switchState()
                     print("Page One Active: \(pageOneIsSelected)")
@@ -43,7 +45,7 @@ struct SegmentedControl: View {
                     return
                 }
             }
-            SegmentedButton(isSelected: pageTwoIsSelected, content: "Quote") {
+            SegmentedButton(bookViewModel: bookViewModel, isSelected: pageTwoIsSelected, content: "Quote") {
                 if pageOneIsSelected && !pageTwoIsSelected {
                     switchState()
                     print("Page One Active: \(pageOneIsSelected)")
@@ -65,8 +67,9 @@ struct SegmentedControl: View {
 }
 
 #Preview {
+    @Previewable @StateObject var bookViewModel = BookViewModel()
     @Previewable @State var pageOneIsSelected: Bool = true
     @Previewable @State var pageTwoIsSelected: Bool = false
     
-    SegmentedControl(pageOneIsSelected: $pageOneIsSelected, pageTwoIsSelected: $pageTwoIsSelected)
+    SegmentedControl(bookViewModel: bookViewModel, pageOneIsSelected: $pageOneIsSelected, pageTwoIsSelected: $pageTwoIsSelected)
 }

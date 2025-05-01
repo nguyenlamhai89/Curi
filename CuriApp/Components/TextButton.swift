@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct TextButtonPlain: View {
+    @ObservedObject var bookViewModel: BookViewModel
     var content: String
     var action: () -> Void
     
     var body: some View {
         Button {
-            HapticsManager.access.play(haptics: .light)
+            HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: bookViewModel.vibrationInApp)
             action()
         } label: {
             Text(content)
@@ -26,12 +27,13 @@ struct TextButtonPlain: View {
 }
 
 struct TextButtonFilled: View {
+    @ObservedObject var bookViewModel: BookViewModel
     var content: String
     var action: () -> Void
     
     var body: some View {
         Button {
-            HapticsManager.access.play(haptics: .light)
+            HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: bookViewModel.vibrationInApp)
             action()
         } label: {
             Text(content)
@@ -46,13 +48,14 @@ struct TextButtonFilled: View {
 }
 
 struct TextButtonFilledIcon: View {
+    @ObservedObject var bookViewModel: BookViewModel
     var content: String
     var icon: String
     var action: () -> Void
     
     var body: some View {
         Button {
-            HapticsManager.access.play(haptics: .light)
+            HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: bookViewModel.vibrationInApp)
             action()
         } label: {
             HStack (spacing: curiSpacing(.sp4)) {
@@ -76,6 +79,7 @@ struct TextButtonFilledIcon: View {
 }
 
 struct TextButtonFilledNumber: View {
+    @ObservedObject var bookViewModel: BookViewModel
     var content: String
     var icon: String
     var connectedNumber: Int
@@ -83,7 +87,7 @@ struct TextButtonFilledNumber: View {
     
     var body: some View {
         Button {
-            HapticsManager.access.play(haptics: .light)
+            HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: bookViewModel.vibrationInApp)
             action()
         } label: {
             HStack (spacing: curiSpacing(.sp4)) {
@@ -118,12 +122,13 @@ struct TextButtonFilledNumber: View {
 }
 
 struct TextButtonStroke: View {
+    @ObservedObject var bookViewModel: BookViewModel
     var content: String
     var action: () -> Void
     
     var body: some View {
         Button {
-            HapticsManager.access.play(haptics: .light)
+            HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: bookViewModel.vibrationInApp)
             action()
         } label: {
             Text(content)
@@ -141,28 +146,29 @@ struct TextButtonStroke: View {
 }
 
 #Preview {
-    TextButtonPlain(content: "Plain", action: {
+    @Previewable @StateObject var bookViewModel = BookViewModel()
+    TextButtonPlain(bookViewModel: bookViewModel, content: "Plain", action: {
         print("Plain")
     })
-    TextButtonFilled(content: "Filled", action: {
+    TextButtonFilled(bookViewModel: bookViewModel, content: "Filled", action: {
         print("Filled")
     })
-    TextButtonFilledIcon(content: "Filled with Icon", icon: "curiBook", action: {
+    TextButtonFilledIcon(bookViewModel: bookViewModel, content: "Filled with Icon", icon: "curiBook", action: {
         print("Filled with Icon")
     })
-    TextButtonStroke(content: "Stroke", action: {
+    TextButtonStroke(bookViewModel: bookViewModel, content: "Stroke", action: {
         print("Stroke")
     })
     
-    TextButtonFilledNumber(content: "Filled Number", icon: "curiNumber", connectedNumber: 0) {
+    TextButtonFilledNumber(bookViewModel: bookViewModel, content: "Filled Number", icon: "curiNumber", connectedNumber: 0) {
         print("Number")
     }
     
-    TextButtonFilledNumber(content: "Filled Number", icon: "curiNumber", connectedNumber: 4) {
+    TextButtonFilledNumber(bookViewModel: bookViewModel, content: "Filled Number", icon: "curiNumber", connectedNumber: 4) {
         print("Number")
     }
     
-    TextButtonFilledNumber(content: "Filled Number", icon: "curiNumber", connectedNumber: 16) {
+    TextButtonFilledNumber(bookViewModel: bookViewModel, content: "Filled Number", icon: "curiNumber", connectedNumber: 16) {
         print("Number")
     }
 }

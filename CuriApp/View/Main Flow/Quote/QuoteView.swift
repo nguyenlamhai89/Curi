@@ -42,7 +42,7 @@ struct QuoteView: View {
             VStack (spacing: 0) {
                 VStack (spacing: 0) {
                     if !isShowKeyboard {
-                        QuotePaperGroup(highlight: quoteOnPaper.quoteHighlight, quote: quoteOnPaper, quoteContent: quoteOnPaper.quoteContent, quoteAuthor: quoteOnPaper.quoteAuthor, quoteBook: quoteOnPaper.quoteBook, paperAction: {
+                        QuotePaperGroup(bookViewModel: bookViewModel, highlight: quoteOnPaper.quoteHighlight, quote: quoteOnPaper, quoteContent: quoteOnPaper.quoteContent, quoteAuthor: quoteOnPaper.quoteAuthor, quoteBook: quoteOnPaper.quoteBook, paperAction: {
                             bookViewModel.quoteNoteSheetViewIsPresented.toggle()
                             itemSelected = quoteOnPaper
                         }, highlightAction: {
@@ -50,7 +50,7 @@ struct QuoteView: View {
                         })
                         .padding(curiSpacing(.sp16))
                                             
-                        TextButtonPlain(content: "Show All (\(quoteDatabase.count))") {
+                        TextButtonPlain(bookViewModel: bookViewModel, content: "Show All (\(quoteDatabase.count))") {
                             viewAllNavigation.toggle()
                             print("All")
                         }

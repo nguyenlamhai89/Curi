@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct QuoteCard: View {
+    @ObservedObject var bookViewModel: BookViewModel
     var quoteBook: String
     var quoteAuthor: String
     var quoteContent: String
@@ -17,7 +18,7 @@ struct QuoteCard: View {
     
     var body: some View {
         Button {
-            HapticsManager.access.play(haptics: .light)
+            HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: bookViewModel.vibrationInApp)
             action()
         } label: {
             VStack (spacing: curiSpacing(.sp8)) {
@@ -53,6 +54,7 @@ struct QuoteCard: View {
 }
 
 struct QuoteCardWithCheckbox: View {
+    @ObservedObject var bookViewModel: BookViewModel
     var bookName: String
     var authorName: String
     var quoteContent: String
@@ -65,7 +67,7 @@ struct QuoteCardWithCheckbox: View {
     
     var body: some View {
         Button {
-            HapticsManager.access.play(haptics: .light)
+            HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: bookViewModel.vibrationInApp)
 //            isConnected.toggle()
             action()
         } label: {
@@ -115,13 +117,14 @@ struct QuoteCardWithCheckbox: View {
 }
 
 #Preview {
+    @Previewable @StateObject var bookViewModel = BookViewModel()
     @Previewable @State var connectedQuote: Int = 0
     VStack {
-        QuoteCard(quoteBook: "Animal Farm", quoteAuthor: "George Orwell", quoteContent: "All that year the animals worked like slaves. But they were happy in their work; they grudged no effort or sacrifice, well aware that everything they did was for the benefit of themselves and those of their kind who would come after them, and not for a pack of idle, thieving human beings.", quoteHighlightName: "Discuss Later", quoteHighlightColor: "pink-200", action: {
+        QuoteCard(bookViewModel: bookViewModel, quoteBook: "Animal Farm", quoteAuthor: "George Orwell", quoteContent: "All that year the animals worked like slaves. But they were happy in their work; they grudged no effort or sacrifice, well aware that everything they did was for the benefit of themselves and those of their kind who would come after them, and not for a pack of idle, thieving human beings.", quoteHighlightName: "Discuss Later", quoteHighlightColor: "pink-200", action: {
             print("Navigation Card")
         })
         
-        QuoteCardWithCheckbox(bookName: "Animal Farm", authorName: "George Orwell", quoteContent: "All that year the animals worked like slaves. But they were happy in their work; they grudged no effort or sacrifice, well aware that everything they did was for the benefit of themselves and those of their kind who would come after them, and not for a pack of idle, thieving human beings.", highlightTagName: "Discuss Later", highlightTagColor: "blue-200", isConnected: false, action: {
+        QuoteCardWithCheckbox(bookViewModel: bookViewModel, bookName: "Animal Farm", authorName: "George Orwell", quoteContent: "All that year the animals worked like slaves. But they were happy in their work; they grudged no effort or sacrifice, well aware that everything they did was for the benefit of themselves and those of their kind who would come after them, and not for a pack of idle, thieving human beings.", highlightTagName: "Discuss Later", highlightTagColor: "blue-200", isConnected: false, action: {
             print("Checkbox Card")
         })
     }

@@ -38,6 +38,7 @@ struct AllQuotesView: View {
                         VStack (spacing: curiSpacing(.sp16)) {
                             ForEach(filteredQuoteContent) { quote in
                                 QuoteCard(
+                                    bookViewModel: bookViewModel,
                                     quoteBook: quote.quoteBook,
                                     quoteAuthor: quote.quoteAuthor,
                                     quoteContent: "\(quote.quoteContent)",

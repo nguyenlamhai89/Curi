@@ -31,7 +31,7 @@ struct LibraryView: View {
                     .foregroundStyle(curiPalette(.paper500))
                     .frame(maxWidth: .infinity, alignment: .leading)
                     
-                    TextButtonFilled(content: "Read Now", action: {
+                    TextButtonFilled(bookViewModel: bookViewModel, content: "Read Now", action: {
                         bookNavigate.toggle()
                     })
                     .navigationDestination(isPresented: $bookNavigate) {

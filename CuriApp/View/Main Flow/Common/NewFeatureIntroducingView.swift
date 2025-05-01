@@ -10,6 +10,7 @@ import SDWebImageSwiftUI
 
 struct NewFeatureIntroducingView: View {
     @Environment(\.presentationMode) var presentationMode
+    @ObservedObject var bookViewModel: BookViewModel
         
     let featureBannerGIF: String
     let featureIconLeft: String
@@ -108,7 +109,7 @@ struct NewFeatureIntroducingView: View {
                 VStack {
                     Spacer()
                     // CTA
-                    CTAButtonPrimary(content: featureCTA) {
+                    CTAButtonPrimary(bookViewModel: bookViewModel, content: featureCTA) {
                         presentationMode.wrappedValue.dismiss()
                         print(featureCTA)
                     }
@@ -123,11 +124,12 @@ struct NewFeatureIntroducingView: View {
 }
 
 #Preview {
+    @Previewable @StateObject var bookViewModel = BookViewModel()
     @Previewable @State var sheetPresented: Bool = true
     VStack {
         Text("New Feature: Widget")
     }
     .sheet(isPresented: $sheetPresented) {
-        NewFeatureIntroducingView(featureBannerGIF: "curiWidgetIntroducingGIF.gif", featureIconLeft: "curiWidgetLeft", featureIconRight: "curiWidgetRight", featureName: "Curi's Widget", featureHeadline: "Headline Sample", featureDescription: "Description Sample", featureCTA: "Got It", stepsWidget: [("curiWidgetStep1","Hihi"),("curiWidgetStep2","Haha"),("curiWidgetStep3","Haha")])
+        NewFeatureIntroducingView(bookViewModel: bookViewModel, featureBannerGIF: "curiWidgetIntroducingGIF.gif", featureIconLeft: "curiWidgetLeft", featureIconRight: "curiWidgetRight", featureName: "Curi's Widget", featureHeadline: "Headline Sample", featureDescription: "Description Sample", featureCTA: "Got It", stepsWidget: [("curiWidgetStep1","Hihi"),("curiWidgetStep2","Haha"),("curiWidgetStep3","Haha")])
     }
 }

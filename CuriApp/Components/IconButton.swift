@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct IconButton: View {
+    @ObservedObject var bookViewModel: BookViewModel
     var iconName: String
     var hasNote: Bool
     var action: () -> Void
     
     var body: some View {
         Button {
-            HapticsManager.access.play(haptics: .light)
-            SoundManager.access.play(sound: .iconButton)
+            HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: bookViewModel.vibrationInApp)
+            SoundManager.access.play(sound: .iconButton, soundEnabledInApp: bookViewModel.soundInApp)
             action()
         } label: {
             Image(iconName)
@@ -30,7 +31,8 @@ struct IconButton: View {
 }
 
 #Preview {
-    IconButton(iconName: "curiThought", hasNote: true) {
+    @Previewable @StateObject var bookViewModel = BookViewModel()
+    IconButton(bookViewModel: bookViewModel, iconName: "curiThought", hasNote: true) {
         print("Icon Button!")
     }
 }

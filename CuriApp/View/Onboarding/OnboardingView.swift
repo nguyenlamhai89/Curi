@@ -9,6 +9,7 @@ import SwiftUI
 
 struct OnboardingView: View {
     @Environment(\.presentationMode) var presentationMode
+    @ObservedObject var bookViewModel: BookViewModel
     
     var action: () -> Void
     
@@ -40,7 +41,7 @@ struct OnboardingView: View {
             .padding(.vertical, curiSpacing(.sp32))
 //            .background(Color.blue)  // Check section
             
-            CTAButtonPrimary(content: "Start reading") {
+            CTAButtonPrimary(bookViewModel: bookViewModel, content: "Start reading") {
                 presentationMode.wrappedValue.dismiss()
                 action()
             }
@@ -53,9 +54,10 @@ struct OnboardingView: View {
 }
 
 #Preview {
+    @Previewable @StateObject var bookViewModel = BookViewModel()
     Text("Sample")
         .sheet(isPresented: .constant(true)) {
-            OnboardingView {
+            OnboardingView(bookViewModel: bookViewModel) {
                 print("Welcome Onboard")
             }
         }

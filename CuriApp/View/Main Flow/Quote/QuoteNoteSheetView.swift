@@ -50,7 +50,7 @@ struct QuoteNoteSheetView: View {
                             .lineLimit(3)
                         HStack (spacing: curiSpacing(.sp8)) {
                             if !bookViewModel.accessSheetFromBookView {
-                                TextButtonFilledIcon(content: "Go to Book", icon: "curiBook", action: {
+                                TextButtonFilledIcon(bookViewModel: bookViewModel, content: "Go to Book", icon: "curiBook", action: {
                                     presentationMode.wrappedValue.dismiss()
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                                         bookNavigated.toggle()
@@ -60,11 +60,11 @@ struct QuoteNoteSheetView: View {
                                 EmptyView()
                             }
                             
-                            TextButtonFilledNumber(content: "Connect", icon: "curiConnect", connectedNumber: quote.connectedQuotes?.count ?? 0, action: {
+                            TextButtonFilledNumber(bookViewModel: bookViewModel, content: "Connect", icon: "curiConnect", connectedNumber: quote.connectedQuotes?.count ?? 0, action: {
                                 connectQuoteNavigate.toggle()
                             })
                             .navigationDestination(isPresented: $connectQuoteNavigate) {
-                                QuoteConnectView(quote: quote)
+                                QuoteConnectView(bookViewModel: bookViewModel, quote: quote)
                             }
                             
                         }
@@ -76,18 +76,14 @@ struct QuoteNoteSheetView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
-                        Button {
+                        IconButton(bookViewModel: bookViewModel, iconName: "curiDelete", hasNote: false) {
                             presentationMode.wrappedValue.dismiss()
-                        } label: {
-                            Text("Done")
-                                .fontWeight(.semibold)
-                                .foregroundStyle(curiPalette(.ink500))
                         }
                     }
                 }
                 
                 if !isShowKeyboard {
-                    TextButtonPlain(content: "Delete Quote and Note", action: {
+                    TextButtonPlain(bookViewModel: bookViewModel, content: "Delete Quote and Note", action: {
                         deleteAlertIsPresented.toggle()
                         print("Delete")
                     })

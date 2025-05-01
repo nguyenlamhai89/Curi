@@ -34,6 +34,7 @@ struct HighlightDial: View {
                 ZStack {
                     if selectedLineHasQuote {
                         IconButton(
+                            bookViewModel: bookViewModel,
                             iconName: "curiThought",
                             hasNote: selectedLineHasNote,
                             action: {
@@ -75,7 +76,8 @@ struct HighlightDial: View {
                                     ForEach(pencilDatabase.indices, id: \.self) { penIndex in
                                         let isSelected = bookViewModel.selectedIndex == penIndex
                                         
-                                        HighlightButtonBook(name: pencilDatabase[penIndex].name,
+                                        HighlightButtonBook(bookViewModel: bookViewModel,
+                                                            name: pencilDatabase[penIndex].name,
                                                             buttonWidth: cardWidth,
                                                             selectedTextColor: Color(pencilDatabase[penIndex].primaryTextColor),
                                                             selectedBackgroundColor: Color(pencilDatabase[penIndex].primaryBackgroundColor),
@@ -95,11 +97,11 @@ struct HighlightDial: View {
                                             
                                             if direction < -dragThreshold, bookViewModel.selectedIndex < pencilDatabase.count - 1 {
                                                 bookViewModel.selectedIndex += 1
-                                                HapticsManager.access.play(haptics: .light)
+                                                HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: bookViewModel.vibrationInApp)
                                                 bookViewModel.selectedPen = pencilDatabase[bookViewModel.selectedIndex]
                                             } else if direction > dragThreshold, bookViewModel.selectedIndex > 0 {
                                                 bookViewModel.selectedIndex -= 1
-                                                HapticsManager.access.play(haptics: .light)
+                                                HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: bookViewModel.vibrationInApp)
                                                 bookViewModel.selectedPen = pencilDatabase[bookViewModel.selectedIndex]
                                             }
                                             
@@ -146,7 +148,7 @@ struct HighlightDial: View {
                 
                 ZStack {
                     if selectedLineHasQuote {
-                        IconButton(iconName: "curiDelete", hasNote: false) {
+                        IconButton(bookViewModel: bookViewModel, iconName: "curiDelete", hasNote: false) {
                             deleteAlertIsPresented.toggle()
                             print("Delete Pressed")
                         }
@@ -171,6 +173,7 @@ struct HighlightDial: View {
 }
 
 struct HighlightButtonBook: View {
+    @ObservedObject var bookViewModel: BookViewModel
     var name: String
     var buttonWidth: CGFloat
     
@@ -187,8 +190,8 @@ struct HighlightButtonBook: View {
     
     var body: some View {
         Button {
-            SoundManager.access.play(sound: .highlightRename)
-            HapticsManager.access.play(haptics: .light)
+            SoundManager.access.play(sound: .highlightRename, soundEnabledInApp: bookViewModel.soundInApp)
+            HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: bookViewModel.vibrationInApp)
             action()
         } label: {
             Text("\(name)")
@@ -204,14 +207,15 @@ struct HighlightButtonBook: View {
 }
 
 struct HighlightQuotePaperButton: View {
+    @ObservedObject var bookViewModel: BookViewModel
     var content: String
     var color: Color
     var action: () -> Void
     
     var body: some View {
         Button {
-            SoundManager.access.play(sound: .highlightRename)
-            HapticsManager.access.play(haptics: .light)
+            SoundManager.access.play(sound: .highlightRename, soundEnabledInApp: bookViewModel.soundInApp)
+            HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: bookViewModel.vibrationInApp)
             action()
         } label: {
             Text("\(content)")

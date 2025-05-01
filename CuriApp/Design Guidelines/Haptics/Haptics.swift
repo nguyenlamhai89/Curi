@@ -23,15 +23,17 @@ class HapticsManager {
         }
     }
     
-    func play(haptics: HapticsCase) {
-        haptics.trigger()
+    func play(haptics: HapticsCase, vibrationEnabledInApp: Bool) {
+        if vibrationEnabledInApp {
+            haptics.trigger()
+        }
     }
 }
 
 struct Haptics: View {
     var body: some View {
         Button {
-            HapticsManager.access.play(haptics: .light)
+            HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: true)
         } label: {
             Text("Play Haptics")
         }

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TopNavigationUniversal: View {
+    @ObservedObject var bookViewModel: BookViewModel
     @Binding var settingsTopNavigation: Bool
     @Binding var widgetTopNavigation: Bool
     
@@ -24,7 +25,7 @@ struct TopNavigationUniversal: View {
                
                 HStack {
                     /// Icon Button - User
-                    IconButton(iconName: "curiUser", hasNote: false) {
+                    IconButton(bookViewModel: bookViewModel, iconName: "curiUser", hasNote: false) {
                         settingsTopNavigation.toggle()
                         print("Settings Sheet Opened: \(settingsTopNavigation)")
                     }
@@ -32,12 +33,12 @@ struct TopNavigationUniversal: View {
                     Spacer()
                     
                     /// Segmented Control
-                    SegmentedControl(pageOneIsSelected: $isOpenedTabOne, pageTwoIsSelected: $isOpenedTabTwo)
+                    SegmentedControl(bookViewModel: bookViewModel, pageOneIsSelected: $isOpenedTabOne, pageTwoIsSelected: $isOpenedTabTwo)
                     
                     Spacer()
                     
                     /// Icon Button - Search
-                    IconButton(iconName: "curiWidget", hasNote: false) {
+                    IconButton(bookViewModel: bookViewModel, iconName: "curiWidget", hasNote: false) {
                         widgetTopNavigation.toggle()
                         print("Widget Introducing Navigated: \(widgetTopNavigation)")
                     }
@@ -58,6 +59,7 @@ struct TopNavigationUniversal: View {
 }
 
 struct TopNavigationBook: View {
+    @ObservedObject var bookViewModel: BookViewModel
     @Environment(\.dismiss) var dismiss
     var pageIsSelected: Bool
     @Binding var highlightNewFeature: Bool
@@ -71,7 +73,7 @@ struct TopNavigationBook: View {
                 HStack {
                     /// Icon Button - User
                     if pageIsSelected {
-                        IconButton(iconName: "curiLeft", hasNote: false) {
+                        IconButton(bookViewModel: bookViewModel, iconName: "curiLeft", hasNote: false) {
                             dismiss()
                             print("Backed")
                         }
@@ -83,7 +85,7 @@ struct TopNavigationBook: View {
                     
                     /// Icon Button - Search
                     if pageIsSelected {
-                        IconButton(iconName: "curiHighlight", hasNote: false) {
+                        IconButton(bookViewModel: bookViewModel, iconName: "curiHighlight", hasNote: false) {
                             highlightNewFeature.toggle()
                         }
                     } else {
@@ -104,12 +106,13 @@ struct TopNavigationBook: View {
 }
 
 #Preview {
+    @Previewable @StateObject var bookViewModel = BookViewModel()
     @Previewable @State var settingsTopNavigation: Bool = false
     @Previewable @State var widgetTopNavigation: Bool = false
     @Previewable @State var pageOneIsSelected: Bool = true
     @Previewable @State var pageTwoIsSelected: Bool = false
     @Previewable @State var highlightNewFeature: Bool = false
     
-    TopNavigationUniversal(settingsTopNavigation: $settingsTopNavigation, widgetTopNavigation: $widgetTopNavigation, isOpenedTabOne: $pageOneIsSelected, isOpenedTabTwo: $pageTwoIsSelected)
-    TopNavigationBook(pageIsSelected: true, highlightNewFeature: $highlightNewFeature)
+    TopNavigationUniversal(bookViewModel: bookViewModel, settingsTopNavigation: $settingsTopNavigation, widgetTopNavigation: $widgetTopNavigation, isOpenedTabOne: $pageOneIsSelected, isOpenedTabTwo: $pageTwoIsSelected)
+    TopNavigationBook(bookViewModel: bookViewModel, pageIsSelected: true, highlightNewFeature: $highlightNewFeature)
 }

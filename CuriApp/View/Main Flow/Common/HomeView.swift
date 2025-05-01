@@ -57,7 +57,7 @@ struct HomeViewManager: View {
                 }
                 
                 /// Top Navigation Bar
-                TopNavigationUniversal(settingsTopNavigation: $settingsTopNavigation, widgetTopNavigation: $widgetTopNavigation, isOpenedTabOne: $libraryViewIsPresented, isOpenedTabTwo: $quoteViewIsPresented)
+                TopNavigationUniversal(bookViewModel: bookViewModel, settingsTopNavigation: $settingsTopNavigation, widgetTopNavigation: $widgetTopNavigation, isOpenedTabOne: $libraryViewIsPresented, isOpenedTabTwo: $quoteViewIsPresented)
             }
             .toolbar(.hidden)
             .background(curiPalette(.paper500))
@@ -65,11 +65,11 @@ struct HomeViewManager: View {
                 try? await bookViewModel.fetchBooks()
             }
             .sheet(isPresented: $settingsTopNavigation) {
-                SettingsSheetView()
+                SettingsSheetView(bookViewModel: bookViewModel)
             }
             .sheet(isPresented: $widgetTopNavigation) {
                 NewFeatureIntroducingView(
-                    featureBannerGIF: "curiWidgetIntroducingGIF.gif",
+                    bookViewModel: bookViewModel, featureBannerGIF: "curiWidgetIntroducingGIF.gif",
                     featureIconLeft: "curiWidgetLeft",
                     featureIconRight: "curiWidgetRight",
                     featureName: "Curi's Widget",
@@ -80,7 +80,7 @@ struct HomeViewManager: View {
                 )
             }
             .sheet(isPresented: $appIntroducingSheet, content: {
-                OnboardingView {
+                OnboardingView(bookViewModel: bookViewModel) {
                     bookViewModel.firstTimeInApp = false
                 }
             })
