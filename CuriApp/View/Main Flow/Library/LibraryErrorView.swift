@@ -17,7 +17,7 @@ struct EmptyStateDescription: View {
             Image(image)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 40)
+                .frame(width: 80)
             Text("\(headline)")
                 .curiTypo(.bkBold16)
                 .foregroundStyle(curiPalette(.ink500))
@@ -34,9 +34,14 @@ struct EmptyStateDescription: View {
 struct LibraryErrorView: View {
     @ObservedObject var bookViewModel: BookViewModel
     
+    /// Empty State
+    var emptyBookImage: String = "curiBookEmpty"
+    var emptyBookHeadline: String = "Some things broke, but don’t dismay"
+    var emptyBookParagraph: String = "We’ll patch it up — then you can play"
+    
     var body: some View {
         VStack (spacing: curiSpacing(.sp16)) {
-            EmptyStateDescription(image: "curiLogo", headline: "Some things broke, but don’t dismay, ", paragraph: "We’ll patch it up — then you can play.")
+            EmptyStateDescription(image: emptyBookImage, headline: emptyBookHeadline, paragraph: emptyBookParagraph)
             TextButtonStroke(bookViewModel: bookViewModel, content: "Try Again", action: {
                 Task {
                     try? await bookViewModel.fetchBooks()

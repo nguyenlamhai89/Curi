@@ -20,9 +20,6 @@ struct AllQuotesView: View {
     @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
     @State var itemSelected: Quote?
     
-    var emptyHeadline: String = "No quotes yet, but that’s okay,"
-    var emptyParagraph: String = "Start with a book, and mark your way!"
-    
     @State var showAddQuoteSheet: Bool = false
     
 //    var bookSelectedName: String = ""

@@ -35,15 +35,12 @@ struct SettingsSheetView: View {
                         .frame(height: 200)
                         .cornerRadius(curiRadius(.rd8))
                     
-                    ToggleGroupButton(isOn: $bookViewModel.soundInApp, buttonImage: "curiLogo", buttonName: "Sound", buttonDescription: "Hear a note with every highlight and button.")
+                    ToggleGroupButton(isOn: $bookViewModel.soundInApp, buttonImage: "curiSound", buttonName: "Sound", buttonDescription: "Hear a note with every highlight and button.")
                     
-                    ToggleGroupButton(isOn: $bookViewModel.vibrationInApp, buttonImage: "curiLogo", buttonName: "Vibration", buttonDescription: "Feel each moment you press.")
+                    ToggleGroupButton(isOn: $bookViewModel.vibrationInApp, buttonImage: "curiVibration", buttonName: "Vibration", buttonDescription: "Feel each moment you press.")
                     
                     /// Link Buttons
                     VStack (spacing: curiSpacing(.sp8)) {
-//                        ForEach(aboutButtons, id: \.1) { buttonInfo in
-//                            LinkButton(bookViewModel: bookViewModel, urlString: buttonInfo.0, buttonName: buttonInfo.1)
-//                        }
                         ForEach(aboutButtons.indices, id: \.self) { buttonInfo in
                             LinkButton(bookViewModel: bookViewModel, buttonName: aboutButtons[buttonInfo].1, urlString: aboutButtons[buttonInfo].0)
                         }

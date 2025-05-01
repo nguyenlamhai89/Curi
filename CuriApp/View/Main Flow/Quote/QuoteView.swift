@@ -32,12 +32,14 @@ struct QuoteView: View {
         }
     }
     
-    var emptyHeadline: String = "No quotes yet, but that’s okay,"
-    var emptyParagraph: String = "Start with a book, and mark your way!"
+    /// Empty State
+    var emptyQuoteImage: String = "curiQuoteEmpty"
+    var emptyQuoteHeadline: String = "No quotes yet, but that’s okay"
+    var emptyQuoteParagraph: String = "Start with a book, and mark your way!"
     
     var body: some View {
         if quoteDatabase.isEmpty {
-            EmptyStateDescription(image: "curiLogo", headline: emptyHeadline, paragraph: emptyParagraph)
+            EmptyStateDescription(image: emptyQuoteImage, headline: emptyQuoteHeadline, paragraph: emptyQuoteParagraph)
         } else {
             VStack (spacing: 0) {
                 VStack (spacing: 0) {
