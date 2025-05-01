@@ -37,7 +37,9 @@ struct TakeNoteField: View {
                     .curiTypo(.sfRegular16)
                     .onAppear {
                         if bookViewModel.accessSheetFromBookView {
-                            isFocused = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
+                                isFocused = true
+                            })
                         }
                     }
             }

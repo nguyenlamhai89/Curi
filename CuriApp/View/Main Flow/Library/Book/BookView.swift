@@ -132,7 +132,7 @@ struct BookView: View {
             if !bookViewModel.firstTimeReading {
                 return
             } else {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.6) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     highlightNewFeature = true
                     bookViewModel.firstTimeReading = false
                 }
