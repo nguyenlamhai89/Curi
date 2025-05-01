@@ -8,11 +8,16 @@
 import SwiftUI
 
 struct EmptyStateDescription: View {
+    var image: String
     var headline: String
     var paragraph: String
     
     var body: some View {
         VStack (spacing: curiSpacing(.sp8)) {
+            Image(image)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 40)
             Text("\(headline)")
                 .curiTypo(.bkBold16)
                 .foregroundStyle(curiPalette(.ink500))
@@ -31,7 +36,7 @@ struct LibraryErrorView: View {
     
     var body: some View {
         VStack (spacing: curiSpacing(.sp16)) {
-            EmptyStateDescription(headline: "Some things broke, but don’t dismay, ", paragraph: "We’ll patch it up — then you can play.")
+            EmptyStateDescription(image: "curiLogo", headline: "Some things broke, but don’t dismay, ", paragraph: "We’ll patch it up — then you can play.")
             TextButtonStroke(content: "Try Again", action: {
                 Task {
                     try? await bookViewModel.fetchBooks()

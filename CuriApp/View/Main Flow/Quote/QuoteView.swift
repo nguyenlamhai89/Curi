@@ -37,7 +37,7 @@ struct QuoteView: View {
     
     var body: some View {
         if quoteDatabase.isEmpty {
-            EmptyStateDescription(headline: emptyHeadline, paragraph: emptyParagraph)
+            EmptyStateDescription(image: "curiLogo", headline: emptyHeadline, paragraph: emptyParagraph)
         } else {
             VStack (spacing: 0) {
                 VStack (spacing: 0) {

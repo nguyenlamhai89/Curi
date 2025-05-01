@@ -24,6 +24,7 @@ struct HomeViewManager: View {
     // Switch Tab Value
     @State var libraryViewIsPresented: Bool = true
     @State var quoteViewIsPresented: Bool = false
+    @State var appIntroducingSheet: Bool = false
     
     // Banner Value
     var bookNameInBanner: String = "Sonnet"
@@ -38,105 +39,120 @@ struct HomeViewManager: View {
     }
     
     var body: some View {
-        ZStack {
-            
-            /// Main View
-            if libraryViewIsPresented {
-                if bookViewModel.isLoading {
-                    LibrarySkeletonView(bookViewModel: bookViewModel)
-                } else {
-                    if bookViewModel.isFetched {
-                        LibraryView(bookViewModel: bookViewModel, bookNameInBanner: bookNameInBanner, authorNameInBanner: authorNameInBanner)
+        NavigationStack {
+            ZStack {
+                /// Main View
+                if libraryViewIsPresented {
+                    if bookViewModel.isLoading {
+                        LibrarySkeletonView(bookViewModel: bookViewModel)
                     } else {
-                        LibraryErrorView(bookViewModel: bookViewModel)
+                        if bookViewModel.isFetched {
+                            LibraryView(bookViewModel: bookViewModel, bookNameInBanner: bookNameInBanner, authorNameInBanner: authorNameInBanner)
+                        } else {
+                            LibraryErrorView(bookViewModel: bookViewModel)
+                        }
+                    }
+                } else {
+                    QuoteView(bookViewModel: bookViewModel, isPresentedRenameView: $isPresentedRenameView)
+                }
+                
+                /// Top Navigation Bar
+                TopNavigationUniversal(settingsTopNavigation: $settingsTopNavigation, widgetTopNavigation: $widgetTopNavigation, isOpenedTabOne: $libraryViewIsPresented, isOpenedTabTwo: $quoteViewIsPresented)
+            }
+            .toolbar(.hidden)
+            .background(curiPalette(.paper500))
+            .task {
+                try? await bookViewModel.fetchBooks()
+            }
+            .sheet(isPresented: $settingsTopNavigation) {
+                SettingsSheetView()
+            }
+            .sheet(isPresented: $widgetTopNavigation) {
+                NewFeatureIntroducingView(
+                    featureBannerGIF: "curiWidgetIntroducingGIF.gif",
+                    featureIconLeft: "curiWidgetLeft",
+                    featureIconRight: "curiWidgetRight",
+                    featureName: "Curi's Widget",
+                    featureHeadline: "Let words find you",
+                    featureDescription: "Each day, a gentle reminder — your saved highlight waiting quietly on the Home Screen.",
+                    featureCTA: "Got it",
+                    stepsWidget: [("curiWidgetStep1", "Tap and hold anywhere on your Home Screen"), ("curiWidgetStep2", "Tap Edit in the top left corner, then tap Add Widget"), ("curiWidgetStep3", "Search for Curi and tap Add Widget")]
+                )
+            }
+            .sheet(isPresented: $appIntroducingSheet, content: {
+                OnboardingView {
+                    bookViewModel.firstTimeInApp = false
+                }
+            })
+            .onAppear {
+                if !bookViewModel.firstTimeInApp {
+                    return
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        appIntroducingSheet = true
                     }
                 }
-            } else {
-                QuoteView(bookViewModel: bookViewModel, isPresentedRenameView: $isPresentedRenameView)
             }
-            
-            /// Top Navigation Bar
-            TopNavigationUniversal(settingsTopNavigation: $settingsTopNavigation, widgetTopNavigation: $widgetTopNavigation, isOpenedTabOne: $libraryViewIsPresented, isOpenedTabTwo: $quoteViewIsPresented)
-        }
-        .toolbar(.hidden)
-        .background(curiPalette(.paper500))
-        .task {
-            try? await bookViewModel.fetchBooks()
-        }
-        .sheet(isPresented: $settingsTopNavigation) {
-            SettingsSheetView()
-        }
-        .sheet(isPresented: $widgetTopNavigation) {
-            NewFeatureIntroducingView(
-                featureBannerGIF: "curiWidgetIntroducingGIF.gif",
-                featureIconLeft: "curiWidgetLeft",
-                featureIconRight: "curiWidgetRight",
-                featureName: "Curi's Widget",
-                featureHeadline: "Let words find you",
-                featureDescription: "Each day, a gentle reminder — your saved highlight waiting quietly on the Home Screen.",
-                featureCTA: "Got it",
-                stepsWidget: [("curiWidgetStep1", "Tap and hold anywhere on your Home Screen"), ("curiWidgetStep2", "Tap Edit in the top left corner, then tap Add Widget"), ("curiWidgetStep3", "Search for Curi and tap Add Widget")]
-            )
-        }
-        .onAppear {
-            let pencilLibrary: [HighlightPencil] = [
-                HighlightPencil(
-                    name: "Discuss Later",
-                    primaryTextColor: "paper-500",
-                    primaryBackgroundColor: "blue-300",
-                    secondaryTextColor: "blue-500",
-                    secondaryBackgroundColor: "blue-100",
-                    highlightedTextColor: "blue-500",
-                    defaultHighlightedBackgroundColor: "blue-100",
-                    selectedHighlightedBackgroundColor: "blue-200"
-                ),
-                HighlightPencil(
-                    name: "Good Point",
-                    primaryTextColor: "paper-500",
-                    primaryBackgroundColor: "pink-300",
-                    secondaryTextColor: "pink-500",
-                    secondaryBackgroundColor: "pink-100",
-                    highlightedTextColor: "pink-500",
-                    defaultHighlightedBackgroundColor: "pink-100",
-                    selectedHighlightedBackgroundColor: "pink-200"
-                )
-            ]
-            
-            if pencilDatabase.isEmpty {
-                for insertPencil in pencilLibrary {
-                    modelContext.insert(insertPencil)
+            .onAppear {
+                let pencilLibrary: [HighlightPencil] = [
+                    HighlightPencil(
+                        name: "Discuss Later",
+                        primaryTextColor: "paper-500",
+                        primaryBackgroundColor: "blue-300",
+                        secondaryTextColor: "blue-500",
+                        secondaryBackgroundColor: "blue-100",
+                        highlightedTextColor: "blue-500",
+                        defaultHighlightedBackgroundColor: "blue-100",
+                        selectedHighlightedBackgroundColor: "blue-200"
+                    ),
+                    HighlightPencil(
+                        name: "Good Point",
+                        primaryTextColor: "paper-500",
+                        primaryBackgroundColor: "pink-300",
+                        secondaryTextColor: "pink-500",
+                        secondaryBackgroundColor: "pink-100",
+                        highlightedTextColor: "pink-500",
+                        defaultHighlightedBackgroundColor: "pink-100",
+                        selectedHighlightedBackgroundColor: "pink-200"
+                    )
+                ]
+                
+                if pencilDatabase.isEmpty {
+                    for insertPencil in pencilLibrary {
+                        modelContext.insert(insertPencil)
+                    }
+                } else {
+                    for index in pencilDatabase.indices {
+                        let pencilOld = pencilDatabase[index]
+                        let pencilNew = pencilLibrary[index]
+                        
+                        //                    pencilOld.name = pencilNew.name
+                        pencilOld.primaryTextColor = pencilNew.primaryTextColor
+                        pencilOld.primaryBackgroundColor = pencilNew.primaryBackgroundColor
+                        pencilOld.secondaryTextColor = pencilNew.secondaryTextColor
+                        pencilOld.secondaryBackgroundColor = pencilNew.secondaryBackgroundColor
+                        pencilOld.highlightedTextColor = pencilNew.highlightedTextColor
+                        pencilOld.defaultHighlightedBackgroundColor = pencilNew.defaultHighlightedBackgroundColor
+                        pencilOld.selectedHighlightedBackgroundColor = pencilNew.selectedHighlightedBackgroundColor
+                    }
                 }
-            } else {
-                for index in pencilDatabase.indices {
-                    let pencilOld = pencilDatabase[index]
-                    let pencilNew = pencilLibrary[index]
+                try? modelContext.save()
+            }
+            .overlay {
+                if isPresentedRenameView {
+                    let bindingToName = Binding(
+                        get: { quoteOnPaper.quoteHighlight.name },
+                        set: { newValue in
+                            quoteOnPaper.quoteHighlight.name = newValue
+                            try? modelContext.save()
+                        }
+                    )
                     
-//                    pencilOld.name = pencilNew.name
-                    pencilOld.primaryTextColor = pencilNew.primaryTextColor
-                    pencilOld.primaryBackgroundColor = pencilNew.primaryBackgroundColor
-                    pencilOld.secondaryTextColor = pencilNew.secondaryTextColor
-                    pencilOld.secondaryBackgroundColor = pencilNew.secondaryBackgroundColor
-                    pencilOld.highlightedTextColor = pencilNew.highlightedTextColor
-                    pencilOld.defaultHighlightedBackgroundColor = pencilNew.defaultHighlightedBackgroundColor
-                    pencilOld.selectedHighlightedBackgroundColor = pencilNew.selectedHighlightedBackgroundColor
-                }
-            }
-            try? modelContext.save()
-        }
-        .overlay {
-            if isPresentedRenameView {
-                let bindingToName = Binding(
-                    get: { quoteOnPaper.quoteHighlight.name },
-                    set: { newValue in
-                        quoteOnPaper.quoteHighlight.name = newValue
-                        try? modelContext.save()
+                    RenameHighlightView(
+                        highlightName: bindingToName, backgroundColor: Color(quoteOnPaper.quoteHighlight.primaryBackgroundColor)
+                    ) {
+                        isPresentedRenameView.toggle()
                     }
-                )
-
-                RenameHighlightView(
-                    highlightName: bindingToName, backgroundColor: Color(quoteOnPaper.quoteHighlight.primaryBackgroundColor)
-                ) {
-                    isPresentedRenameView.toggle()
                 }
             }
         }

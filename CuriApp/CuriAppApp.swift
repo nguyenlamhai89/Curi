@@ -12,7 +12,8 @@ import SwiftData
 struct CuriAppApp: App {
     var body: some Scene {
         WindowGroup {
-            LogInView()
+//            LogInView()
+            HomeViewManager()
         }
         .modelContainer(for: [HighlightPencil.self, Quote.self, Note.self])
     }
