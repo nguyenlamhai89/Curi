@@ -16,21 +16,22 @@ struct OnboardingView: View {
     var body: some View {
         VStack (spacing: 0) {
             // Image
-                Image("curiLogo")
+                Image("curiOnboarding")
                     .resizable()
-                    .scaledToFit()
+                    .aspectRatio(contentMode: .fill)
                     .frame(maxHeight: .infinity)
+                    .clipped()
 //                    .background(Color.cyan) // Check section
             
             // Content
             VStack (spacing: curiSpacing(.sp32)) {
                 VStack (spacing: curiSpacing(.sp8)) {
-                    Text("No pass. Just words.")
+                    Text("Some thoughts are too light to lose")
                         .curiTypo(.bkRegular32)
                         .foregroundStyle(curiPalette(.ink500))
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: .infinity)
-                    Text("Your words never wander far. Whenever you’re online, we bring them home to your device - safe and sound!")
+                    Text("Highlighting in Curi is like catching butterflies — fleeting, precious, and yours to keep. Your highlights follow you, no sign-in needed.")
                         .curiTypo(.sfRegular16)
                         .foregroundStyle(curiPalette(.ink300))
                         .multilineTextAlignment(.center)
@@ -66,7 +67,7 @@ struct OnboardingView: View {
 
 //struct LogInView: View {
 //    @State var isLoggedIn: Bool = false
-//    
+//
 //    var body: some View {
 //        NavigationStack {
 //            VStack (spacing: 0) {
@@ -82,7 +83,7 @@ struct OnboardingView: View {
 //                }
 //                .padding(.horizontal, curiSpacing(.sp16))
 //                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-//                
+//
 //                /// Button Section
 //                CTAButtonPrimary(content: "Sign In with Apple", action: {
 //                    isLoggedIn = true

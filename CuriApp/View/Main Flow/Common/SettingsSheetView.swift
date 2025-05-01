@@ -16,7 +16,7 @@ struct SettingsSheetView: View {
     @ObservedObject var bookViewModel: BookViewModel
     @Query var pencilDatabase: [HighlightPencil] = []
     
-    let curiLogoGIF: String = "curiLogoGIF.gif"
+    let curiSettingsGIF: String = "curiSettingsGIF.gif"
     
     let aboutButtons: [(String, String)] = [
         ("https://www.facebook.com/nhammmmmmm/", "Give Feedback"),
@@ -31,9 +31,20 @@ struct SettingsSheetView: View {
                 VStack (spacing: curiSpacing(.sp20)) {
                     /// Image
                     Rectangle()
+                        .fill(curiPalette(.ink500))
                         .frame(maxWidth: .infinity)
                         .frame(height: 200)
                         .cornerRadius(curiRadius(.rd8))
+                        .overlay {
+                            VStack {
+                                Spacer()
+                                AnimatedImage(name: curiSettingsGIF)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 160)
+                            }
+                        }
+                    
                     
                     ToggleGroupButton(isOn: $bookViewModel.soundInApp, buttonImage: "curiSound", buttonName: "Sound", buttonDescription: "Hear a note with every highlight and button.")
                     
@@ -43,6 +54,7 @@ struct SettingsSheetView: View {
                     VStack (spacing: curiSpacing(.sp8)) {
                         ForEach(aboutButtons.indices, id: \.self) { buttonInfo in
                             LinkButton(bookViewModel: bookViewModel, buttonName: aboutButtons[buttonInfo].1, urlString: aboutButtons[buttonInfo].0)
+                                .simultaneousGesture(DragGesture())
                         }
                     }
                     .padding(curiSpacing(.sp8))
@@ -51,7 +63,7 @@ struct SettingsSheetView: View {
                     
                     /// About Curi
                     VStack (spacing: curiSpacing(.sp20)) {
-                        AnimatedImage(name: curiLogoGIF, isAnimating: .constant(true))
+                        Image("curiLogo")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 40)

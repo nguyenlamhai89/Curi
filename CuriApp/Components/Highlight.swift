@@ -112,6 +112,7 @@ struct HighlightDial: View {
                                             }
                                         }
                                 )
+                                .simultaneousGesture(DragGesture())
                                 .onAppear {
                                     scrollProxy.scrollTo(bookViewModel.selectedIndex, anchor: .center)
                                     bookViewModel.selectedPen = pencilDatabase[bookViewModel.selectedIndex]

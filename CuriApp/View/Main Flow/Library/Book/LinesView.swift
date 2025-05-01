@@ -102,6 +102,7 @@ struct LinesView: View {
                         }()
                     )
                     .animation(.easeInOut(duration: 0.1), value: quoteDatabase)
+                    .simultaneousGesture(DragGesture())
             }
             .onChange(of: quoteDatabase) {
                 print("✅ [\(quoteDatabase.count)] Quotes: \(quoteDatabase)")

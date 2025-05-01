@@ -50,7 +50,7 @@ struct RenameHighlightView: View {
                 }
             }
             .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                DispatchQueue.main.async {
                     autoFocusRename.toggle()
                 }
             }
