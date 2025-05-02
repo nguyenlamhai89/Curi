@@ -44,7 +44,7 @@ struct LinesView: View {
         VStack (spacing: curiSpacing(.sp8)) {
             ForEach(Array(bookLinesOriginal.enumerated()), id: \.offset) { lineNum, line in
                 
-                let quote = Quote(bookID: bookID, quoteID: UUID(), quoteLineNum: lineNum + 1, quoteBook: bookTitle, quoteAuthor: bookAuthor, quoteContent: line, quoteHighlight: bookViewModel.selectedPen ?? pencilDatabase[0], isConnected: false)
+                let quote = Quote(bookID: bookID, quoteLineNum: lineNum + 1, quoteBook: bookTitle, quoteAuthor: bookAuthor, quoteContent: line, quoteHighlight: bookViewModel.selectedPen ?? pencilDatabase[0], isConnected: false)
                 
                 Text(quote.quoteContent)
                     .curiTypo(.bkRegular16)
@@ -76,7 +76,7 @@ struct LinesView: View {
                     .foregroundStyle(
                         {
                             if let quote = quoteDatabase.first(where: { $0.quoteContent == quote.quoteContent && $0.quoteLineNum == quote.quoteLineNum }) {
-                                if bookViewModel.selectedLine?.quoteContent == quote.quoteContent {
+                                if bookViewModel.selectedLine?.quoteContent == quote.quoteContent && bookViewModel.selectedLine?.quoteLineNum == quote.quoteLineNum {
                                     return Color(quote.quoteHighlight.highlightedTextColor)
                                 } else {
                                     return Color(quote.quoteHighlight.highlightedTextColor)
@@ -89,7 +89,7 @@ struct LinesView: View {
                     .background(
                         {
                             if let quote = quoteDatabase.first(where: { $0.quoteContent == quote.quoteContent && $0.quoteLineNum == quote.quoteLineNum }) {
-                                if bookViewModel.selectedLine?.quoteContent == quote.quoteContent {
+                                if bookViewModel.selectedLine?.quoteContent == quote.quoteContent && bookViewModel.selectedLine?.quoteLineNum == quote.quoteLineNum {
                                     return Color(quote.quoteHighlight.selectedHighlightedBackgroundColor)
                                 } else {
                                     return Color(quote.quoteHighlight.defaultHighlightedBackgroundColor)

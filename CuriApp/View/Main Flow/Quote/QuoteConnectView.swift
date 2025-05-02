@@ -92,7 +92,7 @@ struct QuoteConnectView: View {
     }
     .sheet(isPresented: $isPresented) {
         NavigationView {
-            QuoteConnectView(bookViewModel: bookViewModel, quote: Quote(bookID: UUID(), quoteID: UUID(), quoteLineNum: 0, quoteBook: "Hi", quoteAuthor: "Hi", quoteContent: "Bar", quoteHighlight: HighlightPencil(name: "Discuss Later", primaryTextColor: "paper-500", primaryBackgroundColor: "blue-300", secondaryTextColor: "blue-500", secondaryBackgroundColor: "blue-100", highlightedTextColor: "blue-500", defaultHighlightedBackgroundColor: "blue-100", selectedHighlightedBackgroundColor: "blue-200"), isConnected: false))
+            QuoteConnectView(bookViewModel: bookViewModel, quote: Quote(bookID: UUID(), quoteLineNum: 0, quoteBook: "Hi", quoteAuthor: "Hi", quoteContent: "Bar", quoteHighlight: HighlightPencil(name: "Discuss Later", primaryTextColor: "paper-500", primaryBackgroundColor: "blue-300", secondaryTextColor: "blue-500", secondaryBackgroundColor: "blue-100", highlightedTextColor: "blue-500", defaultHighlightedBackgroundColor: "blue-100", selectedHighlightedBackgroundColor: "blue-200"), isConnected: false))
         }
     }
 }

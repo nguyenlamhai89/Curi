@@ -32,16 +32,40 @@ struct TakeNoteField: View {
                     .onTapGesture {
                         isFocused = true
                     }
-                TextField("Share your thoughts...", text: $shareThoughts)
-                    .focused($isFocused)
-                    .curiTypo(.sfRegular16)
-                    .onAppear {
-                        if bookViewModel.accessSheetFromBookView {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
-                                isFocused = true
-                            })
-                        }
+                ZStack {
+                    if isFocused || !shareThoughts.isEmpty {
+                        EmptyView()
+                    } else {
+                        Text("Share your thoughts...")
+                            .foregroundStyle(curiPalette(.ink100))
+                            .padding(.vertical, 8)
+                            .padding(.leading, 6)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+//                            .background(Color.red) // Check section
                     }
+                    
+                    TextEditor(text: $shareThoughts)
+                        .foregroundStyle(curiPalette(.ink500))
+                        .background(Color.clear)
+                        .scrollContentBackground(.hidden)
+                        .onAppear {
+                            if bookViewModel.accessSheetFromBookView {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                                    isFocused = true
+                                }
+                            }
+                        }
+                        .focused($isFocused)
+                        .submitLabel(.done)
+                        .onChange(of: shareThoughts) {
+                            if shareThoughts.last?.isNewline == true {
+                                shareThoughts.removeLast()
+                                isFocused = false
+                            }
+                        }
+                }
+                .font(.custom("SF-Pro-Display-Regular", size: 16))
+                
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
 //            .background(Color.blue) // Check section

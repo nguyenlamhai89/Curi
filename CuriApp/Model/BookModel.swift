@@ -55,7 +55,6 @@ class HighlightPencil {
 class Quote: Identifiable {
     var bookID: UUID
     var quoteID: UUID = UUID()
-//    var quoteID: UUID
     var quoteLineNum: Int
     var quoteAddedDate: Date = Date()
     var quoteBook: String
@@ -68,9 +67,8 @@ class Quote: Identifiable {
     
     var quoteNote: Note
     
-    init(bookID: UUID, quoteID: UUID, quoteLineNum: Int, quoteBook: String, quoteAuthor: String, quoteContent: String, quoteHighlight: HighlightPencil, isConnected: Bool, connectedQuotes: [Quote]? = nil, quoteNote: Note = Note()) {
+    init(bookID: UUID, quoteLineNum: Int, quoteBook: String, quoteAuthor: String, quoteContent: String, quoteHighlight: HighlightPencil, isConnected: Bool, connectedQuotes: [Quote]? = nil, quoteNote: Note = Note()) {
         self.bookID = bookID
-        self.quoteID = quoteID
         self.quoteLineNum = quoteLineNum
         self.quoteBook = quoteBook
         self.quoteAuthor = quoteAuthor
