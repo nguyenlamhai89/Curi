@@ -41,22 +41,18 @@ struct LinesView: View {
 //    @State var selectedLine: String? = nil
     
     var body: some View {
-        VStack (spacing: 8) {
+        VStack (spacing: curiSpacing(.sp8)) {
             ForEach(bookLinesOriginal, id: \.self) { line in
-                Text(line)
+                let quote = Quote(bookID: bookID, quoteBook: bookTitle, quoteAuthor: bookAuthor, quoteContent: line, quoteHighlight: bookViewModel.selectedPen ?? pencilDatabase[0], isConnected: false)
+                
+                Text(quote.quoteContent)
+                    .curiTypo(.bkRegular16)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .onLongPressGesture(minimumDuration: 0.1) {
-                        print("\(line)")
-                        let quote = Quote(bookID: bookID, quoteBook: bookTitle, quoteAuthor: bookAuthor, quoteContent: line, quoteHighlight: bookViewModel.selectedPen!, isConnected: false)
+                        print("- Line: \(quote.quoteContent)")
+                        print("- ID: \(quote.quoteID))")
                         
-                        
-                        print("- BookID: \(quote.bookID)")
-                        print("- QuoteID: \(quote.quoteID)")
-                        print("- Title: \(quote.quoteBook)")
-                        print("- Author: \(quote.quoteAuthor)")
-                        print("📝 -------- \(quote.quoteContent) - \(quote.quoteHighlight)")
-                        
-                        checkQuoteDatabase(checkingQuote: quote, currentLine: line)
+                        checkQuoteDatabase(checkingQuote: quote)
                         
                     }
                     .onTapGesture {
@@ -73,6 +69,7 @@ struct LinesView: View {
                             bookViewModel.pageIsSelected = true
                         }
                         print("-- Ready to add Note: \(bookViewModel.selectedLine != nil ? "✅" : "🙅🏻‍♂️") - \(String(describing: bookViewModel.selectedLine?.quoteContent)), \(String(describing: bookViewModel.selectedLine?.quoteHighlight.name))")
+                        print("\(quote.quoteID)) - \(quote.quoteContent)")
                     }
                     .foregroundStyle(
                         {
@@ -110,8 +107,9 @@ struct LinesView: View {
         }
     }
     
-    func checkQuoteDatabase(checkingQuote: Quote, currentLine: String) {
-        if let existingQuote = quoteDatabase.first(where: { $0.quoteContent == currentLine }) {
+    func checkQuoteDatabase(checkingQuote: Quote) {
+        //        if let existingQuote = quoteDatabase.first(where: { $0.quoteID == checkingQuote.quoteID }) {
+        if let existingQuote = quoteDatabase.first(where: { $0.quoteContent == checkingQuote.quoteContent }) {
             HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: bookViewModel.vibrationInApp)
             SoundManager.access.play(sound: .highlightRemoved, soundEnabledInApp: bookViewModel.soundInApp)
             modelContext.delete(existingQuote)

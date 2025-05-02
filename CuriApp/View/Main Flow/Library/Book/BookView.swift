@@ -39,11 +39,11 @@ struct BookView: View {
                             .curiTypo(.bkBold16)
                             .multilineTextAlignment(.center)
                         LinesView(bookViewModel: bookViewModel, bookID: bookID, bookTitle: bookTitle, bookAuthor: bookAuthor, bookHighlightName: bookViewModel.selectedPen?.name ?? "", bookLinesOriginal: bookLinesOriginal)
+                            .curiTypo(.bkRegular16)
                     }
                     .padding(.top, 120)
                     .padding(.bottom, 160)
                 })
-                .curiTypo(.bkRegular16)
                 .padding(.horizontal, 32)
                 .scrollIndicators(.hidden)
 //                .background(Color.green) // Check section

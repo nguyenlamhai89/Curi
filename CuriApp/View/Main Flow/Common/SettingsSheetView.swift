@@ -96,7 +96,7 @@ struct SettingsSheetView: View {
             .onAppear {
                 print("🖍️ Available Highlight Pencils: \(pencilDatabase.count)")
                 for (index, pen) in pencilDatabase.enumerated() {
-                    print(String(describing: "--- [\(index + 1)] Pencil: \(pen.name), Color: \(pen.primaryBackgroundColor)"))
+                    print(String(describing: "--- [\(index)] Pencil: \(pen.name), Color: \(pen.primaryBackgroundColor)"))
                 }
             }
             .onChange(of: bookViewModel.soundInApp) {

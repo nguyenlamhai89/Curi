@@ -61,7 +61,6 @@ class Quote: Identifiable {
     var quoteContent: String
     var quoteHighlight: HighlightPencil
     
-//    var isConnected: Bool = false
     var isConnected: Bool
     var connectedQuotes: [Quote]?
     
@@ -80,8 +79,8 @@ class Quote: Identifiable {
 }
 
 @Model
-class Note: Identifiable {
-    var noteID: UUID = UUID()
+class Note {
+//    var noteID: UUID = UUID()
     var noteContent: String
     var hasContent: Bool {
         !noteContent.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
