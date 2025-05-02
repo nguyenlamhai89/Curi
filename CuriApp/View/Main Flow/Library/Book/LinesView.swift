@@ -47,7 +47,7 @@ struct LinesView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .onLongPressGesture(minimumDuration: 0.1) {
                         print("\(line)")
-                        let quote = Quote(bookID: bookID, quoteBook: bookTitle, quoteAuthor: bookAuthor, quoteContent: line, quoteHighlight: bookViewModel.selectedPen!)
+                        let quote = Quote(bookID: bookID, quoteBook: bookTitle, quoteAuthor: bookAuthor, quoteContent: line, quoteHighlight: bookViewModel.selectedPen!, isConnected: false)
                         
                         
                         print("- BookID: \(quote.bookID)")

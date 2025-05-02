@@ -49,23 +49,26 @@ struct QuoteConnectView: View {
                 ScrollView {
                     VStack (spacing: curiSpacing(.sp16)) {
                         ForEach(searchFilteredQuote) { quoteConnecting in
-                            QuoteCardWithCheckbox(bookViewModel: bookViewModel, bookName: quoteConnecting.quoteBook, authorName: quoteConnecting.quoteAuthor, quoteContent: quoteConnecting.quoteContent, highlightTagName: quoteConnecting.quoteHighlight.name, highlightTagColor: quoteConnecting.quoteHighlight.primaryBackgroundColor, isConnected: quoteConnecting.isConnected, action: {
+                            
+                            let isConnected = quoteConnecting.connectedQuotes?.contains(where: { $0.quoteID == quote.quoteID }) == true
+                            
+                            QuoteCardWithCheckbox(bookViewModel: bookViewModel, bookName: quoteConnecting.quoteBook, authorName: quoteConnecting.quoteAuthor, quoteContent: quoteConnecting.quoteContent, highlightTagName: quoteConnecting.quoteHighlight.name, highlightTagColor: quoteConnecting.quoteHighlight.primaryBackgroundColor, isConnected: isConnected, action: {
                                 
-                                if quote.connectedQuotes?.contains(where: { $0.quoteID == quoteConnecting.quoteID }) == false {
-                                    quoteConnecting.isConnected = true
-                                    quote.connectedQuotes?.append(quoteConnecting)
-                                    print("[\(quoteConnecting.isConnected ? "✅" : "🙅🏼")] ID: \(quoteConnecting.quoteID) - Quote: \(quoteConnecting.quoteContent) - Connected: \(quoteConnecting.isConnected)")
-                                } else {
-                                    quoteConnecting.isConnected = false
+                                if isConnected {
                                     quote.connectedQuotes?.removeAll(where: { $0.quoteID == quoteConnecting.quoteID })
-                                    print("[\(quoteConnecting.isConnected ? "✅" : "🙅🏼")] ID: \(quoteConnecting.quoteID) - Quote: \(quoteConnecting.quoteContent) - Connected: \(quoteConnecting.isConnected)")
+                                    quoteConnecting.connectedQuotes?.removeAll(where: { $0.quoteID == quote.quoteID })
+                                } else {
+                                    quote.connectedQuotes?.append(quoteConnecting)
+                                    quoteConnecting.connectedQuotes?.append(quote)
                                 }
+                                
+                                print("[\(quote.isConnected ? "✅" : "🙅🏼")] - \(quote.quoteAddedDate) Connected With: \(String(describing: quote.connectedQuotes))")
+                                print("[\(quoteConnecting.isConnected ? "✅" : "🙅🏼")] - \(quoteConnecting.quoteAddedDate) - Connected With: \(String(describing: quoteConnecting.connectedQuotes))")
                                 
                             })
                         }
                     }
                 }
-                
             }
         }
         .navigationTitle("Connected (\(quote.connectedQuotes?.count ?? 0))")
@@ -89,7 +92,7 @@ struct QuoteConnectView: View {
     }
     .sheet(isPresented: $isPresented) {
         NavigationView {
-            QuoteConnectView(bookViewModel: bookViewModel, quote: Quote(bookID: UUID(), quoteBook: "Hi", quoteAuthor: "Hi", quoteContent: "Bar", quoteHighlight: HighlightPencil(name: "Discuss Later", primaryTextColor: "paper-500", primaryBackgroundColor: "blue-300", secondaryTextColor: "blue-500", secondaryBackgroundColor: "blue-100", highlightedTextColor: "blue-500", defaultHighlightedBackgroundColor: "blue-100", selectedHighlightedBackgroundColor: "blue-200")))
+            QuoteConnectView(bookViewModel: bookViewModel, quote: Quote(bookID: UUID(), quoteBook: "Hi", quoteAuthor: "Hi", quoteContent: "Bar", quoteHighlight: HighlightPencil(name: "Discuss Later", primaryTextColor: "paper-500", primaryBackgroundColor: "blue-300", secondaryTextColor: "blue-500", secondaryBackgroundColor: "blue-100", highlightedTextColor: "blue-500", defaultHighlightedBackgroundColor: "blue-100", selectedHighlightedBackgroundColor: "blue-200"), isConnected: false))
         }
     }
 }
