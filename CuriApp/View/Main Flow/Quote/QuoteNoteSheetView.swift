@@ -162,5 +162,5 @@ extension QuoteNoteSheetView {
 #Preview {
     @Previewable @StateObject var bookViewModel = BookViewModel()
     
-    QuoteNoteSheetView(bookViewModel: bookViewModel, bookNavigated: .constant(false), quote: Quote(bookID: UUID(), quoteBook: "Test Book", quoteAuthor: "Test Author", quoteContent: "Test Quote Content Bla Blo Bla Blo", quoteHighlight: HighlightPencil(name: "Test Highlight Name", primaryTextColor: "paper-500", primaryBackgroundColor: "blue-300", secondaryTextColor: "blue-500", secondaryBackgroundColor: "blue-100", highlightedTextColor: "blue-500", defaultHighlightedBackgroundColor: "blue-100", selectedHighlightedBackgroundColor: "blue-200"), isConnected: false))
+    QuoteNoteSheetView(bookViewModel: bookViewModel, bookNavigated: .constant(false), quote: Quote(bookID: UUID(), quoteID: UUID(), quoteLineNum: 0, quoteBook: "Test Book", quoteAuthor: "Test Author", quoteContent: "Test Quote Content Bla Blo Bla Blo", quoteHighlight: HighlightPencil(name: "Test Highlight Name", primaryTextColor: "paper-500", primaryBackgroundColor: "blue-300", secondaryTextColor: "blue-500", secondaryBackgroundColor: "blue-100", highlightedTextColor: "blue-500", defaultHighlightedBackgroundColor: "blue-100", selectedHighlightedBackgroundColor: "blue-200"), isConnected: false))
 }
