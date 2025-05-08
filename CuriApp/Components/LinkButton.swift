@@ -27,7 +27,7 @@ struct LinkButton: View {
             Text(buttonName)
                 .curiTypo(.bkRegular14)
                 .foregroundStyle(curiPalette(.ink500))
-                .padding(curiSpacing(.sp8))
+                .padding(.vertical, curiSpacing(.sp8))
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
 

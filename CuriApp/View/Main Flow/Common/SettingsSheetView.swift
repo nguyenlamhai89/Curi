@@ -45,6 +45,7 @@ struct SettingsSheetView: View {
                             }
                         }
                     
+                    ReadingAnalyticsView()
                     
                     ToggleGroupButton(isOn: $bookViewModel.soundInApp, buttonImage: "curiSound", buttonName: "Sound", buttonDescription: "Hear a note with every highlight and button.")
                     
@@ -55,11 +56,10 @@ struct SettingsSheetView: View {
                         ForEach(aboutButtons.indices, id: \.self) { buttonInfo in
                             LinkButton(bookViewModel: bookViewModel, buttonName: aboutButtons[buttonInfo].1, urlString: aboutButtons[buttonInfo].0)
                                 .simultaneousGesture(DragGesture())
+                            Divider()
+                                .background(curiPalette(.ink100))
                         }
                     }
-                    .padding(curiSpacing(.sp8))
-                    .background(curiPalette(.paper300))
-                    .cornerRadius(curiRadius(.rd8))
                     
                     /// About Curi
                     VStack (spacing: curiSpacing(.sp20)) {

@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D86A80C32DC91192006B7528 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = D86A80C22DC91192006B7528 /* FirebaseAnalytics */; };
-		D86A80C52DC91192006B7528 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D86A80C42DC91192006B7528 /* FirebaseAuth */; };
+		D86A80DE2DCA4CAF006B7528 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D86A80DD2DCA4CAF006B7528 /* AdSupport.framework */; platformFilters = (ios, macos, ); };
 		D879CCD82DA64E7E006A6410 /* CuriWidgetExtension.entitlements in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D80A96552D7EFE9F00AAC62F /* CuriWidgetExtension.entitlements */; };
 		D8ADF06F2DA4FDFB00C3B486 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = D8ADF06E2DA4FDFB00C3B486 /* SDWebImageSwiftUI */; };
 		D8E011892D7BF130005ABDEF /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E011882D7BF130005ABDEF /* WidgetKit.framework */; };
@@ -43,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		D80A96552D7EFE9F00AAC62F /* CuriWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CuriWidgetExtension.entitlements; sourceTree = "<group>"; };
+		D86A80DD2DCA4CAF006B7528 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.4.sdk/System/Library/Frameworks/AdSupport.framework; sourceTree = DEVELOPER_DIR; };
 		D894C9952D6747EA00CE95C0 /* Curi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Curi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8E011862D7BF130005ABDEF /* CuriWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CuriWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8E011882D7BF130005ABDEF /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -108,8 +109,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D86A80C32DC91192006B7528 /* FirebaseAnalytics in Frameworks */,
-				D86A80C52DC91192006B7528 /* FirebaseAuth in Frameworks */,
 				D8ADF06F2DA4FDFB00C3B486 /* SDWebImageSwiftUI in Frameworks */,
+				D86A80DE2DCA4CAF006B7528 /* AdSupport.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,6 +149,7 @@
 		D8E011872D7BF130005ABDEF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D86A80DD2DCA4CAF006B7528 /* AdSupport.framework */,
 				D8E011882D7BF130005ABDEF /* WidgetKit.framework */,
 				D8E0118A2D7BF130005ABDEF /* SwiftUI.framework */,
 			);
@@ -178,7 +180,6 @@
 			packageProductDependencies = (
 				D8ADF06E2DA4FDFB00C3B486 /* SDWebImageSwiftUI */,
 				D86A80C22DC91192006B7528 /* FirebaseAnalytics */,
-				D86A80C42DC91192006B7528 /* FirebaseAuth */,
 			);
 			productName = CuriApp;
 			productReference = D894C9952D6747EA00CE95C0 /* Curi.app */;
@@ -626,11 +627,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D86A80C12DC91192006B7528 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAnalytics;
-		};
-		D86A80C42DC91192006B7528 /* FirebaseAuth */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D86A80C12DC91192006B7528 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAuth;
 		};
 		D8ADF06E2DA4FDFB00C3B486 /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;

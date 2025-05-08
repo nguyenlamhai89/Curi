@@ -17,6 +17,7 @@ struct CuriAppApp: App {
     var body: some Scene {
         WindowGroup {
             HomeViewManager()
+//            AnalyticsView()
         }
         .modelContainer(for: [HighlightPencil.self, Quote.self, Note.self])
     }
