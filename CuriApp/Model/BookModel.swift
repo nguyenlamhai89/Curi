@@ -22,11 +22,15 @@ class Book: Identifiable, Codable {
 }
 
 @Model
-class ReadTime {
-    var timeCheckpoint: Double
+class UserSettingsStats {
+    var totalReadTime: Double
+    var soundInApp: Bool
+    var vibrationInApp: Bool
     
-    init(timeCheckpoint: Double = 0) {
-        self.timeCheckpoint = timeCheckpoint
+    init(totalReadTime: Double = 0, soundInApp: Bool, vibrationInApp: Bool) {
+        self.totalReadTime = totalReadTime
+        self.soundInApp = soundInApp
+        self.vibrationInApp = vibrationInApp
     }
 }
 

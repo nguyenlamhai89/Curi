@@ -10,11 +10,13 @@ import SwiftData
 import SDWebImageSwiftUI
 
 struct SettingsSheetView: View {
+    @Environment(\.modelContext) var modelContext
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.openURL) private var openURL
     
     @ObservedObject var bookViewModel: BookViewModel
     @Query var pencilDatabase: [HighlightPencil] = []
+    @Query var userSettings: [UserSettingsStats]
     
     let curiSettingsGIF: String = "curiSettingsGIF.gif"
     
@@ -94,15 +96,22 @@ struct SettingsSheetView: View {
                 }
             }
             .onAppear {
+                if userSettings.count != 1 {
+                    print("❌ Only contains 1 US")
+                } else {
+                    print("✅ User Settings: \(userSettings)")
+                }
                 print("🖍️ Available Highlight Pencils: \(pencilDatabase.count)")
                 for (index, pen) in pencilDatabase.enumerated() {
                     print(String(describing: "--- [\(index)] Pencil: \(pen.name), Color: \(pen.primaryBackgroundColor)"))
                 }
             }
             .onChange(of: bookViewModel.soundInApp) {
+                userSettings[0].soundInApp = bookViewModel.soundInApp
                 print("Sound: \(bookViewModel.soundInApp ? "On" : "Off")")
             }
             .onChange(of: bookViewModel.vibrationInApp) {
+                userSettings[0].vibrationInApp = bookViewModel.vibrationInApp
                 print("Vibration: \(bookViewModel.vibrationInApp ? "On" : "Off")")
             }
         }

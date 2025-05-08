@@ -13,9 +13,8 @@ struct HighlightDial: View {
     @Environment(\.modelContext) var modelContext
     @ObservedObject var bookViewModel: BookViewModel
     @Query var pencilDatabase: [HighlightPencil]
-    @Query var timesReadingPerCheckpoint: [ReadTime]
+    @Query var userSettings: [UserSettingsStats]
     
-//    @State var selectedIndex: Int = 0
     @Binding var thoughtSheetIsPresented: Bool
     @Binding var deleteAlertIsPresented: Bool
     
@@ -127,14 +126,13 @@ struct HighlightDial: View {
                                 }
                                 .onDisappear {
                                     if let startReadingTime = startReadingTime {
-                                        let readingTimeInThisBook = ReadTime()
                                         let readingDuration = Date().timeIntervalSince(startReadingTime)
-
-                                        readingTimeInThisBook.timeCheckpoint = readingDuration
-                                        modelContext.insert(readingTimeInThisBook)
-                                        
-                                        for checkpoint in timesReadingPerCheckpoint {
-                                            print("- Checkpoint: \(checkpoint.timeCheckpoint)")
+                                        if let thisUser = userSettings.first {
+                                            thisUser.totalReadTime += readingDuration
+                                            try? modelContext.save()
+                                            print("Total Reading Time: \(thisUser.totalReadTime)")
+                                        } else {
+                                            print("-- Nil!")
                                         }
                                     }
                                     print("Book Closed")

@@ -19,7 +19,7 @@ struct CuriAppApp: App {
             HomeViewManager()
 //            AnalyticsView()
         }
-        .modelContainer(for: [HighlightPencil.self, Quote.self, Note.self, ReadTime.self])
+        .modelContainer(for: [HighlightPencil.self, Quote.self, Note.self, UserSettingsStats.self])
     }
 }
 

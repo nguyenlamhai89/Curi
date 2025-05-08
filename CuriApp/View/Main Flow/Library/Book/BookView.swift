@@ -16,6 +16,7 @@ struct BookView: View {
     @Environment(\.presentationMode) var presentationMode
     @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
     @Query var pencilDatabase: [HighlightPencil]
+    @Query var userSettings: [UserSettingsStats]
     
     @State var isPresentedRenameView: Bool = false
     @State var newHighlightName: String = ""
@@ -127,6 +128,11 @@ struct BookView: View {
             )
         })
         .onAppear {
+            if userSettings.count != 1 {
+                print("❌ Not found US")
+            } else {
+                print("✅ User Settings: \(userSettings)")
+            }
             bookViewModel.accessSheetFromBookView = true
             setupKeyboardObserver()
             if !bookViewModel.firstTimeReading {

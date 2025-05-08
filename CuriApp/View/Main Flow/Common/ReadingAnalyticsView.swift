@@ -9,16 +9,13 @@ import SwiftUI
 import SwiftData
 
 struct ReadingAnalyticsView: View {
+    @Environment(\.modelContext) var modelContext
     
     @Query var quoteDatabase: [Quote]
-    @Query var timesReadingPerCheckpoint: [ReadTime]
+    @Query var userSettings: [UserSettingsStats]
     
-    var totalReadingTime: Double {
-        var initialTime: Double = 0
-        for checkpoint in timesReadingPerCheckpoint {
-            initialTime += checkpoint.timeCheckpoint
-        }
-        return initialTime / 60
+    var minutesNumber: Double {
+        userSettings[0].totalReadTime / 60
     }
     
     var noteNumber: Int {
@@ -31,7 +28,7 @@ struct ReadingAnalyticsView: View {
     
     var body: some View {
         VStack (spacing: curiSpacing(.sp8)) {
-            AnalyticsLineTime(analyticsTitle: "Minutes Read", analyticsValue: totalReadingTime)
+            AnalyticsLineTime(analyticsTitle: "Minutes Read", analyticsValue: minutesNumber)
             AnalyticsLineDefault(analyticsTitle: "Quotes", analyticsValue: quoteDatabase.count)
             AnalyticsLineDefault(analyticsTitle: "Notes", analyticsValue: noteNumber)
             AnalyticsLineDefault(analyticsTitle: "Connections", analyticsValue: connectionNumber)
@@ -52,7 +49,7 @@ struct AnalyticsLineTime: View {
             Text(analyticsTitle)
                 .foregroundStyle(curiPalette(.ink500))
                 .frame(maxWidth: .infinity, alignment: .leading)
-            Text("\(analyticsValue, specifier: "%.1f") min")
+            Text(analyticsValue == 0 ? "Not started 💭" : "\(analyticsValue, specifier: "%.1f") min")
                 .foregroundStyle(curiPalette(.ink300))
         }
         .curiTypo(.bkRegular14)
@@ -77,6 +74,6 @@ struct AnalyticsLineDefault: View {
     }
 }
 
-#Preview {
-    ReadingAnalyticsView()
-}
+//#Preview {
+//    ReadingAnalyticsView()
+//}

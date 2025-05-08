@@ -12,8 +12,9 @@ struct HomeViewManager: View {
     @Environment(\.modelContext) var modelContext
     @Environment(\.presentationMode) var presentationMode
     @StateObject var bookViewModel = BookViewModel()
-    @Query var pencilDatabase: [HighlightPencil] = []
-//    @Query var quoteDatabase: [Quote]
+    @Query var pencilDatabase: [HighlightPencil]
+    @Query var userSettings: [UserSettingsStats]
+
     @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
         
     // Navigation Value
@@ -94,6 +95,16 @@ struct HomeViewManager: View {
                 }
             }
             .onAppear {
+                if userSettings.isEmpty {
+                    let thisUser = UserSettingsStats(soundInApp: bookViewModel.soundInApp, vibrationInApp: bookViewModel.vibrationInApp)
+                    modelContext.insert(thisUser)
+                    try? modelContext.save()
+                    print("--- User Settings: \(userSettings)")
+                } else {
+                    print("✅ User Settings: \(userSettings)")
+                }
+            }
+            .onAppear {
                 let pencilLibrary: [HighlightPencil] = [
                     HighlightPencil(
                         name: "Discuss Later",
@@ -121,7 +132,8 @@ struct HomeViewManager: View {
                     for insertPencil in pencilLibrary {
                         modelContext.insert(insertPencil)
                     }
-                } else {
+                }
+                else {
                     for index in pencilDatabase.indices {
                         let pencilOld = pencilDatabase[index]
                         let pencilNew = pencilLibrary[index]
@@ -136,7 +148,6 @@ struct HomeViewManager: View {
                         pencilOld.selectedHighlightedBackgroundColor = pencilNew.selectedHighlightedBackgroundColor
                     }
                 }
-                try? modelContext.save()
             }
             .overlay {
                 if isPresentedRenameView {
