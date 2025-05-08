@@ -35,7 +35,7 @@ struct HomeViewManager: View {
         if let first = quoteDatabase.first {
             return first
         } else {
-            return Quote(bookID: UUID(), quoteLineNum: 0, quoteBook: "", quoteAuthor: "", quoteContent: "", quoteHighlight: HighlightPencil(name: "", primaryTextColor: "", primaryBackgroundColor: "b", secondaryTextColor: "", secondaryBackgroundColor: "", highlightedTextColor: "", defaultHighlightedBackgroundColor: "", selectedHighlightedBackgroundColor: ""), isConnected: false)
+            return Quote(bookID: UUID(), quoteLineNum: 0, quoteBook: "", quoteAuthor: "", quoteContent: "", quoteHighlight: HighlightPencil(name: "", primaryTextColor: "", primaryBackgroundColor: "", isPresentedRenameView: false, secondaryTextColor: "", secondaryBackgroundColor: "", highlightedTextColor: "", defaultHighlightedBackgroundColor: "", selectedHighlightedBackgroundColor: ""), isConnected: false, quoteNote: Note(noteContent: ""))
         }
     }
     
@@ -96,7 +96,7 @@ struct HomeViewManager: View {
             }
             .onAppear {
                 if userSettings.isEmpty {
-                    let thisUser = UserSettingsStats(soundInApp: bookViewModel.soundInApp, vibrationInApp: bookViewModel.vibrationInApp)
+                    let thisUser = UserSettingsStats(totalReadTime: 0, soundInApp: bookViewModel.soundInApp, vibrationInApp: bookViewModel.vibrationInApp)
                     modelContext.insert(thisUser)
                     try? modelContext.save()
                     print("--- User Settings: \(userSettings)")
@@ -110,6 +110,7 @@ struct HomeViewManager: View {
                         name: "Discuss Later",
                         primaryTextColor: "paper-500",
                         primaryBackgroundColor: "blue-300",
+                        isPresentedRenameView: false,
                         secondaryTextColor: "blue-500",
                         secondaryBackgroundColor: "blue-100",
                         highlightedTextColor: "blue-500",
@@ -120,6 +121,7 @@ struct HomeViewManager: View {
                         name: "Good Point",
                         primaryTextColor: "paper-500",
                         primaryBackgroundColor: "pink-300",
+                        isPresentedRenameView: false,
                         secondaryTextColor: "pink-500",
                         secondaryBackgroundColor: "pink-100",
                         highlightedTextColor: "pink-500",
@@ -148,6 +150,12 @@ struct HomeViewManager: View {
                         pencilOld.selectedHighlightedBackgroundColor = pencilNew.selectedHighlightedBackgroundColor
                     }
                 }
+                
+                if bookViewModel.selectedPen == nil {
+                    bookViewModel.selectedPen = pencilDatabase.first
+                }
+                print(bookViewModel.selectedPen?.name ?? "No Pen Selected")
+                
             }
             .overlay {
                 if isPresentedRenameView {

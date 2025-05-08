@@ -9,5 +9,7 @@
 		<string>Bookerly Bold.ttf</string>
 		<string>Bookerly.ttf</string>
 	</array>
+	<key>UIBackgroundModes</key>
+	<array/>
 </dict>
 </plist>

@@ -38,13 +38,13 @@ struct LinesView: View {
         bookViewModel.selectedPen?.selectedHighlightedBackgroundColor ?? "" 
     }
     
-//    @State var selectedLine: String? = nil
+
     
     var body: some View {
         VStack (spacing: curiSpacing(.sp8)) {
             ForEach(Array(bookLinesOriginal.enumerated()), id: \.offset) { lineNum, line in
                 
-                let quote = Quote(bookID: bookID, quoteLineNum: lineNum + 1, quoteBook: bookTitle, quoteAuthor: bookAuthor, quoteContent: line, quoteHighlight: bookViewModel.selectedPen ?? pencilDatabase[0], isConnected: false)
+                let quote = Quote(bookID: UUID(), quoteLineNum: lineNum + 1, quoteBook: bookTitle, quoteAuthor: bookAuthor, quoteContent: line, quoteHighlight: bookViewModel.selectedPen ?? pencilDatabase[0], isConnected: false, quoteNote: Note(noteContent: ""))
                 
                 Text(quote.quoteContent)
                     .curiTypo(.bkRegular16)

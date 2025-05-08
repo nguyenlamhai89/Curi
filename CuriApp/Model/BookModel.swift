@@ -23,11 +23,11 @@ class Book: Identifiable, Codable {
 
 @Model
 class UserSettingsStats {
-    var totalReadTime: Double
-    var soundInApp: Bool
-    var vibrationInApp: Bool
+    var totalReadTime: Double = 0
+    var soundInApp: Bool = true
+    var vibrationInApp: Bool = true
     
-    init(totalReadTime: Double = 0, soundInApp: Bool, vibrationInApp: Bool) {
+    init(totalReadTime: Double, soundInApp: Bool, vibrationInApp: Bool) {
         self.totalReadTime = totalReadTime
         self.soundInApp = soundInApp
         self.vibrationInApp = vibrationInApp
@@ -36,22 +36,22 @@ class UserSettingsStats {
 
 @Model
 class HighlightPencil {
-    var name: String
+    var name: String = "Discuss Later"
 
-    var primaryTextColor: String
-    var primaryBackgroundColor: String
+    var primaryTextColor: String = "paper-500"
+    var primaryBackgroundColor: String = "blue-300"
     
-    var isPresentedRenameView: Bool
+    var isPresentedRenameView: Bool = false
     
-    var secondaryTextColor: String
-    var secondaryBackgroundColor: String
+    var secondaryTextColor: String = "blue-500"
+    var secondaryBackgroundColor: String = "blue-100"
     
     // Lines
-    var highlightedTextColor: String
-    var defaultHighlightedBackgroundColor: String
-    var selectedHighlightedBackgroundColor: String
+    var highlightedTextColor: String = "blue-500"
+    var defaultHighlightedBackgroundColor: String = "blue-100"
+    var selectedHighlightedBackgroundColor: String = "blue-200"
     
-    init(name: String, primaryTextColor: String, primaryBackgroundColor: String, isPresentedRenameView: Bool = false, secondaryTextColor: String, secondaryBackgroundColor: String, highlightedTextColor: String, defaultHighlightedBackgroundColor: String, selectedHighlightedBackgroundColor: String) {
+    init(name: String, primaryTextColor: String, primaryBackgroundColor: String, isPresentedRenameView: Bool, secondaryTextColor: String, secondaryBackgroundColor: String, highlightedTextColor: String, defaultHighlightedBackgroundColor: String, selectedHighlightedBackgroundColor: String) {
         self.name = name
         self.primaryTextColor = primaryTextColor
         self.primaryBackgroundColor = primaryBackgroundColor
