@@ -22,6 +22,15 @@ class Book: Identifiable, Codable {
 }
 
 @Model
+class ReadTime {
+    var timeCheckpoint: Double
+    
+    init(timeCheckpoint: Double = 0) {
+        self.timeCheckpoint = timeCheckpoint
+    }
+}
+
+@Model
 class HighlightPencil {
     var name: String
 

@@ -50,9 +50,9 @@ class BookViewModel: ObservableObject {
             
             let (data, _) = try await dataTask
             
-            if let dataRaw = String(data: data, encoding: .utf8) {
-                print("Raw JSON Response:", dataRaw)
-            }
+//            if let dataRaw = String(data: data, encoding: .utf8) {
+//                print("Raw JSON Response:", dataRaw)
+//            }
             
             let dataDecoded = try JSONDecoder().decode([Book].self, from: data)
             await MainActor.run {

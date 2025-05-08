@@ -75,7 +75,6 @@ struct TopNavigationBook: View {
                     if pageIsSelected {
                         IconButton(bookViewModel: bookViewModel, iconName: "curiLeft", hasNote: false) {
                             dismiss()
-                            print("Backed")
                         }
                     } else {
                         EmptyView()

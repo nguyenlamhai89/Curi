@@ -11,6 +11,15 @@ import SwiftData
 struct ReadingAnalyticsView: View {
     
     @Query var quoteDatabase: [Quote]
+    @Query var timesReadingPerCheckpoint: [ReadTime]
+    
+    var totalReadingTime: Double {
+        var initialTime: Double = 0
+        for checkpoint in timesReadingPerCheckpoint {
+            initialTime += checkpoint.timeCheckpoint
+        }
+        return initialTime / 60
+    }
     
     var noteNumber: Int {
         quoteDatabase.filter { $0.quoteNote.hasContent }.count
@@ -22,7 +31,7 @@ struct ReadingAnalyticsView: View {
     
     var body: some View {
         VStack (spacing: curiSpacing(.sp8)) {
-            AnalyticsLineTime(analyticsTitle: "Reading Time", analyticsValue: 50)
+            AnalyticsLineTime(analyticsTitle: "Minutes Read", analyticsValue: totalReadingTime)
             AnalyticsLineDefault(analyticsTitle: "Quotes", analyticsValue: quoteDatabase.count)
             AnalyticsLineDefault(analyticsTitle: "Notes", analyticsValue: noteNumber)
             AnalyticsLineDefault(analyticsTitle: "Connections", analyticsValue: connectionNumber)
@@ -43,7 +52,7 @@ struct AnalyticsLineTime: View {
             Text(analyticsTitle)
                 .foregroundStyle(curiPalette(.ink500))
                 .frame(maxWidth: .infinity, alignment: .leading)
-            Text("\(analyticsValue, specifier: "%.f") min")
+            Text("\(analyticsValue, specifier: "%.1f") min")
                 .foregroundStyle(curiPalette(.ink300))
         }
         .curiTypo(.bkRegular14)

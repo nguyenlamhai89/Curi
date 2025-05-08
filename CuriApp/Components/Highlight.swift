@@ -13,10 +13,13 @@ struct HighlightDial: View {
     @Environment(\.modelContext) var modelContext
     @ObservedObject var bookViewModel: BookViewModel
     @Query var pencilDatabase: [HighlightPencil]
+    @Query var timesReadingPerCheckpoint: [ReadTime]
     
 //    @State var selectedIndex: Int = 0
     @Binding var thoughtSheetIsPresented: Bool
     @Binding var deleteAlertIsPresented: Bool
+    
+    @State var startReadingTime: Date?
     
     var selectedLineHasNote: Bool {
         bookViewModel.selectedLine?.quoteNote.hasContent ?? false
@@ -117,6 +120,25 @@ struct HighlightDial: View {
                                     scrollProxy.scrollTo(bookViewModel.selectedIndex, anchor: .center)
                                     bookViewModel.selectedPen = pencilDatabase[bookViewModel.selectedIndex]
                                     print("Selected Index: \(bookViewModel.selectedIndex) - \(String(describing: bookViewModel.selectedPen))")
+                                    
+                                    startReadingTime = Date()
+                                    print("Book Opened")
+                                    
+                                }
+                                .onDisappear {
+                                    if let startReadingTime = startReadingTime {
+                                        let readingTimeInThisBook = ReadTime()
+                                        let readingDuration = Date().timeIntervalSince(startReadingTime)
+
+                                        readingTimeInThisBook.timeCheckpoint = readingDuration
+                                        modelContext.insert(readingTimeInThisBook)
+                                        
+                                        for checkpoint in timesReadingPerCheckpoint {
+                                            print("- Checkpoint: \(checkpoint.timeCheckpoint)")
+                                        }
+                                    }
+                                    print("Book Closed")
+                                    
                                 }
                                 .onChange(of: bookViewModel.selectedPen) {
                                     print("On Selected - \(String(describing: bookViewModel.selectedPen?.name))")
