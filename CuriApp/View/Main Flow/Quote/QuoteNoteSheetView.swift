@@ -110,13 +110,16 @@ struct QuoteNoteSheetView: View {
                     modelContext.delete(quoteIsPresented)
                     presentationMode.wrappedValue.dismiss()
                     print("Deleted!")
-                    
-                    WidgetDataManager().updateQuoteOnWidget(quoteDatabase: quoteDatabase)
                 }
             }))
         }
         .onChange(of: quoteDatabase) {
-            print("✅ [\(quoteDatabase.count)] Quote Database: \(quoteDatabase)")
+            print("✅ [\(quoteDatabase.count)] Quotes: \(quoteDatabase)")
+            WidgetDataManager.access.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
+        }
+        .onChange(of: bookViewModel.quoteHighlightChangedTrigger) {
+            print("✅ [\(quoteDatabase.count)] Quotes: \(quoteDatabase)")
+            WidgetDataManager.access.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
         }
         .onAppear() {
             print("🔖 Quote - \(quote.quoteContent)")

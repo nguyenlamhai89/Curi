@@ -105,7 +105,6 @@ struct BookView: View {
                 primaryButton: .cancel(),
                 secondaryButton: .destructive(Text("Delete"), action: {
                     modelContext.delete(bookViewModel.selectedLine!)
-                    WidgetDataManager().updateQuoteOnWidget(quoteDatabase: quoteDatabase)
                 })
             )
         }
@@ -127,6 +126,14 @@ struct BookView: View {
                 stepsWidget: [("curiHighlightStep1", "Swipe the highlight dial below to pick a color that fits your theme."), ("curiHighlightStep2", "Tap and hold a sentence to leave your mark."), ("curiHighlightStep3", "Tap again and leave your thoughts - or swipe to change the color")]
             )
         })
+        .onChange(of: quoteDatabase) {
+            print("✅ [\(quoteDatabase.count)] Quotes: \(quoteDatabase)")
+            WidgetDataManager.access.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
+        }
+        .onChange(of: bookViewModel.quoteHighlightChangedTrigger) {
+            print("✅ [\(quoteDatabase.count)] Quotes: \(quoteDatabase)")
+            WidgetDataManager.access.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
+        }
         .onAppear {
             if userSettings.count != 1 {
                 print("❌ Not found US")

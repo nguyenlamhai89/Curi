@@ -34,6 +34,8 @@ class BookViewModel: ObservableObject {
         
     @Published var accessSheetFromBookView: Bool = false
     
+    @Published var quoteHighlightChangedTrigger = UUID()
+    
     // Get Book
     func fetchBooks() async throws {
         guard let url = URL(string: "https://poetrydb.org/author/William%20Shakespeare") else { throw

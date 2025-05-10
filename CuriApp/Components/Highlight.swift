@@ -108,6 +108,7 @@ struct HighlightDial: View {
                                             }
                                             
                                             bookViewModel.selectedLine?.quoteHighlight = bookViewModel.selectedPen!
+                                            bookViewModel.quoteHighlightChangedTrigger = UUID()
                                             
                                             withAnimation {
                                                 scrollProxy.scrollTo(bookViewModel.selectedIndex, anchor: .center)

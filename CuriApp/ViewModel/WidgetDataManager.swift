@@ -9,6 +9,8 @@ import SwiftUI
 import WidgetKit
 
 class WidgetDataManager {
+    static let access = WidgetDataManager()
+    
     @AppStorage("widgetQuote", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var quoteOnWidget: String = ""
     @AppStorage("widgetAuthor", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var authorOnWidget: String = ""
     @AppStorage("widgetBook", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var bookOnWidget: String = ""
@@ -16,19 +18,19 @@ class WidgetDataManager {
     @AppStorage("widgetHighlightColor", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var highlightColorOnWidget: String = ""
     
     func updateQuoteOnWidget(quoteDatabase: [Quote]) {
-        guard let quote = quoteDatabase.first else {
+        
+        if !quoteDatabase.isEmpty {
+            if let quoteRandom = quoteDatabase.randomElement() {
+                quoteOnWidget = quoteRandom.quoteContent
+                authorOnWidget = quoteRandom.quoteAuthor
+                bookOnWidget = quoteRandom.quoteBook
+                highlightNameOnWidget = quoteRandom.quoteHighlight?.name ?? "Default"
+                highlightColorOnWidget = quoteRandom.quoteHighlight?.primaryBackgroundColor ?? "ink-500"
+                print("🔥 Quote on Widget: \(quoteRandom)")
+            }
+        } else {
             quoteOnWidget = ""
-            authorOnWidget = ""
-            bookOnWidget = ""
-            highlightNameOnWidget = ""
-            highlightColorOnWidget = ""
-            return
         }
-        quoteOnWidget = quote.quoteContent
-        authorOnWidget = quote.quoteAuthor
-        bookOnWidget = quote.quoteBook
-        highlightNameOnWidget = quote.quoteHighlight?.name ?? "None"
-        highlightColorOnWidget = quote.quoteHighlight?.primaryBackgroundColor ?? "ink-500"
         
         WidgetCenter.shared.reloadTimelines(ofKind: "curiWidget")
     }

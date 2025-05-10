@@ -94,6 +94,11 @@ struct LinesView: View {
             }
             .onChange(of: quoteDatabase) {
                 print("✅ [\(quoteDatabase.count)] Quotes: \(quoteDatabase)")
+                WidgetDataManager.access.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
+            }
+            .onChange(of: bookViewModel.quoteHighlightChangedTrigger) {
+                print("✅ [\(quoteDatabase.count)] Quotes: \(quoteDatabase)")
+                WidgetDataManager.access.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
             }
         }
     }
@@ -110,8 +115,6 @@ struct LinesView: View {
             checkingQuote.quoteHighlight = bookViewModel.selectedPen
             modelContext.insert(checkingQuote)
         }
-        
-        WidgetDataManager().updateQuoteOnWidget(quoteDatabase: quoteDatabase)
         
     }
     

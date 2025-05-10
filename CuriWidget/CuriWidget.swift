@@ -47,13 +47,15 @@ struct Provider: AppIntentTimelineProvider {
         let highlightColorOnWidget = defaults?.string(forKey: "widgetHighlightColor") ?? "blue-300"
         
         let currentDate = Date()
-//        for hourOffset in 0..<5 {
-//            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: currentDate, authorName: authorOnWidget, bookName: bookOnWidget, quoteContent: quoteOnWidget, highlightName: highlightNameOnWidget, highlightColor: highlightColorOnWidget)
-            entries.append(entry)
-//        }
+        //        for hourOffset in 0..<5 {
+        //            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
+        let entry = SimpleEntry(date: currentDate, authorName: authorOnWidget, bookName: bookOnWidget, quoteContent: quoteOnWidget, highlightName: highlightNameOnWidget, highlightColor: highlightColorOnWidget)
+        entries.append(entry)
+        //        }
         
-        return Timeline(entries: entries, policy: .never)
+        //        return Timeline(entries: entries, policy: .never)
+        let nextRefresh = Calendar.current.date(byAdding: .minute, value: 20, to: currentDate)!
+        return Timeline(entries: entries, policy: .after(nextRefresh))
         
     }
     
