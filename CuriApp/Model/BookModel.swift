@@ -66,23 +66,24 @@ class HighlightPencil {
 
 @Model
 class Quote: Identifiable {
-    var bookID: UUID
+//    var bookID: UUID
     var quoteID: UUID = UUID()
-    var quoteLineNum: Int
+    var quoteLineNum: Int = 0
     var quoteAddedDate: Date = Date()
-    var quoteBook: String
-    var quoteAuthor: String
-    var quoteContent: String
-    var quoteHighlight: HighlightPencil
+    var quoteBook: String = ""
+    var quoteAuthor: String = ""
+    var quoteContent: String = ""
+    var quoteHighlight: HighlightPencil? = nil
     
-    var isConnected: Bool
-    var connectedQuotes: [Quote]?
+    var isConnected: Bool = false
+    var connectedQuotes: [Quote]? = nil
     
-    var quoteNote: Note
+    var quoteNote: Note = Note()
     
-    init(bookID: UUID, quoteLineNum: Int, quoteBook: String, quoteAuthor: String, quoteContent: String, quoteHighlight: HighlightPencil, isConnected: Bool, connectedQuotes: [Quote]? = nil, quoteNote: Note = Note()) {
-        self.bookID = bookID
+    init(quoteID: UUID = UUID(), quoteLineNum: Int = 0, quoteAddedDate: Date = Date(), quoteBook: String = "", quoteAuthor: String = "", quoteContent: String = "", quoteHighlight: HighlightPencil? = nil, isConnected: Bool = false, connectedQuotes: [Quote]? = nil, quoteNote: Note = Note()) {
+//        self.bookID = bookID
         self.quoteLineNum = quoteLineNum
+        self.quoteAddedDate = quoteAddedDate
         self.quoteBook = quoteBook
         self.quoteAuthor = quoteAuthor
         self.quoteContent = quoteContent
@@ -114,7 +115,7 @@ extension Quote: CustomStringConvertible {
             content: \"\(quoteContent)\",
             book: \"\(quoteBook)\",
             author: \"\(quoteAuthor)\",
-            highlight: \"\(quoteHighlight.name)\",
+            highlight: \"\(String(describing: quoteHighlight?.name))\",
             Connect Status: \(isConnected)
         )
         """

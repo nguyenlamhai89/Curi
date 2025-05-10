@@ -82,7 +82,19 @@ struct SettingsSheetView: View {
                 }
                 .padding(curiSpacing(.sp16))
             }
-            .navigationTitle("Curi")
+//            .navigationTitle("Curi")
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    VStack(spacing: -4) {
+                        Text("Curi")
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundColor(curiPalette(.ink500))
+                        Text("iCloud Synced: \(Date().formatted(date: .abbreviated, time: .shortened))")
+                            .curiTypo(.sfMedium14)
+                            .foregroundColor(curiPalette(.ink300))
+                    }
+                }
+            }
             .navigationBarTitleDisplayMode(.inline)
             .background(curiPalette(.paper500))
 //            .presentationDragIndicator(.visible)
@@ -116,12 +128,4 @@ struct SettingsSheetView: View {
             }
         }
     }
-}
-
-#Preview {
-    @Previewable @StateObject var bookViewModel = BookViewModel()
-    Text("Sample")
-        .sheet(isPresented: .constant(true)) {
-            SettingsSheetView(bookViewModel: bookViewModel)
-        }
 }

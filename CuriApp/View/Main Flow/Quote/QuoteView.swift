@@ -28,7 +28,8 @@ struct QuoteView: View {
         if let first = quoteDatabase.first {
             return first
         } else {
-            return Quote(bookID: UUID(), quoteLineNum: 0, quoteBook: "", quoteAuthor: "", quoteContent: "", quoteHighlight: HighlightPencil(name: "", primaryTextColor: "", primaryBackgroundColor: "b", isPresentedRenameView: false, secondaryTextColor: "", secondaryBackgroundColor: "", highlightedTextColor: "", defaultHighlightedBackgroundColor: "", selectedHighlightedBackgroundColor: ""), isConnected: false, quoteNote: Note(noteContent: ""))
+            return Quote(quoteID: UUID(), quoteLineNum: 0, quoteAddedDate: Date(), quoteBook: "", quoteAuthor: "", quoteContent: "", quoteHighlight: HighlightPencil(name: "", primaryTextColor: "", primaryBackgroundColor: "", isPresentedRenameView: false, secondaryTextColor: "", secondaryBackgroundColor: "", highlightedTextColor: "", defaultHighlightedBackgroundColor: "", selectedHighlightedBackgroundColor: ""), isConnected: false, quoteNote: Note(noteContent: ""))
+//            return Quote()
         }
     }
     
@@ -44,7 +45,7 @@ struct QuoteView: View {
             VStack (spacing: 0) {
                 VStack (spacing: 0) {
                     if !isShowKeyboard {
-                        QuotePaperGroup(bookViewModel: bookViewModel, highlight: quoteOnPaper.quoteHighlight, quote: quoteOnPaper, quoteContent: quoteOnPaper.quoteContent, quoteAuthor: quoteOnPaper.quoteAuthor, quoteBook: quoteOnPaper.quoteBook, paperAction: {
+                        QuotePaperGroup(bookViewModel: bookViewModel, highlight: quoteOnPaper.quoteHighlight ?? HighlightPencil(name: "", primaryTextColor: "", primaryBackgroundColor: "", isPresentedRenameView: false, secondaryTextColor: "", secondaryBackgroundColor: "", highlightedTextColor: "", defaultHighlightedBackgroundColor: "", selectedHighlightedBackgroundColor: ""), quote: quoteOnPaper, quoteContent: quoteOnPaper.quoteContent, quoteAuthor: quoteOnPaper.quoteAuthor, quoteBook: quoteOnPaper.quoteBook, paperAction: {
                             bookViewModel.quoteNoteSheetViewIsPresented.toggle()
                             itemSelected = quoteOnPaper
                         }, highlightAction: {

@@ -39,7 +39,7 @@ struct BookView: View {
                         Text(bookTitle)
                             .curiTypo(.bkBold16)
                             .multilineTextAlignment(.center)
-                        LinesView(bookViewModel: bookViewModel, bookID: bookID, bookTitle: bookTitle, bookAuthor: bookAuthor, bookHighlightName: bookViewModel.selectedPen?.name ?? "", bookLinesOriginal: bookLinesOriginal)
+                        LinesView(bookViewModel: bookViewModel, bookTitle: bookTitle, bookAuthor: bookAuthor, bookHighlightName: bookViewModel.selectedPen?.name ?? "", bookLinesOriginal: bookLinesOriginal)
                             .curiTypo(.bkRegular16)
                     }
                     .padding(.top, 120)

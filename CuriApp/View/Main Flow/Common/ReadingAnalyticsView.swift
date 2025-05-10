@@ -28,7 +28,7 @@ struct ReadingAnalyticsView: View {
     
     var body: some View {
         VStack (spacing: curiSpacing(.sp8)) {
-            AnalyticsLineTime(analyticsTitle: "Minutes Read", analyticsValue: minutesNumber)
+            AnalyticsLineTime(analyticsTitle: "Total Minutes Read", analyticsValue: minutesNumber)
             AnalyticsLineDefault(analyticsTitle: "Quotes", analyticsValue: quoteDatabase.count)
             AnalyticsLineDefault(analyticsTitle: "Notes", analyticsValue: noteNumber)
             AnalyticsLineDefault(analyticsTitle: "Connections", analyticsValue: connectionNumber)

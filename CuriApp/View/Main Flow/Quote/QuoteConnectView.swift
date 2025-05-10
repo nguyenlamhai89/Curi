@@ -52,7 +52,7 @@ struct QuoteConnectView: View {
                             
                             let isConnected = quoteConnecting.connectedQuotes?.contains(where: { $0.quoteID == quote.quoteID }) == true
                             
-                            QuoteCardWithCheckbox(bookViewModel: bookViewModel, bookName: quoteConnecting.quoteBook, authorName: quoteConnecting.quoteAuthor, quoteContent: quoteConnecting.quoteContent, highlightTagName: quoteConnecting.quoteHighlight.name, highlightTagColor: quoteConnecting.quoteHighlight.primaryBackgroundColor, isConnected: isConnected, action: {
+                            QuoteCardWithCheckbox(bookViewModel: bookViewModel, bookName: quoteConnecting.quoteBook, authorName: quoteConnecting.quoteAuthor, quoteContent: quoteConnecting.quoteContent, highlightTagName: quoteConnecting.quoteHighlight?.name ?? "", highlightTagColor: quoteConnecting.quoteHighlight?.primaryBackgroundColor ?? "", isConnected: isConnected, action: {
                                 
                                 if isConnected {
                                     quote.connectedQuotes?.removeAll(where: { $0.quoteID == quoteConnecting.quoteID })
@@ -92,7 +92,8 @@ struct QuoteConnectView: View {
     }
     .sheet(isPresented: $isPresented) {
         NavigationView {
-            QuoteConnectView(bookViewModel: bookViewModel, quote: Quote(bookID: UUID(), quoteLineNum: 0, quoteBook: "Hi", quoteAuthor: "Hi", quoteContent: "Bar", quoteHighlight: HighlightPencil(name: "Discuss Later", primaryTextColor: "paper-500", primaryBackgroundColor: "blue-300", isPresentedRenameView: false, secondaryTextColor: "blue-500", secondaryBackgroundColor: "blue-100", highlightedTextColor: "blue-500", defaultHighlightedBackgroundColor: "blue-100", selectedHighlightedBackgroundColor: "blue-200"), isConnected: false, quoteNote: Note(noteContent: "")))
+            QuoteConnectView(bookViewModel: bookViewModel, quote: Quote(quoteID: UUID(), quoteLineNum: 0, quoteAddedDate: Date(), quoteBook: "Hi", quoteAuthor: "Hi", quoteContent: "Bar", quoteHighlight: HighlightPencil(name: "Discuss Later", primaryTextColor: "paper-500", primaryBackgroundColor: "blue-300", isPresentedRenameView: false, secondaryTextColor: "blue-500", secondaryBackgroundColor: "blue-100", highlightedTextColor: "blue-500", defaultHighlightedBackgroundColor: "blue-100", selectedHighlightedBackgroundColor: "blue-200"), isConnected: false, quoteNote: Note(noteContent: "")))
+//            QuoteConnectView(bookViewModel: bookViewModel, quote: Quote())
         }
     }
 }

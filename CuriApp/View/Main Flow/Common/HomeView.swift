@@ -35,7 +35,8 @@ struct HomeViewManager: View {
         if let first = quoteDatabase.first {
             return first
         } else {
-            return Quote(bookID: UUID(), quoteLineNum: 0, quoteBook: "", quoteAuthor: "", quoteContent: "", quoteHighlight: HighlightPencil(name: "", primaryTextColor: "", primaryBackgroundColor: "", isPresentedRenameView: false, secondaryTextColor: "", secondaryBackgroundColor: "", highlightedTextColor: "", defaultHighlightedBackgroundColor: "", selectedHighlightedBackgroundColor: ""), isConnected: false, quoteNote: Note(noteContent: ""))
+//            return Quote()
+            return Quote(quoteID: UUID(), quoteLineNum: 0, quoteAddedDate: Date(), quoteBook: "", quoteAuthor: "", quoteContent: "", quoteHighlight: HighlightPencil(name: "", primaryTextColor: "", primaryBackgroundColor: "", isPresentedRenameView: false, secondaryTextColor: "", secondaryBackgroundColor: "", highlightedTextColor: "", defaultHighlightedBackgroundColor: "", selectedHighlightedBackgroundColor: ""), isConnected: false, quoteNote: Note(noteContent: ""))
         }
     }
     
@@ -160,15 +161,15 @@ struct HomeViewManager: View {
             .overlay {
                 if isPresentedRenameView {
                     let bindingToName = Binding(
-                        get: { quoteOnPaper.quoteHighlight.name },
+                        get: { quoteOnPaper.quoteHighlight?.name ?? "" },
                         set: { newValue in
-                            quoteOnPaper.quoteHighlight.name = newValue
+                            quoteOnPaper.quoteHighlight?.name = newValue
                             try? modelContext.save()
                         }
                     )
                     
                     RenameHighlightView(
-                        highlightName: bindingToName, backgroundColor: Color(quoteOnPaper.quoteHighlight.primaryBackgroundColor)
+                        highlightName: bindingToName, backgroundColor: Color(quoteOnPaper.quoteHighlight?.primaryBackgroundColor ?? "ink-500")
                     ) {
                         isPresentedRenameView.toggle()
                     }

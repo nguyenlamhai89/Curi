@@ -16,26 +16,26 @@ struct LinesView: View {
     @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
     @Query var pencilDatabase: [HighlightPencil]
     
-    var bookID: UUID
+//    var bookID: UUID
     var bookTitle: String
     var bookAuthor: String
     var bookHighlightName: String
     var bookLinesOriginal: [String]
     
-    var textHighlightedColor: String {
+    var textHighlightedColor: String { // Màu text chính của highlight
         bookViewModel.selectedPen?.highlightedTextColor ?? ""
     }
 
-    var backgroundHighlightedColor: String {
+    var backgroundHighlightedColor: String { // Màu background chính của highlight
         bookViewModel.selectedPen?.defaultHighlightedBackgroundColor ?? ""
     }
     
-    var textHighlightedSelectingColor: String {
+    var textHighlightedSelectingColor: String { // Màu text chính của highlight khi đang được chọn
         bookViewModel.selectedPen?.highlightedTextColor ?? ""
     }
     
-    var backgroundHighlightedSelectingColor: String {
-        bookViewModel.selectedPen?.selectedHighlightedBackgroundColor ?? "" 
+    var backgroundHighlightedSelectingColor: String { // Màu background chính của highlight khi đang được chọn
+        bookViewModel.selectedPen?.selectedHighlightedBackgroundColor ?? ""
     }
     
 
@@ -44,7 +44,7 @@ struct LinesView: View {
         VStack (spacing: curiSpacing(.sp8)) {
             ForEach(Array(bookLinesOriginal.enumerated()), id: \.offset) { lineNum, line in
                 
-                let quote = Quote(bookID: UUID(), quoteLineNum: lineNum + 1, quoteBook: bookTitle, quoteAuthor: bookAuthor, quoteContent: line, quoteHighlight: bookViewModel.selectedPen ?? pencilDatabase[0], isConnected: false, quoteNote: Note(noteContent: ""))
+                let quote = Quote(quoteID: UUID(), quoteLineNum: lineNum + 1, quoteAddedDate: Date(), quoteBook: bookTitle, quoteAuthor: bookAuthor, quoteContent: line, quoteHighlight: nil, isConnected: false, quoteNote: Note(noteContent: ""))
                 
                 Text(quote.quoteContent)
                     .curiTypo(.bkRegular16)
@@ -70,16 +70,16 @@ struct LinesView: View {
                             }
                             bookViewModel.pageIsSelected = true
                         }
-                        print("-- Ready to add Note: \(bookViewModel.selectedLine != nil ? "✅" : "🙅🏻‍♂️") - \(String(describing: bookViewModel.selectedLine?.quoteContent)), \(String(describing: bookViewModel.selectedLine?.quoteHighlight.name))")
+                        print("-- Ready to add Note: \(bookViewModel.selectedLine != nil ? "✅" : "🙅🏻‍♂️") - \(String(describing: bookViewModel.selectedLine?.quoteContent)), \(String(describing: bookViewModel.selectedLine?.quoteHighlight?.name ?? ""))")
                         print("\(quote.quoteLineNum)) - \(quote.quoteContent)")
                     }
                     .foregroundStyle(
                         {
                             if let quote = quoteDatabase.first(where: { $0.quoteContent == quote.quoteContent && $0.quoteLineNum == quote.quoteLineNum }) {
                                 if bookViewModel.selectedLine?.quoteContent == quote.quoteContent && bookViewModel.selectedLine?.quoteLineNum == quote.quoteLineNum {
-                                    return Color(quote.quoteHighlight.highlightedTextColor)
+                                    return Color(quote.quoteHighlight?.highlightedTextColor ?? textHighlightedSelectingColor)
                                 } else {
-                                    return Color(quote.quoteHighlight.highlightedTextColor)
+                                    return Color(quote.quoteHighlight?.highlightedTextColor ?? textHighlightedColor)
                                 }
                             } else {
                                 return curiPalette(.ink500)
@@ -90,9 +90,9 @@ struct LinesView: View {
                         {
                             if let quote = quoteDatabase.first(where: { $0.quoteContent == quote.quoteContent && $0.quoteLineNum == quote.quoteLineNum }) {
                                 if bookViewModel.selectedLine?.quoteContent == quote.quoteContent && bookViewModel.selectedLine?.quoteLineNum == quote.quoteLineNum {
-                                    return Color(quote.quoteHighlight.selectedHighlightedBackgroundColor)
+                                    return Color(quote.quoteHighlight?.selectedHighlightedBackgroundColor ?? backgroundHighlightedSelectingColor)
                                 } else {
-                                    return Color(quote.quoteHighlight.defaultHighlightedBackgroundColor)
+                                    return Color(quote.quoteHighlight?.defaultHighlightedBackgroundColor ?? backgroundHighlightedColor)
                                 }
                                 
                             } else {
@@ -118,6 +118,7 @@ struct LinesView: View {
         } else {
             HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: bookViewModel.vibrationInApp)
             SoundManager.access.play(sound: .highlightAdded, soundEnabledInApp: bookViewModel.soundInApp)
+            checkingQuote.quoteHighlight = bookViewModel.selectedPen
             modelContext.insert(checkingQuote)
         }
         

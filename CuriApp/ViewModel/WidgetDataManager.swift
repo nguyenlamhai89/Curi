@@ -27,8 +27,8 @@ class WidgetDataManager {
         quoteOnWidget = quote.quoteContent
         authorOnWidget = quote.quoteAuthor
         bookOnWidget = quote.quoteBook
-        highlightNameOnWidget = quote.quoteHighlight.name
-        highlightColorOnWidget = quote.quoteHighlight.primaryBackgroundColor
+        highlightNameOnWidget = quote.quoteHighlight?.name ?? "None"
+        highlightColorOnWidget = quote.quoteHighlight?.primaryBackgroundColor ?? "ink-500"
         
         WidgetCenter.shared.reloadTimelines(ofKind: "curiWidget")
     }

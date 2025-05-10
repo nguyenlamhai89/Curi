@@ -39,8 +39,8 @@ struct AllQuotesView: View {
                                     quoteBook: quote.quoteBook,
                                     quoteAuthor: quote.quoteAuthor,
                                     quoteContent: "\(quote.quoteContent)",
-                                    quoteHighlightName: quote.quoteHighlight.name,
-                                    quoteHighlightColor: quote.quoteHighlight.primaryBackgroundColor,
+                                    quoteHighlightName: quote.quoteHighlight?.name ?? "",
+                                    quoteHighlightColor: quote.quoteHighlight?.primaryBackgroundColor ?? "",
                                     action: {
                                         showAddQuoteSheet.toggle()
                                         itemSelected = quote
@@ -61,7 +61,8 @@ struct AllQuotesView: View {
             .background(curiPalette(.paper500))
         }
         .sheet(isPresented: $showAddQuoteSheet, content: {
-            QuoteNoteSheetView(bookViewModel: bookViewModel, bookNavigated: $bookNavigated, quote: itemSelected ?? Quote(bookID: UUID(), quoteLineNum: 0, quoteBook: "", quoteAuthor: "", quoteContent: "", quoteHighlight: HighlightPencil(name: "", primaryTextColor: "", primaryBackgroundColor: "b", isPresentedRenameView: false, secondaryTextColor: "", secondaryBackgroundColor: "", highlightedTextColor: "", defaultHighlightedBackgroundColor: "", selectedHighlightedBackgroundColor: ""), isConnected: false, quoteNote: Note(noteContent: "")))
+            QuoteNoteSheetView(bookViewModel: bookViewModel, bookNavigated: $bookNavigated, quote: itemSelected ?? Quote(quoteID: UUID(), quoteLineNum: 0, quoteAddedDate: Date(), quoteBook: "", quoteAuthor: "", quoteContent: "", quoteHighlight: HighlightPencil(name: "", primaryTextColor: "", primaryBackgroundColor: "b", isPresentedRenameView: false, secondaryTextColor: "", secondaryBackgroundColor: "", highlightedTextColor: "", defaultHighlightedBackgroundColor: "", selectedHighlightedBackgroundColor: ""), isConnected: false, quoteNote: Note(noteContent: "")))
+//            QuoteNoteSheetView(bookViewModel: bookViewModel, bookNavigated: $bookNavigated, quote: Quote())
             
         })
         .navigationDestination(isPresented: $bookNavigated) {
