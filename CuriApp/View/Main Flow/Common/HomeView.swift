@@ -131,6 +131,7 @@ struct HomeViewManager: View {
                     )
                 ]
                 
+                
                 if pencilDatabase.isEmpty {
                     for insertPencil in pencilLibrary {
                         modelContext.insert(insertPencil)
@@ -152,10 +153,11 @@ struct HomeViewManager: View {
                     }
                 }
                 
-                if bookViewModel.selectedPen == nil {
-                    bookViewModel.selectedPen = pencilDatabase.first
-                }
-                print(bookViewModel.selectedPen?.name ?? "No Pen Selected")
+                try? modelContext.save()
+                bookViewModel.selectedPen = pencilDatabase.first
+                
+                print("[\(pencilDatabase.count)] Pencils - \(pencilDatabase)")
+                print(bookViewModel.selectedPen?.name ?? "❌ No Pen Selected")
                 
             }
             .overlay {

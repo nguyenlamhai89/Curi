@@ -22,22 +22,8 @@ struct LinesView: View {
     var bookHighlightName: String
     var bookLinesOriginal: [String]
     
-    var textHighlightedColor: String { // Màu text chính của highlight
-        bookViewModel.selectedPen?.highlightedTextColor ?? ""
-    }
-
-    var backgroundHighlightedColor: String { // Màu background chính của highlight
-        bookViewModel.selectedPen?.defaultHighlightedBackgroundColor ?? ""
-    }
-    
-    var textHighlightedSelectingColor: String { // Màu text chính của highlight khi đang được chọn
-        bookViewModel.selectedPen?.highlightedTextColor ?? ""
-    }
-    
-    var backgroundHighlightedSelectingColor: String { // Màu background chính của highlight khi đang được chọn
-        bookViewModel.selectedPen?.selectedHighlightedBackgroundColor ?? ""
-    }
-    
+    var defaultTextColor: String = "ink-500"
+    var defaultBackgroundColor: String = "paper-500"
 
     
     var body: some View {
@@ -60,7 +46,7 @@ struct LinesView: View {
                     .onTapGesture {
                         withAnimation {
                             if let existingQuote = quoteDatabase.first(where: { $0.quoteContent == quote.quoteContent && $0.quoteLineNum == quote.quoteLineNum }) {
-                                if bookViewModel.selectedLine?.quoteID == existingQuote.quoteID {
+                                if bookViewModel.selectedLine?.quoteLineNum == existingQuote.quoteLineNum {
                                     bookViewModel.selectedLine = nil
                                 } else {
                                     bookViewModel.selectedLine = existingQuote
@@ -77,12 +63,15 @@ struct LinesView: View {
                         {
                             if let quote = quoteDatabase.first(where: { $0.quoteContent == quote.quoteContent && $0.quoteLineNum == quote.quoteLineNum }) {
                                 if bookViewModel.selectedLine?.quoteContent == quote.quoteContent && bookViewModel.selectedLine?.quoteLineNum == quote.quoteLineNum {
-                                    return Color(quote.quoteHighlight?.highlightedTextColor ?? textHighlightedSelectingColor)
+                                    return Color(quote.quoteHighlight?.highlightedTextColor ?? defaultTextColor)
+                                    // Màu text đã được highlight, đang được chọn
                                 } else {
-                                    return Color(quote.quoteHighlight?.highlightedTextColor ?? textHighlightedColor)
+                                    return Color(quote.quoteHighlight?.highlightedTextColor ?? defaultTextColor)
+                                    // Màu text đã được highlight, chưa được chọn
                                 }
                             } else {
                                 return curiPalette(.ink500)
+                                // Màu text mặc định (chưa được highlight, chưa được chọn)
                             }
                         }()
                     )
@@ -90,9 +79,9 @@ struct LinesView: View {
                         {
                             if let quote = quoteDatabase.first(where: { $0.quoteContent == quote.quoteContent && $0.quoteLineNum == quote.quoteLineNum }) {
                                 if bookViewModel.selectedLine?.quoteContent == quote.quoteContent && bookViewModel.selectedLine?.quoteLineNum == quote.quoteLineNum {
-                                    return Color(quote.quoteHighlight?.selectedHighlightedBackgroundColor ?? backgroundHighlightedSelectingColor)
+                                    return Color(quote.quoteHighlight?.selectedHighlightedBackgroundColor ?? defaultBackgroundColor)
                                 } else {
-                                    return Color(quote.quoteHighlight?.defaultHighlightedBackgroundColor ?? backgroundHighlightedColor)
+                                    return Color(quote.quoteHighlight?.defaultHighlightedBackgroundColor ?? defaultBackgroundColor)
                                 }
                                 
                             } else {

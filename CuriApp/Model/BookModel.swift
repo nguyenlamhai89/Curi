@@ -65,7 +65,7 @@ class HighlightPencil {
 }
 
 @Model
-class Quote: Identifiable {
+class Quote {
 //    var bookID: UUID
     var quoteID: UUID = UUID()
     var quoteLineNum: Int = 0
@@ -97,7 +97,7 @@ class Quote: Identifiable {
 @Model
 class Note {
 //    var noteID: UUID = UUID()
-    var noteContent: String
+    var noteContent: String = ""
     var hasContent: Bool {
         !noteContent.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
