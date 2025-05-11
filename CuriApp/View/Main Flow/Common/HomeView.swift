@@ -96,6 +96,9 @@ struct HomeViewManager: View {
                 }
             }
             .onAppear {
+                bookViewModel.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
+            }
+            .onAppear {
                 if userSettings.isEmpty {
                     let thisUser = UserSettingsStats(totalReadTime: 0, soundInApp: bookViewModel.soundInApp, vibrationInApp: bookViewModel.vibrationInApp)
                     modelContext.insert(thisUser)

@@ -24,6 +24,7 @@ class BookViewModel: ObservableObject {
     @AppStorage("widgetBook", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var bookOnWidget: String = ""
     @AppStorage("widgetHighlightName", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var highlightNameOnWidget: String = ""
     @AppStorage("widgetHighlightColor", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var highlightColorOnWidget: String = ""
+    @AppStorage("lastQuoteUpdateDate", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var lastQuoteUpdateDate: Date?
 
     @Published var bookDatabase: [Book] = []
     
@@ -44,6 +45,12 @@ class BookViewModel: ObservableObject {
     @Published var accessSheetFromBookView: Bool = false
     
     @Published var quoteChangedTrigger = UUID() // Highlight color and Highlight name included
+    
+//    @Published var quoteOfTheDay: QuoteOfTheDay = QuoteOfTheDay(date: Date())
+    @Published var quoteOfTheDay: QuoteOfTheDay = {
+        let today = Calendar.current.startOfDay(for: Date())
+        return QuoteOfTheDay(date: today)
+    }()
     
     // Get Book
     func fetchBooks() async throws {
@@ -89,20 +96,21 @@ class BookViewModel: ObservableObject {
     
     // Update widget
     func updateQuoteOnWidget(quoteDatabase: [Quote]) {
-        
         if !quoteDatabase.isEmpty {
-            if let quoteRandom = quoteDatabase.randomElement() {
-                quoteOnWidget = quoteRandom.quoteContent
-                authorOnWidget = quoteRandom.quoteAuthor
-                bookOnWidget = quoteRandom.quoteBook
-                highlightNameOnWidget = quoteRandom.quoteHighlight?.name ?? "Default"
-                highlightColorOnWidget = quoteRandom.quoteHighlight?.primaryBackgroundColor ?? "ink-500"
-                print("🔥 Quote on Widget: \(quoteRandom)")
+            if quoteOfTheDay.quote == nil {
+                quoteOfTheDay.quote = quoteDatabase.randomElement()
             }
+            quoteOnWidget = quoteOfTheDay.quote?.quoteContent ?? ""
+            authorOnWidget = quoteOfTheDay.quote?.quoteAuthor ?? ""
+            bookOnWidget = quoteOfTheDay.quote?.quoteBook ?? ""
+            highlightNameOnWidget = quoteOfTheDay.quote?.quoteHighlight?.name ?? "Default"
+            highlightColorOnWidget = quoteOfTheDay.quote?.quoteHighlight?.primaryBackgroundColor ?? "ink-500"
+            
+            print("🔥 Today quote: \(String(describing: quoteOfTheDay.quote)) - \(String(describing: lastQuoteUpdateDate))")
         } else {
             quoteOnWidget = ""
         }
-        
+        lastQuoteUpdateDate = quoteOfTheDay.date
         WidgetCenter.shared.reloadTimelines(ofKind: "curiWidget")
     }
 }

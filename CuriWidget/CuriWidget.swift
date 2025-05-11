@@ -40,22 +40,23 @@ struct Provider: AppIntentTimelineProvider {
         var entries: [SimpleEntry] = []
         let defaults = UserDefaults(suiteName: "group.madeby.nham.curiapp")
         
-        let quoteOnWidget = defaults?.string(forKey: "widgetQuote") ?? ""
-        let authorOnWidget = defaults?.string(forKey: "widgetAuthor") ?? ""
-        let bookOnWidget = defaults?.string(forKey: "widgetBook") ?? ""
-        let highlightNameOnWidget = defaults?.string(forKey: "widgetHighlightName") ?? ""
-        let highlightColorOnWidget = defaults?.string(forKey: "widgetHighlightColor") ?? "blue-300"
-        
         let currentDate = Date()
-        //        for hourOffset in 0..<5 {
-        //            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-        let entry = SimpleEntry(date: currentDate, authorName: authorOnWidget, bookName: bookOnWidget, quoteContent: quoteOnWidget, highlightName: highlightNameOnWidget, highlightColor: highlightColorOnWidget)
-        entries.append(entry)
-        //        }
+        let startOfToday = Calendar.current.startOfDay(for: currentDate)
+        let startOfTomorrow = Calendar.current.date(byAdding: .day, value: 1, to: startOfToday)!
         
-        //        return Timeline(entries: entries, policy: .never)
-        let nextRefresh = Calendar.current.date(byAdding: .minute, value: 20, to: currentDate)!
-        return Timeline(entries: entries, policy: .after(nextRefresh))
+        let lastUpdate = defaults?.object(forKey: "lastQuoteUpdateDate") as? Date ?? .distantPast
+        let inSameDay = Calendar.current.isDate(startOfToday, inSameDayAs: lastUpdate)
+        
+        let quoteOnWidget = inSameDay ? (defaults?.string(forKey: "widgetQuote") ?? "") : "none"
+        let authorOnWidget = inSameDay ? (defaults?.string(forKey: "widgetAuthor") ?? "") : "none"
+        let bookOnWidget = inSameDay ? (defaults?.string(forKey: "widgetBook") ?? "") : "none"
+        let highlightNameOnWidget = inSameDay ? (defaults?.string(forKey: "widgetHighlightName") ?? "") : "none"
+        let highlightColorOnWidget = inSameDay ? (defaults?.string(forKey: "widgetHighlightColor") ?? "blue-300") : "none"
+        
+        let entry = SimpleEntry(date: startOfToday, authorName: authorOnWidget, bookName: bookOnWidget, quoteContent: quoteOnWidget, highlightName: highlightNameOnWidget, highlightColor: highlightColorOnWidget)
+        entries.append(entry)
+        
+        return Timeline(entries: entries, policy: .after(startOfTomorrow))
         
     }
     
@@ -83,7 +84,12 @@ struct CuriWidgetEntryView : View {
     var body: some View {
         VStack (spacing: curiSpacing(.sp12)) {
             if entry.quoteContent == "" {
-                Text("Read a book and highlight your first favorite quote!")
+                Text("Read a book and highlight your first favorite quote!") // Have no quote yet
+                    .curiTypo(.sfMedium16)
+                    .foregroundStyle(curiPalette(.ink100))
+                    .multilineTextAlignment(.center)
+            } else if entry.quoteContent == "none" {
+                Text("A new quote awaits — open Curi to unlock today’s!") // Daily open
                     .curiTypo(.sfMedium16)
                     .foregroundStyle(curiPalette(.ink100))
                     .multilineTextAlignment(.center)
