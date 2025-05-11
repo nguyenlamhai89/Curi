@@ -7,14 +7,23 @@
 
 import SwiftUI
 import UIKit
+import WidgetKit
 
 //@MainActor
 //@Observable
 class BookViewModel: ObservableObject {
+    // Main app
     @AppStorage("firstTimeReading", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var firstTimeReading: Bool = true
     @AppStorage("firstTimeInAPp", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var firstTimeInApp: Bool = true
     @AppStorage("soundInApp", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var soundInApp: Bool = true
     @AppStorage("vibrationInApp", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var vibrationInApp: Bool = true
+    
+    // Widget
+    @AppStorage("widgetQuote", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var quoteOnWidget: String = ""
+    @AppStorage("widgetAuthor", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var authorOnWidget: String = ""
+    @AppStorage("widgetBook", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var bookOnWidget: String = ""
+    @AppStorage("widgetHighlightName", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var highlightNameOnWidget: String = ""
+    @AppStorage("widgetHighlightColor", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var highlightColorOnWidget: String = ""
 
     @Published var bookDatabase: [Book] = []
     
@@ -34,7 +43,7 @@ class BookViewModel: ObservableObject {
         
     @Published var accessSheetFromBookView: Bool = false
     
-    @Published var quoteHighlightChangedTrigger = UUID()
+    @Published var quoteChangedTrigger = UUID() // Highlight color and Highlight name included
     
     // Get Book
     func fetchBooks() async throws {
@@ -76,5 +85,24 @@ class BookViewModel: ObservableObject {
             print("⚠️ Error: \(error)")
             throw error
         }
+    }
+    
+    // Update widget
+    func updateQuoteOnWidget(quoteDatabase: [Quote]) {
+        
+        if !quoteDatabase.isEmpty {
+            if let quoteRandom = quoteDatabase.randomElement() {
+                quoteOnWidget = quoteRandom.quoteContent
+                authorOnWidget = quoteRandom.quoteAuthor
+                bookOnWidget = quoteRandom.quoteBook
+                highlightNameOnWidget = quoteRandom.quoteHighlight?.name ?? "Default"
+                highlightColorOnWidget = quoteRandom.quoteHighlight?.primaryBackgroundColor ?? "ink-500"
+                print("🔥 Quote on Widget: \(quoteRandom)")
+            }
+        } else {
+            quoteOnWidget = ""
+        }
+        
+        WidgetCenter.shared.reloadTimelines(ofKind: "curiWidget")
     }
 }

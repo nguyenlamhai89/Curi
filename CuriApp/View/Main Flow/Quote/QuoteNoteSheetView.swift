@@ -115,11 +115,13 @@ struct QuoteNoteSheetView: View {
         }
         .onChange(of: quoteDatabase) {
             print("✅ [\(quoteDatabase.count)] Quotes: \(quoteDatabase)")
-            WidgetDataManager.access.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
+            bookViewModel.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
+//            WidgetDataManager.access.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
         }
-        .onChange(of: bookViewModel.quoteHighlightChangedTrigger) {
+        .onChange(of: bookViewModel.quoteChangedTrigger) {
             print("✅ [\(quoteDatabase.count)] Quotes: \(quoteDatabase)")
-            WidgetDataManager.access.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
+            bookViewModel.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
+//            WidgetDataManager.access.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
         }
         .onAppear() {
             print("🔖 Quote - \(quote.quoteContent)")

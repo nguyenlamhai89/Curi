@@ -173,9 +173,15 @@ struct HomeViewManager: View {
                     RenameHighlightView(
                         highlightName: bindingToName, backgroundColor: Color(quoteOnPaper.quoteHighlight?.primaryBackgroundColor ?? "ink-500")
                     ) {
+                        bookViewModel.quoteChangedTrigger = UUID()
                         isPresentedRenameView.toggle()
                     }
                 }
+            }
+            .onChange(of: bookViewModel.quoteChangedTrigger) {
+                print("✅ [\(quoteDatabase.count)] Quotes: \(quoteDatabase)")
+                bookViewModel.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
+//                WidgetDataManager.access.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
             }
         }
     }

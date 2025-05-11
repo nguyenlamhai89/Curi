@@ -38,7 +38,6 @@ struct RenameHighlightView: View {
                             withAnimation {
                                 onSaveNewName()
                             }
-                            WidgetCenter.shared.reloadTimelines(ofKind: "curiWidget")
                         }
                         .onChange(of: highlightName) { oldValue, newValue in
                             highlightName = newValue.prefix(20).description
