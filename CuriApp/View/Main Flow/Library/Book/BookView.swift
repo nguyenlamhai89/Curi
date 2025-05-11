@@ -105,6 +105,9 @@ struct BookView: View {
                 message: Text("Are you sure you want to delete the quote and the note?"),
                 primaryButton: .cancel(),
                 secondaryButton: .destructive(Text("Delete"), action: {
+                    if bookViewModel.quoteOfTheDay.quote == bookViewModel.selectedLine {
+                        bookViewModel.quoteOfTheDay.quote = nil
+                    }
                     modelContext.delete(bookViewModel.selectedLine!)
                 })
             )

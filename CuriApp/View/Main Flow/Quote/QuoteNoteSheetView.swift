@@ -107,6 +107,9 @@ struct QuoteNoteSheetView: View {
                 
                 // Delete Quote
                 if let quoteIsPresented = quoteDatabase.first(where: { $0.quoteContent == quote.quoteContent}) {
+                    if bookViewModel.quoteOfTheDay.quote == quoteIsPresented {
+                        bookViewModel.quoteOfTheDay.quote = nil
+                    }
                     modelContext.delete(quoteIsPresented)
                     presentationMode.wrappedValue.dismiss()
                     print("Deleted!")
