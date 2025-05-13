@@ -155,7 +155,10 @@ struct HomeViewManager: View {
                 }
                 
                 try? modelContext.save()
-                bookViewModel.selectedPen = pencilDatabase.first
+                
+                if bookViewModel.selectedPen == nil {
+                    bookViewModel.selectedPen = pencilDatabase.first
+                }
                 
                 print("[\(pencilDatabase.count)] Pencils - \(pencilDatabase)")
                 print(bookViewModel.selectedPen?.name ?? "❌ No Pen Selected")

@@ -40,10 +40,27 @@ struct SettingsSheetView: View {
                         .overlay {
                             VStack {
                                 Spacer()
-                                AnimatedImage(name: curiSettingsGIF)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: 160)
+                                ZStack {
+                                    
+                                    AnimatedImage(name: curiSettingsGIF)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: 160)
+                                    
+                                    if bookViewModel.selectedPen?.primaryBackgroundColor == "blue-300" {
+                                        Image("curiBluePen")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(height: 160)
+                                    } else if bookViewModel.selectedPen?.primaryBackgroundColor == "pink-300" {
+                                        Image("curiPinkPen")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(height: 160)
+                                    } else {
+                                        EmptyView()
+                                    }
+                                }
                             }
                         }
                     
