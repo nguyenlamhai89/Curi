@@ -126,6 +126,9 @@ struct SettingsSheetView: View {
                 userSettings[0].vibrationInApp = bookViewModel.vibrationInApp
                 print("Vibration: \(bookViewModel.vibrationInApp ? "On" : "Off")")
             }
+            .onAppear {
+                print("--- QOTD: [\(String(describing: bookViewModel.lineNumOnWidget))] \(bookViewModel.quoteOnWidget) - \(bookViewModel.highlightNameOnWidget) - \(bookViewModel.highlightColorOnWidget)")
+            }
         }
     }
 }

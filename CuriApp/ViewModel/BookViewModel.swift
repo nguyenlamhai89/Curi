@@ -17,14 +17,6 @@ class BookViewModel: ObservableObject {
     @AppStorage("firstTimeInAPp", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var firstTimeInApp: Bool = true
     @AppStorage("soundInApp", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var soundInApp: Bool = true
     @AppStorage("vibrationInApp", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var vibrationInApp: Bool = true
-    
-    // Widget
-    @AppStorage("widgetQuote", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var quoteOnWidget: String = ""
-    @AppStorage("widgetAuthor", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var authorOnWidget: String = ""
-    @AppStorage("widgetBook", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var bookOnWidget: String = ""
-    @AppStorage("widgetHighlightName", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var highlightNameOnWidget: String = ""
-    @AppStorage("widgetHighlightColor", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var highlightColorOnWidget: String = ""
-    @AppStorage("lastQuoteUpdateDate", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var lastQuoteUpdateDate: Date?
 
     @Published var bookDatabase: [Book] = []
     
@@ -44,13 +36,7 @@ class BookViewModel: ObservableObject {
         
     @Published var accessSheetFromBookView: Bool = false
     
-    @Published var quoteChangedTrigger = UUID() // Highlight color and Highlight name included
-    
-//    @Published var quoteOfTheDay: QuoteOfTheDay = QuoteOfTheDay(date: Date())
-    @Published var quoteOfTheDay: QuoteOfTheDay = {
-        let today = Calendar.current.startOfDay(for: Date())
-        return QuoteOfTheDay(date: today)
-    }()
+    @Published var quoteChangedTrigger = UUID() // For Highlight color and Highlight name
     
     // Get Book
     func fetchBooks() async throws {
@@ -94,23 +80,70 @@ class BookViewModel: ObservableObject {
         }
     }
     
-    // Update widget
-    func updateQuoteOnWidget(quoteDatabase: [Quote]) {
+    // Widget
+    @AppStorage("widgetQuote", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var quoteOnWidget: String = ""
+    @AppStorage("widgetAuthor", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var authorOnWidget: String = ""
+    @AppStorage("widgetBook", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var bookOnWidget: String = ""
+    @AppStorage("widgetHighlightName", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var highlightNameOnWidget: String = ""
+    @AppStorage("widgetHighlightColor", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var highlightColorOnWidget: String = ""
+    @AppStorage("lineNumOnWidget", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var lineNumOnWidget: Int?
+    @AppStorage("lastQuoteUpdateDate", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var lastQuoteUpdateDate: Date?
+    
+    func shuffleQOTD(quoteDatabase: [Quote]) {
+        let quoteRandomInDay = quoteDatabase.randomElement()
+        quoteOnWidget = quoteRandomInDay?.quoteContent ?? ""
+        authorOnWidget = quoteRandomInDay?.quoteAuthor ?? ""
+        bookOnWidget = quoteRandomInDay?.quoteBook ?? ""
+        highlightNameOnWidget = quoteRandomInDay?.quoteHighlight?.name ?? "Shuffle"
+        highlightColorOnWidget = quoteRandomInDay?.quoteHighlight?.primaryBackgroundColor ?? "ink-500"
+        lineNumOnWidget = quoteRandomInDay?.quoteLineNum
+    }
+    
+    func checkQOTD(quoteDatabase: [Quote]) { // Kiểm tra mỗi khi HomeView xuất hiện
+        // Nếu quoteDatabase trống -> lineNumOnWidget = -1 ("Read a book...)
+        // Nếu có quoteDatabase -> 1) lineNumOnWidget = -1 thì sẽ shuffleQOTD() - 2) else return
         if !quoteDatabase.isEmpty {
-            if quoteOfTheDay.quote == nil {
-                quoteOfTheDay.quote = quoteDatabase.randomElement()
+            if lineNumOnWidget == -1 || lineNumOnWidget == -2 { // Blank or Out-dated
+                shuffleQOTD(quoteDatabase: quoteDatabase)
+            } else {
+                if !quoteDatabase.contains(where: { $0.quoteContent == quoteOnWidget && $0.quoteLineNum == lineNumOnWidget }) {
+                    shuffleQOTD(quoteDatabase: quoteDatabase)
+                }
             }
-            quoteOnWidget = quoteOfTheDay.quote?.quoteContent ?? ""
-            authorOnWidget = quoteOfTheDay.quote?.quoteAuthor ?? ""
-            bookOnWidget = quoteOfTheDay.quote?.quoteBook ?? ""
-            highlightNameOnWidget = quoteOfTheDay.quote?.quoteHighlight?.name ?? "Default"
-            highlightColorOnWidget = quoteOfTheDay.quote?.quoteHighlight?.primaryBackgroundColor ?? "ink-500"
-            
-            print("🔥 Today quote: \(String(describing: quoteOfTheDay.quote)) - \(String(describing: lastQuoteUpdateDate))")
         } else {
             quoteOnWidget = ""
+            authorOnWidget = ""
+            bookOnWidget = ""
+            highlightNameOnWidget = ""
+            highlightColorOnWidget = ""
+            lineNumOnWidget = -1 // (Read a book and ...)
         }
-        lastQuoteUpdateDate = quoteOfTheDay.date
+        
+        lastQuoteUpdateDate = Date()
+        print("Last Updated: \(String(describing: lastQuoteUpdateDate))")
+        WidgetCenter.shared.reloadTimelines(ofKind: "curiWidget")
+        
+        print("⭐️ Quote Of The Day: [\(String(describing: lineNumOnWidget))] \(quoteOnWidget) - \(highlightNameOnWidget) - \(highlightColorOnWidget)")
+    }
+    
+    func updateQOTD(quoteDatabase: [Quote]) { // Xảy ra khi có thay đổi về quoteDatabase (thêm / xoá) và quoteChangeTriggerID
+        checkQOTD(quoteDatabase: quoteDatabase)
+        
+        if let matchedQuote = quoteDatabase.first(where: { $0.quoteContent == quoteOnWidget && $0.quoteLineNum == lineNumOnWidget }) {
+            quoteOnWidget = matchedQuote.quoteContent
+            authorOnWidget = matchedQuote.quoteAuthor
+            bookOnWidget = matchedQuote.quoteBook
+            highlightNameOnWidget = matchedQuote.quoteHighlight?.name ?? "Update"
+            highlightColorOnWidget = matchedQuote.quoteHighlight?.primaryBackgroundColor ?? "ink-100"
+            lineNumOnWidget = matchedQuote.quoteLineNum
+        } else {
+            // Không còn thì shuffle mới
+            checkQOTD(quoteDatabase: quoteDatabase)
+        }
+        
+        lastQuoteUpdateDate = Date()
+        print("Last Updated: \(String(describing: lastQuoteUpdateDate))")
         WidgetCenter.shared.reloadTimelines(ofKind: "curiWidget")
     }
+    
 }

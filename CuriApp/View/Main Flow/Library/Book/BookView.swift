@@ -11,7 +11,7 @@ import WidgetKit
 
 struct BookView: View {
     @ObservedObject var bookViewModel: BookViewModel
-    
+    @Environment(\.scenePhase) private var scenePhase
     @Environment(\.modelContext) private var modelContext
     @Environment(\.presentationMode) var presentationMode
     @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
@@ -105,9 +105,6 @@ struct BookView: View {
                 message: Text("Are you sure you want to delete the quote and the note?"),
                 primaryButton: .cancel(),
                 secondaryButton: .destructive(Text("Delete"), action: {
-                    if bookViewModel.quoteOfTheDay.quote == bookViewModel.selectedLine {
-                        bookViewModel.quoteOfTheDay.quote = nil
-                    }
                     modelContext.delete(bookViewModel.selectedLine!)
                 })
             )
@@ -131,14 +128,16 @@ struct BookView: View {
             )
         })
         .onChange(of: quoteDatabase) {
-            print("✅ [\(quoteDatabase.count)] Quotes: \(quoteDatabase)")
-            bookViewModel.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
-//            WidgetDataManager.access.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
+            bookViewModel.updateQOTD(quoteDatabase: quoteDatabase)
         }
         .onChange(of: bookViewModel.quoteChangedTrigger) {
-            print("✅ [\(quoteDatabase.count)] Quotes: \(quoteDatabase)")
-            bookViewModel.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
-//            WidgetDataManager.access.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
+            bookViewModel.updateQOTD(quoteDatabase: quoteDatabase)
+        }
+        .onChange(of: scenePhase) { oldPhase, newPhase in
+            if newPhase == .active {
+                bookViewModel.checkQOTD(quoteDatabase: quoteDatabase)
+                print("Screen Phase!!!")
+            }
         }
         .onAppear {
             if userSettings.count != 1 {

@@ -20,7 +20,8 @@ struct Provider: AppIntentTimelineProvider {
             bookName: "Book Placeholder",
             quoteContent: "Quote Placeholder",
             highlightName: "Highlight Name",
-            highlightColor: "blue-300"
+            highlightColor: "blue-300",
+            lineNumber: 1
         )
     }
     
@@ -31,7 +32,8 @@ struct Provider: AppIntentTimelineProvider {
             bookName: "Thơ mini",
             quoteContent: "Tôi khóc những chân trời không có người bay; Lại khóc những người bay không có chân trời",
             highlightName: "Thơ tình",
-            highlightColor: "blue-300"
+            highlightColor: "blue-300",
+            lineNumber: 0
         )
     }
     
@@ -40,23 +42,31 @@ struct Provider: AppIntentTimelineProvider {
         var entries: [SimpleEntry] = []
         let defaults = UserDefaults(suiteName: "group.madeby.nham.curiapp")
         
+//        let currentDate = Date()
+//        let startOfToday = Calendar.current.startOfDay(for: currentDate)
+//        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: startOfToday)!
+        
         let currentDate = Date()
-        let startOfToday = Calendar.current.startOfDay(for: currentDate)
-        let startOfTomorrow = Calendar.current.date(byAdding: .day, value: 1, to: startOfToday)!
+        let startOfMinute = Calendar.current.dateInterval(of: .minute, for: currentDate)?.start ?? currentDate
+        let nextMinute = Calendar.current.date(byAdding: .minute, value: 1, to: startOfMinute)!
+        
+//        let lastUpdate = defaults?.object(forKey: "lastQuoteUpdateDate") as? Date ?? .distantPast
+//        let inSameDay = Calendar.current.isDate(startOfToday, inSameDayAs: lastUpdate)
         
         let lastUpdate = defaults?.object(forKey: "lastQuoteUpdateDate") as? Date ?? .distantPast
-        let inSameDay = Calendar.current.isDate(startOfToday, inSameDayAs: lastUpdate)
+        let inSameMinute = Calendar.current.compare(startOfMinute, to: lastUpdate, toGranularity: .minute) == .orderedSame
         
-        let quoteOnWidget = inSameDay ? (defaults?.string(forKey: "widgetQuote") ?? "") : "none"
-        let authorOnWidget = inSameDay ? (defaults?.string(forKey: "widgetAuthor") ?? "") : "none"
-        let bookOnWidget = inSameDay ? (defaults?.string(forKey: "widgetBook") ?? "") : "none"
-        let highlightNameOnWidget = inSameDay ? (defaults?.string(forKey: "widgetHighlightName") ?? "") : "none"
-        let highlightColorOnWidget = inSameDay ? (defaults?.string(forKey: "widgetHighlightColor") ?? "blue-300") : "none"
+        let quoteOnWidget = inSameMinute ? (defaults?.string(forKey: "widgetQuote") ?? "") : ""
+        let authorOnWidget = inSameMinute ? (defaults?.string(forKey: "widgetAuthor") ?? "") : ""
+        let bookOnWidget = inSameMinute ? (defaults?.string(forKey: "widgetBook") ?? "") : ""
+        let highlightNameOnWidget = inSameMinute ? (defaults?.string(forKey: "widgetHighlightName") ?? "") : ""
+        let highlightColorOnWidget = inSameMinute ? (defaults?.string(forKey: "widgetHighlightColor") ?? "blue-300") : ""
+        let lineNumOnWidget = inSameMinute ? (defaults?.integer(forKey: "lineNumOnWidget") ?? -1) : -2
         
-        let entry = SimpleEntry(date: startOfToday, authorName: authorOnWidget, bookName: bookOnWidget, quoteContent: quoteOnWidget, highlightName: highlightNameOnWidget, highlightColor: highlightColorOnWidget)
+        let entry = SimpleEntry(date: currentDate, authorName: authorOnWidget, bookName: bookOnWidget, quoteContent: quoteOnWidget, highlightName: highlightNameOnWidget, highlightColor: highlightColorOnWidget, lineNumber: lineNumOnWidget)
         entries.append(entry)
         
-        return Timeline(entries: entries, policy: .after(startOfTomorrow))
+        return Timeline(entries: entries, policy: .after(nextMinute))
         
     }
     
@@ -72,6 +82,7 @@ struct SimpleEntry: TimelineEntry {
     let quoteContent: String
     let highlightName: String
     let highlightColor: String
+    let lineNumber: Int
 }
 
 struct CuriWidgetEntryView : View {
@@ -83,12 +94,12 @@ struct CuriWidgetEntryView : View {
     
     var body: some View {
         VStack (spacing: curiSpacing(.sp12)) {
-            if entry.quoteContent == "" {
+            if entry.lineNumber == -1 {
                 Text("Read a book and highlight your first favorite quote!") // Have no quote yet
                     .curiTypo(.sfMedium16)
                     .foregroundStyle(curiPalette(.ink100))
                     .multilineTextAlignment(.center)
-            } else if entry.quoteContent == "none" {
+            } else if entry.lineNumber == -2 {
                 Text("A new quote awaits — open Curi to unlock today’s!") // Daily open
                     .curiTypo(.sfMedium16)
                     .foregroundStyle(curiPalette(.ink100))
@@ -156,6 +167,7 @@ extension ConfigurationAppIntent {
         bookName: "Thơ mini",
         quoteContent: "Tôi khóc những chân trời không có người bay",
         highlightName: "Bầu trời",
-        highlightColor: "cyan"
+        highlightColor: "cyan",
+        lineNumber: 0
     )
 }

@@ -12,6 +12,7 @@ import SwiftData
 struct HighlightDial: View {
     @Environment(\.modelContext) var modelContext
     @ObservedObject var bookViewModel: BookViewModel
+    @Query var quoteDatabase: [Quote]
     @Query var pencilDatabase: [HighlightPencil]
     @Query var userSettings: [UserSettingsStats]
     
@@ -109,6 +110,8 @@ struct HighlightDial: View {
                                             
                                             bookViewModel.selectedLine?.quoteHighlight = bookViewModel.selectedPen!
                                             bookViewModel.quoteChangedTrigger = UUID()
+//                                            bookViewModel.updateQOTD(quoteOnChange: bookViewModel.selectedLine ?? Quote())
+//                                            bookViewModel.afterAddOrUpdateQOTD(quoteDatabase: quoteDatabase, checkingQuote: bookViewModel.selectedLine ?? Quote())
                                             
                                             withAnimation {
                                                 scrollProxy.scrollTo(bookViewModel.selectedIndex, anchor: .center)
@@ -151,6 +154,9 @@ struct HighlightDial: View {
                                             scrollProxy.scrollTo(bookViewModel.selectedIndex, anchor: .center)
                                         }
                                     }
+                                }
+                                .onChange(of: bookViewModel.quoteChangedTrigger) {
+                                    bookViewModel.updateQOTD(quoteDatabase: quoteDatabase)
                                 }
                             }
                         }

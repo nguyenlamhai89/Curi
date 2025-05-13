@@ -107,24 +107,39 @@ struct QuoteNoteSheetView: View {
                 
                 // Delete Quote
                 if let quoteIsPresented = quoteDatabase.first(where: { $0.quoteContent == quote.quoteContent}) {
-                    if bookViewModel.quoteOfTheDay.quote == quoteIsPresented {
-                        bookViewModel.quoteOfTheDay.quote = nil
-                    }
+//                    if bookViewModel.quoteOfTheDay.quote == quoteIsPresented {
+//                        bookViewModel.quoteOfTheDay.quote = nil
+//                        bookViewModel.quoteOfTheDay.quote = quoteDatabase.randomElement()
+//                        print("👀 New QOTD: \(String(describing: bookViewModel.quoteOfTheDay.quote))")
+//                        bookViewModel.lastQuoteUpdateDate = bookViewModel.quoteOfTheDay.date
+//                        WidgetCenter.shared.reloadTimelines(ofKind: "curiWidget")
+//                    }
+                    
+                    
                     modelContext.delete(quoteIsPresented)
+//                    bookViewModel.afterDeleteQOTD(quoteDatabase: quoteDatabase, deletedQuote: quoteIsPresented)
+//                    if !quoteDatabase.contains(where: { $0.quoteContent == bookViewModel.quoteOnWidget && $0.quoteLineNum == bookViewModel.lineNumOnWidget }) {
+//                        bookViewModel.updateQOTDFirstTime(quoteDatabase: quoteDatabase)
+//                    }
+//                    bookViewModel.updateQOTD(quoteOnChange: quoteIsPresented)
                     presentationMode.wrappedValue.dismiss()
                     print("Deleted!")
                 }
             }))
         }
+//        .onChange(of: quoteDatabase) {
+//            print("✅ [\(quoteDatabase.count)] Quotes: \(quoteDatabase)")
+//            bookViewModel.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
+//        }
+//        .onChange(of: bookViewModel.quoteChangedTrigger) {
+//            print("✅ [\(quoteDatabase.count)] Quotes: \(quoteDatabase)")
+//            bookViewModel.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
+//        }
         .onChange(of: quoteDatabase) {
-            print("✅ [\(quoteDatabase.count)] Quotes: \(quoteDatabase)")
-            bookViewModel.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
-//            WidgetDataManager.access.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
+            bookViewModel.updateQOTD(quoteDatabase: quoteDatabase)
         }
         .onChange(of: bookViewModel.quoteChangedTrigger) {
-            print("✅ [\(quoteDatabase.count)] Quotes: \(quoteDatabase)")
-            bookViewModel.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
-//            WidgetDataManager.access.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
+            bookViewModel.updateQOTD(quoteDatabase: quoteDatabase)
         }
         .onAppear() {
             print("🔖 Quote - \(quote.quoteContent)")

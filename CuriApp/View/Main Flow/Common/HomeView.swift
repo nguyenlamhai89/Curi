@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct HomeViewManager: View {
+    @Environment(\.scenePhase) private var scenePhase
     @Environment(\.modelContext) var modelContext
     @Environment(\.presentationMode) var presentationMode
     @StateObject var bookViewModel = BookViewModel()
@@ -96,9 +97,6 @@ struct HomeViewManager: View {
                 }
             }
             .onAppear {
-                bookViewModel.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
-            }
-            .onAppear {
                 if userSettings.isEmpty {
                     let thisUser = UserSettingsStats(totalReadTime: 0, soundInApp: bookViewModel.soundInApp, vibrationInApp: bookViewModel.vibrationInApp)
                     modelContext.insert(thisUser)
@@ -182,9 +180,13 @@ struct HomeViewManager: View {
                 }
             }
             .onChange(of: bookViewModel.quoteChangedTrigger) {
-                print("✅ [\(quoteDatabase.count)] Quotes: \(quoteDatabase)")
-                bookViewModel.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
-//                WidgetDataManager.access.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
+                bookViewModel.updateQOTD(quoteDatabase: quoteDatabase)
+            }
+            .onChange(of: scenePhase) { oldPhase, newPhase in
+                if newPhase == .active {
+                    bookViewModel.checkQOTD(quoteDatabase: quoteDatabase)
+                    print("Screen Phase!!!")
+                }
             }
         }
     }
