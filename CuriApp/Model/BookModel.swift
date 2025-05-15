@@ -94,16 +94,6 @@ class Quote {
     }
 }
 
-class QuoteOfTheDay {
-    var date: Date = Date()
-    var quote: Quote? = nil
-    
-    init(date: Date, quote: Quote? = nil) {
-        self.date = date
-        self.quote = quote
-    }
-}
-
 @Model
 class Note {
 //    var noteID: UUID = UUID()

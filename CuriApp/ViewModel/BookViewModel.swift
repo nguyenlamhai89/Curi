@@ -90,6 +90,7 @@ class BookViewModel: ObservableObject {
     @AppStorage("lastQuoteUpdateDate", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var lastQuoteUpdateDate: Date?
     
     func shuffleQOTD(quoteDatabase: [Quote]) {
+        
         let quoteRandomInDay = quoteDatabase.randomElement()
         quoteOnWidget = quoteRandomInDay?.quoteContent ?? ""
         authorOnWidget = quoteRandomInDay?.quoteAuthor ?? ""
@@ -97,18 +98,31 @@ class BookViewModel: ObservableObject {
         highlightNameOnWidget = quoteRandomInDay?.quoteHighlight?.name ?? "Shuffle"
         highlightColorOnWidget = quoteRandomInDay?.quoteHighlight?.primaryBackgroundColor ?? "ink-500"
         lineNumOnWidget = quoteRandomInDay?.quoteLineNum
+        
+        lastQuoteUpdateDate = Date()
+        print("Last Updated: \(String(describing: lastQuoteUpdateDate))")
+        WidgetCenter.shared.reloadTimelines(ofKind: "curiWidget")
     }
     
     func checkQOTD(quoteDatabase: [Quote]) { // Kiểm tra mỗi khi HomeView xuất hiện
         // Nếu quoteDatabase trống -> lineNumOnWidget = -1 ("Read a book...)
         // Nếu có quoteDatabase -> 1) lineNumOnWidget = -1 thì sẽ shuffleQOTD() - 2) else return
+//        let userDefaults = UserDefaults(suiteName: "group.madeby.nham.curiapp")
+//        userDefaults?.synchronize()
+        
         if !quoteDatabase.isEmpty {
             if lineNumOnWidget == -1 || lineNumOnWidget == -2 { // Blank or Out-dated
                 shuffleQOTD(quoteDatabase: quoteDatabase)
+                print("💳 Shuffled QOTD: \(quoteOnWidget) - \(highlightNameOnWidget) - \(highlightColorOnWidget)")
+                print(" -- 1 -- ")
             } else {
+                //When deleting QOTD
                 if !quoteDatabase.contains(where: { $0.quoteContent == quoteOnWidget && $0.quoteLineNum == lineNumOnWidget }) {
                     shuffleQOTD(quoteDatabase: quoteDatabase)
+                    print(" -- 2 -- ")
                 }
+                print("- Line num: \(String(describing: lineNumOnWidget))")
+                print(" -- 3 -- ")
             }
         } else {
             quoteOnWidget = ""
@@ -117,6 +131,7 @@ class BookViewModel: ObservableObject {
             highlightNameOnWidget = ""
             highlightColorOnWidget = ""
             lineNumOnWidget = -1 // (Read a book and ...)
+            print(" -- 4 -- ")
         }
         
         lastQuoteUpdateDate = Date()

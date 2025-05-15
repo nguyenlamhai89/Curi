@@ -100,7 +100,8 @@ struct CuriWidgetEntryView : View {
                     .foregroundStyle(curiPalette(.ink100))
                     .multilineTextAlignment(.center)
             } else if entry.lineNumber == -2 {
-                Text("A new quote awaits — open Curi to unlock today’s!") // Daily open
+//                Text("A new quote awaits — open Curi to unlock today’s!") // Daily open
+                Text("Line Number Value: \(entry.lineNumber)") // Daily open
                     .curiTypo(.sfMedium16)
                     .foregroundStyle(curiPalette(.ink100))
                     .multilineTextAlignment(.center)
