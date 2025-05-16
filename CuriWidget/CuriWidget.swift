@@ -66,9 +66,6 @@ struct Provider: AppIntentTimelineProvider {
         let entry = SimpleEntry(date: currentDate, authorName: authorOnWidget, bookName: bookOnWidget, quoteContent: quoteOnWidget, highlightName: highlightNameOnWidget, highlightColor: highlightColorOnWidget, lineNumber: lineNumOnWidget)
         entries.append(entry)
         
-//        defaults?.set(lineNumOnWidget, forKey: "lineNumOnWidget")
-//        defaults?.synchronize()
-        
         return Timeline(entries: entries, policy: .after(nextMinute))
         
     }
@@ -103,8 +100,8 @@ struct CuriWidgetEntryView : View {
                     .foregroundStyle(curiPalette(.ink100))
                     .multilineTextAlignment(.center)
             } else if entry.lineNumber == -2 {
-//                Text("A new quote awaits — open Curi to unlock today’s!") // Daily open
-                Text("Line Number Value: \(entry.lineNumber)") // Daily open
+//                Text("Line Number Value: \(entry.lineNumber)") // Daily open
+                Text("A new quote awaits — open Curi to unlock today’s!") // Daily open
                     .curiTypo(.sfMedium16)
                     .foregroundStyle(curiPalette(.ink100))
                     .multilineTextAlignment(.center)
