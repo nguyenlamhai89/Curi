@@ -81,13 +81,26 @@ class BookViewModel: ObservableObject {
     }
     
     // Widget
-    @AppStorage("widgetQuote", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var quoteOnWidget: String = ""
-    @AppStorage("widgetAuthor", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var authorOnWidget: String = ""
-    @AppStorage("widgetBook", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var bookOnWidget: String = ""
-    @AppStorage("widgetHighlightName", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var highlightNameOnWidget: String = ""
-    @AppStorage("widgetHighlightColor", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var highlightColorOnWidget: String = ""
-    @AppStorage("lineNumOnWidget", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var lineNumOnWidget: Int?
-    @AppStorage("lastQuoteUpdateDate", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var lastQuoteUpdateDate: Date?
+    @AppStorage("widgetQuote", store: UserDefaults(suiteName: "group.madeby.nham.curiapp"))
+    var quoteOnWidget: String = ""
+    
+    @AppStorage("widgetAuthor", store: UserDefaults(suiteName: "group.madeby.nham.curiapp"))
+    var authorOnWidget: String = ""
+    
+    @AppStorage("widgetBook", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) 
+    var bookOnWidget: String = ""
+    
+    @AppStorage("widgetHighlightName", store: UserDefaults(suiteName: "group.madeby.nham.curiapp"))
+    var highlightNameOnWidget: String = ""
+    
+    @AppStorage("widgetHighlightColor", store: UserDefaults(suiteName: "group.madeby.nham.curiapp"))
+    var highlightColorOnWidget: String = ""
+    
+    @AppStorage("lineNumOnWidget", store: UserDefaults(suiteName: "group.madeby.nham.curiapp"))
+    var lineNumOnWidget: Int?
+    
+    @AppStorage("lastQuoteUpdateDate", store: UserDefaults(suiteName: "group.madeby.nham.curiapp"))
+    var lastQuoteUpdateDate: Date?
     
     func shuffleQOTD(quoteDatabase: [Quote]) {
         
@@ -109,6 +122,10 @@ class BookViewModel: ObservableObject {
         // Nếu có quoteDatabase -> 1) lineNumOnWidget = -1 thì sẽ shuffleQOTD() - 2) else return
 //        let userDefaults = UserDefaults(suiteName: "group.madeby.nham.curiapp")
 //        userDefaults?.synchronize()
+        guard let lineNumOnWidgetFromWidget = UserDefaults(suiteName: "group.madeby.nham.curiapp")?.integer(forKey: "lineNumOnWidget") else {
+            return
+        }
+        lineNumOnWidget = lineNumOnWidgetFromWidget
         
         if !quoteDatabase.isEmpty {
             if lineNumOnWidget == -1 || lineNumOnWidget == -2 { // Blank or Out-dated
@@ -121,7 +138,7 @@ class BookViewModel: ObservableObject {
                     shuffleQOTD(quoteDatabase: quoteDatabase)
                     print(" -- 2 -- ")
                 }
-                print("- Line num: \(String(describing: lineNumOnWidget))")
+                print("- New Line num: \(String(describing: lineNumOnWidget))")
                 print(" -- 3 -- ")
             }
         } else {

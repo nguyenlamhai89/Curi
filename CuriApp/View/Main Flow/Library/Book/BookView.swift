@@ -136,9 +136,10 @@ struct BookView: View {
         .onChange(of: scenePhase) { oldPhase, newPhase in
             if newPhase == .active {
                 bookViewModel.checkQOTD(quoteDatabase: quoteDatabase)
-                print("Screen Phase!!!")
+                print("++ QOTD Checked ++")
             }
         }
+
         .onAppear {
             if userSettings.count != 1 {
                 print("❌ Not found US")

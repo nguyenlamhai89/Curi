@@ -187,13 +187,8 @@ struct HomeViewManager: View {
             }
             .onChange(of: scenePhase) { oldPhase, newPhase in
                 if newPhase == .active {
-                    
-                    print("- Old Line Num: \(String(describing: bookViewModel.lineNumOnWidget))")
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                        bookViewModel.checkQOTD(quoteDatabase: quoteDatabase)
-                        print("++ QOTD Checked ++")
-                    })
-                    
+                    bookViewModel.checkQOTD(quoteDatabase: quoteDatabase)
+                    print("++ QOTD Checked ++")
                 }
             }
         }

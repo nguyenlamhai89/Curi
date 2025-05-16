@@ -62,9 +62,12 @@ struct Provider: AppIntentTimelineProvider {
         let highlightNameOnWidget = inSameMinute ? (defaults?.string(forKey: "widgetHighlightName") ?? "") : ""
         let highlightColorOnWidget = inSameMinute ? (defaults?.string(forKey: "widgetHighlightColor") ?? "blue-300") : ""
         let lineNumOnWidget = inSameMinute ? (defaults?.integer(forKey: "lineNumOnWidget") ?? -1) : -2
-        
+        defaults?.set(lineNumOnWidget, forKey: "lineNumOnWidget")
         let entry = SimpleEntry(date: currentDate, authorName: authorOnWidget, bookName: bookOnWidget, quoteContent: quoteOnWidget, highlightName: highlightNameOnWidget, highlightColor: highlightColorOnWidget, lineNumber: lineNumOnWidget)
         entries.append(entry)
+        
+//        defaults?.set(lineNumOnWidget, forKey: "lineNumOnWidget")
+//        defaults?.synchronize()
         
         return Timeline(entries: entries, policy: .after(nextMinute))
         
@@ -88,7 +91,7 @@ struct SimpleEntry: TimelineEntry {
 struct CuriWidgetEntryView : View {
     @Environment(\.widgetFamily) var widgetFamily
     //    @Query var quoteDatabase: [Quote]
-    var entry: Provider.Entry
+    @State var entry: Provider.Entry
     
     //    let quoteOfTheDay = DataService()
     
