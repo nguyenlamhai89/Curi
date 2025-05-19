@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct LibrarySkeletonView: View {
+    /// Local View
     @ObservedObject var bookViewModel: BookViewModel
     
     var body: some View {

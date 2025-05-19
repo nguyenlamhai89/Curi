@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct EmptyStateDescription: View {
+    /// Local View
     var image: String
     var headline: String
     var paragraph: String
@@ -32,9 +33,8 @@ struct EmptyStateDescription: View {
 }
 
 struct LibraryErrorView: View {
+    /// Local View
     @ObservedObject var bookViewModel: BookViewModel
-    
-    /// Empty State
     var emptyBookImage: String = "curiBookEmpty"
     var emptyBookHeadline: String = "Some things broke, but don’t dismay"
     var emptyBookParagraph: String = "We’ll patch it up — then you can play"

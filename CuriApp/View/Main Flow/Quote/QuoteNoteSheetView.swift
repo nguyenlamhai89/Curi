@@ -10,30 +10,24 @@ import SwiftData
 import WidgetKit
 
 struct QuoteNoteSheetView: View {
-    @ObservedObject var bookViewModel: BookViewModel
-    
+    /// SwiftData
     @Environment(\.modelContext) private var modelContext
-//    @Query var quoteDatabase: [Quote]
     @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
     
+    /// Local View
+    @ObservedObject var bookViewModel: BookViewModel
     @Environment(\.presentationMode) var presentationMode
-//    @State var shareThoughts: String = ""
     @State var connectQuoteNavigate: Bool = false
     @State var deleteAlertIsPresented: Bool = false
-    
+    @State var isShowKeyboard: Bool = false
     @Binding var bookNavigated: Bool
-    
     @Bindable var quote: Quote
-    
     var shareThoughtsBinding: Binding<String> {
         Binding(
             get: { quote.quoteNote.noteContent },
             set: { quote.quoteNote.noteContent = $0 }
         )
     }
-    
-//    @State private var keyboardHeight: CGFloat = 0
-    @State var isShowKeyboard: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -107,34 +101,12 @@ struct QuoteNoteSheetView: View {
                 
                 // Delete Quote
                 if let quoteIsPresented = quoteDatabase.first(where: { $0.quoteContent == quote.quoteContent}) {
-//                    if bookViewModel.quoteOfTheDay.quote == quoteIsPresented {
-//                        bookViewModel.quoteOfTheDay.quote = nil
-//                        bookViewModel.quoteOfTheDay.quote = quoteDatabase.randomElement()
-//                        print("👀 New QOTD: \(String(describing: bookViewModel.quoteOfTheDay.quote))")
-//                        bookViewModel.lastQuoteUpdateDate = bookViewModel.quoteOfTheDay.date
-//                        WidgetCenter.shared.reloadTimelines(ofKind: "curiWidget")
-//                    }
-                    
-                    
                     modelContext.delete(quoteIsPresented)
-//                    bookViewModel.afterDeleteQOTD(quoteDatabase: quoteDatabase, deletedQuote: quoteIsPresented)
-//                    if !quoteDatabase.contains(where: { $0.quoteContent == bookViewModel.quoteOnWidget && $0.quoteLineNum == bookViewModel.lineNumOnWidget }) {
-//                        bookViewModel.updateQOTDFirstTime(quoteDatabase: quoteDatabase)
-//                    }
-//                    bookViewModel.updateQOTD(quoteOnChange: quoteIsPresented)
                     presentationMode.wrappedValue.dismiss()
                     print("Deleted!")
                 }
             }))
         }
-//        .onChange(of: quoteDatabase) {
-//            print("✅ [\(quoteDatabase.count)] Quotes: \(quoteDatabase)")
-//            bookViewModel.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
-//        }
-//        .onChange(of: bookViewModel.quoteChangedTrigger) {
-//            print("✅ [\(quoteDatabase.count)] Quotes: \(quoteDatabase)")
-//            bookViewModel.updateQuoteOnWidget(quoteDatabase: quoteDatabase)
-//        }
         .onChange(of: quoteDatabase) {
             bookViewModel.updateQOTD(quoteDatabase: quoteDatabase)
         }
@@ -186,5 +158,4 @@ extension QuoteNoteSheetView {
     @Previewable @StateObject var bookViewModel = BookViewModel()
     
     QuoteNoteSheetView(bookViewModel: bookViewModel, bookNavigated: .constant(false), quote: Quote(quoteID: UUID(), quoteLineNum: 0, quoteAddedDate: Date(), quoteBook: "Test Book", quoteAuthor: "Test Author", quoteContent: "Test Quote Content Bla Blo Bla Blo", quoteHighlight: HighlightPencil(name: "Test Highlight Name", primaryTextColor: "paper-500", primaryBackgroundColor: "blue-300", isPresentedRenameView: false, secondaryTextColor: "blue-500", secondaryBackgroundColor: "blue-100", highlightedTextColor: "blue-500", defaultHighlightedBackgroundColor: "blue-100", selectedHighlightedBackgroundColor: "blue-200"), isConnected: false, quoteNote: Note(noteContent: "")))
-//    QuoteNoteSheetView(bookViewModel: bookViewModel, bookNavigated: .constant(false), quote: Quote())
 }

@@ -1,11 +1,16 @@
 import SwiftUI
 import SwiftData
 
-
 struct AllQuotesView: View {
+    /// SwiftData
+    @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
+    
+    /// Local View
+    @ObservedObject var bookViewModel: BookViewModel
+    @State var itemSelected: Quote?
+    @State var showAddQuoteSheet: Bool = false
     @State var searchAvailableQuote: String = ""
     @State var bookNavigated: Bool = false
-    
     var filteredQuoteContent: [Quote] {
         guard !searchAvailableQuote.isEmpty else {
             return quoteDatabase
@@ -14,18 +19,6 @@ struct AllQuotesView: View {
             $0.quoteContent.localizedCaseInsensitiveContains(searchAvailableQuote)
         }
     }
-    
-    @ObservedObject var bookViewModel: BookViewModel
-//    @Query var quoteDatabase: [Quote]
-    @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
-    @State var itemSelected: Quote?
-    
-    @State var showAddQuoteSheet: Bool = false
-    
-//    var bookSelectedName: String = ""
-    
-//    var nameHighlightPrimary: String
-//    var nameHighlightSecondary: String
     
     var body: some View {
         ZStack {
@@ -62,8 +55,6 @@ struct AllQuotesView: View {
         }
         .sheet(isPresented: $showAddQuoteSheet, content: {
             QuoteNoteSheetView(bookViewModel: bookViewModel, bookNavigated: $bookNavigated, quote: itemSelected ?? Quote(quoteID: UUID(), quoteLineNum: 0, quoteAddedDate: Date(), quoteBook: "", quoteAuthor: "", quoteContent: "", quoteHighlight: HighlightPencil(name: "", primaryTextColor: "", primaryBackgroundColor: "b", isPresentedRenameView: false, secondaryTextColor: "", secondaryBackgroundColor: "", highlightedTextColor: "", defaultHighlightedBackgroundColor: "", selectedHighlightedBackgroundColor: ""), isConnected: false, quoteNote: Note(noteContent: "")))
-//            QuoteNoteSheetView(bookViewModel: bookViewModel, bookNavigated: $bookNavigated, quote: Quote())
-            
         })
         .navigationDestination(isPresented: $bookNavigated) {
             if let book = bookViewModel.bookDatabase.first(where: { $0.title == itemSelected?.quoteBook }) {

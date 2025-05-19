@@ -9,22 +9,21 @@ import SwiftUI
 import SwiftData
 
 struct QuoteConnectView: View {
+    /// SwiftData
+    @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
+    @Query var pencilDatabase: [HighlightPencil]
+    
+    /// Local View
+    @Bindable var quote: Quote
     @ObservedObject var bookViewModel: BookViewModel
     @State var searchLinkQuote: String = ""
     @State var connectedQuote: Int = 0
-    
-    /// Empty State - Search
     var emptySearchImage: String = "curiSearchEmpty"
     var emptySearchHeadline: String = "Looks like nothing matches — yet"
     var emptySearchParagraph: String = "Try refining your search — or highlight something new that sparks your mind"
-    
-    /// Empty State - Connectable Quote
     var emptyConnectImage: String = "curiConnectEmpty"
     var emptyConnectHeadline: String = "One quote alone can’t make a bridge"
     var emptyConnectParagraph: String = "Why not dive back into a book and mark one more moment that moves you?"
-    
-    @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
-    
     var searchFilteredQuote: [Quote] {
         if searchLinkQuote.isEmpty {
             return quoteDatabase.filter { $0.quoteID != quote.quoteID }
@@ -35,9 +34,6 @@ struct QuoteConnectView: View {
             }
         }
     }
-    
-    @Query var pencilDatabase: [HighlightPencil]
-    @Bindable var quote: Quote
     
     var body: some View {
         Group {

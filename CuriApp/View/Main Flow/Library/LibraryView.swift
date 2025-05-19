@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct LibraryView: View {
+    /// Local View
     @ObservedObject var bookViewModel: BookViewModel
     @State var bookNavigate: Bool = false
-    
-    // Binding from HomeView
     var bookNameInBanner: String
     var authorNameInBanner: String
     

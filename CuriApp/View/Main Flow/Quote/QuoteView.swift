@@ -9,19 +9,17 @@ import SwiftUI
 import SwiftData
 
 struct QuoteView: View {
-    @ObservedObject var bookViewModel: BookViewModel
-
+    /// SwiftData
     @Environment(\.modelContext) var modelContext
-//    @Query var quoteDatabase: [Quote]
     @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
     
+    /// Local View
+    @ObservedObject var bookViewModel: BookViewModel
     @State var viewAllNavigation: Bool = false
-//    @State var isPresentedQuoteSheetView: Bool = false
     @State var newHighlightName: String = ""
     @State var isShowKeyboard: Bool = false
     @State var bookNavigated: Bool = false
     @State var itemSelected: Quote?
-    
     @Binding var isPresentedRenameView: Bool
     
     var quoteOnPaper: Quote {
@@ -29,7 +27,6 @@ struct QuoteView: View {
             return first
         } else {
             return Quote(quoteID: UUID(), quoteLineNum: 0, quoteAddedDate: Date(), quoteBook: "", quoteAuthor: "", quoteContent: "", quoteHighlight: HighlightPencil(name: "", primaryTextColor: "", primaryBackgroundColor: "", isPresentedRenameView: false, secondaryTextColor: "", secondaryBackgroundColor: "", highlightedTextColor: "", defaultHighlightedBackgroundColor: "", selectedHighlightedBackgroundColor: ""), isConnected: false, quoteNote: Note(noteContent: ""))
-//            return Quote()
         }
     }
     
