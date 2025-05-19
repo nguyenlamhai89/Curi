@@ -14,8 +14,8 @@ struct QuoteConnectView: View {
     @Query var pencilDatabase: [HighlightPencil]
     
     /// Local View
-    @Bindable var quote: Quote
     @ObservedObject var bookViewModel: BookViewModel
+    @Bindable var quote: Quote
     @State var searchLinkQuote: String = ""
     @State var connectedQuote: Int = 0
     var emptySearchImage: String = "curiSearchEmpty"
@@ -76,20 +76,6 @@ struct QuoteConnectView: View {
         .background(curiPalette(.paper500))
         .onAppear {
             print("🔗 This quote is connecting with: \(String(describing: quote.connectedQuotes))")
-        }
-    }
-}
-
-#Preview {
-    @Previewable @State var isPresented: Bool = true
-    @Previewable @StateObject var bookViewModel = BookViewModel()
-    VStack {
-        Text("Test")
-    }
-    .sheet(isPresented: $isPresented) {
-        NavigationView {
-            QuoteConnectView(bookViewModel: bookViewModel, quote: Quote(quoteID: UUID(), quoteLineNum: 0, quoteAddedDate: Date(), quoteBook: "Hi", quoteAuthor: "Hi", quoteContent: "Bar", quoteHighlight: HighlightPencil(name: "Discuss Later", primaryTextColor: "paper-500", primaryBackgroundColor: "blue-300", isPresentedRenameView: false, secondaryTextColor: "blue-500", secondaryBackgroundColor: "blue-100", highlightedTextColor: "blue-500", defaultHighlightedBackgroundColor: "blue-100", selectedHighlightedBackgroundColor: "blue-200"), isConnected: false, quoteNote: Note(noteContent: "")))
-//            QuoteConnectView(bookViewModel: bookViewModel, quote: Quote())
         }
     }
 }
