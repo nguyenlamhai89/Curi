@@ -9,12 +9,11 @@ import SwiftUI
 import WidgetKit
 
 struct RenameHighlightView: View {
+    /// Local View
     @Binding var highlightName: String
     @FocusState var autoFocusRename: Bool
-    
     var backgroundColor: Color
     var placeholderHighlightName: String = "Highlight Name"
-    
     var onSaveNewName: () -> Void
     
     var body: some View {
@@ -49,7 +48,7 @@ struct RenameHighlightView: View {
                 }
             }
             .onAppear {
-                DispatchQueue.main.async {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                     autoFocusRename.toggle()
                 }
             }

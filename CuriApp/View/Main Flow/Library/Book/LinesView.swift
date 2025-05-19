@@ -10,21 +10,19 @@ import SwiftData
 import WidgetKit
 
 struct LinesView: View {
-    @ObservedObject var bookViewModel: BookViewModel
+    /// SwiftData
     @Environment(\.modelContext) private var modelContext
-//    @Query var quoteDatabase: [Quote]
     @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
     @Query var pencilDatabase: [HighlightPencil]
     
-//    var bookID: UUID
+    /// Local View
+    @ObservedObject var bookViewModel: BookViewModel
     var bookTitle: String
     var bookAuthor: String
     var bookHighlightName: String
     var bookLinesOriginal: [String]
-    
     var defaultTextColor: String = "ink-500"
     var defaultBackgroundColor: String = "paper-500"
-
     
     var body: some View {
         VStack (spacing: curiSpacing(.sp8)) {

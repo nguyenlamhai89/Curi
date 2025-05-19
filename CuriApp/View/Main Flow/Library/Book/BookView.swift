@@ -10,22 +10,21 @@ import SwiftData
 import WidgetKit
 
 struct BookView: View {
-    @ObservedObject var bookViewModel: BookViewModel
-    @Environment(\.scenePhase) private var scenePhase
+    /// SwiftData
     @Environment(\.modelContext) private var modelContext
-    @Environment(\.presentationMode) var presentationMode
     @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
     @Query var pencilDatabase: [HighlightPencil]
     @Query var userSettings: [UserSettingsStats]
     
+    /// Local View
+    @ObservedObject var bookViewModel: BookViewModel
+    @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.presentationMode) var presentationMode
     @State var isPresentedRenameView: Bool = false
     @State var newHighlightName: String = ""
-
     @State var bookLinesOriginal: [String]
     @State var isShowKeyboard: Bool = false
     @State var highlightNewFeature: Bool = false
-    
-    
     var bookID: UUID
     var bookTitle: String
     var bookAuthor: String
