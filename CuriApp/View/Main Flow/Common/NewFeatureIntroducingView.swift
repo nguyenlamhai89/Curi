@@ -9,21 +9,18 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct NewFeatureIntroducingView: View {
+    /// Local View
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var bookViewModel: BookViewModel
-        
+    @State var isAnimating: Bool = false
     let featureBannerGIF: String
     let featureIconLeft: String
     let featureIconRight: String
-    
     let featureName: String
     let featureHeadline: String
     let featureDescription: String
     let featureCTA: String
-        
     let stepsWidget: [(image: String, description: String)]
-    
-    @State var isAnimating: Bool = false
     
     var body: some View {
         GeometryReader(content: { geometry in

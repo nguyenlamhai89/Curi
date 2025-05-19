@@ -9,19 +9,18 @@ import SwiftUI
 import SwiftData
 
 struct ReadingAnalyticsView: View {
+    /// SwiftData
     @Environment(\.modelContext) var modelContext
-    
     @Query var quoteDatabase: [Quote]
     @Query var userSettings: [UserSettingsStats]
     
+    /// Local View
     var minutesNumber: Double {
         userSettings[0].totalReadTime / 60
     }
-    
     var noteNumber: Int {
         quoteDatabase.filter { $0.quoteNote.hasContent }.count
     }
-    
     var connectionNumber: Int {
         quoteDatabase.filter { !($0.connectedQuotes?.isEmpty ?? true) }.count
     }
@@ -73,7 +72,3 @@ struct AnalyticsLineDefault: View {
         .frame(maxWidth: .infinity)
     }
 }
-
-//#Preview {
-//    ReadingAnalyticsView()
-//}

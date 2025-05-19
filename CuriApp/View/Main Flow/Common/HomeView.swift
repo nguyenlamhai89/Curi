@@ -9,26 +9,22 @@ import SwiftUI
 import SwiftData
 
 struct HomeViewManager: View {
-    @Environment(\.scenePhase) private var scenePhase
+    /// SwiftData
     @Environment(\.modelContext) var modelContext
-    @Environment(\.presentationMode) var presentationMode
-    @StateObject var bookViewModel = BookViewModel()
     @Query var pencilDatabase: [HighlightPencil]
     @Query var userSettings: [UserSettingsStats]
-
     @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
-        
-    // Navigation Value
+    
+    /// Local View
+    @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.presentationMode) var presentationMode
+    @StateObject var bookViewModel = BookViewModel()
     @State var settingsTopNavigation: Bool = false
     @State var widgetTopNavigation: Bool = false
     @State var isPresentedRenameView: Bool = false
-    
-    // Switch Tab Value
     @State var libraryViewIsPresented: Bool = true
     @State var quoteViewIsPresented: Bool = false
     @State var appIntroducingSheet: Bool = false
-    
-    // Banner Value
     var bookNameInBanner: String = "Sonnet"
     var authorNameInBanner: String = "William Shakespeare"
     

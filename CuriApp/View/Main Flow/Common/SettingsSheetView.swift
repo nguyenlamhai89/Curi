@@ -10,16 +10,16 @@ import SwiftData
 import SDWebImageSwiftUI
 
 struct SettingsSheetView: View {
+    /// SwiftData
     @Environment(\.modelContext) var modelContext
-    @Environment(\.presentationMode) var presentationMode
-    @Environment(\.openURL) private var openURL
-    
-    @ObservedObject var bookViewModel: BookViewModel
     @Query var pencilDatabase: [HighlightPencil] = []
     @Query var userSettings: [UserSettingsStats]
     
+    /// Local View
+    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.openURL) private var openURL
+    @ObservedObject var bookViewModel: BookViewModel
     let curiSettingsGIF: String = "curiSettingsGIF.gif"
-    
     let aboutButtons: [(String, String)] = [
         ("https://www.facebook.com/nhammmmmmm/", "Give Feedback"),
         ("https://drive.google.com/file/d/1L3YO_D4Gq5zxfv6hTYpUc2W-YoeThxse/view?usp=sharing", "Support My Wedding Dream"),
@@ -41,7 +41,6 @@ struct SettingsSheetView: View {
                             VStack {
                                 Spacer()
                                 ZStack {
-                                    
                                     AnimatedImage(name: curiSettingsGIF)
                                         .resizable()
                                         .scaledToFit()
