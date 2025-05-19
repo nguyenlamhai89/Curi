@@ -139,7 +139,6 @@ struct BookView: View {
                 print("++ QOTD Checked ++")
             }
         }
-
         .onAppear {
             if userSettings.count != 1 {
                 print("❌ Not found US")

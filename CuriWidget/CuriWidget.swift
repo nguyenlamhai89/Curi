@@ -87,10 +87,8 @@ struct SimpleEntry: TimelineEntry {
 
 struct CuriWidgetEntryView : View {
     @Environment(\.widgetFamily) var widgetFamily
-    //    @Query var quoteDatabase: [Quote]
-    @State var entry: Provider.Entry
     
-    //    let quoteOfTheDay = DataService()
+    var entry: Provider.Entry
     
     var body: some View {
         VStack (spacing: curiSpacing(.sp12)) {

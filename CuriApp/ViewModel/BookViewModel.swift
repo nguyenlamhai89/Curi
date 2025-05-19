@@ -120,8 +120,6 @@ class BookViewModel: ObservableObject {
     func checkQOTD(quoteDatabase: [Quote]) { // Kiểm tra mỗi khi HomeView xuất hiện
         // Nếu quoteDatabase trống -> lineNumOnWidget = -1 ("Read a book...)
         // Nếu có quoteDatabase -> 1) lineNumOnWidget = -1 thì sẽ shuffleQOTD() - 2) else return
-//        let userDefaults = UserDefaults(suiteName: "group.madeby.nham.curiapp")
-//        userDefaults?.synchronize()
         guard let lineNumOnWidgetFromWidget = UserDefaults(suiteName: "group.madeby.nham.curiapp")?.integer(forKey: "lineNumOnWidget") else {
             return
         }
