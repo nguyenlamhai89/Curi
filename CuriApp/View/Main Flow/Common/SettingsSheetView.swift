@@ -133,6 +133,9 @@ struct SettingsSheetView: View {
                 for (index, pen) in pencilDatabase.enumerated() {
                     print(String(describing: "--- [\(index)] Pencil: \(pen.name), Color: \(pen.primaryBackgroundColor)"))
                 }
+                
+                // Check Quote Of The Day
+                print("--- QOTD: [\(String(describing: bookViewModel.lineNumOnWidget))] \(bookViewModel.quoteOnWidget) - \(bookViewModel.highlightNameOnWidget) - \(bookViewModel.highlightColorOnWidget)")
             }
             .onChange(of: bookViewModel.soundInApp) {
                 userSettings[0].soundInApp = bookViewModel.soundInApp
@@ -142,9 +145,9 @@ struct SettingsSheetView: View {
                 userSettings[0].vibrationInApp = bookViewModel.vibrationInApp
                 print("Vibration: \(bookViewModel.vibrationInApp ? "On" : "Off")")
             }
-            .onAppear {
-                print("--- QOTD: [\(String(describing: bookViewModel.lineNumOnWidget))] \(bookViewModel.quoteOnWidget) - \(bookViewModel.highlightNameOnWidget) - \(bookViewModel.highlightColorOnWidget)")
-            }
+//            .onAppear {
+//                print("--- QOTD: [\(String(describing: bookViewModel.lineNumOnWidget))] \(bookViewModel.quoteOnWidget) - \(bookViewModel.highlightNameOnWidget) - \(bookViewModel.highlightColorOnWidget)")
+//            }
         }
     }
 }

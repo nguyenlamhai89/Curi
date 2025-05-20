@@ -100,11 +100,13 @@ struct QuoteNoteSheetView: View {
                   secondaryButton: .destructive(Text("Delete"), action: {
                 
                 // Delete Quote
-                if let quoteIsPresented = quoteDatabase.first(where: { $0.quoteContent == quote.quoteContent}) {
-                    modelContext.delete(quoteIsPresented)
-                    presentationMode.wrappedValue.dismiss()
-                    print("Deleted!")
-                }
+//                if let quoteIsPresented = quoteDatabase.first(where: { $0.quoteContent == quote.quoteContent}) {
+//                    modelContext.delete(quoteIsPresented)
+//                    presentationMode.wrappedValue.dismiss()
+//                    print("Deleted!")
+//                }
+                bookViewModel.deleteQuoteInSheet(quoteDatabase: quoteDatabase, quote: quote, modelContext: modelContext)
+                presentationMode.wrappedValue.dismiss()
             }))
         }
         .onChange(of: quoteDatabase) {
@@ -114,13 +116,12 @@ struct QuoteNoteSheetView: View {
             bookViewModel.updateQOTD(quoteDatabase: quoteDatabase)
         }
         .onAppear() {
+            setupKeyboardObserver()
+            
             print("🔖 Quote - \(quote.quoteContent)")
             print("🔖 Author - \(quote.quoteAuthor)")
             print("🔖 Book - \(quote.quoteBook)")
             print("Raw Data: \(quote)")
-        }
-        .onAppear {
-            setupKeyboardObserver()
         }
         .onDisappear {
             removeKeyboardObserver()

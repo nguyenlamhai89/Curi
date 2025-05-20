@@ -38,24 +38,27 @@ struct LinesView: View {
                         print("- ID: \(quote.quoteID))")
                         print("- Line Num: \(quote.quoteLineNum)")
                         
-                        checkQuoteDatabase(checkingQuote: quote)
+//                        checkQuoteDatabase(checkingQuote: quote)
+                        bookViewModel.checkQuoteDatabase(quoteDatabase: quoteDatabase, checkingQuote: quote, modelContext: modelContext)
                         
                     }
                     .onTapGesture {
-                        withAnimation {
-                            if let existingQuote = quoteDatabase.first(where: { $0.quoteContent == quote.quoteContent && $0.quoteLineNum == quote.quoteLineNum }) {
-                                if bookViewModel.selectedLine?.quoteLineNum == existingQuote.quoteLineNum {
-                                    bookViewModel.selectedLine = nil
-                                } else {
-                                    bookViewModel.selectedLine = existingQuote
-                                }
-                            } else {
-                                bookViewModel.selectedLine = nil
-                            }
-                            bookViewModel.pageIsSelected = true
-                        }
-                        print("-- Ready to add Note: \(bookViewModel.selectedLine != nil ? "✅" : "🙅🏻‍♂️") - \(String(describing: bookViewModel.selectedLine?.quoteContent)), \(String(describing: bookViewModel.selectedLine?.quoteHighlight?.name ?? ""))")
-                        print("\(quote.quoteLineNum)) - \(quote.quoteContent)")
+//                        withAnimation {
+//                            if let existingQuote = quoteDatabase.first(where: { $0.quoteContent == quote.quoteContent && $0.quoteLineNum == quote.quoteLineNum }) {
+//                                if bookViewModel.selectedLine?.quoteLineNum == existingQuote.quoteLineNum {
+//                                    bookViewModel.selectedLine = nil
+//                                } else {
+//                                    bookViewModel.selectedLine = existingQuote
+//                                }
+//                            } else {
+//                                bookViewModel.selectedLine = nil
+//                            }
+//                            bookViewModel.pageIsSelected = true
+                            
+//                        }
+//                        print("-- Ready to add Note: \(bookViewModel.selectedLine != nil ? "✅" : "🙅🏻‍♂️") - \(String(describing: bookViewModel.selectedLine?.quoteContent)), \(String(describing: bookViewModel.selectedLine?.quoteHighlight?.name ?? ""))")
+//                        print("\(quote.quoteLineNum)) - \(quote.quoteContent)")
+                        bookViewModel.checkSelectedLine(quoteDatabase: quoteDatabase, quote: quote)
                     }
                     .foregroundStyle(
                         {
@@ -78,12 +81,15 @@ struct LinesView: View {
                             if let quote = quoteDatabase.first(where: { $0.quoteContent == quote.quoteContent && $0.quoteLineNum == quote.quoteLineNum }) {
                                 if bookViewModel.selectedLine?.quoteContent == quote.quoteContent && bookViewModel.selectedLine?.quoteLineNum == quote.quoteLineNum {
                                     return Color(quote.quoteHighlight?.selectedHighlightedBackgroundColor ?? defaultBackgroundColor)
+                                    // Màu background đã được highlight, đang được chọn
                                 } else {
                                     return Color(quote.quoteHighlight?.defaultHighlightedBackgroundColor ?? defaultBackgroundColor)
+                                    // Màu background đã được highlight, chưa được chọn
                                 }
                                 
                             } else {
                                 return Color.clear
+                                // Màu background mặc định (chưa được highlight, chưa được chọn)
                             }
                         }()
                     )
@@ -99,20 +105,19 @@ struct LinesView: View {
         }
     }
     
-    func checkQuoteDatabase(checkingQuote: Quote) {
-        //        if let existingQuote = quoteDatabase.first(where: { $0.quoteID == checkingQuote.quoteID }) {
-        if let existingQuote = quoteDatabase.first(where: { $0.quoteContent == checkingQuote.quoteContent && $0.quoteLineNum == checkingQuote.quoteLineNum }) {
-            HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: bookViewModel.vibrationInApp)
-            SoundManager.access.play(sound: .highlightRemoved, soundEnabledInApp: bookViewModel.soundInApp)
-            modelContext.delete(existingQuote)
-        } else {
-            HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: bookViewModel.vibrationInApp)
-            SoundManager.access.play(sound: .highlightAdded, soundEnabledInApp: bookViewModel.soundInApp)
-            checkingQuote.quoteHighlight = bookViewModel.selectedPen
-            modelContext.insert(checkingQuote)
-        }
-        
-    }
-    
+//    func checkQuoteDatabase(checkingQuote: Quote) {
+//        //        if let existingQuote = quoteDatabase.first(where: { $0.quoteID == checkingQuote.quoteID }) {
+//        if let existingQuote = quoteDatabase.first(where: { $0.quoteContent == checkingQuote.quoteContent && $0.quoteLineNum == checkingQuote.quoteLineNum }) {
+//            HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: bookViewModel.vibrationInApp)
+//            SoundManager.access.play(sound: .highlightRemoved, soundEnabledInApp: bookViewModel.soundInApp)
+//            modelContext.delete(existingQuote)
+//        } else {
+//            HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: bookViewModel.vibrationInApp)
+//            SoundManager.access.play(sound: .highlightAdded, soundEnabledInApp: bookViewModel.soundInApp)
+//            checkingQuote.quoteHighlight = bookViewModel.selectedPen
+//            modelContext.insert(checkingQuote)
+//        }
+//        
+//    }
     
 }

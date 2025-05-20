@@ -6,39 +6,183 @@
 //
 
 import SwiftUI
+import SwiftData
 import UIKit
 import WidgetKit
 
-//@MainActor
 //@Observable
 class BookViewModel: ObservableObject {
-    // Main app
+    /// Main app
     @AppStorage("firstTimeReading", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var firstTimeReading: Bool = true
     @AppStorage("firstTimeInAPp", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var firstTimeInApp: Bool = true
     @AppStorage("soundInApp", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var soundInApp: Bool = true
     @AppStorage("vibrationInApp", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var vibrationInApp: Bool = true
+    
+    /// Widget
+    @AppStorage("widgetQuote", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var quoteOnWidget: String = ""
+    @AppStorage("widgetAuthor", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var authorOnWidget: String = ""
+    @AppStorage("widgetBook", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var bookOnWidget: String = ""
+    @AppStorage("widgetHighlightName", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var highlightNameOnWidget: String = ""
+    @AppStorage("widgetHighlightColor", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var highlightColorOnWidget: String = ""
+    @AppStorage("lineNumOnWidget", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var lineNumOnWidget: Int?
+    @AppStorage("lastQuoteUpdateDate", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var lastQuoteUpdateDate: Date?
 
-    @Published var bookDatabase: [Book] = []
-    
-    @Published var selectedIndex: Int = 0
+    /// Selected Highlight Pencil Status
     @Published var selectedPen: HighlightPencil?
+    @Published var selectedIndex: Int = 0
     
+    /// Data Fetching Status
+    @Published var bookDatabase: [Book] = []
     @Published var isLoading = true
     @Published var isFetched = false
     
+    /// Highlight Status
+    @Published var selectedLine: Quote? = nil
     @Published var pageIsSelected: Bool = false
     @Published var quoteIsSelected: Bool = false
     
+    /// Bottom Sheet Status
     @Published var quoteNoteSheetViewIsPresented: Bool = false
     @Published var deleteAlertIsPresented: Bool = false
-    
-    @Published var selectedLine: Quote? = nil
-        
     @Published var accessSheetFromBookView: Bool = false
+    @Published var appIntroducingSheet: Bool = false
     
+    /// Highlight Trigger
     @Published var quoteChangedTrigger = UUID() // For Highlight color and Highlight name
     
-    // Get Book
+    /// Functions
+    func checkFirstTimeInApp() {
+        if !firstTimeInApp {
+            return
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.appIntroducingSheet = true
+            }
+        }
+    }
+    
+    func getUserSettings(userSettings: [UserSettingsStats], modelContext: ModelContext) {
+        if userSettings.isEmpty {
+            let thisUser = UserSettingsStats(totalReadTime: 0, soundInApp: soundInApp, vibrationInApp: vibrationInApp)
+            modelContext.insert(thisUser)
+            try? modelContext.save()
+            print("--- User Settings: \(userSettings)")
+        } else {
+            print("✅ User Settings: \(userSettings)")
+        }
+    }
+    
+    func getHighlightPencils(pencilDatabase: [HighlightPencil], modelContext: ModelContext) {
+        let pencilLibrary: [HighlightPencil] = [
+            HighlightPencil(
+                name: "Discuss Later",
+                primaryTextColor: "paper-500",
+                primaryBackgroundColor: "blue-300",
+                isPresentedRenameView: false,
+                secondaryTextColor: "blue-500",
+                secondaryBackgroundColor: "blue-100",
+                highlightedTextColor: "blue-500",
+                defaultHighlightedBackgroundColor: "blue-100",
+                selectedHighlightedBackgroundColor: "blue-200"
+            ),
+            HighlightPencil(
+                name: "Good Point",
+                primaryTextColor: "paper-500",
+                primaryBackgroundColor: "pink-300",
+                isPresentedRenameView: false,
+                secondaryTextColor: "pink-500",
+                secondaryBackgroundColor: "pink-100",
+                highlightedTextColor: "pink-500",
+                defaultHighlightedBackgroundColor: "pink-100",
+                selectedHighlightedBackgroundColor: "pink-200"
+            )
+        ]
+        
+        
+        if pencilDatabase.isEmpty {
+            for insertPencil in pencilLibrary {
+                modelContext.insert(insertPencil)
+            }
+        }
+        else {
+            for index in pencilDatabase.indices {
+                let pencilOld = pencilDatabase[index]
+                let pencilNew = pencilLibrary[index]
+                
+                //                    pencilOld.name = pencilNew.name
+                pencilOld.primaryTextColor = pencilNew.primaryTextColor
+                pencilOld.primaryBackgroundColor = pencilNew.primaryBackgroundColor
+                pencilOld.secondaryTextColor = pencilNew.secondaryTextColor
+                pencilOld.secondaryBackgroundColor = pencilNew.secondaryBackgroundColor
+                pencilOld.highlightedTextColor = pencilNew.highlightedTextColor
+                pencilOld.defaultHighlightedBackgroundColor = pencilNew.defaultHighlightedBackgroundColor
+                pencilOld.selectedHighlightedBackgroundColor = pencilNew.selectedHighlightedBackgroundColor
+            }
+        }
+        
+        try? modelContext.save()
+        
+        if selectedPen == nil {
+            selectedPen = pencilDatabase.first
+        }
+    }
+    
+    func checkSelectedLine(quoteDatabase: [Quote], quote: Quote) {
+        withAnimation {
+            if let existingQuote = quoteDatabase.first(where: { $0.quoteContent == quote.quoteContent && $0.quoteLineNum == quote.quoteLineNum }) {
+                if selectedLine?.quoteLineNum == existingQuote.quoteLineNum {
+                    selectedLine = nil
+                } else {
+                    selectedLine = existingQuote
+                }
+            } else {
+                selectedLine = nil
+            }
+            pageIsSelected = true
+        }
+        print("-- Ready to add Note: \(selectedLine != nil ? "✅" : "🙅🏻‍♂️") - \(String(describing: selectedLine?.quoteContent)), \(String(describing: selectedLine?.quoteHighlight?.name ?? ""))")
+        print("\(quote.quoteLineNum)) - \(quote.quoteContent)")
+    }
+    
+    func checkQuoteDatabase(quoteDatabase: [Quote], checkingQuote: Quote, modelContext: ModelContext) {
+        if let existingQuote = quoteDatabase.first(where: { $0.quoteContent == checkingQuote.quoteContent && $0.quoteLineNum == checkingQuote.quoteLineNum }) {
+            HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: vibrationInApp)
+            SoundManager.access.play(sound: .highlightRemoved, soundEnabledInApp: soundInApp)
+            modelContext.delete(existingQuote)
+        } else {
+            HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: vibrationInApp)
+            SoundManager.access.play(sound: .highlightAdded, soundEnabledInApp: soundInApp)
+            checkingQuote.quoteHighlight = selectedPen
+            modelContext.insert(checkingQuote)
+        }
+        
+    }
+    
+    func connectQuotes(isConnected: Bool, quote: Quote, quoteConnecting: Quote) {
+        if isConnected {
+            quote.connectedQuotes?.removeAll(where: { $0.quoteID == quoteConnecting.quoteID })
+            quoteConnecting.connectedQuotes?.removeAll(where: { $0.quoteID == quote.quoteID })
+        } else {
+            quote.connectedQuotes?.append(quoteConnecting)
+            quoteConnecting.connectedQuotes?.append(quote)
+        }
+        
+        print("[\(quote.isConnected ? "✅" : "🙅🏼")] - \(quote.quoteAddedDate) Connected With: \(String(describing: quote.connectedQuotes))")
+        print("[\(quoteConnecting.isConnected ? "✅" : "🙅🏼")] - \(quoteConnecting.quoteAddedDate) - Connected With: \(String(describing: quoteConnecting.connectedQuotes))")
+    }
+    
+    func deleteQuoteInSheet(quoteDatabase: [Quote], quote: Quote, modelContext: ModelContext) {
+        if let quoteIsPresented = quoteDatabase.first(where: { $0.quoteContent == quote.quoteContent}) {
+            modelContext.delete(quoteIsPresented)
+//            presentationMode.wrappedValue.dismiss()
+            print("Deleted!")
+        }
+    }
+    
+    func deleteQuoteInBook(modelContext: ModelContext) {
+        modelContext.delete(selectedLine!)
+    }
+    
     func fetchBooks() async throws {
         guard let url = URL(string: "https://poetrydb.org/author/William%20Shakespeare") else { throw
             URLError(.badURL) }
@@ -80,31 +224,9 @@ class BookViewModel: ObservableObject {
         }
     }
     
-    // Widget
-    @AppStorage("widgetQuote", store: UserDefaults(suiteName: "group.madeby.nham.curiapp"))
-    var quoteOnWidget: String = ""
-    
-    @AppStorage("widgetAuthor", store: UserDefaults(suiteName: "group.madeby.nham.curiapp"))
-    var authorOnWidget: String = ""
-    
-    @AppStorage("widgetBook", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) 
-    var bookOnWidget: String = ""
-    
-    @AppStorage("widgetHighlightName", store: UserDefaults(suiteName: "group.madeby.nham.curiapp"))
-    var highlightNameOnWidget: String = ""
-    
-    @AppStorage("widgetHighlightColor", store: UserDefaults(suiteName: "group.madeby.nham.curiapp"))
-    var highlightColorOnWidget: String = ""
-    
-    @AppStorage("lineNumOnWidget", store: UserDefaults(suiteName: "group.madeby.nham.curiapp"))
-    var lineNumOnWidget: Int?
-    
-    @AppStorage("lastQuoteUpdateDate", store: UserDefaults(suiteName: "group.madeby.nham.curiapp"))
-    var lastQuoteUpdateDate: Date?
-    
     func shuffleQOTD(quoteDatabase: [Quote]) {
-        
         let quoteRandomInDay = quoteDatabase.randomElement()
+        
         quoteOnWidget = quoteRandomInDay?.quoteContent ?? ""
         authorOnWidget = quoteRandomInDay?.quoteAuthor ?? ""
         bookOnWidget = quoteRandomInDay?.quoteBook ?? ""

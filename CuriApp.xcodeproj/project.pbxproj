@@ -52,7 +52,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				AppIntent.swift,
-				DataService.swift,
 			);
 			target = D894C9942D6747EA00CE95C0 /* CuriApp */;
 		};

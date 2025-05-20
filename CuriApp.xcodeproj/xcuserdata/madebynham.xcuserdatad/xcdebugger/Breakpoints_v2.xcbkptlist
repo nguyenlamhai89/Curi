@@ -30,8 +30,8 @@
             filePath = "CuriApp/ViewModel/BookViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
+            startingLineNumber = "251"
+            endingLineNumber = "251"
             landmarkName = "checkQOTD(quoteDatabase:)"
             landmarkType = "7">
          </BreakpointContent>
