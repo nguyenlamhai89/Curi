@@ -84,88 +84,24 @@ struct HomeViewManager: View {
                 }
             })
             .onAppear {
-//                if !bookViewModel.firstTimeInApp {
-//                    return
-//                } else {
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                        appIntroducingSheet = true
-//                    }
-//                }
                 bookViewModel.checkFirstTimeInApp()
                 bookViewModel.getUserSettings(userSettings: userSettings, modelContext: modelContext)
                 bookViewModel.getHighlightPencils(pencilDatabase: pencilDatabase, modelContext: modelContext)
                 
                 print("[\(pencilDatabase.count)] Pencils - \(pencilDatabase)")
                 print(bookViewModel.selectedPen?.name ?? "❌ No Pen Selected")
+                
+                if let thisUser = userSettings.first {
+                    thisUser.quoteDatabase = quoteDatabase
+                    thisUser.pencilDatabase = pencilDatabase
+                    try? modelContext.save()
+                    print("Quote Database: \(String(describing: thisUser.quoteDatabase))")
+                    print("Pencil Database: \(String(describing: thisUser.pencilDatabase))")
+                } else {
+                    print("-- Nil!")
+                }
+                
             }
-//            .onAppear {
-//                if userSettings.isEmpty {
-//                    let thisUser = UserSettingsStats(totalReadTime: 0, soundInApp: bookViewModel.soundInApp, vibrationInApp: bookViewModel.vibrationInApp)
-//                    modelContext.insert(thisUser)
-//                    try? modelContext.save()
-//                    print("--- User Settings: \(userSettings)")
-//                } else {
-//                    print("✅ User Settings: \(userSettings)")
-//                }
-//                bookViewModel.getUserSettings(userSettings: userSettings, modelContext: modelContext)
-//            }
-//            .onAppear {
-//                let pencilLibrary: [HighlightPencil] = [
-//                    HighlightPencil(
-//                        name: "Discuss Later",
-//                        primaryTextColor: "paper-500",
-//                        primaryBackgroundColor: "blue-300",
-//                        isPresentedRenameView: false,
-//                        secondaryTextColor: "blue-500",
-//                        secondaryBackgroundColor: "blue-100",
-//                        highlightedTextColor: "blue-500",
-//                        defaultHighlightedBackgroundColor: "blue-100",
-//                        selectedHighlightedBackgroundColor: "blue-200"
-//                    ),
-//                    HighlightPencil(
-//                        name: "Good Point",
-//                        primaryTextColor: "paper-500",
-//                        primaryBackgroundColor: "pink-300",
-//                        isPresentedRenameView: false,
-//                        secondaryTextColor: "pink-500",
-//                        secondaryBackgroundColor: "pink-100",
-//                        highlightedTextColor: "pink-500",
-//                        defaultHighlightedBackgroundColor: "pink-100",
-//                        selectedHighlightedBackgroundColor: "pink-200"
-//                    )
-//                ]
-//                
-//                
-//                if pencilDatabase.isEmpty {
-//                    for insertPencil in pencilLibrary {
-//                        modelContext.insert(insertPencil)
-//                    }
-//                }
-//                else {
-//                    for index in pencilDatabase.indices {
-//                        let pencilOld = pencilDatabase[index]
-//                        let pencilNew = pencilLibrary[index]
-//                        
-//                        //                    pencilOld.name = pencilNew.name
-//                        pencilOld.primaryTextColor = pencilNew.primaryTextColor
-//                        pencilOld.primaryBackgroundColor = pencilNew.primaryBackgroundColor
-//                        pencilOld.secondaryTextColor = pencilNew.secondaryTextColor
-//                        pencilOld.secondaryBackgroundColor = pencilNew.secondaryBackgroundColor
-//                        pencilOld.highlightedTextColor = pencilNew.highlightedTextColor
-//                        pencilOld.defaultHighlightedBackgroundColor = pencilNew.defaultHighlightedBackgroundColor
-//                        pencilOld.selectedHighlightedBackgroundColor = pencilNew.selectedHighlightedBackgroundColor
-//                    }
-//                }
-//                
-//                try? modelContext.save()
-//                
-//                if bookViewModel.selectedPen == nil {
-//                    bookViewModel.selectedPen = pencilDatabase.first
-//                }
-//                bookViewModel.getHighlightPencils(pencilDatabase: pencilDatabase, modelContext: modelContext)
-//                print("[\(pencilDatabase.count)] Pencils - \(pencilDatabase)")
-//                print(bookViewModel.selectedPen?.name ?? "❌ No Pen Selected")
-//            }
             .overlay {
                 if isPresentedRenameView {
                     let bindingToName = Binding(
@@ -191,6 +127,16 @@ struct HomeViewManager: View {
                 if newPhase == .active {
                     bookViewModel.checkQOTD(quoteDatabase: quoteDatabase)
                     print("++ QOTD Checked ++")
+                    
+                    if let thisUser = userSettings.first {
+                        thisUser.quoteDatabase = quoteDatabase
+                        thisUser.pencilDatabase = pencilDatabase
+                        try? modelContext.save()
+                        print("Quote Database: \(String(describing: thisUser.quoteDatabase))")
+                        print("Pencil Database: \(String(describing: thisUser.pencilDatabase))")
+                    } else {
+                        print("-- Nil!")
+                    }
                 }
             }
         }

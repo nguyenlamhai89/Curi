@@ -10,6 +10,7 @@ import SwiftData
 
 @Model
 class HighlightPencil {
+    var pencilID: UUID = UUID()
     var name: String = "Discuss Later"
 
     var primaryTextColor: String = "paper-500"
@@ -35,5 +36,16 @@ class HighlightPencil {
         self.highlightedTextColor = highlightedTextColor
         self.defaultHighlightedBackgroundColor = defaultHighlightedBackgroundColor
         self.selectedHighlightedBackgroundColor = selectedHighlightedBackgroundColor
+    }
+}
+
+extension HighlightPencil: CustomStringConvertible {
+    var description: String {
+        return """
+        --- Pencil(
+            name: \(name),
+            main color: \"\(primaryTextColor)\"
+        )
+        """
     }
 }

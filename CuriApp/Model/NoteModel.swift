@@ -10,7 +10,7 @@ import SwiftData
 
 @Model
 class Note {
-//    var noteID: UUID = UUID()
+    var noteID: UUID = UUID()
     var noteContent: String = ""
     var hasContent: Bool {
         !noteContent.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty

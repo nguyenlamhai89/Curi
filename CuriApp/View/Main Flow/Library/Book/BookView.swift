@@ -129,6 +129,17 @@ struct BookView: View {
         })
         .onChange(of: quoteDatabase) {
             bookViewModel.updateQOTD(quoteDatabase: quoteDatabase)
+            
+            if let thisUser = userSettings.first {
+                thisUser.quoteDatabase = quoteDatabase
+                thisUser.pencilDatabase = pencilDatabase
+                try? modelContext.save()
+                print("Quote Database: \(String(describing: thisUser.quoteDatabase))")
+                print("Pencil Database: \(String(describing: thisUser.pencilDatabase))")
+            } else {
+                print("-- Nil!")
+            }
+            
         }
         .onChange(of: bookViewModel.quoteChangedTrigger) {
             bookViewModel.updateQOTD(quoteDatabase: quoteDatabase)

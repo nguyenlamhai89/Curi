@@ -12,6 +12,8 @@ struct QuoteView: View {
     /// SwiftData
     @Environment(\.modelContext) var modelContext
     @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
+    @Query var pencilDatabase: [HighlightPencil]
+    @Query var userSettings: [User]
     
     /// Local View
     @ObservedObject var bookViewModel: BookViewModel
@@ -82,6 +84,17 @@ struct QuoteView: View {
             }
             .onDisappear {
                 removeKeyboardObserver()
+            }
+            .onChange(of: quoteDatabase) {
+                if let thisUser = userSettings.first {
+                    thisUser.quoteDatabase = quoteDatabase
+                    thisUser.pencilDatabase = pencilDatabase
+                    try? modelContext.save()
+                    print("Quote Database: \(String(describing: thisUser.quoteDatabase))")
+                    print("Pencil Database: \(String(describing: thisUser.pencilDatabase))")
+                } else {
+                    print("-- Nil!")
+                }
             }
         }
         
