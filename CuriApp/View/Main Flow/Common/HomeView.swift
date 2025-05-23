@@ -12,7 +12,7 @@ struct HomeViewManager: View {
     /// SwiftData
     @Environment(\.modelContext) var modelContext
     @Query var pencilDatabase: [HighlightPencil]
-    @Query var userSettings: [UserSettingsStats]
+    @Query var userSettings: [User]
     @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
     
     /// Local View

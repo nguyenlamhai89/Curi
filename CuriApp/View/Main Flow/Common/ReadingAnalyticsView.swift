@@ -12,7 +12,7 @@ struct ReadingAnalyticsView: View {
     /// SwiftData
     @Environment(\.modelContext) var modelContext
     @Query var quoteDatabase: [Quote]
-    @Query var userSettings: [UserSettingsStats]
+    @Query var userSettings: [User]
     
     /// Local View
     var minutesNumber: Double {

@@ -14,7 +14,7 @@ struct HighlightDial: View {
     @ObservedObject var bookViewModel: BookViewModel
     @Query var quoteDatabase: [Quote]
     @Query var pencilDatabase: [HighlightPencil]
-    @Query var userSettings: [UserSettingsStats]
+    @Query var userSettings: [User]
     
     @Binding var thoughtSheetIsPresented: Bool
     @Binding var deleteAlertIsPresented: Bool

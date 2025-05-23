@@ -61,9 +61,9 @@ class BookViewModel: ObservableObject {
         }
     }
     
-    func getUserSettings(userSettings: [UserSettingsStats], modelContext: ModelContext) {
+    func getUserSettings(userSettings: [User], modelContext: ModelContext) {
         if userSettings.isEmpty {
-            let thisUser = UserSettingsStats(totalReadTime: 0, soundInApp: soundInApp, vibrationInApp: vibrationInApp)
+            let thisUser = User(totalReadTime: 0, soundInApp: soundInApp, vibrationInApp: vibrationInApp)
             modelContext.insert(thisUser)
             try? modelContext.save()
             print("--- User Settings: \(userSettings)")

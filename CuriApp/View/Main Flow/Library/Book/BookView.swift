@@ -14,7 +14,7 @@ struct BookView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Quote.quoteAddedDate, order: .reverse) var quoteDatabase: [Quote]
     @Query var pencilDatabase: [HighlightPencil]
-    @Query var userSettings: [UserSettingsStats]
+    @Query var userSettings: [User]
     
     /// Local View
     @ObservedObject var bookViewModel: BookViewModel

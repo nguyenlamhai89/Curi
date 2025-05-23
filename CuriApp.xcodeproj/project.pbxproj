@@ -66,6 +66,10 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Model/BookModel.swift,
+				Model/HighlightPencilModel.swift,
+				Model/NoteModel.swift,
+				Model/QuoteModel.swift,
+				Model/UserModel.swift,
 			);
 			target = D8E011852D7BF130005ABDEF /* CuriWidgetExtension */;
 		};

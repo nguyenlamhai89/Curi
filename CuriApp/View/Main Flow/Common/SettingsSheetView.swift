@@ -13,7 +13,7 @@ struct SettingsSheetView: View {
     /// SwiftData
     @Environment(\.modelContext) var modelContext
     @Query var pencilDatabase: [HighlightPencil] = []
-    @Query var userSettings: [UserSettingsStats]
+    @Query var userSettings: [User]
     
     /// Local View
     @Environment(\.presentationMode) var presentationMode

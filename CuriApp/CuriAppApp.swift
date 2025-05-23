@@ -14,6 +14,6 @@ struct CuriAppApp: App {
         WindowGroup {
             HomeViewManager()
         }
-        .modelContainer(for: [HighlightPencil.self, Quote.self, Note.self, UserSettingsStats.self])
+        .modelContainer(for: [HighlightPencil.self, Quote.self, Note.self, User.self])
     }
 }
