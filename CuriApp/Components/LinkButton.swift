@@ -16,9 +16,6 @@ struct LinkButton: View {
     
     var body: some View {
         Button {
-//            if bookViewModel.vibrationInApp {
-//                HapticsManager.access.play(haptics: .light)
-//            }
             HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: bookViewModel.vibrationInApp)
             if let url = URL(string: urlString) {
                 openURL(url)

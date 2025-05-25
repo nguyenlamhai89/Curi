@@ -25,7 +25,6 @@ class Quote {
     var quoteNote: Note = Note()
     
     init(quoteID: UUID = UUID(), quoteLineNum: Int = 0, quoteAddedDate: Date = Date(), quoteBook: String = "", quoteAuthor: String = "", quoteContent: String = "", quoteHighlight: HighlightPencil? = nil, isConnected: Bool = false, connectedQuotes: [Quote]? = nil, quoteNote: Note = Note()) {
-//        self.bookID = bookID
         self.quoteLineNum = quoteLineNum
         self.quoteAddedDate = quoteAddedDate
         self.quoteBook = quoteBook

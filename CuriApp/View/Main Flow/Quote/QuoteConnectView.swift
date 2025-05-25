@@ -49,20 +49,7 @@ struct QuoteConnectView: View {
                             let isConnected = quoteConnecting.connectedQuotes?.contains(where: { $0.quoteID == quote.quoteID }) == true
                             
                             QuoteCardWithCheckbox(bookViewModel: bookViewModel, bookName: quoteConnecting.quoteBook, authorName: quoteConnecting.quoteAuthor, quoteContent: quoteConnecting.quoteContent, highlightTagName: quoteConnecting.quoteHighlight?.name ?? "", highlightTagColor: quoteConnecting.quoteHighlight?.primaryBackgroundColor ?? "", isConnected: isConnected, action: {
-                                
-//                                if isConnected {
-//                                    quote.connectedQuotes?.removeAll(where: { $0.quoteID == quoteConnecting.quoteID })
-//                                    quoteConnecting.connectedQuotes?.removeAll(where: { $0.quoteID == quote.quoteID })
-//                                } else {
-//                                    quote.connectedQuotes?.append(quoteConnecting)
-//                                    quoteConnecting.connectedQuotes?.append(quote)
-//                                }
-//                                
-//                                print("[\(quote.isConnected ? "✅" : "🙅🏼")] - \(quote.quoteAddedDate) Connected With: \(String(describing: quote.connectedQuotes))")
-//                                print("[\(quoteConnecting.isConnected ? "✅" : "🙅🏼")] - \(quoteConnecting.quoteAddedDate) - Connected With: \(String(describing: quoteConnecting.connectedQuotes))")
-                                
                                 bookViewModel.connectQuotes(isConnected: isConnected, quote: quote, quoteConnecting: quoteConnecting)
-                                
                             })
                         }
                     }

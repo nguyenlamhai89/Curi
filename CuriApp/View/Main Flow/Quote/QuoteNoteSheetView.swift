@@ -98,13 +98,7 @@ struct QuoteNoteSheetView: View {
                   message: Text("Are you sure you want to delete the quote and the note?"),
                   primaryButton: .cancel(),
                   secondaryButton: .destructive(Text("Delete"), action: {
-                
                 // Delete Quote
-//                if let quoteIsPresented = quoteDatabase.first(where: { $0.quoteContent == quote.quoteContent}) {
-//                    modelContext.delete(quoteIsPresented)
-//                    presentationMode.wrappedValue.dismiss()
-//                    print("Deleted!")
-//                }
                 bookViewModel.deleteQuoteInSheet(quoteDatabase: quoteDatabase, quote: quote, modelContext: modelContext)
                 presentationMode.wrappedValue.dismiss()
             }))

@@ -10,9 +10,7 @@ import SwiftUI
 import SwiftData
 
 struct Provider: AppIntentTimelineProvider {
-    //    let quoteOfTheDay = DataService()
-    //    @Query var quoteDatabase: [Quote]
-    
+
     func placeholder(in context: Context) -> SimpleEntry {
         SimpleEntry(
             date: Date(),

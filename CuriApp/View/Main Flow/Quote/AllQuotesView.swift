@@ -71,8 +71,3 @@ struct AllQuotesView: View {
         }
     }
 }
-
-//#Preview {
-//    @Previewable @Bindable var bookViewModel = BookViewModel()
-//    AllQuotesView(bookViewModel: bookViewModel, nameHighlightPrimary: "Hi", nameHighlightSecondary: "Haha")
-//}
