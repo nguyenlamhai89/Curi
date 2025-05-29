@@ -12,6 +12,10 @@ import SwiftData
 class Note {
     var noteID: UUID = UUID()
     var noteContent: String = ""
+    
+    // Inversed with Quote: quoteNote
+    var noteQuote: Quote? = nil
+    
     var hasContent: Bool {
         !noteContent.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }

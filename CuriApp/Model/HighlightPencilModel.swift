@@ -26,6 +26,11 @@ class HighlightPencil {
     var defaultHighlightedBackgroundColor: String = "blue-100"
     var selectedHighlightedBackgroundColor: String = "blue-200"
     
+    // Inversed with Quote: quoteHighlight
+    var highlightQuote: [Quote]? = nil
+    // Inversed with User: pencilDatabase
+    var userPencilDatabase: User? = nil
+    
     init(name: String, primaryTextColor: String, primaryBackgroundColor: String, isPresentedRenameView: Bool, secondaryTextColor: String, secondaryBackgroundColor: String, highlightedTextColor: String, defaultHighlightedBackgroundColor: String, selectedHighlightedBackgroundColor: String) {
         self.name = name
         self.primaryTextColor = primaryTextColor

@@ -101,6 +101,7 @@ struct HomeViewManager: View {
                     print("-- Nil!")
                 }
                 
+                bookViewModel.getiCloudStatus()
             }
             .overlay {
                 if isPresentedRenameView {
@@ -116,6 +117,7 @@ struct HomeViewManager: View {
                         highlightName: bindingToName, backgroundColor: Color(quoteOnPaper.quoteHighlight?.primaryBackgroundColor ?? "ink-500")
                     ) {
                         bookViewModel.quoteChangedTrigger = UUID()
+                        bookViewModel.lastSyncedTime = Date()
                         isPresentedRenameView.toggle()
                     }
                 }

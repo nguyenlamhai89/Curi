@@ -19,7 +19,7 @@ struct ReadingAnalyticsView: View {
         userSettings[0].totalReadTime / 60
     }
     var noteNumber: Int {
-        quoteDatabase.filter { $0.quoteNote.hasContent }.count
+        quoteDatabase.filter { $0.quoteNote?.hasContent ?? true }.count
     }
     var connectionNumber: Int {
         quoteDatabase.filter { !($0.connectedQuotes?.isEmpty ?? true) }.count

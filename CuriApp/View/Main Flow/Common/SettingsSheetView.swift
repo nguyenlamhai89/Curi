@@ -27,6 +27,10 @@ struct SettingsSheetView: View {
         ("https://www.thomaswilliams-sound.com", "Music by Thomas William")
     ]
     
+    var lastSynced: Date {
+        bookViewModel.lastSyncedTime
+    }
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -101,11 +105,12 @@ struct SettingsSheetView: View {
 //            .navigationTitle("Curi")
             .toolbar {
                 ToolbarItem(placement: .principal) {
+                    
                     VStack(spacing: -4) {
                         Text("Curi")
                             .font(.system(size: 16, weight: .medium))
                             .foregroundColor(curiPalette(.ink500))
-                        Text("iCloud Synced: \(Date().formatted(date: .abbreviated, time: .shortened))")
+                        Text("iCloud Synced: \(lastSynced.formatted(date: .abbreviated, time: .shortened))")
                             .curiTypo(.sfMedium14)
                             .foregroundColor(curiPalette(.ink300))
                     }

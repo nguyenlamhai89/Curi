@@ -22,7 +22,7 @@ struct HighlightDial: View {
     @State var startReadingTime: Date?
     
     var selectedLineHasNote: Bool {
-        bookViewModel.selectedLine?.quoteNote.hasContent ?? false
+        bookViewModel.selectedLine?.quoteNote?.hasContent ?? false
     }
 
     var selectedLineHasQuote: Bool {
@@ -110,8 +110,7 @@ struct HighlightDial: View {
                                             
                                             bookViewModel.selectedLine?.quoteHighlight = bookViewModel.selectedPen!
                                             bookViewModel.quoteChangedTrigger = UUID()
-//                                            bookViewModel.updateQOTD(quoteOnChange: bookViewModel.selectedLine ?? Quote())
-//                                            bookViewModel.afterAddOrUpdateQOTD(quoteDatabase: quoteDatabase, checkingQuote: bookViewModel.selectedLine ?? Quote())
+                                            bookViewModel.lastSyncedTime = Date()
                                             
                                             withAnimation {
                                                 scrollProxy.scrollTo(bookViewModel.selectedIndex, anchor: .center)
@@ -120,12 +119,14 @@ struct HighlightDial: View {
                                 )
                                 .simultaneousGesture(DragGesture())
                                 .onAppear {
-                                    scrollProxy.scrollTo(bookViewModel.selectedIndex, anchor: .center)
-                                    bookViewModel.selectedPen = pencilDatabase[bookViewModel.selectedIndex]
-                                    print("Selected Index: \(bookViewModel.selectedIndex) - \(String(describing: bookViewModel.selectedPen))")
-                                    
-                                    startReadingTime = Date()
-                                    print("Book Opened")
+                                    if pencilDatabase.count > 0 {
+                                        //                                    scrollProxy.scrollTo(bookViewModel.selectedIndex, anchor: .center)
+                                        bookViewModel.selectedPen = pencilDatabase[bookViewModel.selectedIndex]
+                                        print("Selected Index: \(bookViewModel.selectedIndex) - \(String(describing: bookViewModel.selectedPen))")
+                                        
+                                        startReadingTime = Date()
+                                        print("Book Opened")
+                                    }
                                     
                                 }
                                 .onDisappear {

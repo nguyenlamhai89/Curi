@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 import UIKit
 import WidgetKit
+import CloudKit
 
 //@Observable
 class BookViewModel: ObservableObject {
@@ -26,6 +27,7 @@ class BookViewModel: ObservableObject {
     @AppStorage("widgetHighlightColor", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var highlightColorOnWidget: String = ""
     @AppStorage("lineNumOnWidget", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var lineNumOnWidget: Int?
     @AppStorage("lastQuoteUpdateDate", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var lastQuoteUpdateDate: Date?
+    @Published var lastSyncedTime: Date = .distantPast
 
     /// Selected Highlight Pencil Status
     @Published var selectedPen: HighlightPencil?
@@ -51,6 +53,25 @@ class BookViewModel: ObservableObject {
     @Published var quoteChangedTrigger = UUID() // For Highlight color and Highlight name
     
     /// Functions
+    func getiCloudStatus() {
+        CKContainer.default().accountStatus { status, error in
+            DispatchQueue.main.async {
+                switch status {
+                case .available:
+                    print("🌤️ Available to iCloud Sync! - Last sync: \(String(describing: self.lastSyncedTime))")
+                case .couldNotDetermine:
+                    print("🚫 Could Not Determine")
+                case .noAccount:
+                    print("🚫 No iCloud Account Found")
+                case .restricted:
+                    print("🚫 iCloud Restricted")
+                default:
+                    break
+                }
+            }
+        }
+    }
+    
     func checkFirstTimeInApp() {
         if !firstTimeInApp {
             return
@@ -66,6 +87,7 @@ class BookViewModel: ObservableObject {
             let thisUser = User(totalReadTime: 0, soundInApp: soundInApp, vibrationInApp: vibrationInApp)
             modelContext.insert(thisUser)
             try? modelContext.save()
+            lastSyncedTime = Date()
             print("--- User Settings: \(userSettings)")
         } else {
             print("✅ User Settings: \(userSettings)")
@@ -98,13 +120,11 @@ class BookViewModel: ObservableObject {
             )
         ]
         
-        
         if pencilDatabase.isEmpty {
             for insertPencil in pencilLibrary {
                 modelContext.insert(insertPencil)
             }
-        }
-        else {
+        } else {
             for index in pencilDatabase.indices {
                 let pencilOld = pencilDatabase[index]
                 let pencilNew = pencilLibrary[index]
@@ -155,7 +175,7 @@ class BookViewModel: ObservableObject {
             checkingQuote.quoteHighlight = selectedPen
             modelContext.insert(checkingQuote)
         }
-        
+        lastSyncedTime = Date()
     }
     
     func connectQuotes(isConnected: Bool, quote: Quote, quoteConnecting: Quote) {
@@ -166,7 +186,7 @@ class BookViewModel: ObservableObject {
             quote.connectedQuotes?.append(quoteConnecting)
             quoteConnecting.connectedQuotes?.append(quote)
         }
-        
+        lastSyncedTime = Date()
         print("[\(quote.isConnected ? "✅" : "🙅🏼")] - \(quote.quoteAddedDate) Connected With: \(String(describing: quote.connectedQuotes))")
         print("[\(quoteConnecting.isConnected ? "✅" : "🙅🏼")] - \(quoteConnecting.quoteAddedDate) - Connected With: \(String(describing: quoteConnecting.connectedQuotes))")
     }
@@ -175,12 +195,14 @@ class BookViewModel: ObservableObject {
         if let quoteIsPresented = quoteDatabase.first(where: { $0.quoteContent == quote.quoteContent}) {
             modelContext.delete(quoteIsPresented)
 //            presentationMode.wrappedValue.dismiss()
+            lastSyncedTime = Date()
             print("Deleted!")
         }
     }
     
     func deleteQuoteInBook(modelContext: ModelContext) {
         modelContext.delete(selectedLine!)
+        lastSyncedTime = Date()
     }
     
     func fetchBooks() async throws {

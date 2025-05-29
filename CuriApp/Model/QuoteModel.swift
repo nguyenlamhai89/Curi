@@ -17,14 +17,23 @@ class Quote {
     var quoteBook: String = ""
     var quoteAuthor: String = ""
     var quoteContent: String = ""
+    
+    @Relationship(inverse: \HighlightPencil.highlightQuote)
     var quoteHighlight: HighlightPencil? = nil
     
     var isConnected: Bool = false
+    
+    @Relationship(inverse: \Quote.inverseConnectedQuotes)
     var connectedQuotes: [Quote]? = nil
+    var inverseConnectedQuotes: [Quote]? = nil
     
-    var quoteNote: Note = Note()
+    @Relationship(inverse: \Note.noteQuote)
+    var quoteNote: Note? = nil
     
-    init(quoteID: UUID = UUID(), quoteLineNum: Int = 0, quoteAddedDate: Date = Date(), quoteBook: String = "", quoteAuthor: String = "", quoteContent: String = "", quoteHighlight: HighlightPencil? = nil, isConnected: Bool = false, connectedQuotes: [Quote]? = nil, quoteNote: Note = Note()) {
+    // Inversed with User: quoteDatabase
+    var userQuoteDatabase: User? = nil
+    
+    init(quoteID: UUID = UUID(), quoteLineNum: Int = 0, quoteAddedDate: Date = Date(), quoteBook: String = "", quoteAuthor: String = "", quoteContent: String = "", quoteHighlight: HighlightPencil? = nil, isConnected: Bool = false, connectedQuotes: [Quote]? = nil, quoteNote: Note? = nil) {
         self.quoteLineNum = quoteLineNum
         self.quoteAddedDate = quoteAddedDate
         self.quoteBook = quoteBook

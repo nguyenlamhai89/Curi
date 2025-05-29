@@ -93,6 +93,7 @@ struct BookView: View {
                         highlightName: bindingToName, backgroundColor: Color(selectedPen.primaryBackgroundColor)
                     ) {
                         bookViewModel.quoteChangedTrigger = UUID()
+                        bookViewModel.lastSyncedTime = Date()
                         isPresentedRenameView.toggle()
                     }
                 }
