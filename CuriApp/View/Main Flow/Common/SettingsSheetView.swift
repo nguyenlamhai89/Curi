@@ -21,9 +21,9 @@ struct SettingsSheetView: View {
     @ObservedObject var bookViewModel: BookViewModel
     let curiSettingsGIF: String = "curiSettingsGIF.gif"
     let aboutButtons: [(String, String)] = [
-        ("https://www.facebook.com/nhammmmmmm/", "Give Feedback"),
+        ("https://www.linkedin.com/in/nham/", "Give Feedback"),
         ("https://drive.google.com/file/d/1L3YO_D4Gq5zxfv6hTYpUc2W-YoeThxse/view?usp=sharing", "Support My Wedding Dream"),
-        ("https://www.notion.so/Curi-1e6780c3688c80168526c48a842c7b8d?pvs=4", "Terms and Privacy"),
+        ("https://s.craft.me/u3VhbQg2uBXEof", "Terms and Privacy"),
         ("https://www.thomaswilliams-sound.com", "Music by Thomas William")
     ]
     
