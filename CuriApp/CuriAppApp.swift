@@ -8,6 +8,7 @@
 
 import SwiftUI
 import SwiftData
+import Mixpanel
 
 @main
 struct CuriAppApp: App {
@@ -23,6 +24,7 @@ struct CuriAppApp: App {
         } catch {
             fatalError("Cannot create ModelContainer: \(error.localizedDescription)")
         }
+        Mixpanel.initialize(token: "83c1ef538beda2e73f0fde7551fdb286", trackAutomaticEvents: false)
     }
     
     var body: some Scene {

@@ -137,6 +137,8 @@ struct HomeViewManager: View {
                         print("-- Nil!")
                     }
                 }
+                
+                print("🦧 User ID: \(bookViewModel.userID)")
             }
         }
     }

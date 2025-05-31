@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D86791F32DEAEBAF003EB82A /* Mixpanel in Frameworks */ = {isa = PBXBuildFile; productRef = D86791F22DEAEBAF003EB82A /* Mixpanel */; };
 		D879CCD82DA64E7E006A6410 /* CuriWidgetExtension.entitlements in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D80A96552D7EFE9F00AAC62F /* CuriWidgetExtension.entitlements */; };
 		D8ADF06F2DA4FDFB00C3B486 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = D8ADF06E2DA4FDFB00C3B486 /* SDWebImageSwiftUI */; };
 		D8E011892D7BF130005ABDEF /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E011882D7BF130005ABDEF /* WidgetKit.framework */; };
@@ -108,6 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D86791F32DEAEBAF003EB82A /* Mixpanel in Frameworks */,
 				D8ADF06F2DA4FDFB00C3B486 /* SDWebImageSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -176,6 +178,7 @@
 			name = CuriApp;
 			packageProductDependencies = (
 				D8ADF06E2DA4FDFB00C3B486 /* SDWebImageSwiftUI */,
+				D86791F22DEAEBAF003EB82A /* Mixpanel */,
 			);
 			productName = CuriApp;
 			productReference = D894C9952D6747EA00CE95C0 /* Curi.app */;
@@ -232,6 +235,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				D8ADF06D2DA4FDFB00C3B486 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				D86791F12DEAEBAF003EB82A /* XCRemoteSwiftPackageReference "mixpanel-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D894C9962D6747EA00CE95C0 /* Products */;
@@ -599,6 +603,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		D86791F12DEAEBAF003EB82A /* XCRemoteSwiftPackageReference "mixpanel-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mixpanel/mixpanel-swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		D8ADF06D2DA4FDFB00C3B486 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
@@ -610,6 +622,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		D86791F22DEAEBAF003EB82A /* Mixpanel */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D86791F12DEAEBAF003EB82A /* XCRemoteSwiftPackageReference "mixpanel-swift" */;
+			productName = Mixpanel;
+		};
 		D8ADF06E2DA4FDFB00C3B486 /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D8ADF06D2DA4FDFB00C3B486 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;

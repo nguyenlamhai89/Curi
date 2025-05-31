@@ -10,10 +10,12 @@ import SwiftData
 import UIKit
 import WidgetKit
 import CloudKit
+import Mixpanel
 
 //@Observable
 class BookViewModel: ObservableObject {
     /// Main app
+    @AppStorage("userID", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var userID: String = ""
     @AppStorage("firstTimeReading", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var firstTimeReading: Bool = true
     @AppStorage("firstTimeInAPp", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var firstTimeInApp: Bool = true
     @AppStorage("soundInApp", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var soundInApp: Bool = true
@@ -89,10 +91,14 @@ class BookViewModel: ObservableObject {
             let thisUser = User(totalReadTime: 0, soundInApp: soundInApp, vibrationInApp: vibrationInApp)
             modelContext.insert(thisUser)
             try? modelContext.save()
+            
+            userID = String(describing: thisUser.userID)
+            Mixpanel.mainInstance().identify(distinctId: userID)
+            
             lastSyncedTime = Date()
             print("--- User Settings: \(userSettings)")
         } else {
-            print("✅ User Settings: \(userSettings)")
+            print("✅ User Settings: \(userSettings) - ID: \(userID)")
         }
     }
     
