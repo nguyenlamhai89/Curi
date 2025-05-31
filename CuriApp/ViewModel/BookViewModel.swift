@@ -52,6 +52,8 @@ class BookViewModel: ObservableObject {
     /// Highlight Trigger
     @Published var quoteChangedTrigger = UUID() // For Highlight color and Highlight name
     
+    @Published var quoteToDelete: Quote?
+    
     /// Functions
     func getiCloudStatus() {
         CKContainer.default().accountStatus { status, error in
@@ -166,9 +168,17 @@ class BookViewModel: ObservableObject {
     
     func checkQuoteDatabase(quoteDatabase: [Quote], checkingQuote: Quote, modelContext: ModelContext) {
         if let existingQuote = quoteDatabase.first(where: { $0.quoteContent == checkingQuote.quoteContent && $0.quoteLineNum == checkingQuote.quoteLineNum }) {
-            HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: vibrationInApp)
-            SoundManager.access.play(sound: .highlightRemoved, soundEnabledInApp: soundInApp)
-            modelContext.delete(existingQuote)
+            if existingQuote.quoteNote?.hasContent == true {
+                quoteToDelete = existingQuote
+                print("\(String(describing: quoteToDelete))")
+                print("Display Alert!!!")
+            } else {
+                HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: vibrationInApp)
+                SoundManager.access.play(sound: .highlightRemoved, soundEnabledInApp: soundInApp)
+                modelContext.delete(existingQuote)
+                selectedLine = nil
+                print("Not Display Alert!!!")
+            }
         } else {
             HapticsManager.access.play(haptics: .light, vibrationEnabledInApp: vibrationInApp)
             SoundManager.access.play(sound: .highlightAdded, soundEnabledInApp: soundInApp)
@@ -200,8 +210,9 @@ class BookViewModel: ObservableObject {
         }
     }
     
-    func deleteQuoteInBook(modelContext: ModelContext) {
-        modelContext.delete(selectedLine!)
+    func deleteQuoteInBook(modelContext: ModelContext, quoteOnDelete: Quote) {
+        modelContext.delete(quoteOnDelete)
+        selectedLine = nil
         lastSyncedTime = Date()
     }
     

@@ -29,6 +29,8 @@ struct BookView: View {
     var bookTitle: String
     var bookAuthor: String
     
+    let system = SystemContentManager.access
+
     var body: some View {
         ZStack {
             // Book content
@@ -67,9 +69,21 @@ struct BookView: View {
                 
                 // Highlight
                 if !isShowKeyboard {
-                    HighlightDial(bookViewModel: bookViewModel, thoughtSheetIsPresented: $bookViewModel.quoteNoteSheetViewIsPresented, deleteAlertIsPresented: $bookViewModel.deleteAlertIsPresented) {
+                    HighlightDial(bookViewModel: bookViewModel, thoughtSheetIsPresented: $bookViewModel.quoteNoteSheetViewIsPresented, actionRename: {
                         isPresentedRenameView.toggle()
-                    }
+                    }, actionDelete: {
+                        if let selectedLine = bookViewModel.selectedLine {
+                            bookViewModel.quoteToDelete = selectedLine
+                            if bookViewModel.quoteToDelete?.quoteNote?.hasContent == true {
+                                bookViewModel.deleteAlertIsPresented.toggle()
+                                print("\(bookViewModel.deleteAlertIsPresented)")
+                            } else {
+                                bookViewModel.quoteToDelete = nil
+                                modelContext.delete(selectedLine)
+                                bookViewModel.selectedLine = nil
+                            }
+                        }
+                    })
                     .bottomNavigationSpacing
                 }
             }
@@ -99,14 +113,13 @@ struct BookView: View {
                 }
             }
         })
-        .alert(isPresented: $bookViewModel.deleteAlertIsPresented) {
+        .alert(item: $bookViewModel.quoteToDelete) { item in
             Alert(
-                title: Text("Delete Quote and Note?"),
-                message: Text("Are you sure you want to delete the quote and the note?"),
+                title: Text(system.titleDelete),
+                message: Text(system.messageDelete),
                 primaryButton: .cancel(),
-                secondaryButton: .destructive(Text("Delete"), action: {
-//                    modelContext.delete(bookViewModel.selectedLine!)
-                    bookViewModel.deleteQuoteInBook(modelContext: modelContext)
+                secondaryButton: .destructive(Text(system.buttonDelete), action: {
+                    bookViewModel.deleteQuoteInBook(modelContext: modelContext, quoteOnDelete: item)
                 })
             )
         }
@@ -152,6 +165,7 @@ struct BookView: View {
             }
         }
         .onAppear {
+            bookViewModel.selectedLine = nil
             if userSettings.count != 1 {
                 print("❌ Not found US")
             } else {

@@ -24,9 +24,6 @@ struct HomeViewManager: View {
     @State var isPresentedRenameView: Bool = false
     @State var libraryViewIsPresented: Bool = true
     @State var quoteViewIsPresented: Bool = false
-//    @State var appIntroducingSheet: Bool = false
-    var bookNameInBanner: String = "Sonnet"
-    var authorNameInBanner: String = "William Shakespeare"
     
     var quoteOnPaper: Quote {
         if let first = quoteDatabase.first {
@@ -46,7 +43,7 @@ struct HomeViewManager: View {
                         LibrarySkeletonView(bookViewModel: bookViewModel)
                     } else {
                         if bookViewModel.isFetched {
-                            LibraryView(bookViewModel: bookViewModel, bookNameInBanner: bookNameInBanner, authorNameInBanner: authorNameInBanner)
+                            LibraryView(bookViewModel: bookViewModel)
                         } else {
                             LibraryErrorView(bookViewModel: bookViewModel)
                         }

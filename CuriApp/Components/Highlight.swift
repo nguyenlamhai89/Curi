@@ -17,7 +17,6 @@ struct HighlightDial: View {
     @Query var userSettings: [User]
     
     @Binding var thoughtSheetIsPresented: Bool
-    @Binding var deleteAlertIsPresented: Bool
     
     @State var startReadingTime: Date?
     
@@ -29,7 +28,8 @@ struct HighlightDial: View {
         !(bookViewModel.selectedLine?.quoteContent ?? "").isEmpty
     }
     
-    var action: () -> Void
+    var actionRename: () -> Void
+    var actionDelete: () -> Void
     
     var body: some View {
         VStack (spacing: curiSpacing(.sp8)) {
@@ -88,7 +88,7 @@ struct HighlightDial: View {
                                                             unselectedBackgroundColor: Color(pencilDatabase[penIndex].secondaryBackgroundColor),
                                                             isSelected: isSelected,
                                                             renameViewIsPresented: pencilDatabase[penIndex].isPresentedRenameView) {
-                                            action()
+                                            actionRename()
                                         }
                                     }
                                 }
@@ -178,7 +178,7 @@ struct HighlightDial: View {
                 ZStack {
                     if selectedLineHasQuote {
                         IconButton(bookViewModel: bookViewModel, iconName: "curiDelete", hasNote: false) {
-                            deleteAlertIsPresented.toggle()
+                            actionDelete()
                             print("Delete Pressed")
                         }
 //                        .transition(.scale.combined(with: .opacity))

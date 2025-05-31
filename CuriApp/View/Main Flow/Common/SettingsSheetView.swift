@@ -23,7 +23,7 @@ struct SettingsSheetView: View {
     let aboutButtons: [(String, String)] = [
         ("https://www.linkedin.com/in/nham/", "Give Feedback"),
         ("https://drive.google.com/file/d/1L3YO_D4Gq5zxfv6hTYpUc2W-YoeThxse/view?usp=sharing", "Support My Wedding Dream"),
-        ("https://s.craft.me/u3VhbQg2uBXEof", "Terms and Privacy"),
+        ("https://s.craft.me/u3VhbQg2uBXEof", "Curi's Roadmap"),
         ("https://www.thomaswilliams-sound.com", "Music by Thomas William")
     ]
     

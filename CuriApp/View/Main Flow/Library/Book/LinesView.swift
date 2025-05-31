@@ -38,7 +38,6 @@ struct LinesView: View {
                         print("- ID: \(quote.quoteID))")
                         print("- Line Num: \(quote.quoteLineNum)")
                         
-//                        checkQuoteDatabase(checkingQuote: quote)
                         bookViewModel.checkQuoteDatabase(quoteDatabase: quoteDatabase, checkingQuote: quote, modelContext: modelContext)
                         
                     }

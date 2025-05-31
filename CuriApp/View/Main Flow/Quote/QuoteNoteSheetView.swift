@@ -29,6 +29,8 @@ struct QuoteNoteSheetView: View {
         )
     }
     
+    let system = SystemContentManager.access
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -94,14 +96,15 @@ struct QuoteNoteSheetView: View {
         .presentationDragIndicator(.hidden)
         .interactiveDismissDisabled(true)
         .alert(isPresented: $deleteAlertIsPresented) {
-            Alert(title: Text("Delete Quote and Note?"),
-                  message: Text("Are you sure you want to delete the quote and the note?"),
-                  primaryButton: .cancel(),
-                  secondaryButton: .destructive(Text("Delete"), action: {
-                // Delete Quote
-                bookViewModel.deleteQuoteInSheet(quoteDatabase: quoteDatabase, quote: quote, modelContext: modelContext)
-                presentationMode.wrappedValue.dismiss()
-            }))
+            Alert(
+                title: Text(system.titleDelete),
+                message: Text(system.messageDelete),
+                primaryButton: .cancel(),
+                secondaryButton: .destructive(Text(system.buttonDelete), action: {
+                    // Delete Quote
+                    bookViewModel.deleteQuoteInSheet(quoteDatabase: quoteDatabase, quote: quote, modelContext: modelContext)
+                    presentationMode.wrappedValue.dismiss()
+                }))
         }
         .onChange(of: quoteDatabase) {
             bookViewModel.updateQOTD(quoteDatabase: quoteDatabase)

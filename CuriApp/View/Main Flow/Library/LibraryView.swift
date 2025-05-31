@@ -11,19 +11,20 @@ struct LibraryView: View {
     /// Local View
     @ObservedObject var bookViewModel: BookViewModel
     @State var bookNavigate: Bool = false
-    var bookNameInBanner: String
-    var authorNameInBanner: String
+    var featuredBook: Book {
+        bookViewModel.bookDatabase.first(where: { $0.title == "Winter" }) ?? Book(title: "Book not found!", author: "🦧", lines: ["Another", "Book Name", "Please 🥺.."])
+    }
     
     var body: some View {
         ScrollView {
             VStack (spacing: curiSpacing(.sp20)) {
-                /// MARK - Banner
+                /// MARK - Featured Book (Random)
                 HStack (alignment: .bottom) {
                     VStack (alignment: .leading, spacing: 0) {
-                        Text(bookNameInBanner)
+                        Text(featuredBook.title)
                             .curiTypo(.sfMedium32)
                             .lineLimit(1)
-                        Text(authorNameInBanner)
+                        Text(featuredBook.author)
                             .curiTypo(.sfMedium16)
                             .lineLimit(1)
                     }
@@ -34,8 +35,7 @@ struct LibraryView: View {
                         bookNavigate.toggle()
                     })
                     .navigationDestination(isPresented: $bookNavigate) {
-                        let bookIDSample = UUID()
-                        BookView(bookViewModel: bookViewModel, bookLinesOriginal: ["Sample", "Book", "Lines"], bookID: bookIDSample, bookTitle: "Feature Book Name", bookAuthor: "Shakespeare")
+                        BookView(bookViewModel: bookViewModel, bookLinesOriginal: featuredBook.lines, bookID: UUID(), bookTitle: featuredBook.title, bookAuthor: featuredBook.author)
                     }
                 }
                 .frame(height: 200, alignment: .bottomLeading)
@@ -82,5 +82,5 @@ struct LibraryView: View {
 
 #Preview {
     @Previewable @StateObject var bookViewModel = BookViewModel()
-    LibraryView(bookViewModel: bookViewModel, bookNameInBanner: "Điên", authorNameInBanner: "Ngô Kha")
+    LibraryView(bookViewModel: bookViewModel)
 }
