@@ -31,11 +31,10 @@ class HighlightPencil {
     // Inversed with User: pencilDatabase
     var userPencilDatabase: User? = nil
     
-    init(name: String, primaryTextColor: String, primaryBackgroundColor: String, isPresentedRenameView: Bool, secondaryTextColor: String, secondaryBackgroundColor: String, highlightedTextColor: String, defaultHighlightedBackgroundColor: String, selectedHighlightedBackgroundColor: String) {
+    init(name: String, primaryTextColor: String, primaryBackgroundColor: String, secondaryTextColor: String, secondaryBackgroundColor: String, highlightedTextColor: String, defaultHighlightedBackgroundColor: String, selectedHighlightedBackgroundColor: String) {
         self.name = name
         self.primaryTextColor = primaryTextColor
         self.primaryBackgroundColor = primaryBackgroundColor
-        self.isPresentedRenameView = isPresentedRenameView
         self.secondaryTextColor = secondaryTextColor
         self.secondaryBackgroundColor = secondaryBackgroundColor
         self.highlightedTextColor = highlightedTextColor

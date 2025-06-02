@@ -54,7 +54,7 @@ struct AllQuotesView: View {
             .background(curiPalette(.paper500))
         }
         .sheet(isPresented: $showAddQuoteSheet, content: {
-            QuoteNoteSheetView(bookViewModel: bookViewModel, bookNavigated: $bookNavigated, quote: itemSelected ?? Quote(quoteID: UUID(), quoteLineNum: 0, quoteAddedDate: Date(), quoteBook: "", quoteAuthor: "", quoteContent: "", quoteHighlight: HighlightPencil(name: "", primaryTextColor: "", primaryBackgroundColor: "b", isPresentedRenameView: false, secondaryTextColor: "", secondaryBackgroundColor: "", highlightedTextColor: "", defaultHighlightedBackgroundColor: "", selectedHighlightedBackgroundColor: ""), isConnected: false, quoteNote: Note(noteContent: "")))
+            QuoteNoteSheetView(bookViewModel: bookViewModel, bookNavigated: $bookNavigated, quote: itemSelected ?? Quote(quoteID: UUID(), quoteLineNum: 0, quoteAddedDate: Date(), quoteBook: "", quoteAuthor: "", quoteContent: "", quoteHighlight: HighlightPencil(name: "", primaryTextColor: "", primaryBackgroundColor: "b", secondaryTextColor: "", secondaryBackgroundColor: "", highlightedTextColor: "", defaultHighlightedBackgroundColor: "", selectedHighlightedBackgroundColor: ""), isConnected: false, quoteNote: Note(noteContent: "")))
         })
         .navigationDestination(isPresented: $bookNavigated) {
             if let book = bookViewModel.bookDatabase.first(where: { $0.title == itemSelected?.quoteBook }) {
