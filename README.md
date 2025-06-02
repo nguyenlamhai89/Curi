@@ -25,10 +25,10 @@ Curi goes further — it helps you **build relationships between ideas**, right 
 
 ## 🛠️ Tech Stack
 
-- SwiftUI (iOS 17+)
-- SwiftData + CloudKit
+- SwiftUI
+- SwiftData + CloudKit (iOS 17+)
+- WidgetKit
 - MVVM Architecture
-- CloudKit (iCloud Sync)
 
 ---
 
@@ -52,13 +52,13 @@ git clone https://github.com/nguyenlamhai89/Curi
 open CuriApp.xcodeproj
 ```
 
-3. Build and run on an iOS 17+ simulator or physical device
-_⚠️ Make sure you’re signed into an iCloud account for CloudKit sync._
+3. Build and run on an iOS 17+ simulator or physical device.
+_🌤️ Make sure you’re signed into an iCloud account for CloudKit sync._
 
 ---
 
 ## 📝 Resources
 
-- UX Research and Data Synthesis (Vietnamese): https://docs.google.com/spreadsheets/d/1Fdhy5OKKaLoFztyylyfJ0OPHrFDbdFujWPZ8oFEkvFM/edit?gid=0#gid=0
+- UX Research and Data Synthesis (🇻🇳 Vietnamese): https://docs.google.com/spreadsheets/d/1Fdhy5OKKaLoFztyylyfJ0OPHrFDbdFujWPZ8oFEkvFM/edit?gid=0#gid=0
 - UI Design: https://www.figma.com/design/uckdhDjeK6om6nBHLODxP8/%F0%9F%92%A6-curi---Design?node-id=69-4143&t=BB3jGDw1El1JhUnM-1
 
