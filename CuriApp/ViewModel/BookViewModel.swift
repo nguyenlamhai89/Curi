@@ -133,10 +133,7 @@ class BookViewModel: ObservableObject {
                 modelContext.insert(insertPencil)
             }
         } else {
-            for index in pencilDatabase.indices {
-                let pencilOld = pencilDatabase[index]
-                let pencilNew = pencilLibrary[index]
-                
+            for (pencilOld, pencilNew) in zip(pencilDatabase, pencilLibrary) {
                 //                    pencilOld.name = pencilNew.name
                 pencilOld.primaryTextColor = pencilNew.primaryTextColor
                 pencilOld.primaryBackgroundColor = pencilNew.primaryBackgroundColor
