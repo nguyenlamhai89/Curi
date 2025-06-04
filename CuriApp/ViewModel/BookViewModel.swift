@@ -29,11 +29,11 @@ class BookViewModel: ObservableObject {
     @AppStorage("widgetHighlightColor", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var highlightColorOnWidget: String = ""
     @AppStorage("lineNumOnWidget", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var lineNumOnWidget: Int?
     @AppStorage("lastQuoteUpdateDate", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var lastQuoteUpdateDate: Date?
+    @AppStorage("selectedIndex", store: UserDefaults(suiteName: "group.madeby.nham.curiapp")) var selectedIndex: Int = 0
     @Published var lastSyncedTime: Date = .distantPast
 
     /// Selected Highlight Pencil Status
     @Published var selectedPen: HighlightPencil?
-    @Published var selectedIndex: Int = 0
     
     /// Data Fetching Status
     @Published var bookDatabase: [Book] = []
@@ -96,7 +96,7 @@ class BookViewModel: ObservableObject {
             Mixpanel.mainInstance().identify(distinctId: userID)
             
             lastSyncedTime = Date()
-            print("--- User Settings: \(userSettings)")
+            print("--- User Settings: \(userSettings) - ID: \(userID)")
         } else {
             print("✅ User Settings: \(userSettings) - ID: \(userID)")
         }
@@ -157,9 +157,12 @@ class BookViewModel: ObservableObject {
                     selectedLine = nil
                 } else {
                     selectedLine = existingQuote
+                    print("Selected Line: \(String(describing: selectedLine))")
+                    Mixpanel.mainInstance().track(event: "selected_QuoteLine")
                 }
             } else {
                 selectedLine = nil
+                Mixpanel.mainInstance().track(event: "selected_NormalLine")
             }
             pageIsSelected = true
         }
@@ -178,6 +181,7 @@ class BookViewModel: ObservableObject {
                 SoundManager.access.play(sound: .highlightRemoved, soundEnabledInApp: soundInApp)
                 modelContext.delete(existingQuote)
                 selectedLine = nil
+                Mixpanel.mainInstance().track(event: "deleteQuote_OnHold")
                 print("Not Display Alert!!!")
             }
         } else {
@@ -185,6 +189,7 @@ class BookViewModel: ObservableObject {
             SoundManager.access.play(sound: .highlightAdded, soundEnabledInApp: soundInApp)
             checkingQuote.quoteHighlight = selectedPen
             modelContext.insert(checkingQuote)
+            Mixpanel.mainInstance().track(event: "addedQuote_OnHold")
         }
         lastSyncedTime = Date()
     }
@@ -193,9 +198,11 @@ class BookViewModel: ObservableObject {
         if isConnected {
             quote.connectedQuotes?.removeAll(where: { $0.quoteID == quoteConnecting.quoteID })
             quoteConnecting.connectedQuotes?.removeAll(where: { $0.quoteID == quote.quoteID })
+            Mixpanel.mainInstance().track(event: "disconnected_Quote")
         } else {
             quote.connectedQuotes?.append(quoteConnecting)
             quoteConnecting.connectedQuotes?.append(quote)
+            Mixpanel.mainInstance().track(event: "connected_Quote")
         }
         lastSyncedTime = Date()
         print("[\(quote.isConnected ? "✅" : "🙅🏼")] - \(quote.quoteAddedDate) Connected With: \(String(describing: quote.connectedQuotes))")

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import Mixpanel
 
 struct QuoteConnectView: View {
     /// SwiftData
@@ -64,7 +65,11 @@ struct QuoteConnectView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(curiPalette(.paper500))
         .onAppear {
+            Mixpanel.mainInstance().track(event: "goToConnectQuote_FromSheet")
             print("🔗 This quote is connecting with: \(String(describing: quote.connectedQuotes))")
+        }
+        .onAppear {
+            Mixpanel.mainInstance().track(event: "leftFromConnectQuote_FromSheet")
         }
     }
 }

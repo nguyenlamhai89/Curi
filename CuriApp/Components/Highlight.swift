@@ -7,7 +7,7 @@
 
 import SwiftUI
 import SwiftData
-
+import Mixpanel
 
 struct HighlightDial: View {
     @Environment(\.modelContext) var modelContext
@@ -42,6 +42,7 @@ struct HighlightDial: View {
                             hasNote: selectedLineHasNote,
                             action: {
                                 thoughtSheetIsPresented.toggle()
+                                Mixpanel.mainInstance().track(event: "thinkQuote_OnDial")
                                 print("Thought Sheet On: \(thoughtSheetIsPresented)")
                             }
                         )
@@ -115,12 +116,13 @@ struct HighlightDial: View {
                                             withAnimation {
                                                 scrollProxy.scrollTo(bookViewModel.selectedIndex, anchor: .center)
                                             }
+                                            Mixpanel.mainInstance().track(event: "change_HighlightPencil")
                                         }
                                 )
                                 .simultaneousGesture(DragGesture())
                                 .onAppear {
                                     if pencilDatabase.count > 0 {
-                                        //                                    scrollProxy.scrollTo(bookViewModel.selectedIndex, anchor: .center)
+                                        scrollProxy.scrollTo(bookViewModel.selectedIndex, anchor: .center)
                                         bookViewModel.selectedPen = pencilDatabase[bookViewModel.selectedIndex]
                                         print("Selected Index: \(bookViewModel.selectedIndex) - \(String(describing: bookViewModel.selectedPen))")
                                         
@@ -179,6 +181,7 @@ struct HighlightDial: View {
                     if selectedLineHasQuote {
                         IconButton(bookViewModel: bookViewModel, iconName: "curiDelete", hasNote: false) {
                             actionDelete()
+                            Mixpanel.mainInstance().track(event: "deleteQuote_OnDial")
                             print("Delete Pressed")
                         }
 //                        .transition(.scale.combined(with: .opacity))

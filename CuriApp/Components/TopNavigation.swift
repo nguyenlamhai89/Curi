@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Mixpanel
 
 struct TopNavigationUniversal: View {
     @ObservedObject var bookViewModel: BookViewModel
@@ -74,6 +75,7 @@ struct TopNavigationBook: View {
                     /// Icon Button - User
                     if pageIsSelected {
                         IconButton(bookViewModel: bookViewModel, iconName: "curiLeft", hasNote: false) {
+                            Mixpanel.mainInstance().track(event: "closed_Book")
                             dismiss()
                         }
                     } else {

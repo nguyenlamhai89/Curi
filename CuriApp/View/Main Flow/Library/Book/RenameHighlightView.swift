@@ -7,6 +7,7 @@
 
 import SwiftUI
 import WidgetKit
+import Mixpanel
 
 struct RenameHighlightView: View {
     /// Local View
@@ -50,7 +51,13 @@ struct RenameHighlightView: View {
             .onAppear {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                     autoFocusRename.toggle()
+                    Mixpanel.mainInstance().track(event: "open_Rename")
                 }
+            }
+            .onDisappear {
+                Mixpanel.mainInstance().track(event: "closed_Rename", properties: [
+                    "highlightName": "\(highlightName)"
+                ])
             }
     }
 }

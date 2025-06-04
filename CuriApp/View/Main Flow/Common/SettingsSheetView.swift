@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 import SDWebImageSwiftUI
+import Mixpanel
 
 struct SettingsSheetView: View {
     /// SwiftData
@@ -129,6 +130,8 @@ struct SettingsSheetView: View {
                 }
             }
             .onAppear {
+                Mixpanel.mainInstance().track(event: "open_Settings")
+                
                 if userSettings.count != 1 {
                     print("❌ Only contains 1 US")
                 } else {
@@ -141,6 +144,12 @@ struct SettingsSheetView: View {
                 
                 // Check Quote Of The Day
                 print("--- QOTD: [\(String(describing: bookViewModel.lineNumOnWidget))] \(bookViewModel.quoteOnWidget) - \(bookViewModel.highlightNameOnWidget) - \(bookViewModel.highlightColorOnWidget)")
+            }
+            .onDisappear {
+                Mixpanel.mainInstance().track(event: "closed_Settings", properties: [
+                    "sound_Status": "\(bookViewModel.soundInApp)",
+                    "vibration_Status": "\(bookViewModel.vibrationInApp)"
+                ])
             }
             .onChange(of: bookViewModel.soundInApp) {
                 userSettings[0].soundInApp = bookViewModel.soundInApp

@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 import WidgetKit
+import Mixpanel
 
 struct BookView: View {
     /// SwiftData
@@ -120,6 +121,7 @@ struct BookView: View {
                 primaryButton: .cancel(),
                 secondaryButton: .destructive(Text(system.buttonDelete), action: {
                     bookViewModel.deleteQuoteInBook(modelContext: modelContext, quoteOnDelete: item)
+                    Mixpanel.mainInstance().track(event: "deleteQuote_OnAlertBook")
                 })
             )
         }
@@ -140,6 +142,12 @@ struct BookView: View {
                 featureCTA: "Got it",
                 stepsWidget: [("curiHighlightStep1", "Swipe the highlight dial below to pick a color that fits your theme."), ("curiHighlightStep2", "Tap and hold a sentence to leave your mark."), ("curiHighlightStep3", "Tap again and leave your thoughts - or swipe to change the color")]
             )
+            .onAppear {
+                Mixpanel.mainInstance().track(event: "open_HighlightIntro")
+            }
+            .onDisappear {
+                Mixpanel.mainInstance().track(event: "closed_HighlightIntro")
+            }
         })
         .onChange(of: quoteDatabase) {
             bookViewModel.updateQOTD(quoteDatabase: quoteDatabase)
@@ -181,6 +189,7 @@ struct BookView: View {
                     bookViewModel.firstTimeReading = false
                 }
             }
+            Mixpanel.mainInstance().track(event: "open_Book")
         }
         .onDisappear {
             bookViewModel.accessSheetFromBookView = false

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Mixpanel
 
 struct LibraryView: View {
     /// Local View
@@ -32,6 +33,7 @@ struct LibraryView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     
                     TextButtonFilled(bookViewModel: bookViewModel, content: "Read Now", action: {
+                        Mixpanel.mainInstance().track(event: "open_FeaturedBook")
                         bookNavigate.toggle()
                     })
                     .navigationDestination(isPresented: $bookNavigate) {
@@ -61,6 +63,13 @@ struct LibraryView: View {
                             } label: {
                                 BookAuthorCard(bookName: "\(book.title)", authorName: "\(book.author)")
                             }
+                            .simultaneousGesture(
+                                TapGesture()
+                                    .onEnded { _ in
+                                        print("📖 Book Accessed: \(book.title)")
+                                        Mixpanel.mainInstance().track(event: "open_DefaultBook")
+                                    }
+                            )
                             .onAppear {
                                 print("\(book.id)")
                             }
@@ -75,6 +84,7 @@ struct LibraryView: View {
         .scrollIndicators(.hidden)
         .onAppear {
             print("Selected Pen: \(bookViewModel.selectedPen?.name ?? "none")")
+            Mixpanel.mainInstance().track(event: "view_Library")
         }
     }
 }

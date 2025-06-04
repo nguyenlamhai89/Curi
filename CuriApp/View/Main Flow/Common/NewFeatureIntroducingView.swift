@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+import Mixpanel
 
 struct NewFeatureIntroducingView: View {
     /// Local View

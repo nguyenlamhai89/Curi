@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import Mixpanel
 
 struct QuoteView: View {
     /// SwiftData
@@ -80,6 +81,7 @@ struct QuoteView: View {
                 }
             }
             .onAppear {
+                Mixpanel.mainInstance().track(event: "view_Quote")
                 setupKeyboardObserver()
             }
             .onDisappear {

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import Mixpanel
 
 struct HomeViewManager: View {
     /// SwiftData
@@ -74,6 +75,12 @@ struct HomeViewManager: View {
                     featureCTA: "Got it",
                     stepsWidget: [("curiWidgetStep1", "Tap and hold anywhere on your Home Screen"), ("curiWidgetStep2", "Tap Edit in the top left corner, then tap Add Widget"), ("curiWidgetStep3", "Search for Curi and tap Add Widget")]
                 )
+                .onAppear {
+                    Mixpanel.mainInstance().track(event: "open_WidgetIntro")
+                }
+                .onDisappear {
+                    Mixpanel.mainInstance().track(event: "closed_WidgetIntro")
+                }
             }
             .sheet(isPresented: $bookViewModel.appIntroducingSheet, content: {
                 OnboardingView(bookViewModel: bookViewModel) {

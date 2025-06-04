@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Mixpanel
 
 struct OnboardingView: View {
     /// Local View
@@ -50,6 +51,12 @@ struct OnboardingView: View {
         }
         .background(curiPalette(.paper500))
         .interactiveDismissDisabled(true)
+        .onAppear {
+            Mixpanel.mainInstance().track(event: "open_AppIntro")
+        }
+        .onDisappear {
+            Mixpanel.mainInstance().track(event: "closed_AppIntro")
+        }
 //        .presentationDragIndicator(.visible)
     }
 }

@@ -49,7 +49,7 @@ struct QuotePaper: View {
     var body: some View {
         VStack (spacing: 0) {
             VStack (spacing: curiSpacing(.sp16)) {
-                Text("Quote of the Day")
+                Text("Last Updated")
                     .curiTypo(.sfMedium14)
                     .foregroundStyle(curiPalette(.ink500))
                     .frame(maxWidth: .infinity)

@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 import WidgetKit
+import Mixpanel
 
 struct QuoteNoteSheetView: View {
     /// SwiftData
@@ -48,6 +49,7 @@ struct QuoteNoteSheetView: View {
                             if !bookViewModel.accessSheetFromBookView {
                                 TextButtonFilledIcon(bookViewModel: bookViewModel, content: "Go to Book", icon: "curiBook", action: {
                                     presentationMode.wrappedValue.dismiss()
+                                    Mixpanel.mainInstance().track(event: "goToBook_FromSheet")
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                                         bookNavigated.toggle()
                                     }
@@ -103,6 +105,7 @@ struct QuoteNoteSheetView: View {
                 secondaryButton: .destructive(Text(system.buttonDelete), action: {
                     // Delete Quote
                     bookViewModel.deleteQuoteInSheet(quoteDatabase: quoteDatabase, quote: quote, modelContext: modelContext)
+                    Mixpanel.mainInstance().track(event: "deleteQuote_OnAlertSheet")
                     presentationMode.wrappedValue.dismiss()
                 }))
         }
@@ -121,6 +124,9 @@ struct QuoteNoteSheetView: View {
             print("Raw Data: \(quote)")
         }
         .onDisappear {
+            Mixpanel.mainInstance().track(event: "unthinkQuote_OnDial", properties: [
+                "noteContent": "\(shareThoughtsBinding)"
+            ])
             removeKeyboardObserver()
         }
     }
