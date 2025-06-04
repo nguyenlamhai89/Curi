@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import Mixpanel
 
 struct QuotePaperGroup: View {
     @ObservedObject var bookViewModel: BookViewModel
@@ -31,6 +31,7 @@ struct QuotePaperGroup: View {
                     .frame(height: 22)
                 QuotePaper(quote: quote, quoteContent: quoteContent, quoteAuthor: quoteAuthor, quoteBook: quoteBook) {
                     print("Open Quote Paper")
+                    Mixpanel.mainInstance().track(event: "goToQuotePaper_FromQuoteView")
                     paperAction()
                 }
             }

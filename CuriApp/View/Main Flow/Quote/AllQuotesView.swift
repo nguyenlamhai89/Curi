@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import Mixpanel
 
 struct AllQuotesView: View {
     /// SwiftData
@@ -37,6 +38,7 @@ struct AllQuotesView: View {
                                     action: {
                                         showAddQuoteSheet.toggle()
                                         itemSelected = quote
+                                        Mixpanel.mainInstance().track(event: "goToQuoteDetail_FromQuoteView")
                                         print("HAINL self.itemSelected \(String(describing: itemSelected))")
                                     }
                                 )

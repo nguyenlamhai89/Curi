@@ -189,7 +189,6 @@ struct BookView: View {
                     bookViewModel.firstTimeReading = false
                 }
             }
-            Mixpanel.mainInstance().track(event: "open_Book")
         }
         .onDisappear {
             bookViewModel.accessSheetFromBookView = false

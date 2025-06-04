@@ -68,6 +68,9 @@ struct QuoteView: View {
             }
             .navigationDestination(isPresented: $viewAllNavigation) {
                 AllQuotesView(bookViewModel: bookViewModel)
+                    .onAppear {
+                        Mixpanel.mainInstance().track(event: "goToAllQuotes_FromQuoteView")
+                    }
             }
             .navigationDestination(isPresented: $bookNavigated) {
                 if let book = bookViewModel.bookDatabase.first(where: { $0.title == itemSelected?.quoteBook }) {
