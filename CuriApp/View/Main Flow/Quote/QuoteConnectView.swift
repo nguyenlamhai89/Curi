@@ -68,7 +68,7 @@ struct QuoteConnectView: View {
             Mixpanel.mainInstance().track(event: "goToConnectQuote_FromSheet")
             print("🔗 This quote is connecting with: \(String(describing: quote.connectedQuotes))")
         }
-        .onAppear {
+        .onDisappear {
             Mixpanel.mainInstance().track(event: "leftFromConnectQuote_FromSheet")
         }
     }
