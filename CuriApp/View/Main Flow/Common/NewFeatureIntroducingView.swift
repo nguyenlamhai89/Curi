@@ -29,9 +29,12 @@ struct NewFeatureIntroducingView: View {
                 ScrollView {
                     VStack (spacing: 0) {
                         // GIF
-                        AnimatedImage(name: featureBannerGIF, isAnimating: $isAnimating)
+//                        AnimatedImage(name: featureBannerGIF, isAnimating: $isAnimating)
+//                            .resizable()
+//                            .scaledToFill()
+                        Image(featureBannerGIF)
                             .resizable()
-                            .scaledToFill()
+                            .scaledToFit()
                         
                         // Content
                         VStack (spacing: curiSpacing(.sp32)) {

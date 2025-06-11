@@ -66,7 +66,9 @@ struct HomeViewManager: View {
             }
             .sheet(isPresented: $widgetTopNavigation) {
                 NewFeatureIntroducingView(
-                    bookViewModel: bookViewModel, featureBannerGIF: "curiWidgetIntroducingGIF.gif",
+                    bookViewModel: bookViewModel,
+//                    featureBannerGIF: "curiWidgetIntroducingGIF.gif",
+                    featureBannerGIF: "curiWidgetIntroducing",
                     featureIconLeft: "curiWidgetLeft",
                     featureIconRight: "curiWidgetRight",
                     featureName: "Curi's Widget",

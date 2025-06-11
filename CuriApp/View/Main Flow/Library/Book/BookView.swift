@@ -133,7 +133,8 @@ struct BookView: View {
         .sheet(isPresented: $highlightNewFeature, content: {
             NewFeatureIntroducingView(
                 bookViewModel: bookViewModel,
-                featureBannerGIF: "curiHighlightIntroducingGIF.gif",
+//                featureBannerGIF: "curiHighlightIntroducingGIF.gif",
+                featureBannerGIF: "curiHighlightIntroducing",
                 featureIconLeft: "curiHighlightLeft",
                 featureIconRight: "curiHighlightRight",
                 featureName: "Curi's Highlight",
