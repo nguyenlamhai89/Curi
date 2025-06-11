@@ -32,14 +32,6 @@ Curi goes further — it helps you **build relationships between ideas**, right 
 
 ---
 
-## 📸 Screenshots
-
-![Screenshot 1](Screenshots/screenshot1.png)
-![Screenshot 2](Screenshots/screenshot2.png)
-![Screenshot 3](Screenshots/screenshot3.png)
-
----
-
 ## 🚀 Getting Started
 
 1. Clone the repository:
